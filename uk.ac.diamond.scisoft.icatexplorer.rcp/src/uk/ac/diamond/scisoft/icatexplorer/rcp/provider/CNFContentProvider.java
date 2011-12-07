@@ -208,7 +208,9 @@ public class CNFContentProvider implements ITreeContentProvider
     	if (ICATSessionDetails.icatClient != null){
     		
     		this.dIcats = new DIcat[1];
-    		this.dIcats[0] = new DIcat(ICATSessionDetails.icatClient.getFedId(), "ICAT");
+    		
+    		DIcat dicat = new DIcat(ICATSessionDetails.icatClient.getFedId(), ICATSessionDetails.icatClient.getIcatHost());
+    		this.dIcats[0] = dicat;
     		this.dIcats[0].setRoot(parentElement);
 
     		// call icat webserivce with current user and get list of investigations

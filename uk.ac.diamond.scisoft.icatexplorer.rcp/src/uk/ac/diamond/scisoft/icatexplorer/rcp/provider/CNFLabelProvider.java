@@ -82,8 +82,9 @@ public class CNFLabelProvider extends LabelProvider implements ILabelProvider, I
 		
 		if(obj instanceof DIcat) {
 			
-			styledString.append(((DIcat)obj).getFedid() + "@DLS.ICAT ");
-			//styledString.append("(" + ((DIcat)obj).getNbInvestigations()+ ")");
+			styledString.append(((DIcat)obj).getFedid());
+			styledString.append("   ");
+			styledString.append( "icat@" + ((DIcat)obj).getHost(), StyledString.COUNTER_STYLER);
 			//styledString.append(
                     //((DIcat)obj).getFedid()+
                     //"@icat"  , StyledString.DECORATIONS_STYLER);

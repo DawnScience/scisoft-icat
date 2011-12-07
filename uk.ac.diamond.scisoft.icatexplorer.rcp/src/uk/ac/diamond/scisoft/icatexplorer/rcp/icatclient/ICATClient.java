@@ -74,7 +74,8 @@ public class ICATClient{
 			logger.info("User " + this.fedid + " logged in icat. sessionId: "+ this.sessionId);			
 		
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			logger.error("failed to authenticate! ");			
 		}
 		
 		return sessionId;
@@ -127,11 +128,15 @@ public class ICATClient{
     	ICAT icat;
 		try {			
 			icat = getIcat();
-			icat.logout(this.sessionId); 
+			if (this.sessionId != null){
+			icat.logout(this.sessionId);
+			logger.info("User " + this.fedid + " logged out");			
+			}else{
+				logger.info("No user logged in to the ICAT");			
+			}
 			this.fedid = "";
 			this.password = "";
 			this.sessionId = "";
-			logger.info("User " + this.fedid + " logged out");			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -209,4 +214,15 @@ public class ICATClient{
 		return this.password;
 	}
 	
+	public String getIcatHost(){
+		
+		URL url = null;
+		try {
+			url = new URL(properties.getProperty("wsdl.location"));
+		} catch (MalformedURLException e) {
+			logger.error("error parsing URL: " + url.toString());
+			e.printStackTrace();
+		}
+		return url.getHost();
+	}
 }

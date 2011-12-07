@@ -53,7 +53,7 @@ public class CNFActivator extends AbstractUIPlugin
         super.stop(context);
         
         ICATSessionDetails.icatClient.logout();
-        
+                
         logger.debug("ICAT Explorer activator stopped");
     }
 

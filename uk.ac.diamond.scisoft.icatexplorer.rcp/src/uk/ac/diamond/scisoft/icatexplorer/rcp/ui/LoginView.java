@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class LoginView extends ViewPart {
 	
@@ -62,6 +63,12 @@ public class LoginView extends ViewPart {
 		Composite container = new Composite(parent, SWT.NONE);
 		
 		fedidText = new Text(container, SWT.BORDER);
+		fedidText.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				messageLbl.setText("");
+			}
+		});
 		fedidText.setBounds(76, 68, 136, 19);
 		
 		passwordText = new Text(container, SWT.BORDER);
@@ -125,8 +132,9 @@ public class LoginView extends ViewPart {
 		    		
 		    		
 		    	}else{
-		    		messageLbl.setText("error logging into ICAT. Please check your fedid/password");
-		    		logger.error("failed to authenticate, please check your fedid and password!");
+		    		String message = "failed to authenticate, please check your fedid and password!";
+		    		messageLbl.setText(message);
+		    		logger.error(message);
 		    	}    
 				
 			}
@@ -134,19 +142,21 @@ public class LoginView extends ViewPart {
 		loginBtn.setBounds(146, 134, 66, 23);
 		loginBtn.setText("Login");
 		
-		Button cancelBtn = new Button(container, SWT.NONE);
-		cancelBtn.addSelectionListener(new SelectionAdapter() {
+		Button clearBtn = new Button(container, SWT.NONE);
+		clearBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// close view
-				//TODO
+				fedidText.setText("");
+				passwordText.setText("");
+				messageLbl.setText("");
 			}
 		});
-		cancelBtn.setBounds(76, 134, 66, 23);
-		cancelBtn.setText("Cancel");
+		clearBtn.setBounds(76, 134, 66, 23);
+		clearBtn.setText("Clear");
 		
 		messageLbl = new Label(container, SWT.NONE);
-		messageLbl.setBounds(76, 178, 136, 13);
+		messageLbl.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		messageLbl.setBounds(76, 178, 324, 13);
 
 		createActions();
 		initializeToolBar();
