@@ -12,6 +12,7 @@ import javax.xml.namespace.QName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 import uk.icat3.client.Dataset;
 import uk.icat3.client.ICAT;
@@ -43,9 +44,17 @@ public class ICATClient{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+ 		
+ 		if (OSDetector.isWindows()){
+ 	 		System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.path.windows"));
+ 		}else{
+ 	 		System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.path.unix"));
 
- 		System.setProperty("javax.net.ssl.trustStore", "conf/" + properties.getProperty("trustore.path"));
+ 		}
 		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
+		
+		logger.debug("truststore set to: " + System.getProperty("javax.net.ssl.trustStore"));
+
 	}
 	
 	public static ICAT getIcat() throws Exception {
