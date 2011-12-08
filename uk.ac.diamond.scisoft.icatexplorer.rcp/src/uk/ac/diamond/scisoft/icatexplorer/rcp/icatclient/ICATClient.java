@@ -44,7 +44,7 @@ public class ICATClient{
 			e.printStackTrace();
 		}
 
- 		System.setProperty("javax.net.ssl.trustStore", properties.getProperty("trustore.path"));
+ 		System.setProperty("javax.net.ssl.trustStore", "conf/" + properties.getProperty("trustore.path"));
 		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
 	}
 	
