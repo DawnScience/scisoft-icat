@@ -24,7 +24,7 @@ import org.slf4j.Logger;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
-import org.eclipse.wb.swt.SWTResourceManager;
+
 
 public class LoginView extends ViewPart {
 	
