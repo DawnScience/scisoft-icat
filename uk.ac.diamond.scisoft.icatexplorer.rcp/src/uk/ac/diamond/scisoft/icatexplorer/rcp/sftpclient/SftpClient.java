@@ -2,6 +2,9 @@ package uk.ac.diamond.scisoft.icatexplorer.rcp.sftpclient;
 
 import java.io.File;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.FilenameUtils;
 
 import com.jcraft.jsch.Channel;
@@ -14,11 +17,13 @@ import com.jcraft.jsch.UserInfo;
 
 public class SftpClient {
 	
+	private static Logger logger = LoggerFactory.getLogger(SftpClient.class);
+	
 	public SftpClient(){
 		
 	}
 	
-	public String getLocalLocation(String fedid, String password, String remoteHost, String remoteFile, String downloadDir){
+	public String downloadFile(String fedid, String password, String remoteHost, String remoteFile, String downloadDir){
 		
 		JSch jsch = new JSch();
 		
@@ -65,12 +70,14 @@ public class SftpClient {
 		}
 
 		FilenameUtils fileUtils = new FilenameUtils(remoteFile, '/', '.');
-		//String remoteFile = "/dls/i18/data/2011/cm2065-1/57307.dat";//datafile.getLocation();
+		
 		File file1 = new File(downloadDir);
-	    File file2 = new File(file1,fileUtils.filename());//.localPath());
+	    File file2 = new File(file1,fileUtils.filename());
 	    
 	    String localFilePath = file2.getPath();//"C:\\gotFile";
-		
+
+	    logger.debug("localFilePath: " + localFilePath);
+
 		try {
 			sftpChannel.get(remoteFile, localFilePath );
 		} catch (SftpException e) {

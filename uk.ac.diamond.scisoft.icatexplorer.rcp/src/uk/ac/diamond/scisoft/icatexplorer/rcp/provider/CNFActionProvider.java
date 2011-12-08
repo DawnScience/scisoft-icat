@@ -4,6 +4,11 @@ import java.io.File;
 import java.net.InetAddress;
 import java.util.Properties;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobManager;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.ISelection;
@@ -20,6 +25,7 @@ import org.eclipse.ui.navigator.ICommonActionExtensionSite;
 import org.eclipse.ui.navigator.ICommonMenuConstants;
 import org.eclipse.ui.navigator.ICommonViewerSite;
 import org.eclipse.ui.navigator.ICommonViewerWorkbenchSite;
+import org.eclipse.ui.progress.UIJob;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -32,7 +38,10 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DInvestigationEditorInput;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DatafileEditor;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DatafileEditorInput;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.jobs.JobTrainingBean;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.jobs.SftpJob;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.sftpclient.SftpClient;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.FilenameUtils;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 import uk.ac.gda.common.rcp.util.EclipseUtils;
@@ -53,6 +62,8 @@ public class CNFActionProvider extends CommonActionProvider
 	private Properties properties;
 	private String downloadDir;
 	private String sftpServer;
+	private static JobTrainingBean dataBean = new JobTrainingBean();;
+
 
     public CNFActionProvider()
     {
@@ -182,7 +193,7 @@ public class CNFActionProvider extends CommonActionProvider
     				Datafile datafile = (Datafile) data;
     				logger.debug("opening " + datafile.getLocation() + " with id: " +datafile.getId());
     				
-    				// open datafil editor
+    				// open datafile editor
 //    				try {
 //    					DatafileEditorInput input = new DatafileEditorInput(datafile); 					
 //    					page.openEditor((IEditorInput) input, DatafileEditor.ID);
@@ -202,49 +213,102 @@ public class CNFActionProvider extends CommonActionProvider
     					
     					logger.info("non-unix system detected...proceed with downloading the file");
     					
-    					// check whether temporary download location exists.
-    				    // if not created in home directory
-    					// all non-existent ancestor directories are
-    					// automatically created
-    					//downloadDir = "sda_downloads";
+    					/*
+    					 * check whether temporary download location exists.
+    					 * if not create it in home directory
+    					 * all non-existent ancestor directories are
+    					 * automatically created?
+    					 */
+    				     
     					File file1 = new File(System.getProperty("user.home"));
     				    File file2 = new File(file1, downloadDir);
     					File file3 = new File(file2.getPath());
-    				 
-    				if(!file3.exists()){// folder does not exist yet, create it
     					
-						logger.error("Directory does not exist. Creating it... "+ file3.getPath());
+    					// computing the local file path
+    					FilenameUtils fileUtils = new FilenameUtils(datafile.getLocation(), '/', '.');    					
+    				    File file4 = new File(file2, fileUtils.filename());
+    				    File file5 = new File(file4.getPath());
+    				    
+    				    String localFilePath = file5.getPath();//"C:\\gotFile";
+    				 
+    				if(!file3.exists()){// download dir does not exist yet, create it
+    					
+						logger.error("Creating: "+ file3.getPath());
 
     				    boolean success = (new File(file2.getPath())).mkdirs();
     						if (success) {
     							
-        						logger.debug("Directory successfully created: "+ file3.getPath());
+        						logger.debug("Successfully created: "+ file3.getPath());
 
     						}else {
     							// Directory creation failed
-        						logger.error("Cannot create download directory: "+ downloadDir);
+        						logger.error("Failed creating download directory: "+ downloadDir);
     						}
     						
     				      }else {//folder exists already, create it
     						
-   							logger.debug("Directory exists. "+ file3.getPath());
-
-    						// download file to temp dir
-							
+   							logger.debug("Download Dir exists: "+ file3.getPath());
+   							
+   							
+   							logger.debug("file exists? " + (Boolean.toString(file5.exists())).toUpperCase() + " - " + localFilePath);
+    						if(!(new File(localFilePath)).exists()){
+   							// download file to temp dir
 							logger.info("downloading datafile id: " + datafile.getId());
 							//String fileURL = ICATSessionDetails.icatClient.getIcat().downloadDatafile(ICATSessionDetails.icatClient.getSessionId(), datafile.getId());
 							
 							String fedid = ICATSessionDetails.icatClient.getFedId();
 							String password = ICATSessionDetails.icatClient.getPassword();
-														
-							SftpClient sftpClient = new SftpClient();
-							String localDatafile = sftpClient.getLocalLocation(fedid, password, sftpServer, datafile.getLocation(), file2.getPath()/*downloadDir*/);
 							
-							logger.info("file successfully downloaded to " + localDatafile);
+//							//begin use of progress monitor
+//							dataBean.setInput("Text01");//(inputText.getText());
+//							
+//							UIJob clearText = new UIJob("Text02") {
+//
+//								@Override
+//								public IStatus runInUIThread(
+//										IProgressMonitor arg0) {
+//									//lower.setText("");
+//									//upper.setText("");
+//									//back.setText("");
+//									dataBean.setBackwards("");
+//									dataBean.setLowercase("");
+//									dataBean.setUppercase("");
+//									return Status.OK_STATUS;
+//								}
+//								
+//							
+//							};
+//							clearText.setUser(true);
+//							clearText.schedule();
+//							
+//							
+//							IJobManager manager = Job.getJobManager();
+//							//manager.cancel(TO_LOWERCASE);
+//							
+//							
+//							SftpJob sftbJob = new SftpJob("file download from Diamond", dataBean);
+//							//TextToUppercase ttuc = new TextToUppercase(TO_UPPERCASE, dataBean);
+//							//TextBackwards tb = new TextBackwards(BACKWARDS, dataBean);
+//							
+//							sftbJob.setUser(true);
+//							sftbJob.schedule();
+//							//ttuc.schedule();
+//							//tb.schedule();
+//							//end use of progress monitor
+							
+							SftpClient sftpClient = new SftpClient();
+							localFilePath = sftpClient.downloadFile(fedid, password, sftpServer, datafile.getLocation(), file2.getPath()/*downloadDir*/);
+							
+							logger.info("file successfully downloaded to " + localFilePath);
+    				      }else{
+    				    	  
+    				    	  logger.debug("file: " + localFilePath + " previousely downloaded to local filesystem");
+    				      }
 							
 							// open editor
 							try {
-	        					EclipseUtils.openExternalEditor(localDatafile);
+								logger.debug("open file editor ");
+	        					EclipseUtils.openExternalEditor(localFilePath);
 	    					} catch (PartInitException e) {
 	    						logger.error("Cannot open file "+datafile.getLocation(), e);
 	    					}

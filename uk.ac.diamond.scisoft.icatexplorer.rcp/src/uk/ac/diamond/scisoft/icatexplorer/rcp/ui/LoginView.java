@@ -42,16 +42,16 @@ public class LoginView extends ViewPart {
 
 	public LoginView() {
 		
-		logger.debug("reading credentials config file if it exists");
-		
-		try {
-			properties = PropertiesUtils.readCredentialsFile();
-			fedid = properties.getProperty("fedid");
-			password = properties.getProperty("password");
-		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.debug("cannot read credentials.properties file. No effect! Carry on...");
-		}
+//		logger.debug("reading credentials config file if it exists");
+//		
+//		try {
+//			properties = PropertiesUtils.readCredentialsFile();
+//			fedid = properties.getProperty("fedid");
+//			password = properties.getProperty("password");
+//		} catch (Exception e) {
+//			//e.printStackTrace();
+//			logger.debug("cannot read credentials.properties file. No effect! Carry on...");
+//		}
 	}
 
 	/**
@@ -63,12 +63,6 @@ public class LoginView extends ViewPart {
 		Composite container = new Composite(parent, SWT.NONE);
 		
 		fedidText = new Text(container, SWT.BORDER);
-		fedidText.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				messageLbl.setText("");
-			}
-		});
 		fedidText.setBounds(76, 68, 136, 19);
 		
 		passwordText = new Text(container, SWT.BORDER);

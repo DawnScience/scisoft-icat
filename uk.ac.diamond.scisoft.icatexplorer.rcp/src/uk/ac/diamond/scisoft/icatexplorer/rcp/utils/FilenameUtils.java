@@ -1,5 +1,7 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.utils;
 
+import java.io.File;
+
 public class FilenameUtils {
 
 	private String fullPath;
@@ -16,7 +18,7 @@ public class FilenameUtils {
 		return fullPath.substring(dot + 1);
 	}
 
-	public String filename() { // gets filename without extension
+	public String filename() { 
 		int dot = fullPath.lastIndexOf(extensionSeparator);
 		int sep = fullPath.lastIndexOf(pathSeparator);
 		// return fullPath.substring(sep + 1, dot) ;
@@ -28,12 +30,20 @@ public class FilenameUtils {
 		return fullPath.substring(0, sep);
 	}
 
-	public String localPath() {
+	public String windowsPath() {
 		String backslash = System.getProperty("file.separator");
-		//return fullPath.replace("/", backslash + backslash);
+
 		return fullPath.replace("/", backslash + backslash);
 	}
-
+	
+	public String localFilePath(String downloadDir){
+		File file1 = new File(downloadDir);
+	    File file2 = new File(file1, filename());    
+	    String localFilePath = file2.getPath();	
+	    
+		return localFilePath;
+	}
+	
 	// public static void main(String[] args) {
 	// final String FPATH = "/home/mem/index.html";
 	// Filename myHomePage = new Filename(FPATH, '/', '.');
