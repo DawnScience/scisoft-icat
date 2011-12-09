@@ -24,6 +24,9 @@ import org.slf4j.Logger;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
+import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.wb.swt.ResourceManager;
 
 
 public class LoginView extends ViewPart {
@@ -61,13 +64,14 @@ public class LoginView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
+		container.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		fedidText = new Text(container, SWT.BORDER);
-		fedidText.setBounds(76, 68, 136, 19);
+		fedidText.setBounds(98, 71, 138, 19);
 		
 		passwordText = new Text(container, SWT.BORDER);
 		passwordText.setEchoChar('*');
-		passwordText.setBounds(76, 103, 136, 19);
+		passwordText.setBounds(98, 96, 138, 19);
 		
 		// for testing only - can be removed in production
 		fedidText.setText(fedid);
@@ -75,11 +79,15 @@ public class LoginView extends ViewPart {
 		//
 		
 		Label fedidLbl = new Label(container, SWT.NONE);
+		fedidLbl.setFont(SWTResourceManager.getFont("Tahoma", 9, SWT.BOLD));
+		fedidLbl.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		fedidLbl.setBounds(27, 71, 49, 13);
 		fedidLbl.setText("FedId");
 		
 		Label passwordLdl = new Label(container, SWT.NONE);
-		passwordLdl.setBounds(10, 106, 49, 13);
+		passwordLdl.setFont(SWTResourceManager.getFont("Tahoma", 9, SWT.BOLD));
+		passwordLdl.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		passwordLdl.setBounds(10, 96, 66, 13);
 		passwordLdl.setText("Password");
 		
 		Button loginBtn = new Button(container, SWT.NONE);
@@ -133,7 +141,7 @@ public class LoginView extends ViewPart {
 				
 			}
 		});
-		loginBtn.setBounds(146, 134, 66, 23);
+		loginBtn.setBounds(170, 134, 66, 29);
 		loginBtn.setText("Login");
 		
 		Button clearBtn = new Button(container, SWT.NONE);
@@ -145,12 +153,18 @@ public class LoginView extends ViewPart {
 				messageLbl.setText("");
 			}
 		});
-		clearBtn.setBounds(76, 134, 66, 23);
+		clearBtn.setBounds(98, 134, 66, 29);
 		clearBtn.setText("Clear");
 		
 		messageLbl = new Label(container, SWT.NONE);
+		messageLbl.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		messageLbl.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		messageLbl.setBounds(76, 178, 324, 13);
+		messageLbl.setBounds(76, 178, 324, 19);
+		
+		Label icatImageLabel = new Label(container, SWT.NONE);
+		icatImageLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		icatImageLabel.setImage(ResourceManager.getPluginImage("uk.ac.diamond.scisoft.icatexplorer.rcp", "icons/icat_logo.gif"));
+		icatImageLabel.setBounds(76, 224, 284, 163);
 
 		createActions();
 		initializeToolBar();

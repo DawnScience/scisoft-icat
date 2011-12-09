@@ -53,8 +53,8 @@ public class ICATClient{
  		}
 		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
 		
-		logger.debug("unix truststore  : " + properties.getProperty("truststore.path.unix"));
-		logger.debug("curent truststore: " + System.getProperty("javax.net.ssl.trustStore"));
+		//logger.debug("unix truststore  : " + properties.getProperty("truststore.path.unix"));
+		logger.debug("current truststore: " + System.getProperty("javax.net.ssl.trustStore"));
 
 	}
 	
@@ -85,7 +85,7 @@ public class ICATClient{
 		
 		} catch (Exception e) {
 			//e.printStackTrace();
-			logger.error("failed to authenticate! ");			
+			logger.error("failed to authenticate! " , e);			
 		}
 		
 		return sessionId;
@@ -148,7 +148,8 @@ public class ICATClient{
 			this.password = "";
 			this.sessionId = "";
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			logger.error("problem logging out! " , e);
 		}
 				
     }
