@@ -46,10 +46,11 @@ public class ICATClient{
 		}
  		
  		if (OSDetector.isWindows()){
- 	 		System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.path.windows"));
+ 	 		logger.debug("windows OS detected");
+ 			System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.path.windows"));
  		}else{
+ 	 		logger.debug("non-windows OS detected");
  	 		System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.path.unix"));
-
  		}
 		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
 		
@@ -69,7 +70,7 @@ public class ICATClient{
 		
 			service = new ICATService(icatServiceWsdlLocation, new QName(properties.getProperty("namespace.uri"), properties.getProperty("namespace.localpart")));
 		}catch(Exception e){
-			logger.error("error connecting to icat websevrice" , e);
+			logger.error("error connecting to icat webservice" , e);
 		}
 				
 		return service.getICATPort();
