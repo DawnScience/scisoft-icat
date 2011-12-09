@@ -56,13 +56,14 @@ public class ICATClient{
 		// set ssl system properties
 		if (OSDetector.isWindows()){
  	 		logger.debug("windows OS detected");
- 			System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.path.windows"));
+ 			System.setProperty("javax.net.ssl.trustStore", "C:\\workspace\\icat3-xmlingest-client\\dist\\cacerts.jks");//properties.getProperty("truststore.path.windows"));
  		}else{
  	 		logger.debug("non-windows OS detected");
- 	 		System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.path.unix"));
+ 	 		System.setProperty("javax.net.ssl.trustStore", "/dls/bl-misc/dropfiles2/certs/cacerts.jks");//properties.getProperty("truststore.path.unix"));
  		}
 		
- 		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
+ 		System.setProperty("javax.net.ssl.trustStorePassword", "changeit");//properties.getProperty("truststore.password"));
+		logger.debug("current truststore: " + System.getProperty("javax.net.ssl.trustStore"));
 		logger.debug("current truststore: " + System.getProperty("javax.net.ssl.trustStore"));
 		//
 		
