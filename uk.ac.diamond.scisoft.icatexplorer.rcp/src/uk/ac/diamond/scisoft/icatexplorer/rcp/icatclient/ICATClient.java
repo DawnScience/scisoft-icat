@@ -44,18 +44,6 @@ public class ICATClient{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
- 		
- 		if (OSDetector.isWindows()){
- 	 		logger.debug("windows OS detected");
- 			System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.path.windows"));
- 		}else{
- 	 		logger.debug("non-windows OS detected");
- 	 		System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.path.unix"));
- 		}
-		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
-		
-		//logger.debug("unix truststore  : " + properties.getProperty("truststore.path.unix"));
-		logger.debug("current truststore: " + System.getProperty("javax.net.ssl.trustStore"));
 
 	}
 	
@@ -64,6 +52,19 @@ public class ICATClient{
 		URL icatServiceWsdlLocation = getServiceWsdlLocation();
 		logger.debug("namespace.uri: " +properties.getProperty("namespace.uri"));
 		logger.debug("namespace.uri: " +properties.getProperty("namespace.localpart"));
+		
+		// set ssl system properties
+		if (OSDetector.isWindows()){
+ 	 		logger.debug("windows OS detected");
+ 			System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.path.windows"));
+ 		}else{
+ 	 		logger.debug("non-windows OS detected");
+ 	 		System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.path.unix"));
+ 		}
+		
+ 		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
+		logger.debug("current truststore: " + System.getProperty("javax.net.ssl.trustStore"));
+		//
 		
 		ICATService service = null;
 		try{
