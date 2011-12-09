@@ -61,8 +61,17 @@ public class ICATClient{
 	public static ICAT getIcat() throws Exception {
 		
 		URL icatServiceWsdlLocation = getServiceWsdlLocation();
+		logger.debug("namespace.uri: " +properties.getProperty("namespace.uri"));
+		logger.debug("namespace.uri: " +properties.getProperty("namespace.localpart"));
 		
-		ICATService service = new ICATService(icatServiceWsdlLocation, new QName(properties.getProperty("namespace.uri"), properties.getProperty("namespace.localpart")));
+		ICATService service = null;
+		try{
+		
+			service = new ICATService(icatServiceWsdlLocation, new QName(properties.getProperty("namespace.uri"), properties.getProperty("namespace.localpart")));
+		}catch(Exception e){
+			logger.error("error connecting to icat websevrice" , e);
+		}
+				
 		return service.getICATPort();
 	}
 
