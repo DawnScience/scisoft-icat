@@ -8,6 +8,8 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
+
 
 /**
  * This class controls all aspects of the application's execution
@@ -23,13 +25,20 @@ public class Application implements IApplication
         try
         {
             int returnCode = PlatformUI.createAndRunWorkbench(display, new ApplicationWorkbenchAdvisor());
+            logger.debug("111111111111111111111");
+
             if (returnCode == PlatformUI.RETURN_RESTART)
             {
+                logger.debug("ICAT Explorer application RESTARTED");
                 return IApplication.EXIT_RESTART;
             }
+            
+        logger.debug("ICAT Explorer application started");
+            
             return IApplication.EXIT_OK;
         } finally
         {
+            logger.debug("2222222222222222222222");
             display.dispose();
         }
 

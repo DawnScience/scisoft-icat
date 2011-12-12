@@ -38,7 +38,6 @@ public class CNFActivator extends AbstractUIPlugin
     {
     	super.start(context);
         plugin = this;
-        
         logger.debug("ICAT Explorer activator started");
         
     }
@@ -51,10 +50,7 @@ public class CNFActivator extends AbstractUIPlugin
     {
         plugin = null;
         super.stop(context);
-        
-        ICATSessionDetails.icatClient.logout();
-                
-        logger.debug("ICAT Explorer activator stopped");
+     
     }
 
     /**
@@ -63,6 +59,7 @@ public class CNFActivator extends AbstractUIPlugin
      */
     public static CNFActivator getDefault()
     {
+
         return plugin;
     }
         

@@ -18,7 +18,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor
 
     public void initialize(IWorkbenchConfigurer configurer)
     {
-    }
+     }
 
     public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer)
     {

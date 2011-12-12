@@ -4,11 +4,6 @@ import java.io.File;
 import java.net.InetAddress;
 import java.util.Properties;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.IJobManager;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.ISelection;
@@ -18,28 +13,29 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.navigator.CommonActionProvider;
 import org.eclipse.ui.navigator.ICommonActionConstants;
 import org.eclipse.ui.navigator.ICommonActionExtensionSite;
 import org.eclipse.ui.navigator.ICommonMenuConstants;
 import org.eclipse.ui.navigator.ICommonViewerSite;
 import org.eclipse.ui.navigator.ICommonViewerWorkbenchSite;
-import org.eclipse.ui.progress.UIJob;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.analysis.rcp.views.DatasetInspectorView;
+import uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView;
+import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.data.DDataset;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.data.DInvestigation;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DDatasetEditor;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DDatasetEditorInput;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DInvestigationEditor;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DInvestigationEditorInput;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DatafileEditor;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DatafileEditorInput;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.jobs.JobTrainingBean;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.jobs.SftpJob;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.sftpclient.SftpClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.FilenameUtils;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
@@ -76,17 +72,16 @@ public class CNFActionProvider extends CommonActionProvider
 			InetAddress addr = InetAddress.getLocalHost();
 			
 			if (insideDLS(addr)){
-				sftpServer = properties.getProperty("inside.sftp.server");
+				sftpServer = properties.getProperty("internal.sftp.server");
 			}else{
-				sftpServer = properties.getProperty("outsise.sftp.server");
+				sftpServer = properties.getProperty("external.sftp.server");
 			}
-		
-		
-		
+				
 		} catch (Exception e) {
 			//e.printStackTrace();
-			logger.debug("cannot read credentials.properties file. No effect! Carry on...");
+			logger.debug("cannot read icatexplorer");
 		}
+
     }
 
     @Override
@@ -205,11 +200,13 @@ public class CNFActionProvider extends CommonActionProvider
     				// check current operating system
     				if (OSDetector.isUnix()){
     					try {
-        					EclipseUtils.openExternalEditor(datafile.getLocation());
+
+    						EclipseUtils.openExternalEditor(datafile.getLocation());
+        					
     					} catch (PartInitException e) {
     						logger.error("Cannot open file "+datafile.getLocation(), e);
     					}
-    				}else{
+    				}else{//windows os detected
     					
     					logger.info("non-unix system detected...proceed with downloading the file");
     					
@@ -316,8 +313,24 @@ public class CNFActionProvider extends CommonActionProvider
     				      }
     					
     				}
+    				// open remaining views
+		    		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		    		 
+					try {
+						String plot = PlotView.ID + "DP";
+						window.getActivePage().showView(plot);
+						
+						String sidePlot = SidePlotView.ID + ":Dataset Plot";
+						window.getActivePage().showView(sidePlot);
+
+						String inspector = DatasetInspectorView.ID;
+						window.getActivePage().showView(inspector);
+					} catch (PartInitException e) {
+						//e.printStackTrace();
+						logger.error("cannot open view: " + e);
+					}
+	    		//
     				
-    				//open editor
     			}
     			}// end if data <> null	
             super.run();
@@ -364,5 +377,5 @@ public class CNFActionProvider extends CommonActionProvider
 			return false;
 		}
 	}
-
+	
 }

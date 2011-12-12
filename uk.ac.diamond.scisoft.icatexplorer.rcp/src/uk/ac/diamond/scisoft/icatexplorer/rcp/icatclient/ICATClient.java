@@ -8,6 +8,7 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.namespace.QName;
+//import javax.xml.ws.BindingProvider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,38 +43,30 @@ public class ICATClient{
  			properties = PropertiesUtils.readConfigFile();
  			 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			logger.error( "problem reading properties file", e);
 		}
-
+ 		 		
+ 		// set ssl system properties
+		if (OSDetector.isWindows()){
+ 	 		logger.debug("Windows OS detected");
+ 			System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.path.windows"));
+ 		}else{
+ 	 		logger.debug("non-Windows OS detected");
+ 	 		System.setProperty("javax.net.ssl.trustStore",properties.getProperty("truststore.path.unix"));
+ 		}
+		
+ 		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
+		
+ 		logger.debug("current system truststore: " + System.getProperty("javax.net.ssl.trustStore"));
+		
 	}
 	
 	public static ICAT getIcat() throws Exception {
 		
 		URL icatServiceWsdlLocation = getServiceWsdlLocation();
-		logger.debug("namespace.uri: " +properties.getProperty("namespace.uri"));
-		logger.debug("namespace.uri: " +properties.getProperty("namespace.localpart"));
-		
-		// set ssl system properties
-		if (OSDetector.isWindows()){
- 	 		logger.debug("windows OS detected");
- 			System.setProperty("javax.net.ssl.trustStore", "C:\\workspace\\icat3-xmlingest-client\\dist\\cacerts.jks");//properties.getProperty("truststore.path.windows"));
- 		}else{
- 	 		logger.debug("non-windows OS detected");
- 	 		System.setProperty("javax.net.ssl.trustStore", "/dls/bl-misc/dropfiles2/certs/cacerts.jks");//properties.getProperty("truststore.path.unix"));
- 		}
-		
- 		System.setProperty("javax.net.ssl.trustStorePassword", "changeit");//properties.getProperty("truststore.password"));
-		logger.debug("current truststore: " + System.getProperty("javax.net.ssl.trustStore"));
-		logger.debug("current truststore: " + System.getProperty("javax.net.ssl.trustStore"));
-		//
-		
-		ICATService service = null;
-		try{
-		
-			service = new ICATService(icatServiceWsdlLocation, new QName(properties.getProperty("namespace.uri"), properties.getProperty("namespace.localpart")));
-		}catch(Exception e){
-			logger.error("error connecting to icat webservice" , e);
-		}
+							
+		ICATService service = new ICATService(icatServiceWsdlLocation, new QName(properties.getProperty("namespace.uri"), properties.getProperty("namespace.localpart")));
 				
 		return service.getICATPort();
 	}
@@ -106,9 +99,7 @@ public class ICATClient{
     
 //    public String login(String fedid, String password) {
 //    	
-//    	//uk.icat3.client.ICATAdminISISService icatAdminService = null;
 //        uk.icat3.client.admin.ICATAdmin icatAdminPort = null;
-//        //uk.icat3.client.ICATISISService icatService = null;
 //        uk.icat3.client.ICAT icatPort = null;
 //
 //        try {
@@ -127,7 +118,6 @@ public class ICATClient{
 //            ((BindingProvider)icatPort).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "https://facilities02.esc.rl.ac.uk:8181/ICATService/ICAT?wsdl");//properties.getProperty("icat_endpoint"));
 //
 //            logger.debug("Logging in...");
-//            //username = this.username; //"cm65";//cnp64921";//"GUARDIAN";
 //            this.sessionId = icatAdminPort.loginAdmin(fedid);
 //            this.fedid = fedid;
 //            this.password = password;
@@ -189,8 +179,8 @@ public class ICATClient{
 				));
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			logger.error( "problem retrieving investigations for user: " + this.getFedId(), e);
 		}
     	        
         return myInvestigations; 
@@ -210,7 +200,8 @@ public class ICATClient{
 					+ newInv.getDatasetCollection().size());
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			logger.error( "problem retrieving datasets for user: " + this.getFedId(), e);
 		}
 		
 		return datasets;
@@ -243,8 +234,8 @@ public class ICATClient{
 		try {
 			url = new URL(properties.getProperty("wsdl.location"));
 		} catch (MalformedURLException e) {
-			logger.error("error parsing URL: " + url.toString());
-			e.printStackTrace();
+			logger.error("error parsing URL: " + url.toString(), e);
+			//e.printStackTrace();
 		}
 		return url.getHost();
 	}

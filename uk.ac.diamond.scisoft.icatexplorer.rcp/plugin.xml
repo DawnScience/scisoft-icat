@@ -32,6 +32,7 @@
       <perspective
             class="uk.ac.diamond.scisoft.icatexplorer.rcp.ui.ICATPerspective"
             icon="icons/icat_logo.gif"
+            restorable="true"
             id="uk.ac.diamond.scisoft.icatexplorer.rcp.perspective"
             name="ICAT">
       </perspective>
@@ -41,18 +42,29 @@
          point="org.eclipse.ui.views">
       <view
             class="uk.ac.diamond.scisoft.icatexplorer.rcp.ui.LoginView"
-            icon="icons/database.png"
+            closeable="true"
+            icon="icons/login.png"
             id="uk.ac.diamond.scisoft.icatlogin.rcp.ui.LoginView"
             name="ICAT Login"
-            restorable="true">
+            ratio="0.3"
+            relationship="left"
+            relative="org.eclipse.ui.editorss"
+            showTitle="true"
+            visible="true">
       </view>
       <view
             class="uk.ac.diamond.scisoft.icatexplorer.rcp.provider.CNFNavigator"
+            closeable="true"
             icon="icons/database.png"
             id="uk.ac.diamond.scisoft.icatexplorer.rcp.view"
             name="ICAT Content"
-            restorable="true">
-      </view>
+            ratio="0.5"
+            relationship="stack"
+            relative="uk.ac.diamond.scisoft.icatexplorer.rcp.ui.LoginView"
+            restorable="false"
+            showTitle="true"
+            visible="false">
+     </view>
       
    </extension>
    
@@ -139,17 +151,32 @@
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
             targetID="uk.ac.diamond.scisoft.icatexplorer.rcp.perspective">
+         
          <view
-               closeable="true"
+               closeable="false"
                id="uk.ac.diamond.scisoft.icatexplorer.rcp.view"
                minimized="true"
-               moveable="false"
+               restorable="false"
+               moveable="true"
                ratio="0.5"
+               relationship="stack"
+               relative="uk.ac.diamond.scisoft.icatlogin.rcp.ui.LoginView"
+               showTitle="true"
+               standalone="false"
+               visible="false">
+         </view> 
+         <view
+               closeable="false"
+               id="uk.ac.diamond.scisoft.icatlogin.rcp.ui.LoginView"
+               minimized="false"
+               restorable="true"
+               moveable="true"
+               ratio="0.3"
                relationship="left"
                relative="org.eclipse.ui.editorss"
                showTitle="true"
-               standalone="true"
-               visible="false">
+               standalone="false"
+               visible="true">
          </view>
       </perspectiveExtension>
    </extension>
@@ -323,21 +350,34 @@
             default="false"
             icon="icons/prop_ps.gif"
             id="uk.ac.diamond.scisoft.icatexplorer.rcp.editors.dataseteditor"
-            name="Dataset Editor">
+            name="Dataset Editor"
+            allowMultiple="true">
       </editor>
       <editor
             class="uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DatafileEditor"
             icon="icons/prop_ps.gif"
             id="uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DatafileEditor"
-            name="Datafile Editor">
+            name="Datafile Editor"
+            allowMultiple="true">
       </editor>
       <editor
             class="uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DInvestigationEditor"
             default="false"
             icon="icons/prop_ps.gif"
             id="uk.ac.diamond.scisoft.icatexplorer.rcp.editors.investigationeditor"
-            name="Investigation Editor">
+            name="Investigation Editor"
+            allowMultiple="true">
       </editor>
+   </extension>
+   <extension
+         point="uk.ac.diamond.scisoft.introRegister">
+      <introPageRegister
+            class="uk.ac.diamond.scisoft.icatexplorer.rcp.launcher.ICATPerspectiveLauncher"
+            description="This perspective allows exploring and opening data from the ICAT database"
+            icon="icons/icat-logo-128x128.gif"
+            id="uk.ac.diamond.scisoft.icatexplorer.rcp.introPageRegister"
+            name="(Pre-release) ICAT Explorer">
+      </introPageRegister>
    </extension>
    <!-- extension
          point="org.eclipse.ui.popupMenus">

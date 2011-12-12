@@ -5,6 +5,9 @@ import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Window advisor
@@ -13,6 +16,7 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
  */
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor
 {
+    private static final Logger logger = LoggerFactory.getLogger(ApplicationWorkbenchWindowAdvisor.class); 
 
     public ApplicationWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer)
     {
@@ -20,20 +24,21 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor
     }
 
     public ActionBarAdvisor createActionBarAdvisor(IActionBarConfigurer configurer)
-    {
+    {	
         return new ApplicationActionBarAdvisor(configurer);
     }
 
     public void preWindowOpen()
-    {
+    {	
+
         IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
         configurer.setInitialSize(new Point(1000, 300));
         configurer.setShowCoolBar(false);
-        configurer.setShowStatusLine(true);
-        configurer.setShowProgressIndicator(true);
+        configurer.setShowStatusLine(false);
         configurer.setTitle("ICAT Explorer");
-        
+                
      // important in order to display progress of long running operations
      	configurer.setShowProgressIndicator(true);
+     	
     }
 }

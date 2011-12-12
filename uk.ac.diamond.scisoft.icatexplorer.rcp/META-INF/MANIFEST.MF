@@ -7,7 +7,9 @@ Bundle-Activator: uk.ac.diamond.scisoft.icatexplorer.rcp.internal.CNFActivator
 Bundle-Vendor: Diamond Light Source Ltd.
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.navigator;bundle-version="3.3.101",
- org.eclipse.ui.views.properties.tabbed
+ org.eclipse.ui.views.properties.tabbed,
+ uk.ac.diamond.scisoft.analysis.rcp,
+ uk.ac.diamond.scisoft.intro
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: com.jcraft.jsch;version="0.1.41",

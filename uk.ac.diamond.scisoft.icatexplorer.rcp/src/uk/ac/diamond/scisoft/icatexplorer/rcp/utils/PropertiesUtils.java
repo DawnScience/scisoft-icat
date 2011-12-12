@@ -30,7 +30,7 @@ public final class PropertiesUtils {
 		boolean truststorePasswordVerified = false;
 		boolean downloadDirVerified = false;
 		boolean inServerVerified = false;
-		boolean outServerVerified = false;
+		boolean exServerVerified = false;
 
 		try {
 			bundle = new PropertyResourceBundle(
@@ -78,13 +78,13 @@ public final class PropertiesUtils {
 					if ((val != null) && (val.length() > 0))
 						downloadDirVerified = true;
 				}
-				if ((prop != null) && (prop.equals("inside.sftp.server"))) {
+				if ((prop != null) && (prop.equals("internal.sftp.server"))) {
 					if ((val != null) && (val.length() > 0))
 						inServerVerified = true;
 				}
-				if ((prop != null) && (prop.equals("outside.sftp.server"))) {
+				if ((prop != null) && (prop.equals("external.sftp.server"))) {
 					if ((val != null) && (val.length() > 0))
-						outServerVerified = true;
+						exServerVerified = true;
 				}
 				
 				properties.setProperty(prop, val);
@@ -114,10 +114,10 @@ public final class PropertiesUtils {
 						"Please check icatexplorer.properties file to ensure that download.dir key is supplied");
 			if (!inServerVerified)
 				throw new Exception(
-						"Please check icatexplorer.properties file to ensure that inside.sftp.server key is supplied");
-			if (!outServerVerified)
+						"Please check icatexplorer.properties file to ensure that internal.sftp.server key is supplied");
+			if (!exServerVerified)
 				throw new Exception(
-						"Please check icatexplorer.properties file to ensure that outside.sftp.server key is supplied");
+						"Please check icatexplorer.properties file to ensure that external.sftp.server key is supplied");
 
 		} catch (Exception io) {
 			io.printStackTrace();
