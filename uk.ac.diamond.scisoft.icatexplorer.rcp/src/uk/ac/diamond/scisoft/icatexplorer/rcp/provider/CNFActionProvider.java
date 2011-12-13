@@ -34,6 +34,8 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DDatasetEditor;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DDatasetEditorInput;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DInvestigationEditor;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DInvestigationEditorInput;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DatafileEditor;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DatafileEditorInput;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.jobs.JobTrainingBean;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.sftpclient.SftpClient;
@@ -158,10 +160,8 @@ public class CNFActionProvider extends CommonActionProvider
             {
                 logger.debug("open called on " + data.getClass().getName());
         		
-                page.closeAllEditors(false);
+                //page.closeAllEditors(false);
         		        				
-        		//CNFNavigator navigatorView = (CNFNavigator) page.findView("uk.ac.diamond.scisoft.icatexplorer.rcp.view");
-
     			// If we had a selection lets open the editor
     			if (data instanceof DInvestigation) {
     				DInvestigation dinvestigation = (DInvestigation) data;
@@ -189,13 +189,13 @@ public class CNFActionProvider extends CommonActionProvider
     				logger.debug("opening " + datafile.getLocation() + " with id: " +datafile.getId());
     				
     				// open datafile editor
-//    				try {
-//    					DatafileEditorInput input = new DatafileEditorInput(datafile); 					
-//    					page.openEditor((IEditorInput) input, DatafileEditor.ID);
-//    					
-//    				} catch (PartInitException e) {
-//    					throw new RuntimeException(e);
-//    				}
+    				try {
+    					DatafileEditorInput input = new DatafileEditorInput(datafile); 					
+    					page.openEditor((IEditorInput) input, DatafileEditor.ID);
+    					
+    				} catch (PartInitException e) {
+    					throw new RuntimeException(e);
+    				}
     				
     				// check current operating system
     				if (OSDetector.isUnix()){
