@@ -77,8 +77,10 @@ public class LoginView extends ViewPart {
 		loginBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// perform icat authentication
 				
+				messageLbl.setText("");
+				
+				// perform icat authentication
 				ICATClient icat = new ICATClient();
 				ICATSessionDetails sessionDetails = new ICATSessionDetails(icat);
 			

@@ -25,7 +25,6 @@ public class Application implements IApplication
         try
         {
             int returnCode = PlatformUI.createAndRunWorkbench(display, new ApplicationWorkbenchAdvisor());
-            logger.debug("111111111111111111111");
 
             if (returnCode == PlatformUI.RETURN_RESTART)
             {
@@ -38,7 +37,6 @@ public class Application implements IApplication
             return IApplication.EXIT_OK;
         } finally
         {
-            logger.debug("2222222222222222222222");
             display.dispose();
         }
 

@@ -325,6 +325,7 @@ public class CNFActionProvider extends CommonActionProvider
 
 						String inspector = DatasetInspectorView.ID;
 						window.getActivePage().showView(inspector);
+					
 					} catch (PartInitException e) {
 						//e.printStackTrace();
 						logger.error("cannot open view: " + e);

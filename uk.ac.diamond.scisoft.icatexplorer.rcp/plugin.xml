@@ -40,6 +40,10 @@
    
    <extension
          point="org.eclipse.ui.views">
+       <category
+            name="ICAT"
+            id="uk.ac.diamond.scisoft.icatexplorer.rcp">
+      </category>
       <view
             class="uk.ac.diamond.scisoft.icatexplorer.rcp.ui.LoginView"
             closeable="true"
