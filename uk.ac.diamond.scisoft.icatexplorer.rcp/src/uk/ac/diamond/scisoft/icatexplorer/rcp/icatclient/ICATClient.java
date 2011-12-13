@@ -264,7 +264,7 @@ public class ICATClient{
 		if (f == null)
 			return null;
 		
-		File truststorePath = new File(f.getAbsolutePath(), "certs\\cacerts.jks");
+		File truststorePath = new File(f.getAbsolutePath(), "certs/cacerts.jks");
 			
 		logger.debug("truststore:" + truststorePath.getAbsolutePath());
 
