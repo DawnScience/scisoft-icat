@@ -170,7 +170,7 @@ public class LoginView extends ViewPart {
 		
 		Label icatImageLabel = new Label(container, SWT.NONE);
 		icatImageLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		icatImageLabel.setImage(ResourceManager.getPluginImage("uk.ac.diamond.scisoft.icatexplorer.rcp", "icons/icat_logo.gif"));
+		icatImageLabel.setImage(org.eclipse.wb.swt.ResourceManager.getPluginImage("uk.ac.diamond.scisoft.icatexplorer.rcp", "icons/icat_logo.gif"));
 		icatImageLabel.setBounds(76, 224, 284, 163);
 
 		createActions();
