@@ -87,28 +87,28 @@ public final class PropertiesUtils {
 
 			// in case one of the keys/values is missing
 			if (!wsdlLocationVerified)
-				throw new Exception(
+				logger.error(
 						"Please check icatexplorer.properties file to ensure that wsdl.location key is supplied");
 			if (!namespaceUriVerified)
-				throw new Exception(
+				logger.error(
 						"Please check icatexplorer.properties file to ensure that namespace.uri key is supplied");
 			if (!namespaceLocalPartVerified)
-				throw new Exception(
+				logger.error(
 						"Please check icatexplorer.properties file to ensure that namespace.localpart key is supplied");
 			if (!truststoreLocationVerified)
-				throw new Exception(
+				logger.error(
 						"Please check icatexplorer.properties file to ensure that truststore.location key is supplied");
 			if (!truststorePasswordVerified)
-				throw new Exception(
+				logger.error(
 						"Please check icatexplorer.properties file to ensure that truststore.password key is supplied");
 			if (!downloadDirVerified)
-				throw new Exception(
+				logger.error(
 						"Please check icatexplorer.properties file to ensure that download.dir key is supplied");
 			if (!inServerVerified)
-				throw new Exception(
+				logger.error(
 						"Please check icatexplorer.properties file to ensure that internal.sftp.server key is supplied");
 			if (!exServerVerified)
-				throw new Exception(
+				logger.error(
 						"Please check icatexplorer.properties file to ensure that external.sftp.server key is supplied");
 
 		} catch (Exception io) {
@@ -160,10 +160,10 @@ public final class PropertiesUtils {
 
 			// in case one of the keys/values is missing
 			if (!fedidVerified)
-				throw new Exception(
+				logger.error(
 						"Please check credentials.properties file to ensure that fedid key is supplied");
 			if (!passwordVerified)
-				throw new Exception(
+				logger.error(
 						"Please check credentials.properties file to ensure that password key is supplied");
 			
 		} catch (Exception io) {

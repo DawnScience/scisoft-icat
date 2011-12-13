@@ -260,7 +260,9 @@ public class ICATClient{
 			
 		logger.debug("initial truststore in: " + truststorePath.getAbsolutePath());
 		
-		//copy truststore from the plugin location (i.e. jar ) into the user directory, 
+		return truststorePath.getAbsolutePath();
+		
+		/*//copy truststore from the plugin location (i.e. jar ) into the user directory, 
 		// accessible as a system property for ssl
 		try {
 			
@@ -276,6 +278,6 @@ public class ICATClient{
 		logger.debug("truststoreFilename: " + truststoreFilename);
 
 		return (new File(System.getProperty("user.dir"), truststoreFilename)).getAbsolutePath();//truststorePath.getAbsolutePath();
-	}
+*/	}
 	
 }
