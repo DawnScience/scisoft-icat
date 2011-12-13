@@ -48,7 +48,7 @@ public class ICATPerspective implements IPerspectiveFactory {
 		main.addPlaceholder(cnfViewID + ":*");
 
 		
-		// open remaining views
+		// place holders for remaining views
 		String plot = PlotView.ID + "DP";
 		//layout.addView(plot, IPageLayout.RIGHT, 0.25f, layout.getEditorArea());
 		right.addPlaceholder(plot + ":*");

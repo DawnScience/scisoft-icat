@@ -2,7 +2,11 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -273,4 +277,5 @@ public class ICATClient{
 
 		return (new File(System.getProperty("user.dir"), truststoreFilename)).getAbsolutePath();//truststorePath.getAbsolutePath();
 	}
+	
 }

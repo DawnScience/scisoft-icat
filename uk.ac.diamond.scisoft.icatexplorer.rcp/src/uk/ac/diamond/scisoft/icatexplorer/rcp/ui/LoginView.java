@@ -22,6 +22,9 @@ import org.slf4j.LoggerFactory;
 import com.swtdesigner.ResourceManager;
 import com.swtdesigner.SWTResourceManager;
 
+import uk.ac.diamond.scisoft.analysis.rcp.views.DatasetInspectorView;
+import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
+import uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
 import org.eclipse.swt.events.KeyAdapter;
@@ -160,6 +163,7 @@ public class LoginView extends ViewPart {
 	}
 	
 	public void login(){
+		
 		messageLbl.setText("");
 		
 		// perform icat authentication
@@ -171,6 +175,9 @@ public class LoginView extends ViewPart {
 		String password = passwordText.getText();
     	
     	if ( icat.login(fedid, password) != null){
+    		
+    		messageLbl.setText("authentication successful!");
+    		messageLbl.setForeground(com.swtdesigner.SWTResourceManager.getColor(SWT.COLOR_GREEN));
     		logger.info("authentication successful!");
     		
     		fedidText.setEditable(false);
@@ -202,17 +209,22 @@ public class LoginView extends ViewPart {
     		 String cnf = "uk.ac.diamond.scisoft.icatexplorer.rcp.view"; 
     		 logger.debug("showing view: " + cnf);
     		 window.getActivePage().showView(cnf);
-    		
     		 
-    		 //close login view
-//    		 IViewPart[] viewParts = window.getActivePage().getViews();
-//    		 for (IViewPart view : viewParts)
-//    		 {
-//    		 if (view instanceof LoginView)
-//    		 {
-//    		 window.getActivePage().hideView(view);
-//    		 }
-//    		 }
+    		//open data plot view
+    		 String plot = PlotView.ID + "DP";
+    		 logger.debug("showing view: " + plot);
+    		 window.getActivePage().showView(plot);
+    		 
+    		//open data side plot view
+//    		 String sidePlot = SidePlotView.ID + ":Dataset Plot"; 
+//    		 logger.debug("showing view: " + sidePlot);
+//    		 window.getActivePage().showView(sidePlot);
+    		 
+    		 //open data inspector view
+    		 String inspector = DatasetInspectorView.ID; 
+    		 logger.debug("showing view: " + inspector);
+    		 window.getActivePage().showView(inspector);
+    		
 	} catch (PartInitException e1) {
     		 // TODO Auto-generated catch block
     		 e1.printStackTrace();

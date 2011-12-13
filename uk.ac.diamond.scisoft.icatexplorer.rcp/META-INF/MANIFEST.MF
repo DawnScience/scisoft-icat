@@ -3,6 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ICAT Explorer RCP
 Bundle-SymbolicName: uk.ac.diamond.scisoft.icatexplorer.rcp;singleton:=true
 Bundle-Version: 1.0.0
+Eclipse-BundleShape: dir
 Bundle-Activator: uk.ac.diamond.scisoft.icatexplorer.rcp.internal.CNFActivator
 Bundle-Vendor: Diamond Light Source Ltd.
 Require-Bundle: org.eclipse.core.runtime,
