@@ -56,7 +56,7 @@ public class ICATClient{
  		
  		logger.debug("truststore.location: " + properties.getProperty("truststore.location"));
  		 		
- 		System.setProperty("javax.net.ssl.trustStore", getTruststorePath(properties.getProperty("truststore.location")));
+ 		System.setProperty("javax.net.ssl.trustStore", "/home/smw81327/sda/cacerts.jks");//getTruststorePath(properties.getProperty("truststore.location")));
  		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
 		
  		logger.debug("using truststore: " + System.getProperty("javax.net.ssl.trustStore"));
