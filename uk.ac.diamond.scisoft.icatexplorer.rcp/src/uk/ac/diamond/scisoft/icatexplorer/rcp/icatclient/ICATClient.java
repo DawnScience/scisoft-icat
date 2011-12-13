@@ -1,6 +1,7 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -10,6 +11,10 @@ import java.util.concurrent.TimeUnit;
 import javax.xml.namespace.QName;
 //import javax.xml.ws.BindingProvider;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,33 +37,37 @@ public class ICATClient{
 	protected String fedid;
 	protected String password; 
 	protected String sessionId;
+	protected String truststorePath;
 	
     private static final Logger logger = LoggerFactory.getLogger(ICATClient.class); 
     
 
  	public ICATClient(){
+ 		
+		
  		try {
  			
  			logger.info("reading properties file");
  			properties = PropertiesUtils.readConfigFile();
  			 			
 		} catch (Exception e) {
-			//e.printStackTrace();
 			logger.error( "problem reading properties file", e);
 		}
  		 		
  		// set ssl system properties
-		if (OSDetector.isWindows()){
- 	 		logger.debug("Windows OS detected");
- 			System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.path.windows"));
- 		}else{
- 	 		logger.debug("non-Windows OS detected");
- 	 		System.setProperty("javax.net.ssl.trustStore",properties.getProperty("truststore.path.unix"));
- 		}
-		
+//		if (OSDetector.isWindows()){
+// 	 		logger.debug("Windows OS detected");
+// 	 		 
+// 			System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.path.windows"));
+// 		}else{
+// 	 		logger.debug("non-Windows OS detected");
+// 	 		System.setProperty("javax.net.ssl.trustStore",properties.getProperty("truststore.path.unix"));
+// 		}
+//		
+ 		System.setProperty("javax.net.ssl.trustStore", getTruststorePath());
  		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
 		
- 		logger.debug("current system truststore: " + System.getProperty("javax.net.ssl.trustStore"));
+ 		logger.debug("using truststore: " + System.getProperty("javax.net.ssl.trustStore"));
 		
 	}
 	
@@ -238,5 +247,27 @@ public class ICATClient{
 			//e.printStackTrace();
 		}
 		return url.getHost();
+	}
+	
+	String getTruststorePath() {
+		java.security.ProtectionDomain pd = ICATClient.class
+				.getProtectionDomain();
+		if (pd == null)
+			return null;
+		java.security.CodeSource cs = pd.getCodeSource();
+		if (cs == null)
+			return null;
+		java.net.URL url = cs.getLocation();
+		if (url == null)
+			return null;
+		java.io.File f = new File(url.getFile());
+		if (f == null)
+			return null;
+		
+		File truststorePath = new File(f.getAbsolutePath(), "certs\\cacerts.jks");
+			
+		logger.debug("truststore:" + truststorePath.getAbsolutePath());
+
+		return truststorePath.getAbsolutePath();
 	}
 }
