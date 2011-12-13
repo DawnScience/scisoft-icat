@@ -25,8 +25,6 @@ public final class PropertiesUtils {
 		boolean wsdlLocationVerified = false;
 		boolean namespaceUriVerified = false;
 		boolean namespaceLocalPartVerified = false;
-		boolean truststoreWindowsPathVerified = false;
-		boolean truststoreUnixPathVerified = false;
 		boolean truststorePasswordVerified = false;
 		boolean downloadDirVerified = false;
 		boolean inServerVerified = false;
@@ -62,14 +60,6 @@ public final class PropertiesUtils {
 					if ((val != null) && (val.length() > 0))
 						namespaceLocalPartVerified = true;
 				}
-				if ((prop != null) && (prop.equals("truststore.path.windows"))) {
-					if ((val != null) && (val.length() > 0))
-						truststoreWindowsPathVerified = true;
-				}
-				if ((prop != null) && (prop.equals("truststore.path.unix"))) {
-					if ((val != null) && (val.length() > 0))
-						truststoreUnixPathVerified = true;
-				}
 				if ((prop != null) && (prop.equals("truststore.password"))) {
 					if ((val != null) && (val.length() > 0))
 						truststorePasswordVerified = true;
@@ -100,12 +90,6 @@ public final class PropertiesUtils {
 			if (!namespaceLocalPartVerified)
 				throw new Exception(
 						"Please check icatexplorer.properties file to ensure that namespace.localpart key is supplied");
-			if (!truststoreWindowsPathVerified)
-				throw new Exception(
-						"Please check icatexplorer.properties file to ensure that trustore.path.windows key is supplied");
-			if (!truststoreUnixPathVerified)
-				throw new Exception(
-						"Please check icatexplorer.properties file to ensure that trustore.path.unix key is supplied");
 			if (!truststorePasswordVerified)
 				throw new Exception(
 						"Please check icatexplorer.properties file to ensure that truststore.password key is supplied");
