@@ -6,6 +6,10 @@ import org.eclipse.ui.IPerspectiveFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.analysis.rcp.views.DatasetInspectorView;
+import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
+import uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView;
+
 public class ICATPerspective implements IPerspectiveFactory {
 
 	public static final String PERSPECTIVE_ID = "uk.ac.diamond.scisoft.icatexplorer.rcp.perspective";
@@ -32,15 +36,39 @@ public class ICATPerspective implements IPerspectiveFactory {
 		//bottom.addPlaceholder("*.ui.bottom.*:*");
 		
 		String loginViewID = LoginView.ID;	      
-		IFolderLayout left = layout.createFolder("ICAT_Folder", IPageLayout.LEFT, 0.3f, layout.getEditorArea());
-		left.addPlaceholder(loginViewID + ":*");
-		left.addView(loginViewID);
+		IFolderLayout main = layout.createFolder("ICAT_Main", IPageLayout.LEFT, 1.0f, layout.getEditorArea());
+		IFolderLayout right = layout.createFolder("ICAT_Right", IPageLayout.RIGHT, 0.2f, "ICAT_Main");
+		IFolderLayout bottom = layout.createFolder("ICAT_Bottom", IPageLayout.BOTTOM, 0.8f, "ICAT_Right");
+
+		
+		main.addPlaceholder(loginViewID + ":*");
+		main.addView(loginViewID);
 		
 		String cnfViewID = "uk.ac.diamond.scisoft.icatexplorer.rcp.view";
-		left.addPlaceholder(cnfViewID + ":*");
-		//view added programmatically
-		      
-		layout.setEditorAreaVisible(true);
+		main.addPlaceholder(cnfViewID + ":*");
+
+		
+		// open remaining views
+		String plot = PlotView.ID + "DP";
+		//layout.addView(plot, IPageLayout.RIGHT, 0.25f, layout.getEditorArea());
+		right.addPlaceholder(plot + ":*");
+		if (layout.getViewLayout(plot) != null)
+			layout.getViewLayout(plot).setCloseable(false);
+
+		String sidePlot = SidePlotView.ID + ":Dataset Plot";
+		//layout.addView(sidePlot, IPageLayout.RIGHT, 0.60f, plot);
+		right.addPlaceholder(sidePlot + ":*");
+		if (layout.getViewLayout(sidePlot) != null)
+			layout.getViewLayout(sidePlot).setCloseable(false);
+
+		String inspector = DatasetInspectorView.ID;
+		//layout.addStandaloneView(inspector, false, IPageLayout.BOTTOM, 0.60f, layout.getEditorArea());
+		bottom.addPlaceholder(inspector + ":*");
+		if (layout.getViewLayout(inspector) != null)
+			layout.getViewLayout(inspector).setCloseable(false);
+	    //
+		
+		layout.setEditorAreaVisible(false);
 
 	}
 

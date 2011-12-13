@@ -313,24 +313,6 @@ public class CNFActionProvider extends CommonActionProvider
     				      }
     					
     				}
-    				// open remaining views
-		    		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		    		 
-					try {
-						String plot = PlotView.ID + "DP";
-						window.getActivePage().showView(plot);
-						
-						String sidePlot = SidePlotView.ID + ":Dataset Plot";
-						window.getActivePage().showView(sidePlot);
-
-						String inspector = DatasetInspectorView.ID;
-						window.getActivePage().showView(inspector);
-					
-					} catch (PartInitException e) {
-						//e.printStackTrace();
-						logger.error("cannot open view: " + e);
-					}
-	    		//
     				
     			}
     			}// end if data <> null	

@@ -25,6 +25,7 @@ public final class PropertiesUtils {
 		boolean wsdlLocationVerified = false;
 		boolean namespaceUriVerified = false;
 		boolean namespaceLocalPartVerified = false;
+		boolean truststoreLocationVerified = false;
 		boolean truststorePasswordVerified = false;
 		boolean downloadDirVerified = false;
 		boolean inServerVerified = false;
@@ -60,6 +61,10 @@ public final class PropertiesUtils {
 					if ((val != null) && (val.length() > 0))
 						namespaceLocalPartVerified = true;
 				}
+				if ((prop != null) && (prop.equals("truststore.location"))) {
+					if ((val != null) && (val.length() > 0))
+						truststoreLocationVerified = true;
+				}
 				if ((prop != null) && (prop.equals("truststore.password"))) {
 					if ((val != null) && (val.length() > 0))
 						truststorePasswordVerified = true;
@@ -90,6 +95,9 @@ public final class PropertiesUtils {
 			if (!namespaceLocalPartVerified)
 				throw new Exception(
 						"Please check icatexplorer.properties file to ensure that namespace.localpart key is supplied");
+			if (!truststoreLocationVerified)
+				throw new Exception(
+						"Please check icatexplorer.properties file to ensure that truststore.location key is supplied");
 			if (!truststorePasswordVerified)
 				throw new Exception(
 						"Please check icatexplorer.properties file to ensure that truststore.password key is supplied");

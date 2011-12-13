@@ -2,6 +2,7 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -9,16 +10,11 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.namespace.QName;
-//import javax.xml.ws.BindingProvider;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 import uk.icat3.client.Dataset;
 import uk.icat3.client.ICAT;
@@ -53,18 +49,10 @@ public class ICATClient{
 		} catch (Exception e) {
 			logger.error( "problem reading properties file", e);
 		}
+ 		
+ 		logger.debug("truststore.location: " + properties.getProperty("truststore.location"));
  		 		
- 		// set ssl system properties
-//		if (OSDetector.isWindows()){
-// 	 		logger.debug("Windows OS detected");
-// 	 		 
-// 			System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.path.windows"));
-// 		}else{
-// 	 		logger.debug("non-Windows OS detected");
-// 	 		System.setProperty("javax.net.ssl.trustStore",properties.getProperty("truststore.path.unix"));
-// 		}
-//		
- 		System.setProperty("javax.net.ssl.trustStore", getTruststorePath());
+ 		System.setProperty("javax.net.ssl.trustStore", getTruststorePath(properties.getProperty("truststore.location")));
  		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
 		
  		logger.debug("using truststore: " + System.getProperty("javax.net.ssl.trustStore"));
@@ -249,7 +237,7 @@ public class ICATClient{
 		return url.getHost();
 	}
 	
-	String getTruststorePath() {
+	String getTruststorePath(String truststoreLocation) {
 		java.security.ProtectionDomain pd = ICATClient.class
 				.getProtectionDomain();
 		if (pd == null)
@@ -264,10 +252,25 @@ public class ICATClient{
 		if (f == null)
 			return null;
 		
-		File truststorePath = new File(f.getAbsolutePath(), "certs/cacerts.jks");
+		File truststorePath = new File(f.getAbsolutePath(), truststoreLocation);//"certs/cacerts.jks");
 			
-		logger.debug("truststore:" + truststorePath.getAbsolutePath());
+		logger.debug("initial truststore in: " + truststorePath.getAbsolutePath());
+		
+		//copy truststore from the plugin location (i.e. jar ) into the user directory, 
+		// accessible as a system property for ssl
+		try {
+			
+			FileUtils.copyFileToDirectory(truststorePath, new File(System.getProperty("user.dir")));
+			logger.debug("truststore file copied locally");
+			
+		} catch (IOException e) {
+			//e.printStackTrace();
+			logger.error("cannot copy truststore file to local filesystem", e);
+		}
+		
+		String truststoreFilename = truststoreLocation.substring(truststoreLocation.lastIndexOf("/") + 1);
+		logger.debug("truststoreFilename: " + truststoreFilename);
 
-		return truststorePath.getAbsolutePath();
+		return (new File(System.getProperty("user.dir"), truststoreFilename)).getAbsolutePath();//truststorePath.getAbsolutePath();
 	}
 }
