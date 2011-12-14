@@ -56,10 +56,10 @@ public class ICATClient{
  		
  		logger.debug("truststore.location: " + properties.getProperty("truststore.location"));
  		 		
- 		System.setProperty("javax.net.ssl.trustStore", "/dls/bl-misc/dropfiles2/certs/cacerts.jks");//getTruststorePath(properties.getProperty("truststore.location")));
+ 		System.setProperty("javax.net.ssl.trustStore", getTruststorePath(properties.getProperty("truststore.location")));
  		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
 		
- 		logger.debug("using truststore: " + System.getProperty("javax.net.ssl.trustStore"));
+ 		logger.debug("using truststore:" + System.getProperty("javax.net.ssl.trustStore"));
 		
 	}
 	
@@ -260,24 +260,24 @@ public class ICATClient{
 			
 		logger.debug("initial truststore in: " + truststorePath.getAbsolutePath());
 		
-		//return truststorePath.getAbsolutePath();
+		return truststorePath.getAbsolutePath();
 		
-		//copy truststore from the plugin location (i.e. jar ) into the user directory, 
-		// accessible as a system property for ssl
-		try {
-			
-			FileUtils.copyFileToDirectory(truststorePath, new File(System.getProperty("user.dir")));
-			logger.debug("truststore file copied locally");
-			
-		} catch (IOException e) {
-			//e.printStackTrace();
-			logger.error("cannot copy truststore file to local filesystem", e);
-		}
-		
-		String truststoreFilename = truststoreLocation.substring(truststoreLocation.lastIndexOf("/") + 1);
-		logger.debug("truststoreFilename: " + truststoreFilename);
-
-		return (new File(System.getProperty("user.dir"), truststoreFilename)).getAbsolutePath();//truststorePath.getAbsolutePath();
+//		//copy truststore from the plugin location (i.e. jar ) into the user directory, 
+//		// accessible as a system property for ssl
+//		try {
+//			
+//			FileUtils.copyFileToDirectory(truststorePath, new File(System.getProperty("user.dir")));
+//			logger.debug("truststore file copied locally");
+//			
+//		} catch (IOException e) {
+//			//e.printStackTrace();
+//			logger.error("cannot copy truststore file to local filesystem", e);
+//		}
+//		
+//		String truststoreFilename = truststoreLocation.substring(truststoreLocation.lastIndexOf("/") + 1);
+//		logger.debug("truststoreFilename: " + truststoreFilename);
+//
+//		return (new File(System.getProperty("user.dir"), truststoreFilename)).getAbsolutePath();//truststorePath.getAbsolutePath();
 	}
 	
 }

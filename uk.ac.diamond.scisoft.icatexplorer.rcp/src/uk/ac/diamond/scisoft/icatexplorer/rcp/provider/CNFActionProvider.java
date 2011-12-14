@@ -159,9 +159,7 @@ public class CNFActionProvider extends CommonActionProvider
             if (data != null)
             {
                 logger.debug("open called on " + data.getClass().getName());
-        		
-                //page.closeAllEditors(false);
-        		        				
+        		       		        				
     			// If we had a selection lets open the editor
     			if (data instanceof DInvestigation) {
     				DInvestigation dinvestigation = (DInvestigation) data;
@@ -226,7 +224,7 @@ public class CNFActionProvider extends CommonActionProvider
     				    File file4 = new File(file2, fileUtils.filename());
     				    File file5 = new File(file4.getPath());
     				    
-    				    String localFilePath = file5.getPath();//"C:\\gotFile";
+    				    String localFilePath = file5.getPath();
     				 
     				if(!file3.exists()){// download dir does not exist yet, create it
     					
@@ -299,12 +297,12 @@ public class CNFActionProvider extends CommonActionProvider
 							logger.info("file successfully downloaded to " + localFilePath);
     				      }else{
     				    	  
-    				    	  logger.debug("file: " + localFilePath + " previousely downloaded to local filesystem");
+    				    	  logger.debug("file: " + localFilePath + " already exist in local filesystem");
     				      }
 							
 							// open editor
 							try {
-								logger.debug("open file editor ");
+								logger.debug("open file in editor:  " + datafile.getLocation());
 	        					EclipseUtils.openExternalEditor(localFilePath);
 	    					} catch (PartInitException e) {
 	    						logger.error("Cannot open file "+datafile.getLocation(), e);

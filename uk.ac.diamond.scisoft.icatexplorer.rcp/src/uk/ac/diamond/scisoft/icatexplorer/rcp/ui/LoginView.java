@@ -5,6 +5,8 @@ import java.util.Properties;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
@@ -19,16 +21,12 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.swtdesigner.ResourceManager;
-import com.swtdesigner.SWTResourceManager;
-
 import uk.ac.diamond.scisoft.analysis.rcp.views.DatasetInspectorView;
 import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
-import uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
+
+import com.swtdesigner.SWTResourceManager;
 
 
 public class LoginView extends ViewPart {
@@ -66,7 +64,6 @@ public class LoginView extends ViewPart {
 		passwordText.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				//logger.debug("key pressed: " + e.keyCode);
 				if(e.keyCode == 13){ //ENTER key pressed
 					logger.debug("ENTER button pressed");
 					login();
@@ -176,14 +173,12 @@ public class LoginView extends ViewPart {
     	
     	if ( icat.login(fedid, password) != null){
     		
-    		messageLbl.setText("authentication successful!");
-    		messageLbl.setForeground(com.swtdesigner.SWTResourceManager.getColor(SWT.COLOR_GREEN));
     		logger.info("authentication successful!");
     		
     		fedidText.setEditable(false);
-    		fedidText.setForeground(com.swtdesigner.SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
+    		fedidText.setForeground(com.swtdesigner.SWTResourceManager.getColor(SWT.COLOR_GRAY));
     		passwordText.setEditable(false);
-    		passwordText.setForeground(com.swtdesigner.SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
+    		passwordText.setForeground(com.swtdesigner.SWTResourceManager.getColor(SWT.COLOR_GRAY));
     		
     		/*
     		 * open CNF view
