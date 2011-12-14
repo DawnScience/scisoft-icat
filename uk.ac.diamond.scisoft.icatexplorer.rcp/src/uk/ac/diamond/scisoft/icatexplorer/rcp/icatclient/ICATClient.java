@@ -272,22 +272,6 @@ public class ICATClient{
 		
 		return resultPath;
 		
-//		//copy truststore from the plugin location (i.e. jar ) into the user directory, 
-//		// accessible as a system property for ssl
-//		try {
-//			
-//			FileUtils.copyFileToDirectory(truststorePath, new File(System.getProperty("user.dir")));
-//			logger.debug("truststore file copied locally");
-//			
-//		} catch (IOException e) {
-//			//e.printStackTrace();
-//			logger.error("cannot copy truststore file to local filesystem", e);
-//		}
-//		
-//		String truststoreFilename = truststoreLocation.substring(truststoreLocation.lastIndexOf("/") + 1);
-//		logger.debug("truststoreFilename: " + truststoreFilename);
-//
-//		return (new File(System.getProperty("user.dir"), truststoreFilename)).getAbsolutePath();//truststorePath.getAbsolutePath();
 	}
 	
 }
