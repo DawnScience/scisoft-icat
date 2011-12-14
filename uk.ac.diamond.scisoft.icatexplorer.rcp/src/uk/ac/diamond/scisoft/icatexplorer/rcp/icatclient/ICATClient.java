@@ -260,17 +260,8 @@ public class ICATClient{
 		File truststorePath = new File(f.getAbsolutePath(), truststoreLocation);
 			
 		logger.debug("initial truststore in: " + truststorePath.getAbsolutePath());
-		
-		String resultPath;
-		if (OSDetector.isWindows()){
 			
-			resultPath = (truststorePath.getAbsolutePath()).replace("\\", "\\\\");
-		}else{
-			
-			resultPath = truststorePath.getAbsolutePath();
-		}
-		
-		return resultPath;
+		return truststorePath.getAbsolutePath();
 		
 	}
 	
