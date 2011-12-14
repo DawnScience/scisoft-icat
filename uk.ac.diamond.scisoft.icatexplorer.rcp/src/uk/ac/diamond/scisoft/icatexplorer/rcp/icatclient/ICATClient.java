@@ -19,6 +19,7 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 import uk.icat3.client.Dataset;
 import uk.icat3.client.ICAT;
@@ -256,11 +257,20 @@ public class ICATClient{
 		if (f == null)
 			return null;
 		
-		File truststorePath = new File(f.getAbsolutePath(), truststoreLocation);//"certs/cacerts.jks");
+		File truststorePath = new File(f.getAbsolutePath(), truststoreLocation);
 			
 		logger.debug("initial truststore in: " + truststorePath.getAbsolutePath());
 		
-		return truststorePath.getAbsolutePath();
+		String resultPath;
+		if (OSDetector.isWindows()){
+			
+			resultPath = (truststorePath.getAbsolutePath()).replace("\\", "\\\\");
+		}else{
+			
+			resultPath = truststorePath.getAbsolutePath();
+		}
+		
+		return resultPath;
 		
 //		//copy truststore from the plugin location (i.e. jar ) into the user directory, 
 //		// accessible as a system property for ssl
