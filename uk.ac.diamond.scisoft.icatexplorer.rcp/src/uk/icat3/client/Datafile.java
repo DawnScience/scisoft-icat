@@ -1,7 +1,10 @@
 
 package uk.icat3.client;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -9,6 +12,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
+
+import uk.ac.diamond.scisoft.analysis.dataset.IMetadataProvider;
+import uk.ac.diamond.scisoft.analysis.io.IMetaData;
+import uk.ac.diamond.scisoft.analysis.io.MetaDataAdapter;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.UnitsConverter;
 
 
 /**
@@ -69,7 +77,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "signature"
 })
 public class Datafile
-    extends EntityBaseBean
+    extends EntityBaseBean implements IMetadataProvider
 {
 
     protected String checksum;
@@ -541,4 +549,47 @@ public class Datafile
         this.signature = value;
     }
 
+	@Override
+	public IMetaData getMetadata() throws Exception {
+		final HashMap <String, String> pairs = new HashMap<String, String>();	
+		pairs.put("ID", Long.toString(this.getId()));
+		pairs.put("CHECKSUM",this.getChecksum());
+		pairs.put("COMMAND",this.getCommand());
+		pairs.put("VERSION",this.getDatafileVersion());
+		pairs.put("DESCRIPTION",this.getDescription());
+		pairs.put("LOCATION",this.getLocation());
+		pairs.put("NAME",this.getName());
+		pairs.put("SIGNATURE",this.getSignature());
+		pairs.put("UNIQUE_ID",this.getUniqueId());
+		pairs.put("CREATION_TIME",UnitsConverter.gregorianToString(this.getDatafileCreateTime()));
+		pairs.put("MODIFICATION_TIME",UnitsConverter.gregorianToString(this.getDatafileModifyTime()));
+		pairs.put("DATASET_ID",Long.toString(this.getDatasetId()));
+		pairs.put("FILE_SIZE",Long.toString(this.getFileSize()));		
+				
+		
+		final HashMap <String, String> name = new HashMap<String, String>();
+		name.put("NAME", "DATAFILE: "+this.getName());
+		
+		return new MetaDataAdapter(){
+
+			@Override
+			public Serializable getMetaValue(String key) throws Exception {
+				return pairs.get(key);
+			}
+
+			@Override
+			public Collection<String> getMetaNames() throws Exception {
+				
+				return pairs.keySet();
+			}
+			
+			@Override
+			public Collection<String> getDataNames() {
+				
+				return name.values();
+			}
+
+			
+		};
+	}
 }

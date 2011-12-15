@@ -113,12 +113,12 @@ public class DDataset extends uk.icat3.client.Dataset implements IMetadataProvid
 		pairs.put("TYPE",this.getDatasetType());
 		pairs.put("DESCRIPTION",this.getDescription());
 		pairs.put("LOCATION",this.getLocation());
-		//pairs.put("INVESTIGATION_ID", Long.toString(((Dataset)this).getInvestigationId()));
+		//pairs.put("INVESTIGATION_ID", Long.toString(super.getInvestigationId()));
 		//pairs.put("SAMPLE_ID", Long.toString(this.getSampleId()));
 		//pairs.put("SAMPLE_ID", Long.toString(this.getUniqueId()));
 		
 		final HashMap <String, String> name = new HashMap<String, String>();
-		name.put("NAME", this.getName());
+		name.put("NAME", "DATASET: "+this.getName());
 		
 		return new MetaDataAdapter(){
 

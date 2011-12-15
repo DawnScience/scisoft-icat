@@ -1,6 +1,8 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.data;
 
+import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.analysis.dataset.IMetadataProvider;
 import uk.ac.diamond.scisoft.analysis.io.IMetaData;
 import uk.ac.diamond.scisoft.analysis.io.MetaDataAdapter;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.UnitsConverter;
 
 
 /**
@@ -130,14 +133,41 @@ public class DInvestigation extends uk.icat3.client.Investigation implements IMe
         }
     }
 
-	@Override
+    @Override
 	public IMetaData getMetadata() throws Exception {
-		TreeMap <String, String> pairs = new TreeMap<String, String>();	
-		pairs.put("INVESTIGATION ID", "123");
-		pairs.put("INVESTIGATION NAME","some name");
+		final HashMap <String, String> pairs = new HashMap<String, String>();	
+		pairs.put("ID", Long.toString(this.getId()));
+		pairs.put("INSTRUMENT",this.getInstrument());
+		pairs.put("INV_NUMBER",this.getInv_number());
+		pairs.put("VISIT_ID",this.getVisitId());
+		pairs.put("START_DATE", UnitsConverter.gregorianToString(this.getInvStartDate()));
+		pairs.put("END_DATE", UnitsConverter.gregorianToString(this.getInvEndDate()));
 		
 		
-		return new MetaDataAdapter((Collection<String>)pairs, null);
+		final HashMap <String, String> name = new HashMap<String, String>();
+		name.put("INV_ID", "INVESTIGATION: "+this.getVisitId());
+		
+		return new MetaDataAdapter(){
+
+			@Override
+			public Serializable getMetaValue(String key) throws Exception {
+				return pairs.get(key);
+			}
+
+			@Override
+			public Collection<String> getMetaNames() throws Exception {
+				
+				return pairs.keySet();
+			}
+			
+			@Override
+			public Collection<String> getDataNames() {
+				
+				return name.values();
+			}
+
+			
+		};
 	}
 
 
