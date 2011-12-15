@@ -2,6 +2,7 @@ package uk.ac.diamond.scisoft.icatexplorer.rcp.editors;
 
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -14,8 +15,14 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.icatexplorer.rcp.data.DDataset;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
@@ -27,12 +34,14 @@ import uk.icat3.client.SessionException_Exception;
 
 
 
-public class DDatasetEditor extends EditorPart {
+public class DDatasetEditor extends EditorPart implements ISelectionListener{
+	public DDatasetEditor() {
+	}
 	
 	public static final String ID = "uk.ac.diamond.scisoft.icatexplorer.rcp.editors.dataseteditor";
 	private uk.icat3.client.Dataset dataset;
 	private DDatasetEditorInput input;
-	//private final static Logger logger = Logger.getLogger(DDatasetEditor.class);
+	private final static Logger logger = LoggerFactory.getLogger(DDatasetEditor.class);
 
 
 	// Will be called before createPartControl
@@ -226,6 +235,13 @@ public class DDatasetEditor extends EditorPart {
 
 	@Override
 	public void setFocus() {
+	}
+
+	@Override
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		
+		logger.debug("selection changed yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+		
 	}
 
 }

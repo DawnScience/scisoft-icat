@@ -1,22 +1,24 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.data;
 
-import java.util.List;
 
-import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
-//import uk.ac.diamond.scisoft.icatexplorer.rcp.data.DDatafile;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import uk.ac.diamond.scisoft.analysis.dataset.IMetadataProvider;
+import uk.ac.diamond.scisoft.analysis.io.IMetaData;
+import uk.ac.diamond.scisoft.analysis.io.MetaDataAdapter;
 import uk.icat3.client.Datafile;
-import uk.icat3.client.Dataset;
-import uk.icat3.client.DatasetInclude;
-import uk.icat3.client.InsufficientPrivilegesException_Exception;
-import uk.icat3.client.NoSuchObjectFoundException_Exception;
-import uk.icat3.client.SessionException_Exception;
 
 /**
  * DDataset element
  * @author smw81327
  * @version $Id$
  */
-public class DDataset extends uk.icat3.client.Dataset
+public class DDataset extends uk.icat3.client.Dataset implements IMetadataProvider
 {
    	private String name;
     private long id;
@@ -26,7 +28,8 @@ public class DDataset extends uk.icat3.client.Dataset
 	private List<uk.icat3.client.Datafile> idatafiles;
 	private DInvestigation dInvestigation;
 
-    /**
+
+	/**
      * Constructor
      */
     public DDataset(long id, String name)
@@ -83,7 +86,7 @@ public class DDataset extends uk.icat3.client.Dataset
 		return idatafiles;
 	}
 
-	public void setIDatafiles(List idatafiles) {
+	public void setIDatafiles(List<Datafile> idatafiles) {
 		this.idatafiles = idatafiles;
 	}
 	
@@ -100,5 +103,45 @@ public class DDataset extends uk.icat3.client.Dataset
     {
         return dInvestigation;
     }
+
+	@Override
+	public IMetaData getMetadata() throws Exception {
+		final HashMap <String, String> pairs = new HashMap<String, String>();	
+		pairs.put("ID", Long.toString(this.getId()));
+		pairs.put("NAME",this.getName());
+		pairs.put("STATUS",this.getDatasetStatus());
+		pairs.put("TYPE",this.getDatasetType());
+		pairs.put("DESCRIPTION",this.getDescription());
+		pairs.put("LOCATION",this.getLocation());
+		//pairs.put("INVESTIGATION_ID", Long.toString(((Dataset)this).getInvestigationId()));
+		//pairs.put("SAMPLE_ID", Long.toString(this.getSampleId()));
+		//pairs.put("SAMPLE_ID", Long.toString(this.getUniqueId()));
+		
+		final HashMap <String, String> name = new HashMap<String, String>();
+		name.put("NAME", this.getName());
+		
+		return new MetaDataAdapter(){
+
+			@Override
+			public Serializable getMetaValue(String key) throws Exception {
+				return pairs.get(key);
+			}
+
+			@Override
+			public Collection<String> getMetaNames() throws Exception {
+				
+				return pairs.keySet();
+			}
+			
+			@Override
+			public Collection<String> getDataNames() {
+				
+				return name.values();
+			}
+
+			
+		};
+	}
+
 
 }

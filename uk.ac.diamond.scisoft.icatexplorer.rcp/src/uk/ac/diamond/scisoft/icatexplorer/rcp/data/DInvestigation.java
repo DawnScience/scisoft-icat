@@ -1,14 +1,22 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.data;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import uk.ac.diamond.scisoft.analysis.dataset.IMetadataProvider;
+import uk.ac.diamond.scisoft.analysis.io.IMetaData;
+import uk.ac.diamond.scisoft.analysis.io.MetaDataAdapter;
 
 
 /**
  * @author smw81327
  * @version $Id$
  */
-public class DInvestigation extends uk.icat3.client.Investigation
+public class DInvestigation extends uk.icat3.client.Investigation implements IMetadataProvider
 {
 	
     private static final Logger logger = LoggerFactory.getLogger(DInvestigation.class); 
@@ -121,5 +129,16 @@ public class DInvestigation extends uk.icat3.client.Investigation
             children[i].setParent(dInv);
         }
     }
+
+	@Override
+	public IMetaData getMetadata() throws Exception {
+		TreeMap <String, String> pairs = new TreeMap<String, String>();	
+		pairs.put("INVESTIGATION ID", "123");
+		pairs.put("INVESTIGATION NAME","some name");
+		
+		
+		return new MetaDataAdapter((Collection<String>)pairs, null);
+	}
+
 
 }

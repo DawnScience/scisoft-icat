@@ -208,17 +208,18 @@ public class LoginView extends ViewPart {
     		//open data plot view
     		 String plot = PlotView.ID + "DP";
     		 logger.debug("showing view: " + plot);
-    		 window.getActivePage().showView(plot);
-    		 
-    		//open data side plot view
-//    		 String sidePlot = SidePlotView.ID + ":Dataset Plot"; 
-//    		 logger.debug("showing view: " + sidePlot);
-//    		 window.getActivePage().showView(sidePlot);
+    		 window.getActivePage().showView(plot);    		 
     		 
     		 //open data inspector view
     		 String inspector = DatasetInspectorView.ID; 
     		 logger.debug("showing view: " + inspector);
     		 window.getActivePage().showView(inspector);
+    		 
+    		 // open header table view
+    		 String headerTable = "fable.imageviewer.views.HeaderView";
+    		 logger.debug("showing view: " + headerTable);
+    		 window.getActivePage().showView(headerTable);
+    		 
     		
 	} catch (PartInitException e1) {
     		 // TODO Auto-generated catch block

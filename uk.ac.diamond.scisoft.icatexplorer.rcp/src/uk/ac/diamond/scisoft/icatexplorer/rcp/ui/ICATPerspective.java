@@ -28,15 +28,15 @@ public class ICATPerspective implements IPerspectiveFactory {
 
 		// place holders for remaining views
 		String plot = PlotView.ID + "DP";
-		right.addPlaceholder(plot);
-		
+		right.addPlaceholder(plot);		
 		right.addPlaceholder(SidePlotView.ID + ":*");
 
-		String inspector = DatasetInspectorView.ID;
 		bottom.addView("fable.imageviewer.views.HeaderView");
+		String inspector = DatasetInspectorView.ID;
 		bottom.addView(inspector);
 		if (layout.getViewLayout(inspector) != null)
 			layout.getViewLayout(inspector).setCloseable(false);
+				
 
 	}
 

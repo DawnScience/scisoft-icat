@@ -16,4 +16,6 @@ Bundle-ActivationPolicy: lazy
 Import-Package: com.jcraft.jsch;version="0.1.41",
  org.apache.commons.io,
  org.slf4j,
+ uk.ac.diamond.scisoft.analysis.dataset,
+ uk.ac.diamond.scisoft.analysis.io,
  uk.ac.gda.common.rcp.util

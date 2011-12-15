@@ -10,12 +10,9 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.navigator.CommonActionProvider;
 import org.eclipse.ui.navigator.ICommonActionConstants;
 import org.eclipse.ui.navigator.ICommonActionExtensionSite;
@@ -25,17 +22,8 @@ import org.eclipse.ui.navigator.ICommonViewerWorkbenchSite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.rcp.views.DatasetInspectorView;
-import uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView;
-import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.data.DDataset;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.data.DInvestigation;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DDatasetEditor;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DDatasetEditorInput;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DInvestigationEditor;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DInvestigationEditorInput;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DatafileEditor;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.editors.DatafileEditorInput;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.jobs.JobTrainingBean;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.sftpclient.SftpClient;
@@ -94,6 +82,7 @@ public class CNFActionProvider extends CommonActionProvider
         {
             ICommonViewerWorkbenchSite workbenchSite = (ICommonViewerWorkbenchSite) viewSite;
             openAction = new OpenChildAction(workbenchSite.getPage(), workbenchSite.getSelectionProvider());
+           
         }
     }
     
@@ -164,36 +153,36 @@ public class CNFActionProvider extends CommonActionProvider
     			if (data instanceof DInvestigation) {
     				DInvestigation dinvestigation = (DInvestigation) data;
 
-    				try {
-    					DInvestigationEditorInput input = new DInvestigationEditorInput(dinvestigation); 					
-    					page.openEditor((IEditorInput) input, DInvestigationEditor.ID);
-    					
-    				} catch (PartInitException e) {
-    					throw new RuntimeException(e);
-    				}
+//    				try {
+//    					DInvestigationEditorInput input = new DInvestigationEditorInput(dinvestigation); 					
+//    					page.openEditor((IEditorInput) input, DInvestigationEditor.ID);
+//    					
+//    				} catch (PartInitException e) {
+//    					throw new RuntimeException(e);
+//    				}
     			}else if (data instanceof DDataset) {
     				DDataset ddataset = (DDataset) data;
 
-    				try {
-    					DDatasetEditorInput input = new DDatasetEditorInput(ddataset); 					
-    					page.openEditor((IEditorInput) input, DDatasetEditor.ID);
-    					
-    				} catch (PartInitException e) {
-    					throw new RuntimeException(e);
-    				}
+//    				try {
+//    					DDatasetEditorInput input = new DDatasetEditorInput(ddataset); 					
+//    					page.openEditor((IEditorInput) input, DDatasetEditor.ID);    					    				
+//    					
+//    				} catch (PartInitException e) {
+//    					throw new RuntimeException(e);
+//    				}
     		         		     
     			}else if (data instanceof Datafile) {
     				Datafile datafile = (Datafile) data;
     				logger.debug("opening " + datafile.getLocation() + " with id: " +datafile.getId());
     				
-    				// open datafile editor
-    				try {
-    					DatafileEditorInput input = new DatafileEditorInput(datafile); 					
-    					page.openEditor((IEditorInput) input, DatafileEditor.ID);
-    					
-    				} catch (PartInitException e) {
-    					throw new RuntimeException(e);
-    				}
+//    				// open datafile editor
+//    				try {
+//    					DatafileEditorInput input = new DatafileEditorInput(datafile); 					
+//    					page.openEditor((IEditorInput) input, DatafileEditor.ID);
+//    					
+//    				} catch (PartInitException e) {
+//    					throw new RuntimeException(e);
+//    				}
     				
     				// check current operating system
     				if (OSDetector.isUnix()){
@@ -254,43 +243,6 @@ public class CNFActionProvider extends CommonActionProvider
 							String fedid = ICATSessionDetails.icatClient.getFedId();
 							String password = ICATSessionDetails.icatClient.getPassword();
 							
-//							//begin use of progress monitor
-//							dataBean.setInput("Text01");//(inputText.getText());
-//							
-//							UIJob clearText = new UIJob("Text02") {
-//
-//								@Override
-//								public IStatus runInUIThread(
-//										IProgressMonitor arg0) {
-//									//lower.setText("");
-//									//upper.setText("");
-//									//back.setText("");
-//									dataBean.setBackwards("");
-//									dataBean.setLowercase("");
-//									dataBean.setUppercase("");
-//									return Status.OK_STATUS;
-//								}
-//								
-//							
-//							};
-//							clearText.setUser(true);
-//							clearText.schedule();
-//							
-//							
-//							IJobManager manager = Job.getJobManager();
-//							//manager.cancel(TO_LOWERCASE);
-//							
-//							
-//							SftpJob sftbJob = new SftpJob("file download from Diamond", dataBean);
-//							//TextToUppercase ttuc = new TextToUppercase(TO_UPPERCASE, dataBean);
-//							//TextBackwards tb = new TextBackwards(BACKWARDS, dataBean);
-//							
-//							sftbJob.setUser(true);
-//							sftbJob.schedule();
-//							//ttuc.schedule();
-//							//tb.schedule();
-//							//end use of progress monitor
-							
 							SftpClient sftpClient = new SftpClient();
 							localFilePath = sftpClient.downloadFile(fedid, password, sftpServer, datafile.getLocation(), file2.getPath()/*downloadDir*/);
 							
@@ -316,7 +268,8 @@ public class CNFActionProvider extends CommonActionProvider
     			}// end if data <> null	
             super.run();
         }
-
+        
+        // handle single click
         @Override
         public boolean isEnabled()
         {
@@ -328,14 +281,33 @@ public class CNFActionProvider extends CommonActionProvider
                 if (sSelection.size() == 1 && sSelection.getFirstElement() instanceof DInvestigation) 
                 {
                     data = (DInvestigation)sSelection.getFirstElement();
+                    
+//            		try {
+//    					DInvestigationEditorInput input = new DInvestigationEditorInput((DInvestigation)data); 					
+//    					page.openEditor((IEditorInput) input, DInvestigationEditor.ID);
+//    					
+//    				} catch (PartInitException e) {
+//    					throw new RuntimeException(e);
+//    				}
+                    
                     return true;
                 }else if (sSelection.size() == 1 && sSelection.getFirstElement() instanceof DDataset) 
                 {
-                    data = (DDataset) sSelection.getFirstElement();
+                    data = (DDataset) sSelection.getFirstElement();                    
                     return true;
                 }else if (sSelection.getFirstElement() instanceof Datafile) 
                 {
                     data = (Datafile) sSelection.getFirstElement();
+                    
+                   // open datafile editor
+//    				try {
+//    					DatafileEditorInput input = new DatafileEditorInput((Datafile)data); 					
+//    					page.openEditor((IEditorInput) input, DatafileEditor.ID);
+//    					
+//    				} catch (PartInitException e) {
+//    					throw new RuntimeException(e);
+//    				}
+                    
                     return true;
                 }
             }

@@ -67,7 +67,7 @@ public class DatafileEditor extends EditorPart {
 		table.setItemCount(itemCount);
 		
 		table = new Table(container, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setBounds(10, 10, 429, 306);
+		table.setBounds(10, 10, 429, 410);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
