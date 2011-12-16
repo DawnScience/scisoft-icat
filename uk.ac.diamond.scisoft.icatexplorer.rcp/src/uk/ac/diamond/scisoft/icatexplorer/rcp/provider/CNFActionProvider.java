@@ -152,37 +152,12 @@ public class CNFActionProvider extends CommonActionProvider
     			// If we had a selection lets open the editor
     			if (data instanceof DInvestigation) {
     				DInvestigation dinvestigation = (DInvestigation) data;
-
-//    				try {
-//    					DInvestigationEditorInput input = new DInvestigationEditorInput(dinvestigation); 					
-//    					page.openEditor((IEditorInput) input, DInvestigationEditor.ID);
-//    					
-//    				} catch (PartInitException e) {
-//    					throw new RuntimeException(e);
-//    				}
     			}else if (data instanceof DDataset) {
     				DDataset ddataset = (DDataset) data;
-
-//    				try {
-//    					DDatasetEditorInput input = new DDatasetEditorInput(ddataset); 					
-//    					page.openEditor((IEditorInput) input, DDatasetEditor.ID);    					    				
-//    					
-//    				} catch (PartInitException e) {
-//    					throw new RuntimeException(e);
-//    				}
     		         		     
     			}else if (data instanceof Datafile) {
     				Datafile datafile = (Datafile) data;
     				logger.debug("opening " + datafile.getLocation() + " with id: " +datafile.getId());
-    				
-//    				// open datafile editor
-//    				try {
-//    					DatafileEditorInput input = new DatafileEditorInput(datafile); 					
-//    					page.openEditor((IEditorInput) input, DatafileEditor.ID);
-//    					
-//    				} catch (PartInitException e) {
-//    					throw new RuntimeException(e);
-//    				}
     				
     				// check current operating system
     				if (OSDetector.isUnix()){
@@ -238,7 +213,6 @@ public class CNFActionProvider extends CommonActionProvider
     						if(!(new File(localFilePath)).exists()){
    							// download file to temp dir
 							logger.info("downloading datafile id: " + datafile.getId());
-							//String fileURL = ICATSessionDetails.icatClient.getIcat().downloadDatafile(ICATSessionDetails.icatClient.getSessionId(), datafile.getId());
 							
 							String fedid = ICATSessionDetails.icatClient.getFedId();
 							String password = ICATSessionDetails.icatClient.getPassword();
@@ -282,14 +256,6 @@ public class CNFActionProvider extends CommonActionProvider
                 {
                     data = (DInvestigation)sSelection.getFirstElement();
                     
-//            		try {
-//    					DInvestigationEditorInput input = new DInvestigationEditorInput((DInvestigation)data); 					
-//    					page.openEditor((IEditorInput) input, DInvestigationEditor.ID);
-//    					
-//    				} catch (PartInitException e) {
-//    					throw new RuntimeException(e);
-//    				}
-                    
                     return true;
                 }else if (sSelection.size() == 1 && sSelection.getFirstElement() instanceof DDataset) 
                 {
@@ -298,15 +264,6 @@ public class CNFActionProvider extends CommonActionProvider
                 }else if (sSelection.getFirstElement() instanceof Datafile) 
                 {
                     data = (Datafile) sSelection.getFirstElement();
-                    
-                   // open datafile editor
-//    				try {
-//    					DatafileEditorInput input = new DatafileEditorInput((Datafile)data); 					
-//    					page.openEditor((IEditorInput) input, DatafileEditor.ID);
-//    					
-//    				} catch (PartInitException e) {
-//    					throw new RuntimeException(e);
-//    				}
                     
                     return true;
                 }

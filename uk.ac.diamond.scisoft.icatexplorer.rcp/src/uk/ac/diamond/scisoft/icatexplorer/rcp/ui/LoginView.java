@@ -54,6 +54,18 @@ public class LoginView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
+		container.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+			// if ENTER key pressed, launch login
+				logger.debug("Key pressed: " + e.keyCode);
+				if(e.keyCode == 13){ //ENTER key pressed
+					logger.debug("ENTER button pressed");
+					login();
+				}
+				
+			}
+		});
 		
 		container.setBackground(com.swtdesigner.SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
@@ -64,7 +76,8 @@ public class LoginView extends ViewPart {
 		passwordText.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.keyCode == 13){ //ENTER key pressed
+				logger.debug("key pressed: " + e.keyCode);
+				if(e.keyCode == 13 || e.keyCode == 16777296){ //ENTER key pressed
 					logger.debug("ENTER button pressed");
 					login();
 				}
@@ -117,9 +130,10 @@ public class LoginView extends ViewPart {
 		resetBtn.setText("Reset");
 		
 		messageLbl = new Label(container, SWT.NONE);
+		messageLbl.setFont(org.eclipse.wb.swt.SWTResourceManager.getFont("Tahoma", 8, SWT.BOLD));
 		messageLbl.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		messageLbl.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		messageLbl.setBounds(76, 178, 324, 19);
+		messageLbl.setBounds(27, 178, 324, 19);
 		
 		Label icatImageLabel = new Label(container, SWT.NONE);
 		icatImageLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -161,11 +175,12 @@ public class LoginView extends ViewPart {
 	
 	public void login(){
 		
-		messageLbl.setText("");
+		messageLbl.setForeground(com.swtdesigner.SWTResourceManager.getColor(SWT.COLOR_BLACK));
+		messageLbl.setText("Authenticating, please wait...");
 		
 		// perform icat authentication
 		ICATClient icat = new ICATClient();
-		ICATSessionDetails sessionDetails = new ICATSessionDetails(icat);
+		ICATSessionDetails.setICAT(icat);
 	
 		
 		String fedid    = fedidText.getText();
@@ -173,6 +188,7 @@ public class LoginView extends ViewPart {
     	
     	if ( icat.login(fedid, password) != null){
     		
+    		messageLbl.setText("User '" + fedid + "' logged into the ICAT.");// should take into account session
     		logger.info("authentication successful!");
     		
     		fedidText.setEditable(false);
@@ -229,6 +245,7 @@ public class LoginView extends ViewPart {
     		
     	}else{
     		String message = "failed to authenticate, please check your fedid and password!";
+    		messageLbl.setForeground(com.swtdesigner.SWTResourceManager.getColor(SWT.COLOR_RED));
     		messageLbl.setText(message);
     		logger.error(message);
     	}

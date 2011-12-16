@@ -222,17 +222,13 @@ public class CNFContentProvider implements ITreeContentProvider
     			logger.info("InvestigationsList.size(): "
     					+ InvestigationsList.size());
     		} catch (MalformedURLException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
+    			logger.error("can't retrieve investigation list", e);
     		} catch (SessionException_Exception e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
+    			logger.error("can't retrieve investigation list", e);
     		} catch (InsufficientPrivilegesException_Exception e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
+    			logger.error("can't retrieve investigation list", e);
     		} catch (NoSuchObjectFoundException_Exception e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
+    			logger.error("can't retrieve investigation list", e);
     		}
     		// populate investigations
     		int nbInv = InvestigationsList.size();

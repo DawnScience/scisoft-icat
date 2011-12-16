@@ -13,9 +13,14 @@ public final class ICATSessionDetails {
 	
 	public ICATSessionDetails(ICATClient icatClient){
 		
-		this.icatClient = icatClient;
-		
+		icatClient = icatClient;	
 		logger.debug("icatClient object initialized");
+	}
+	
+	public static void setICAT(ICATClient icat){
+		icatClient = icat;
+		logger.debug("icatClient object initialized");
+
 	}
 	
 }
