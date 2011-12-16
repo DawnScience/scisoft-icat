@@ -83,9 +83,6 @@ public class CNFContentProvider implements ITreeContentProvider
     	        
     	        for(int k=0; k< ddatafiles.length; k++){
     				
-    				//DDatafile datafile = new DDatafile(dataset.getDatafileCollection().get(k).getName(), dataset.getDatafileCollection().get(k).getLocation());
-    				//DDatafile datafile = (DDatafile) dataset.getDatafileCollection().get(k);
-
     				ddatafiles[k] = dataset.getDatafileCollection().get(k); //.setChildren[datafile];//dataset.getDatafiles().add(datafile);
     				
     			}
@@ -121,8 +118,7 @@ public class CNFContentProvider implements ITreeContentProvider
     		sessionId = ICATSessionDetails.icatClient.getSessionId();
         	dinvId = ((DInvestigation) parentElement).getId();
         	filledInv = ICATSessionDetails.icatClient.getIcat().getInvestigationIncludes(sessionId, dinvId, InvestigationInclude.DATASETS_ONLY);
-			List<Dataset> dList = filledInv.getDatasetCollection();
-			
+						
 			int datasetColSize = filledInv.getDatasetCollection().size();
 							
 			datasetList = new Dataset[datasetColSize];
@@ -130,22 +126,22 @@ public class CNFContentProvider implements ITreeContentProvider
 			children = new DDataset[datasetList.length];
 			
 			for (int i=0; i< datasetColSize; i++) {
+                Dataset dataset = (Dataset)filledInv.getDatasetCollection().get(i);
                 
-                DDataset ddataset = new DDataset((dList.get(i)).getId(), (dList.get(i)).getName());
+            	DDataset ddataset = new DDataset(dataset.getId(), dataset.getName(), dataset.getDatasetStatus(),
+    			dataset.getDatasetType(), dataset.getDescription(), dataset.getInvestigationId(), dataset.getLocation(),
+    			dataset.getSampleId(), dataset.getUniqueId());
+                
 				children[i] = ddataset;
             }
 						
     	} catch (InsufficientPrivilegesException_Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchObjectFoundException_Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SessionException_Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	dinv.setChildren(children);	

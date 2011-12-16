@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 import uk.icat3.client.Dataset;
+import uk.icat3.client.DatasetInclude;
 import uk.icat3.client.ICAT;
 import uk.icat3.client.ICATService;
 import uk.icat3.client.InsufficientPrivilegesException_Exception;
@@ -263,6 +264,18 @@ public class ICATClient{
 			
 		return truststorePath.getAbsolutePath();
 		
+	}
+
+	public Dataset getDataset(Long datasetId) {
+		
+		ICAT icat;
+		try {
+			icat = getIcat();
+			return icat.getDatasetIncludes(this.sessionId, datasetId, DatasetInclude.DATASET_PARAMETERS_ONLY);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

@@ -4,14 +4,13 @@ package uk.ac.diamond.scisoft.icatexplorer.rcp.data;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.IMetadataProvider;
 import uk.ac.diamond.scisoft.analysis.io.IMetaData;
 import uk.ac.diamond.scisoft.analysis.io.MetaDataAdapter;
-import uk.icat3.client.Datafile;
 
 /**
  * DDataset element
@@ -20,13 +19,80 @@ import uk.icat3.client.Datafile;
  */
 public class DDataset extends uk.icat3.client.Dataset implements IMetadataProvider
 {
+	
+    private static final Logger logger = LoggerFactory.getLogger(DDataset.class); 
+	
    	private String name;
     private long id;
-
-    private int nbDatafiles;
-    private List datafiles;
-	private List<uk.icat3.client.Datafile> idatafiles;
+    private long sample_id;
+	private long investigation_id;
+    private String dataset_type;
+    private String dataset_status;
+    private String location;
+    private String description;
+    private String mod_time;
+    private String mod_id;
+    private String create_time;
+    private String create_id;
+    private String facility_acquired;
+    private String deleted;
+    
 	private DInvestigation dInvestigation;
+
+    public long getSample_id() {
+		return sample_id;
+	}
+
+	
+	public long getInvestigation_id() {
+		return investigation_id;
+	}
+
+	public String getDataset_type() {
+		return dataset_type;
+	}
+
+	public String getDataset_status() {
+		return dataset_status;
+	}
+
+	public String getLocation() {
+		return super.location;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public String getMod_time() {
+		return mod_time;
+	}
+
+
+	public String getMod_id() {
+		return mod_id;
+	}
+
+	public String getCreate_time() {
+		return create_time;
+	}
+
+	public String getCreate_id() {
+		return create_id;
+	}
+
+	public String getFacility_acquired() {
+		return facility_acquired;
+	}
+
+	public String getDeleted() {
+		return deleted;
+	}
+
+
+	public String getName() {
+		return name;
+	}
 
 
 	/**
@@ -39,57 +105,26 @@ public class DDataset extends uk.icat3.client.Dataset implements IMetadataProvid
         this.name = name;
     }
 
-    // getters and setter
-    public String getName()
-    {
-        return name;
+    public DDataset(Long id, String name, String datasetStatus,
+			String datasetType, String description, Long investigationId,
+			String location, Long sampleId, String uniqueId) {
+    	
+    	this.id = id;
+    	this.name = name;
+    	this.dataset_status = datasetStatus;
+    	this.dataset_type = datasetType;
+    	this.description = description;
+    	this.investigation_id = investigationId;
+    	this.location = location;  	
+    	//this.sample_id = sampleId;  	
+    
     }
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-    
-    
-    public int getNbDatafiles() {
-		return nbDatafiles;
-	}
 
-	public void setNbDatafiles(int nbDatafiles) {
-		this.nbDatafiles = nbDatafiles;
-	}
-	
-	public List getDDatafiles() {
-		return datafiles;
-	}
-
-	public void setDDatafiles(List datafiles) {
-		this.datafiles = datafiles;
-	}
-	
 	public Long getId() {
 			return this.id;
 		}
-	 
-	public void setId(long id) {
-		this.id = id;
-	}
 
-	public List getDatafiles() {
-		return datafiles;
-	}
-
-	public void setDatafiles(List datafiles) {
-		this.datafiles = datafiles;
-	}
-	public List<uk.icat3.client.Datafile> getIDatafiles() {
-		return idatafiles;
-	}
-
-	public void setIDatafiles(List<Datafile> idatafiles) {
-		this.idatafiles = idatafiles;
-	}
-	
 	
     /**
      * @param dInvestigation
@@ -108,14 +143,19 @@ public class DDataset extends uk.icat3.client.Dataset implements IMetadataProvid
 	public IMetaData getMetadata() throws Exception {
 		final HashMap <String, String> pairs = new HashMap<String, String>();	
 		pairs.put("ID", Long.toString(this.getId()));
+		pairs.put("SAMPLE_ID", Long.toString(this.getSample_id()));
+		pairs.put("INVESTIGATION_ID", Long.toString(this.getInvestigation_id()));
 		pairs.put("NAME",this.getName());
-		pairs.put("STATUS",this.getDatasetStatus());
-		pairs.put("TYPE",this.getDatasetType());
-		pairs.put("DESCRIPTION",this.getDescription());
+		pairs.put("DATASET_TYPE",this.getDataset_type());
+		pairs.put("DATASET_STATUS",this.getDataset_status());
 		pairs.put("LOCATION",this.getLocation());
-		//pairs.put("INVESTIGATION_ID", Long.toString(super.getInvestigationId()));
-		//pairs.put("SAMPLE_ID", Long.toString(this.getSampleId()));
-		//pairs.put("SAMPLE_ID", Long.toString(this.getUniqueId()));
+		pairs.put("DESCRIPTION", this.getDescription());
+		//pairs.put("MOD_TIME", UnitsConverter.gregorianToString(this.get .get.getMod_time()));
+		//pairs.put("MOD_ID", Long.toString(this.getMod_id()));
+		//pairs.put("CREATE_TIME", UnitsConverter.gregorianToString(this.getCreate_time()));
+		//pairs.put("CREATE_ID", Long.toString(this.getMod_id()));
+		//pairs.put("FACILITY_ACQUIRED", this.getFacility_acquired());
+		//pairs.put("DELETED", this.getDeleted());
 		
 		final HashMap <String, String> name = new HashMap<String, String>();
 		name.put("NAME", "DATASET: "+this.getName());

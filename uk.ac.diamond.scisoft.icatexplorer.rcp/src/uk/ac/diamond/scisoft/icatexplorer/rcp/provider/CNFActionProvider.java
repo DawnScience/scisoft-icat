@@ -25,7 +25,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.data.DDataset;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.data.DInvestigation;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.jobs.JobTrainingBean;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.sftpclient.SftpClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.FilenameUtils;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
@@ -48,7 +47,6 @@ public class CNFActionProvider extends CommonActionProvider
 	private Properties properties;
 	private String downloadDir;
 	private String sftpServer;
-	private static JobTrainingBean dataBean = new JobTrainingBean();;
 
 
     public CNFActionProvider()
@@ -68,8 +66,7 @@ public class CNFActionProvider extends CommonActionProvider
 			}
 				
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.debug("cannot read icatexplorer");
+			logger.error("cannot read properties file", e);
 		}
 
     }
@@ -259,7 +256,7 @@ public class CNFActionProvider extends CommonActionProvider
                     return true;
                 }else if (sSelection.size() == 1 && sSelection.getFirstElement() instanceof DDataset) 
                 {
-                    data = (DDataset) sSelection.getFirstElement();                    
+                	data = (DDataset) sSelection.getFirstElement();                  
                     return true;
                 }else if (sSelection.getFirstElement() instanceof Datafile) 
                 {

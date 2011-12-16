@@ -13,7 +13,7 @@ public final class ICATSessionDetails {
 	
 	public ICATSessionDetails(ICATClient icatClient){
 		
-		icatClient = icatClient;	
+		this.icatClient = icatClient;	
 		logger.debug("icatClient object initialized");
 	}
 	

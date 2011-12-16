@@ -35,10 +35,6 @@ public class LoginView extends ViewPart {
 
 	public static final String ID = "uk.ac.diamond.scisoft.icatlogin.rcp.ui.LoginView"; //$NON-NLS-1$
 	
-	private String fedid = "";
-	private String password="";
-	private Properties properties;
-	
 	private Text fedidText;
 	private Text passwordText;
 	private Label messageLbl;
@@ -76,7 +72,6 @@ public class LoginView extends ViewPart {
 		passwordText.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				logger.debug("key pressed: " + e.keyCode);
 				if(e.keyCode == 13 || e.keyCode == 16777296){ //ENTER key pressed
 					logger.debug("ENTER button pressed");
 					login();
@@ -85,9 +80,7 @@ public class LoginView extends ViewPart {
 		});
 		passwordText.setEchoChar('*');
 		passwordText.setBounds(98, 96, 138, 19);
-		passwordText.setText(password);
-		//
-		
+					
 		Label fedidLbl = new Label(container, SWT.NONE);
 		fedidLbl.setFont(com.swtdesigner.SWTResourceManager.getFont("Tahoma", 9, SWT.BOLD));
 		fedidLbl.setBackground(com.swtdesigner.SWTResourceManager.getColor(SWT.COLOR_WHITE));

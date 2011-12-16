@@ -1,10 +1,19 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.data;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.analysis.dataset.IMetadataProvider;
+import uk.ac.diamond.scisoft.analysis.io.IMetaData;
+import uk.ac.diamond.scisoft.analysis.io.MetaDataAdapter;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
 
-public class DIcat {
+
+public class DIcat implements IMetadataProvider{
 
 	private DInvestigation[] children = new DInvestigation[0];
     private Object rootElement;
@@ -22,8 +31,7 @@ public class DIcat {
      */
     public DIcat(String fedid, String host)
     {
-        logger.debug("creating dicat object");
-    	//super(name);
+
         this.fedid = fedid;
         this.host = host;
 
@@ -87,6 +95,40 @@ public class DIcat {
 	public int getNbInvestigations() {
 
 		return nbInvestigations;		
+	}
+
+	@Override
+	public IMetaData getMetadata() throws Exception {
+		final HashMap <String, String> pairs = new HashMap<String, String>();	
+		pairs.put("FACILITY", "DLS");
+		pairs.put("ICAT_HOSTED_AT", this.getHost());
+		pairs.put("SESSION_ID", ICATSessionDetails.icatClient.getSessionId());
+		pairs.put("FED_ID", ICATSessionDetails.icatClient.getFedId());
+						
+		final HashMap <String, String> name = new HashMap<String, String>();
+		name.put("NAME", "ICAT CONNECTION DETAILS");
+		
+		return new MetaDataAdapter(){
+
+			@Override
+			public Serializable getMetaValue(String key) throws Exception {
+				return pairs.get(key);
+			}
+
+			@Override
+			public Collection<String> getMetaNames() throws Exception {
+				
+				return pairs.keySet();
+			}
+			
+			@Override
+			public Collection<String> getDataNames() {
+				
+				return name.values();
+			}
+
+			
+		};
 	}
 
 
