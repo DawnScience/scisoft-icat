@@ -57,8 +57,14 @@ public class ICATClient{
 		}
  		
  		logger.debug("truststore.location: " + properties.getProperty("truststore.location"));
- 		 		
- 		System.setProperty("javax.net.ssl.trustStore", getTruststorePath(properties.getProperty("truststore.location")));
+ 		
+ 		// temporary fix to make it work with windows 		
+ 		if (OSDetector.isWindows()){	
+ 	 		System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.windows"));
+		}else{ 
+			System.setProperty("javax.net.ssl.trustStore", getTruststorePath(properties.getProperty("truststore.location")));
+		}
+ 		
  		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
 		
  		logger.debug("using truststore:" + System.getProperty("javax.net.ssl.trustStore"));
@@ -261,7 +267,7 @@ public class ICATClient{
 		File truststorePath = new File(f.getAbsolutePath(), truststoreLocation);
 			
 		logger.debug("initial truststore in: " + truststorePath.getAbsolutePath());
-			
+		
 		return truststorePath.getAbsolutePath();
 		
 	}
