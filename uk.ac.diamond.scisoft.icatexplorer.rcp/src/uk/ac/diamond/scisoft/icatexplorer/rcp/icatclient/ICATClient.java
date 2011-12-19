@@ -60,7 +60,7 @@ public class ICATClient{
  		
  		// temporary fix to make it work with windows 		
  		if (OSDetector.isWindows()){	
- 	 		System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore.windows"));
+ 	 		System.setProperty("javax.net.ssl.trustStore", "C:\\certs\\cacerts.jks");//properties.getProperty("truststore.windows"));
 		}else{ 
 			System.setProperty("javax.net.ssl.trustStore", getTruststorePath(properties.getProperty("truststore.location")));
 		}
