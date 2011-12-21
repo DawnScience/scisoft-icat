@@ -1,19 +1,47 @@
-/*
- * Copyright 2012 Diamond Light Source Ltd.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/*******************************************************************************
+ * Copyright (c) 2011 Google, Inc.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Google, Inc. - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.wb.swt;
 
+import java.io.File;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.resource.CompositeImageDescriptor;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.osgi.framework.Bundle;
+
+/**
+ * Utility class for managing OS resources associated with SWT/JFace controls such as colors, fonts, images,
+ * etc.
+ * 
+ * !!! IMPORTANT !!! Application code must explicitly invoke the <code>dispose()</code> method to release the
+ * operating system resources managed by cached objects when those objects and OS resources are no longer
+ * needed (e.g. on application shutdown)
+ * 
+ * This class may be freely distributed as part of any application or plugin.
+ * <p>
+ * 
+ * @author scheglov_ke
+ * @author Dan Rubel
+ */
 public class ResourceManager extends SWTResourceManager {
 	////////////////////////////////////////////////////////////////////////////
 	//
