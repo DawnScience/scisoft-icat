@@ -141,7 +141,7 @@ public class CNFActionProvider extends CommonActionProvider
     class OpenChildAction extends Action
     {
 		private ISelectionProvider provider;
-        private Object /*DDataset*/ data;
+        private Object data;
 
         public OpenChildAction(IWorkbenchPage workbenchPage, ISelectionProvider selectionProvider)
         {

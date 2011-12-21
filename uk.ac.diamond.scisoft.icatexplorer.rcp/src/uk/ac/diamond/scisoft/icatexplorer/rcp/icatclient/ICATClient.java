@@ -74,13 +74,10 @@ public class ICATClient{
  		logger.debug("truststore.location: " + properties.getProperty("truststore.location"));
  		
  		// temporary fix to make it work with windows 		
- 		if (OSDetector.isWindows()){
- 			logger.debug("Windows system detected");
- 	 		System.setProperty("javax.net.ssl.trustStore", "C:\\sda\\plugins\\uk.ac.diamond.scisoft.icatexplorer.rcp_1.0.0\\certs\\cacerts.jks");//"C:\\sda\\plugins\\uk.ac.diamond.scisoft.icatexplorer.rcp_1.0.0\\certs\\cacerts.jks");//properties.getProperty("truststore.windows"));
-		}else{ 
+ 		if (!OSDetector.isWindows()){
+ 			logger.debug("non-Windows system detected");
 			System.setProperty("javax.net.ssl.trustStore", getTruststorePath(properties.getProperty("truststore.location")));
-		}
- 		
+		} 		
  		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
 		
  		logger.debug("using truststore:" + System.getProperty("javax.net.ssl.trustStore"));
