@@ -94,7 +94,7 @@ public class ICATClient{
  			// load the stream to your store
  			trustStore.load(trustStream, trustPassword);
 
- 			// initialize a trust manager factory with the trusted store
+ 			// initialise a trust manager factory with the trusted store
  			TrustManagerFactory trustFactory = 
  					TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());    
  			trustFactory.init(trustStore);
@@ -113,7 +113,7 @@ public class ICATClient{
  		} catch (KeyStoreException e) {
  			logger.error("Keystore problem: ", e);
  		} catch (NoSuchAlgorithmException e) {
- 			logger.error("truststore problem: ", e);
+ 			logger.error("algorithm problem: ", e);
  		} catch (CertificateException e) {
  			logger.error("certificate problem: ", e);
  		} catch (IOException e) {
