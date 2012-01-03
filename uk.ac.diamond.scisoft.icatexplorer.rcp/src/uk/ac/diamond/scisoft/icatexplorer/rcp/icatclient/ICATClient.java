@@ -2,6 +2,7 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,10 +10,18 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.io.FileUtils;
@@ -45,27 +54,69 @@ public class ICATClient{
     
 
  	public ICATClient(){
- 		
-		
+ 				
  		try {
- 			
+
  			logger.info("reading properties file");
  			properties = PropertiesUtils.readConfigFile();
- 			 			
-		} catch (Exception e) {
-			logger.error( "problem reading properties file", e);
-		}
- 		
+
+ 		} catch (Exception e) {
+ 			logger.error( "problem reading properties file", e);
+ 		}
+
  		logger.debug("truststore.location: " + properties.getProperty("truststore.location"));
+ 		System.out.println("(A) truststore: " + System.getProperty("javax.net.ssl.trustStore"));
+
+ 		// dynamically load the trust store as a stream and initialise it
+ 		InputStream trustStream;
+ 		try {
+ 			trustStream = new FileInputStream(getTruststorePath(properties.getProperty("truststore.location")));//"c:\\certs\\cacerts.jks");
+ 			KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());  
+
+ 			// if your store is password protected then declare it (it can be null however)
+ 			char[] trustPassword = properties.getProperty("truststore.password").toCharArray();
+
+ 			// load the stream to your store
+ 			trustStore.load(trustStream, trustPassword);
+
+ 			// initialize a trust manager factory with the trusted store
+ 			TrustManagerFactory trustFactory = 
+ 					TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());    
+ 			trustFactory.init(trustStore);
+
+ 			// get the trust managers from the factory
+ 			TrustManager[] trustManagers = trustFactory.getTrustManagers();
+
+ 			// initialize an ssl context to use these managers and set as default
+ 			SSLContext sslContext = SSLContext.getInstance("SSL");
+ 			sslContext.init(null, trustManagers, null);
+ 			SSLContext.setDefault(sslContext);
+
+ 			System.out.println("(B) truststore: " + System.getProperty("javax.net.ssl.trustStore"));
+ 		} catch (FileNotFoundException e) {
+ 			logger.error("Can't find truststore file: ", e);
+ 		} catch (KeyStoreException e) {
+ 			logger.error("Keystore problem: ", e);
+ 		} catch (NoSuchAlgorithmException e) {
+ 			logger.error("truststore problem: ", e);
+ 		} catch (CertificateException e) {
+ 			logger.error("certificate problem: ", e);
+ 		} catch (IOException e) {
+ 			logger.error("file exception: ", e);
+ 		} catch (KeyManagementException e) {
+ 			logger.error("ssk key problem: ", e);
+
+ 		}    
+ 			
  		
- 		// temporary fix to make it work with windows 		
- 		if (!OSDetector.isWindows()){
- 			logger.debug("non-Windows system detected");
-			System.setProperty("javax.net.ssl.trustStore", getTruststorePath(properties.getProperty("truststore.location")));
-		} 		
- 		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
-		
- 		logger.debug("using truststore:" + System.getProperty("javax.net.ssl.trustStore"));
+// 		// temporary fix to make it work with windows 		
+// 		if (!OSDetector.isWindows()){
+// 			logger.debug("non-Windows system detected");
+//			System.setProperty("javax.net.ssl.trustStore", getTruststorePath(properties.getProperty("truststore.location")));
+//		} 		
+// 		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
+//		
+// 		logger.debug("using truststore:" + System.getProperty("javax.net.ssl.trustStore"));
 		
 	}
 	
