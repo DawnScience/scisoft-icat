@@ -350,6 +350,7 @@ public class ICATClient{
 	String getTruststorePath2(String truststoreLocation) throws IOException {
 		// getting home directory
 		String tmpDir = System.getProperty("java.io.tmpdir");
+		logger.debug("java.io.tmpdir: " + tmpDir);
 		
 		// copy truststore to current tmp directory
 		java.security.ProtectionDomain pd = ICATClient.class
@@ -374,7 +375,11 @@ public class ICATClient{
 		String filename = truststoreLocation.substring(truststoreLocation.indexOf("/"));
 		File destFile = new File(tmpDir, filename);
         logger.debug("copying from " + truststorePath.getAbsolutePath() + " to " + destFile.getAbsolutePath());
-	    copy(truststorePath.getAbsolutePath(), destFile.getAbsolutePath());    
+        try {
+			copyFile(truststorePath, destFile);
+		} catch (Exception e1) {
+			logger.error("error copying file: ", e1);
+		}    
 		
 		// set permissions on new truststore
 		// for all except Windows
@@ -401,34 +406,23 @@ public class ICATClient{
 		return null;
 	}
 	
-	public static void copy(String fromFileName, String toFileName){
-		    FileInputStream fIn;
-		    FileOutputStream fOut;
-		    FileChannel fIChan, fOChan;
-		    long fSize;
-		    MappedByteBuffer mBuf;
-
-		    try {
-		      fIn = new FileInputStream(fromFileName);
-		      fOut = new FileOutputStream(toFileName);
-
-		      fIChan = fIn.getChannel();
-		      fOChan = fOut.getChannel();
-
-		      fSize = fIChan.size();
-
-		      mBuf = fIChan.map(FileChannel.MapMode.READ_ONLY, 0, fSize);
-
-		      fOChan.write(mBuf); // this copies the file
-
-		      fIChan.close();
-		      fIn.close();
-
-		      fOChan.close();
-		      fOut.close();
-		    } catch (IOException e) {
-		      logger.error("problem copying file: ", e);
-		    } 
-		  }
+	public static void copyFile(File in, File out) throws Exception {
+	    FileInputStream fis  = new FileInputStream(in);
+	    FileOutputStream fos = new FileOutputStream(out);
+	    try {
+	        byte[] buf = new byte[1024];
+	        int i = 0;
+	        while ((i = fis.read(buf)) != -1) {
+	            fos.write(buf, 0, i);
+	        }
+	    } 
+	    catch (Exception e) {
+	        throw e;
+	    }
+	    finally {
+	        if (fis != null) fis.close();
+	        if (fos != null) fos.close();
+	    }
+	  }
 	
 }
