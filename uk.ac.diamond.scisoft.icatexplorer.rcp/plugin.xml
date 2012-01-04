@@ -360,7 +360,7 @@
       <cheatsheet
             category="uk.ac.diamond.scisoft.icatexplorer.rcp.category"
             composite="false"
-            contentFile="src/uk/ac/diamond/scisoft/icatexplorer/rcp/cheatsheets/icatexplorer.xml"
+            contentFile="cheatsheets/icatexplorer.xml"
             id="uk.ac.diamond.scisoft.icatexplorer.rcp.cheatsheet"
             name="Using the ICAT Explorer">
       </cheatsheet>
