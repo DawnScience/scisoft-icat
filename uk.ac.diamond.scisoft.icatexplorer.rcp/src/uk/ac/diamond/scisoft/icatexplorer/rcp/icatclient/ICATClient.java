@@ -313,7 +313,7 @@ public class ICATClient{
 		return url.getHost();
 	}
 	
-	String getTruststorePath(String truststoreLocation) {
+	String getTruststorePath(String truststoreLocation) throws IOException {
 		java.security.ProtectionDomain pd = ICATClient.class
 				.getProtectionDomain();
 		if (pd == null)
@@ -331,6 +331,8 @@ public class ICATClient{
 		File truststorePath = new File(f.getAbsolutePath(), truststoreLocation);
 			
 		logger.debug("initial truststore in: " + truststorePath.getAbsolutePath());
+		
+		Runtime.getRuntime().exec("chmod 777 " + truststorePath.getAbsolutePath());
 		
 		return truststorePath.getAbsolutePath();
 		
