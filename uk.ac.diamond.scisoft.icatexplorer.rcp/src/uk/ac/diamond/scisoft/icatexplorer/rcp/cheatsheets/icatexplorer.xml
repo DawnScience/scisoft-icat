@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<cheatsheet title="Using the ICAT Explorer">
+
+  <intro>
+    <description>
+      This cheat sheet describes how to use the ICAT explorer in order to navigate and display your ICAT data, including investigations, datasets and datafiles.
+    </description>
+  </intro>
+  <item
+        href="/org.eclipse.platform.doc.user/tasks/tasks-1h.htm"
+        title="Open the ICAT Explorer perspective">
+    <description>
+      From the main menu, select Window &gt; Open Perspective &gt; Other...,
+      then select the <b>ICAT</b> perspective.
+    </description>
+    <command
+      serialization="org.eclipse.ui.perspectives.showPerspective(org.eclipse.ui.perspectives.showPerspective.perspectiveId=uk.ac.diamond.scisoft.icatexplorer.rcp.perspective)"
+      confirm="true" translate="" >
+    </command>
+  </item>
+  <item
+        title="Login into the ICAT">
+     <description>
+        In the opened login view, enter your fedid and password, then click the &apos;Login&apos; button or press &apos;Enter&apos; on your keyboard.<br/>
+If the authentication is successful, the ICAT content view will appear containing a list of all your visits registered within the ICAT database.
+     </description>
+  </item>
+
+   <item
+        title="Browsing your data">
+     <description>
+        The ICAT content view provides a tree-based navigation of your data.<br/>
+		A node can be expanded by clicking the &apos;+&apos; sign at the left of an item.<br/>
+        A single click on an item (investigation, dataset or datafile) will update the metadata table with corresponding metadata from the ICAT database.<br/>
+        A double click on a datafile will open it in the following views: file editor, dataset plot, side dataset plot, dataset inspector and the metadata table. 
+     </description>
+  </item>
+  <item
+        title="Additional notes">
+     <description>
+     	Please note that a user is automatically logged out from the ICAT after 2 hours of first login.<br/>
+        When the ICAT content view is opened, the login view is till available. It can be made visible by clicking on its tab on the left of the ICAT content view.<br/>
+        The 'Reset' button in the login view allows enabling the fedid and password fields in order to initiate a new connection. <br/>
+     </description>
+  </item>
+</cheatsheet>

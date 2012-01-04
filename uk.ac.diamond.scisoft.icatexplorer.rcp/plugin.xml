@@ -339,6 +339,32 @@
             name="(Pre-release) ICAT Explorer">
       </introPageRegister>
    </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="org.eclipse.ui.cheatsheets.actionSet"
+            label="label">
+         <action
+               id="org.eclipse.ui.cheatsheets.actions.CheatSheetHelpMenuAction"
+               label="label"
+               style="push">
+         </action>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+      <category
+            id="uk.ac.diamond.scisoft.icatexplorer.rcp.category"
+            name="ICAT Explorer">
+      </category>
+      <cheatsheet
+            category="uk.ac.diamond.scisoft.icatexplorer.rcp.category"
+            composite="false"
+            contentFile="src/uk/ac/diamond/scisoft/icatexplorer/rcp/cheatsheets/icatexplorer.xml"
+            id="uk.ac.diamond.scisoft.icatexplorer.rcp.cheatsheet"
+            name="Using the ICAT Explorer">
+      </cheatsheet>
+   </extension>
    <!-- extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
