@@ -39,8 +39,8 @@ If the authentication is successful, the ICAT content view will appear containin
         title="Additional notes">
      <description>
      	Please note that a user is automatically logged out from the ICAT after 2 hours of first login.<br/>
-        When the ICAT content view is opened, the login view is till available. It can be made visible by clicking on its tab on the left of the ICAT content view.<br/>
-        The 'Reset' button in the login view allows enabling the fedid and password fields in order to initiate a new connection. <br/>
+        When the ICAT content view is opened, the login view is still available. It can be made visible by clicking on its tab on the left of the ICAT content view.<br/>
+        The &apos;Reset&apos; button in the login view allows enabling the fedid and password fields in order to initiate a new connection. <br/>
      </description>
   </item>
 </cheatsheet>

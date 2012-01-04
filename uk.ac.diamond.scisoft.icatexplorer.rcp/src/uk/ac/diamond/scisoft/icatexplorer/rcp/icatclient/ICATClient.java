@@ -16,15 +16,23 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient;
 
+import static java.nio.file.StandardCopyOption.*;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -85,7 +93,8 @@ public class ICATClient{
  		// dynamically load the trust store as a stream and initialise it
  		InputStream trustStream;
  		try {
- 			trustStream = new FileInputStream(getTruststorePath(properties.getProperty("truststore.location")));//"c:\\certs\\cacerts.jks");
+ 			
+ 			trustStream = new FileInputStream(getTruststorePath2(properties.getProperty("truststore.location")));//"c:\\certs\\cacerts.jks");
  			KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());  
 
  			// if your store is password protected then declare it (it can be null however)
@@ -102,7 +111,7 @@ public class ICATClient{
  			// get the trust managers from the factory
  			TrustManager[] trustManagers = trustFactory.getTrustManagers();
 
- 			// initialize an ssl context to use these managers and set as default
+ 			// initialise an ssl context to use these managers and set as default
  			SSLContext sslContext = SSLContext.getInstance("SSL");
  			sslContext.init(null, trustManagers, null);
  			SSLContext.setDefault(sslContext);
@@ -332,10 +341,52 @@ public class ICATClient{
 			
 		logger.debug("initial truststore in: " + truststorePath.getAbsolutePath());
 		
-		Runtime.getRuntime().exec("chmod 777 " + truststorePath.getAbsolutePath());
+		//Runtime.getRuntime().exec("chmod 777 " + truststorePath.getAbsolutePath());
 		
 		return truststorePath.getAbsolutePath();
 		
+	}
+	
+	String getTruststorePath2(String truststoreLocation) throws IOException {
+		// getting home directory
+		String tmpDir = System.getProperty("java.io.tmpdir");
+		
+		// copy truststore to current tmp directory
+		java.security.ProtectionDomain pd = ICATClient.class
+				.getProtectionDomain();
+		if (pd == null)
+			return null;
+		java.security.CodeSource cs = pd.getCodeSource();
+		if (cs == null)
+			return null;
+		java.net.URL url = cs.getLocation();
+		if (url == null)
+			return null;
+		java.io.File f = new File(url.getFile());
+		if (f == null)
+			return null;
+		
+		File truststorePath = new File(f.getAbsolutePath(), truststoreLocation);
+			
+		logger.debug("initial truststore in: " + truststorePath.getAbsolutePath());
+		
+		// copy
+		String filename = truststoreLocation.substring(truststoreLocation.indexOf("/"));
+		File destFile = new File(tmpDir, filename);
+        logger.debug("copying from " + truststorePath.getAbsolutePath() + " to " + destFile.getAbsolutePath());
+	    copy(truststorePath.getAbsolutePath(), destFile.getAbsolutePath());    
+		
+		// set permissions on new truststore
+		// for all except Windows
+		if (!OSDetector.isWindows()){
+		try {
+			Runtime.getRuntime().exec("chmod 777 " + destFile.getAbsolutePath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		}
+		
+		return destFile.getAbsolutePath();		
 	}
 
 	public Dataset getDataset(Long datasetId) {
@@ -349,5 +400,35 @@ public class ICATClient{
 		}
 		return null;
 	}
+	
+	public static void copy(String fromFileName, String toFileName){
+		    FileInputStream fIn;
+		    FileOutputStream fOut;
+		    FileChannel fIChan, fOChan;
+		    long fSize;
+		    MappedByteBuffer mBuf;
+
+		    try {
+		      fIn = new FileInputStream(fromFileName);
+		      fOut = new FileOutputStream(toFileName);
+
+		      fIChan = fIn.getChannel();
+		      fOChan = fOut.getChannel();
+
+		      fSize = fIChan.size();
+
+		      mBuf = fIChan.map(FileChannel.MapMode.READ_ONLY, 0, fSize);
+
+		      fOChan.write(mBuf); // this copies the file
+
+		      fIChan.close();
+		      fIn.close();
+
+		      fOChan.close();
+		      fOut.close();
+		    } catch (IOException e) {
+		      logger.error("problem copying file: ", e);
+		    } 
+		  }
 	
 }
