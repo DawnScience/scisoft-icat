@@ -85,7 +85,7 @@ public class ICATClient{
  		InputStream trustStream;
  		try {
  			
- 			trustStream = new FileInputStream(getTruststorePath2(properties.getProperty("truststore.location")));//"c:\\certs\\cacerts.jks");
+ 			trustStream = new FileInputStream(getTruststorePath(properties.getProperty("truststore.location")));//"c:\\certs\\cacerts.jks");
  			KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());  
 
  			// if your store is password protected then declare it (it can be null however)
@@ -332,8 +332,17 @@ public class ICATClient{
 			
 		logger.debug("initial truststore in: " + truststorePath.getAbsolutePath());
 		
-		//Runtime.getRuntime().exec("chmod 777 " + truststorePath.getAbsolutePath());
+		// set permissions on new truststore
+				// for all except Windows
+				if (!OSDetector.isWindows()){
+				try {
+					Runtime.getRuntime().exec("chmod 777 " + truststorePath.getAbsolutePath());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				}
 		
+				logger.debug("returning truststore: " + truststorePath.getAbsolutePath());
 		return truststorePath.getAbsolutePath();
 		
 	}
