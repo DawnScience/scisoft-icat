@@ -79,49 +79,58 @@ public class ICATClient{
  		}
 
  		logger.debug("truststore.location: " + properties.getProperty("truststore.location"));
- 		System.out.println("(A) truststore: " + System.getProperty("javax.net.ssl.trustStore"));
+ 		logger.debug("(A) truststore: " + System.getProperty("javax.net.ssl.trustStore"));
+ 		
+		try {
+			System.setProperty("javax.net.ssl.trustStore", getTruststorePath2(properties.getProperty("truststore.location")));
+		} catch (IOException e) {
+			logger.error("error setting truststore file: ", e);
+		}			
+		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
+	
+		logger.debug("using truststore:" + System.getProperty("javax.net.ssl.trustStore"));
 
- 		// dynamically load the trust store as a stream and initialise it
- 		InputStream trustStream;
- 		try {
- 			
- 			trustStream = new FileInputStream(getTruststorePath(properties.getProperty("truststore.location")));//"c:\\certs\\cacerts.jks");
- 			KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());  
-
- 			// if your store is password protected then declare it (it can be null however)
- 			char[] trustPassword = properties.getProperty("truststore.password").toCharArray();
-
- 			// load the stream to your store
- 			trustStore.load(trustStream, trustPassword);
-
- 			// initialise a trust manager factory with the trusted store
- 			TrustManagerFactory trustFactory = 
- 					TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());    
- 			trustFactory.init(trustStore);
-
- 			// get the trust managers from the factory
- 			TrustManager[] trustManagers = trustFactory.getTrustManagers();
-
- 			// initialise an ssl context to use these managers and set as default
- 			SSLContext sslContext = SSLContext.getInstance("SSL");
- 			sslContext.init(null, trustManagers, null);
- 			SSLContext.setDefault(sslContext);
-
- 			System.out.println("(B) truststore: " + System.getProperty("javax.net.ssl.trustStore"));
- 		} catch (FileNotFoundException e) {
- 			logger.error("Can't find truststore file: ", e);
- 		} catch (KeyStoreException e) {
- 			logger.error("Keystore problem: ", e);
- 		} catch (NoSuchAlgorithmException e) {
- 			logger.error("algorithm problem: ", e);
- 		} catch (CertificateException e) {
- 			logger.error("certificate problem: ", e);
- 		} catch (IOException e) {
- 			logger.error("file exception: ", e);
- 		} catch (KeyManagementException e) {
- 			logger.error("ssk key problem: ", e);
-
- 		}    
+// 		// dynamically load the trust store as a stream and initialise it
+// 		InputStream trustStream;
+// 		try {
+// 			
+// 			trustStream = new FileInputStream(getTruststorePath(properties.getProperty("truststore.location")));//"c:\\certs\\cacerts.jks");
+// 			KeyStore trustStore = KeyStore.getInstance("jks");//KeyStore.getDefaultType());  
+//
+// 			// if your store is password protected then declare it (it can be null however)
+// 			char[] trustPassword = properties.getProperty("truststore.password").toCharArray();
+//
+// 			// load the stream to your store
+// 			trustStore.load(trustStream, trustPassword);
+//
+// 			// initialise a trust manager factory with the trusted store
+// 			TrustManagerFactory trustFactory = 
+// 					TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());    
+// 			trustFactory.init(trustStore);
+//
+// 			// get the trust managers from the factory
+// 			TrustManager[] trustManagers = trustFactory.getTrustManagers();
+//
+// 			// initialise an ssl context to use these managers and set as default
+// 			SSLContext sslContext = SSLContext.getInstance("SSL");
+// 			sslContext.init(null, trustManagers, null);
+// 			SSLContext.setDefault(sslContext);
+//
+// 			logger.debug("(B) truststore: " + System.getProperty("javax.net.ssl.trustStore"));
+// 		} catch (FileNotFoundException e) {
+// 			logger.error("Can't find truststore file: ", e);
+// 		} catch (KeyStoreException e) {
+// 			logger.error("Keystore problem: ", e);
+// 		} catch (NoSuchAlgorithmException e) {
+// 			logger.error("algorithm problem: ", e);
+// 		} catch (CertificateException e) {
+// 			logger.error("certificate problem: ", e);
+// 		} catch (IOException e) {
+// 			logger.error("file exception: ", e);
+// 		} catch (KeyManagementException e) {
+// 			logger.error("ssk key problem: ", e);
+//
+// 		}    
  			
  		
 // 		// temporary fix to make it work with windows 		
@@ -391,6 +400,7 @@ public class ICATClient{
 		}
 		}
 		
+		logger.debug("returning truststore: " + destFile.getAbsolutePath());
 		return destFile.getAbsolutePath();		
 	}
 
