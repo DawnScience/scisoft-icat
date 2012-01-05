@@ -89,7 +89,7 @@ public class ICATClient{
 		}
 		
 		//
-		tpath = "/tmp/cacerts.jks";
+		tpath = "/dls/bl-misc/dropfiles2/certs";//"/tmp/cacerts.jks";
 		System.setProperty("javax.net.ssl.trustStore", tpath);
 		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
 	
