@@ -68,7 +68,8 @@ public class ICATClient{
     
 
  	public ICATClient(){
- 				
+ 		
+ 		String tpath = null;
  		try {
 
  			logger.info("reading properties file");
@@ -82,10 +83,14 @@ public class ICATClient{
  		logger.debug("(A) truststore: " + System.getProperty("javax.net.ssl.trustStore"));
  		
 		try {
-			System.setProperty("javax.net.ssl.trustStore", getTruststorePath2(properties.getProperty("truststore.location")));
+			tpath = getTruststorePath2(properties.getProperty("truststore.location"));
 		} catch (IOException e) {
 			logger.error("error setting truststore file: ", e);
-		}			
+		}
+		
+		//
+		tpath = "/tmp/cacerts.jks";
+		System.setProperty("javax.net.ssl.trustStore", tpath);
 		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
 	
 		logger.debug("using truststore:" + System.getProperty("javax.net.ssl.trustStore"));
