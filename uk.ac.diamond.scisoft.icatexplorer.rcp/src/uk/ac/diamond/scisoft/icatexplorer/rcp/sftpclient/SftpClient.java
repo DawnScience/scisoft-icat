@@ -92,10 +92,10 @@ public class SftpClient {
 	    
 	    String localFilePath = file2.getPath();//"C:\\gotFile";
 
-	    logger.debug("localFilePath: " + localFilePath);
+	    //logger.debug("localFilePath: " + localFilePath);
 
 		try {
-			sftpChannel.get(remoteFile, localFilePath );
+			sftpChannel.get(remoteFile, localFilePath);//, monitor);
 		} catch (SftpException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

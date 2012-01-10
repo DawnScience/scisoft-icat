@@ -43,6 +43,7 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.data.DInvestigation;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.sftpclient.SftpClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.FilenameUtils;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.NetworkUtils;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 import uk.ac.gda.common.rcp.util.EclipseUtils;
@@ -75,7 +76,7 @@ public class CNFActionProvider extends CommonActionProvider
 			
 			InetAddress addr = InetAddress.getLocalHost();
 			
-			if (insideDLS(addr)){
+			if (NetworkUtils.insideDLS(addr)){
 				sftpServer = properties.getProperty("internal.sftp.server");
 			}else{
 				sftpServer = properties.getProperty("external.sftp.server");
@@ -170,16 +171,16 @@ public class CNFActionProvider extends CommonActionProvider
     		         		     
     			}else if (data instanceof Datafile) {
     				Datafile datafile = (Datafile) data;
-    				logger.debug("opening " + datafile.getLocation() + " with id: " +datafile.getId());
+    				logger.debug("opening " + datafile.getDatafileLocation() + " with id: " +datafile.getId());
     				
     				// check current operating system
     				if (OSDetector.isUnix()){
     					try {
 
-    						EclipseUtils.openExternalEditor(datafile.getLocation());
+    						EclipseUtils.openExternalEditor(datafile.getDatafileLocation());
         					
     					} catch (PartInitException e) {
-    						logger.error("Cannot open file "+datafile.getLocation(), e);
+    						logger.error("Cannot open file "+datafile.getDatafileLocation(), e);
     					}
     				}else{//windows os detected
     					
@@ -197,7 +198,7 @@ public class CNFActionProvider extends CommonActionProvider
     					File file3 = new File(file2.getPath());
     					
     					// computing the local file path
-    					FilenameUtils fileUtils = new FilenameUtils(datafile.getLocation(), '/', '.');    					
+    					FilenameUtils fileUtils = new FilenameUtils(datafile.getDatafileLocation(), '/', '.');    					
     				    File file4 = new File(file2, fileUtils.filename());
     				    File file5 = new File(file4.getPath());
     				    
@@ -231,7 +232,7 @@ public class CNFActionProvider extends CommonActionProvider
 							String password = ICATSessionDetails.icatClient.getPassword();
 							
 							SftpClient sftpClient = new SftpClient();
-							localFilePath = sftpClient.downloadFile(fedid, password, sftpServer, datafile.getLocation(), file2.getPath()/*downloadDir*/);
+							localFilePath = sftpClient.downloadFile(fedid, password, sftpServer, datafile.getDatafileLocation(), file2.getPath()/*downloadDir*/);
 							
 							logger.info("file successfully downloaded to " + localFilePath);
     				      }else{
@@ -241,10 +242,10 @@ public class CNFActionProvider extends CommonActionProvider
 							
 							// open editor
 							try {
-								logger.debug("open file in editor:  " + datafile.getLocation());
+								logger.debug("open file in editor:  " + datafile.getDatafileLocation());
 	        					EclipseUtils.openExternalEditor(localFilePath);
 	    					} catch (PartInitException e) {
-	    						logger.error("Cannot open file "+datafile.getLocation(), e);
+	    						logger.error("Cannot open file "+datafile.getDatafileLocation(), e);
 	    					}
 				
     				      }
@@ -287,18 +288,5 @@ public class CNFActionProvider extends CommonActionProvider
         
         
     }
-
-	private boolean insideDLS(InetAddress addr) {
-
-		String hostname = addr.getCanonicalHostName();
-		
-		if (hostname.contains("diamond.ac.uk")) {
-			logger.debug("Connected from INSIDE Diamond: " + hostname);
-			return true;
-		} else {
-			logger.debug("Connected from OUTSIDE Diamond: " + hostname);
-			return false;
-		}
-	}
 	
 }

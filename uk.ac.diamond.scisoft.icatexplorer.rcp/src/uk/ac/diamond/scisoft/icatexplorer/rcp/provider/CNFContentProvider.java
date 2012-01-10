@@ -20,6 +20,7 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.slf4j.Logger;
@@ -30,6 +31,9 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.data.DIcat;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.data.DInvestigation;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.data.Root;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.jobs.CompletionAction;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.jobs.OpenDatasetJob;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.jobs.SftpTransferJob;
 import uk.icat3.client.Datafile;
 import uk.icat3.client.Dataset;
 import uk.icat3.client.DatasetInclude;
@@ -83,7 +87,17 @@ public class CNFContentProvider implements ITreeContentProvider
     			
     			long startTime = System.currentTimeMillis();
     			Dataset dataset = ICATSessionDetails.icatClient.getIcat().getDatasetIncludes(sessionId, ((DDataset) parentElement).getId(), DatasetInclude.DATASET_AND_DATAFILES_ONLY);
-
+    			
+//    			OpenDatasetJob openDataset = new OpenDatasetJob("populating dataset: " + ((DDataset)parentElement).getName(), sessionId, ((DDataset)parentElement));
+//    			openDataset.setUser(false);// hides the dialog for 'run in background' and 'details'
+//    			openDataset.schedule();
+//    			
+//    			ddatafiles = openDataset.getDatafiles();
+//    			while(ddatafiles == null){
+//    				ddatafiles = openDataset.getDatafiles();
+//    			}
+				   			
+    			    			
     			long endTime = System.currentTimeMillis();
     			long millis = endTime - startTime;
     	        
@@ -200,15 +214,14 @@ public class CNFContentProvider implements ITreeContentProvider
       
     @Override
     public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-    	logger.debug("ContentProvider.inputChanged: old: ");
-    	if ( oldInput != null ) {
-    		System.out.print( oldInput.getClass().getName() ); //$NON-NLS-1$
-    	}
-    	logger.debug(" new: ");
-    	if ( newInput != null ) {
-    		logger.debug( newInput.getClass().getName() ); //$NON-NLS-2$
-    	}
-    	System.out.println();
+//    	logger.debug("ContentProvider.inputChanged: old: ");
+//    	if ( oldInput != null ) {
+//    		System.out.print( oldInput.getClass().getName() ); //$NON-NLS-1$
+//    	}
+//    	logger.debug(" new: ");
+//    	if ( newInput != null ) {
+//    		logger.debug( newInput.getClass().getName() ); //$NON-NLS-2$
+//    	}
     }
 
 	/**

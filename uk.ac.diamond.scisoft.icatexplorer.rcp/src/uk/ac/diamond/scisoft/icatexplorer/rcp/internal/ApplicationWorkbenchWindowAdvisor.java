@@ -21,8 +21,6 @@ import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -32,7 +30,6 @@ import org.slf4j.LoggerFactory;
  */
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor
 {
-    private static final Logger logger = LoggerFactory.getLogger(ApplicationWorkbenchWindowAdvisor.class); 
 
     public ApplicationWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer)
     {

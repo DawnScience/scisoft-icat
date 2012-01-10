@@ -21,8 +21,6 @@ import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
-
 /**
  * The activator class controls the plug-in life cycle
  */

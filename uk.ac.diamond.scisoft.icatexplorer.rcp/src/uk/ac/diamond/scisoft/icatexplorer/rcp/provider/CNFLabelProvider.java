@@ -68,7 +68,7 @@ public class CNFLabelProvider extends LabelProvider implements ILabelProvider, I
     	}else if (element instanceof DDataset){
     		return "" + ((DDataset)element).getName() + " -- " + ((DDataset)element).getId();
     	}else if (element instanceof Datafile){
-    		return "" + ((Datafile)element).getLocation() + " -- " + ((Datafile)element).getFileSize();
+    		return "" + ((Datafile)element).getDatafileLocation() + " -- " + ((Datafile)element).getFileSize();
     	}
     	return null;
     }

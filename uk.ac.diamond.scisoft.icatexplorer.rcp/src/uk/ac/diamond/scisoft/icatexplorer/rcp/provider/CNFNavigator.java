@@ -16,7 +16,6 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.rcp.provider;
 
-import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.navigator.CommonNavigator;
 
 import uk.ac.diamond.scisoft.icatexplorer.rcp.data.Root;

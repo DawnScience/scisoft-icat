@@ -28,6 +28,8 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.core.runtime.IAdaptable;
+
 import uk.ac.diamond.scisoft.analysis.dataset.IMetadataProvider;
 import uk.ac.diamond.scisoft.analysis.io.IMetaData;
 import uk.ac.diamond.scisoft.analysis.io.MetaDataAdapter;
@@ -92,7 +94,7 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.UnitsConverter;
     "signature"
 })
 public class Datafile
-    extends EntityBaseBean implements IMetadataProvider
+    extends EntityBaseBean implements IMetadataProvider, IAdaptable
 {
 
     protected String checksum;
@@ -442,7 +444,7 @@ public class Datafile
      *     {@link String }
      *     
      */
-    public String getLocation() {
+    public String getDatafileLocation() {
         return location;
     }
 
@@ -454,7 +456,7 @@ public class Datafile
      *     {@link String }
      *     
      */
-    public void setLocation(String value) {
+    public void setDatafileLocation(String value) {
         this.location = value;
     }
 
@@ -572,7 +574,7 @@ public class Datafile
 		pairs.put("COMMAND",this.getCommand());
 		pairs.put("VERSION",this.getDatafileVersion());
 		pairs.put("DESCRIPTION",this.getDescription());
-		pairs.put("LOCATION",this.getLocation());
+		pairs.put("LOCATION",this.getDatafileLocation());
 		pairs.put("NAME",this.getName());
 		pairs.put("SIGNATURE",this.getSignature());
 		pairs.put("UNIQUE_ID",this.getUniqueId());
@@ -606,5 +608,11 @@ public class Datafile
 
 			
 		};
+	}
+
+	@Override
+	public Object getAdapter(Class adapter) {	
+		//return null;
+		return null;
 	}
 }

@@ -88,8 +88,6 @@ public class ICATClient{
 			logger.error("error setting truststore file: ", e);
 		}
 		
-		//
-		tpath = "/tmp/cacerts.jks";//"
 		System.setProperty("javax.net.ssl.trustStore", tpath);
 		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
 	
