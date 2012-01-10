@@ -10,12 +10,13 @@
         href="/org.eclipse.platform.doc.user/tasks/tasks-1h.htm"
         title="Open the ICAT Explorer perspective">
     <description>
-      From the main menu, select Window &gt; Open Perspective &gt; Other...,
-      then select the <b>ICAT</b> perspective.
+      From the main menu, select <b> Window &gt; Open Perspective &gt; Other...,
+      then select the ICAT</b> perspective.
     </description>
     <command
-      serialization="org.eclipse.ui.perspectives.showPerspective(org.eclipse.ui.perspectives.showPerspective.perspectiveId=uk.ac.diamond.scisoft.icatexplorer.rcp.perspective)"
-      confirm="true" translate="" >
+          confirm="true"
+          required="true"
+          serialization="org.eclipse.ui.perspectives.showPerspective(org.eclipse.ui.perspectives.showPerspective.perspectiveId=uk.ac.diamond.scisoft.icatexplorer.rcp.perspective)">
     </command>
   </item>
   <item
@@ -30,17 +31,34 @@ If the authentication is successful, the ICAT content view will appear containin
         title="Browsing your data">
      <description>
         The ICAT content view provides a tree-based navigation of your data.<br/>
-		A node can be expanded by clicking the &apos;+&apos; sign at the left of an item.<br/>
+		Nodes can be expanded to show their content.<br/>
         A single click on an item (investigation, dataset or datafile) will update the metadata table with corresponding metadata from the ICAT database.<br/>
         A double click on a datafile will open it in the following views: file editor, dataset plot, side dataset plot, dataset inspector and the metadata table. 
      </description>
   </item>
-  <item
-        title="Additional notes">
+   <item
+         title="Copying files to the Project Explorer">
+      <description>
+     It is possible to copy files displayed in the ICAT Explorer into the Project Explorer using drag-and-drop.<br/><br/>
+To open the Project Explorer view: <b>Window &gt; Show view &gt; Other... &gt; General &gt;  Project Explorer</b><br/><br/>
+	You can select any combination of files and/or datasets from the ICAT Explorer for drag and drop.<br/><br/>
+	Since the transfer is from a remote server, this proccess can be time consuming and thus, is run as a separate job.<br/>
+	Status of data transfer is shown in the progress monitor in the status bar of the SDA.<br/><br/>
+
+	Once, all files have been copied, the Project Explorer is refreshed.
+	</description>
+	<command
+            confirm="true"
+            required="true"
+            serialization="org.eclipse.ui.views.showView(org.eclipse.ui.views.showView.viewId=org.eclipse.ui.navigator.ProjectExplorer)">
+    </command>
+   </item>
+	<item
+	title="Additional notes">
      <description>
-     	Please note that a user is automatically logged out from the ICAT after 2 hours of first login.<br/>
+     Please note that a  user is automatically logged out from the ICAT after 2 hours of first login.<br/>
         When the ICAT content view is opened, the login view is still available. It can be made visible by clicking on its tab on the left of the ICAT content view.<br/>
-        The &apos;Reset&apos; button in the login view allows enabling the fedid and password fields in order to initiate a new connection. <br/>
+        The &apos;Reset&apos; button in the login view allows enabling the fedid and password fields in order to initiate a new connection.te a new connection. 
      </description>
   </item>
 </cheatsheet>
