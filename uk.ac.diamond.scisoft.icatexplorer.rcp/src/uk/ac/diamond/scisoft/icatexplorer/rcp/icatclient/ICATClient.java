@@ -32,7 +32,6 @@ import javax.xml.namespace.QName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.icatexplorer.rcp.jobs.ICATLoginJob;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 import uk.icat3.client.Dataset;
@@ -56,7 +55,6 @@ public class ICATClient{
 	protected String truststorePath;
 	
     private static final Logger logger = LoggerFactory.getLogger(ICATClient.class); 
-	ICATLoginJob icatLoginJob = null;
 
     
 
