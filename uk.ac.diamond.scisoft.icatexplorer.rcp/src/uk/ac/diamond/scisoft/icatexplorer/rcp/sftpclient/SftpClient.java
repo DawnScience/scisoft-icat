@@ -44,7 +44,7 @@ public class SftpClient {
 		JSch jsch = new JSch();
 		
 		
-		String knownHostsFilename = "/home/username/.ssh/known_hosts";
+		String knownHostsFilename = System.getProperty("user.home") + "/.ssh/known_hosts";
 		try {
 			jsch.setKnownHosts( knownHostsFilename );
 		} catch (JSchException e) {
