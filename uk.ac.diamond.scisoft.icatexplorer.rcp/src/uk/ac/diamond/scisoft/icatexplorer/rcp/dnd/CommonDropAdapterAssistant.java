@@ -16,24 +16,16 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.rcp.dnd;
 
-import java.io.File;
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 
-import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.util.LocalSelectionTransfer;
@@ -45,8 +37,6 @@ import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IPageLayout;
-import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.CopyFilesAndFoldersOperation;
 import org.eclipse.ui.actions.MoveFilesAndFoldersOperation;
@@ -54,27 +44,10 @@ import org.eclipse.ui.actions.ReadOnlyStateChecker;
 import org.eclipse.ui.internal.navigator.resources.plugin.WorkbenchNavigatorMessages;
 import org.eclipse.ui.internal.navigator.resources.plugin.WorkbenchNavigatorPlugin;
 import org.eclipse.ui.navigator.CommonDropAdapter;
-import org.eclipse.ui.navigator.resources.ProjectExplorer;
-import org.eclipse.ui.part.ResourceTransfer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.icatexplorer.rcp.data.DDataset;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.jobs.SftpTransferJob;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.sftpclient.SftpClient;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.NetworkUtils;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
-import uk.icat3.client.Datafile;
-import uk.icat3.client.Dataset;
-import uk.icat3.client.DatasetInclude;
-import uk.icat3.client.InsufficientPrivilegesException_Exception;
-import uk.icat3.client.NoSuchObjectFoundException_Exception;
-import uk.icat3.client.SessionException_Exception;
-
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.handlers.HandlerUtil;
 
 public class CommonDropAdapterAssistant extends
 		org.eclipse.ui.navigator.CommonDropAdapterAssistant{
@@ -83,7 +56,6 @@ public class CommonDropAdapterAssistant extends
 	
 	private static final boolean DEBUG = false;
 	private static final IResource[] NO_RESOURCES = new IResource[0];
-
 	
 	public CommonDropAdapterAssistant() {}
 	
@@ -106,9 +78,9 @@ public class CommonDropAdapterAssistant extends
 	 */
 	  @Override
 	    public IStatus validateDrop(Object target, int operation, TransferData transferType) {
-		  logger.debug("target is of type: " + target.getClass());
-		  
-		  if (target instanceof IResource) {
+
+		  // target shouldn't be a virtual folder to copy to
+		  if (target instanceof IResource && !((IResource)target).isVirtual()) {
 	            return Status.OK_STATUS;
 	        }
 	        return Status.CANCEL_STATUS;
