@@ -45,7 +45,8 @@ To open the Project Explorer view: <b>Window &gt; Show view &gt; Other... &gt; G
 	Since the transfer is from a remote server, this proccess can be time consuming and thus, is run as a separate job.<br/>
 	Status of data transfer is shown in the progress monitor in the status bar of the SDA.<br/><br/>
 
-	Once, all files have been copied, the Project Explorer is refreshed.
+	Once, all files have been copied, the Project Explorer is refreshed.<br/><br/>
+	Please note that files can be copied to 'non-virtual' folders targets only.
 	</description>
 	<command
             confirm="true"
