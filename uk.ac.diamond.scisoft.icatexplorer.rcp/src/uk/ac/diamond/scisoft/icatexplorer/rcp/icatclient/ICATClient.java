@@ -19,29 +19,20 @@ package uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
 import javax.xml.namespace.QName;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.icatexplorer.rcp.jobs.ICATLoginJob;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 import uk.icat3.client.Dataset;
@@ -65,10 +56,12 @@ public class ICATClient{
 	protected String truststorePath;
 	
     private static final Logger logger = LoggerFactory.getLogger(ICATClient.class); 
+	ICATLoginJob icatLoginJob = null;
+
     
 
  	public ICATClient(){
- 		
+ 		 		
  		String tpath = null;
  		try {
 
@@ -88,10 +81,13 @@ public class ICATClient{
 			logger.error("error setting truststore file: ", e);
 		}
 		
+		// to remove 
+		tpath = "C:\\certs\\cacerts.jks";
+		//
 		System.setProperty("javax.net.ssl.trustStore", tpath);
 		System.setProperty("javax.net.ssl.trustStorePassword", properties.getProperty("truststore.password"));
 	
-		logger.debug("using truststore:" + System.getProperty("javax.net.ssl.trustStore"));
+		logger.debug("using truststore: " + System.getProperty("javax.net.ssl.trustStore"));
 
 // 		// dynamically load the trust store as a stream and initialise it
 // 		InputStream trustStream;
@@ -163,23 +159,22 @@ public class ICATClient{
 	}
 		
 		
-    public String login(String fedid, String password) {
-    	ICAT icat;
-		try {
-			this.fedid = fedid;
-			this.password = password;
+	  public String login(String fedid, String password) {
+	    	ICAT icat;
+			try {
+				this.fedid = fedid;
+				this.password = password;
+				
+				icat = getIcat();
+				this.sessionId = icat.login(fedid, password); 
+				logger.info("User " + this.fedid + " logged in icat. sessionId: "+ this.sessionId);			
 			
-			icat = getIcat();
-			this.sessionId = icat.login(fedid, password); 
-			logger.info("User " + this.fedid + " logged in icat. sessionId: "+ this.sessionId);			
-		
-		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("failed to authenticate! " , e);			
-		}
-		
-		return sessionId;
-    }
+			} catch (Exception e) {
+				logger.error("failed to authenticate! " , e);			
+			}
+			
+			return sessionId;
+	    }
     
     
 //    public String login(String fedid, String password) {
@@ -264,7 +259,6 @@ public class ICATClient{
 				));
 			
 		} catch (Exception e) {
-			//e.printStackTrace();
 			logger.error( "problem retrieving investigations for user: " + this.getFedId(), e);
 		}
     	        
@@ -437,5 +431,9 @@ public class ICATClient{
 	        if (fos != null) fos.close();
 	    }
 	  }
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;		
+	}
 	
 }

@@ -30,7 +30,6 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.data.DIcat;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.data.DInvestigation;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.data.Root;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.jobs.SftpTransferJob;
 import uk.icat3.client.Datafile;
 import uk.icat3.client.Dataset;
 import uk.icat3.client.DatasetInclude;

@@ -20,7 +20,16 @@ import com.jcraft.jsch.*;
 import java.awt.*;
 import javax.swing.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessionDetails;
+
 public class Sftp{
+	
+  private static final Logger logger = LoggerFactory.getLogger(Sftp.class); 
+
+	
   public static void main(String[] arg){
 
     try{
@@ -135,7 +144,7 @@ public class Sftp{
 	    else c.mkdir(path);
 	  }
 	  catch(SftpException e){
-	    System.out.println(e.toString());
+	    logger.error("sftp exception: ", e);
 	  }
 	  continue;
 	}
@@ -164,7 +173,7 @@ public class Sftp{
 	    else if(cmd.equals("chmod")){ c.chmod(foo, path); }
 	  }
 	  catch(SftpException e){
-	    System.out.println(e.toString());
+	    logger.error("sftp exception: ", e);
 	  }
 	  continue;
 	}
@@ -194,7 +203,7 @@ public class Sftp{
 	    }
 	  }
 	  catch(SftpException e){
-	    System.out.println(e.toString());
+	    logger.error("sftp exception: ", e);
 	  }
 	  continue;
 	}
@@ -217,7 +226,7 @@ public class Sftp{
 	    out.println(path);
 	  }
 	  catch(Exception e){
-	    System.out.println(e);
+	    logger.error("sftp exception: ", e);
 	  }
 	  continue;
 	}
@@ -247,7 +256,7 @@ public class Sftp{
 	    }
 	  }
 	  catch(SftpException e){
-	    System.out.println(e.toString());
+	    logger.error("sftp exception: ", e);
 	  }
 	  continue;
 	}
@@ -260,7 +269,7 @@ public class Sftp{
 	    else c.symlink(p1, p2);
 	  }
 	  catch(SftpException e){
-	    System.out.println(e.toString());
+		 logger.error("sftp exception: ", e);
 	  }
 	  continue;
 	}
@@ -273,7 +282,7 @@ public class Sftp{
 	    else attrs=c.lstat(p1);
 	  }
 	  catch(SftpException e){
-	    System.out.println(e.toString());
+		    logger.error("sftp exception: ", e);
 	  }
 	  if(attrs!=null){
             out.println(attrs);
@@ -291,7 +300,7 @@ public class Sftp{
             out.println(filename);
 	  }
 	  catch(SftpException e){
-	    System.out.println(e.toString());
+		  logger.error("sftp exception: ", e);
 	  }
 	  continue;
 	}
@@ -304,7 +313,7 @@ public class Sftp{
             out.println(filename);
 	  }
 	  catch(SftpException e){
-	    System.out.println(e.toString());
+		   logger.error("sftp exception: ", e);
 	  }
 	  continue;
 	}
@@ -321,7 +330,7 @@ public class Sftp{
       session.disconnect();
     }
     catch(Exception e){
-      System.out.println(e);
+	    logger.error("sftp exception: ", e);
     }
     System.exit(0);
   }

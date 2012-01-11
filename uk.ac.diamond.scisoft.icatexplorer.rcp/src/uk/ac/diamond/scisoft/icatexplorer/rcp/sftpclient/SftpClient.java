@@ -42,22 +42,19 @@ public class SftpClient {
 	public String downloadFile(String fedid, String password, String remoteHost, String remoteFile, String downloadDir){
 		
 		JSch jsch = new JSch();
-		
-		
+				
 		String knownHostsFilename = System.getProperty("user.home") + "/.ssh/known_hosts";
 		try {
 			jsch.setKnownHosts( knownHostsFilename );
 		} catch (JSchException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error setting known hosts file for sftp", e);
 		}
 
 		Session session = null;
 		try {
 			session = jsch.getSession( fedid, remoteHost );
 		} catch (JSchException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error getting sftp session with given fedid and remote host, fedid= " + fedid + "  - remote host= " + remoteHost, e);
 		}    
 		{
 		  // "interactive" version
@@ -81,8 +78,7 @@ public class SftpClient {
 			channel.connect();
 			sftpChannel = (ChannelSftp) channel;
 		} catch (JSchException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error connecting using sftp", e);
 		}
 
 		FilenameUtils fileUtils = new FilenameUtils(remoteFile, '/', '.');
@@ -97,8 +93,7 @@ public class SftpClient {
 		try {
 			sftpChannel.get(remoteFile, localFilePath);//, monitor);
 		} catch (SftpException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error getting file from remote host", e);
 		}
 		// OR
 		//InputStream in = sftpChannel.get( remoteFile );		

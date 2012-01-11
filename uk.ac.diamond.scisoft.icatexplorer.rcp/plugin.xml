@@ -112,10 +112,6 @@
             </contentExtension>
          </includes>
       </viewerContentBinding>
-      <dragAssistant
-            class="uk.ac.diamond.scisoft.icatexplorer.rcp.dnd.CommonDragAdapterAssistant"
-            viewerId="uk.ac.diamond.scisoft.icatexplorer.rcp.view">
-      </dragAssistant>
    </extension>
    <extension
          point="org.eclipse.ui.navigator.navigatorContent">
