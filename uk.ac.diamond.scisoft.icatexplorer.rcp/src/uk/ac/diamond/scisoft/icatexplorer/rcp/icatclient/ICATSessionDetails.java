@@ -20,26 +20,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class ICATSessionDetails {
-	
-    private static final Logger logger = LoggerFactory.getLogger(ICATSessionDetails.class); 
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(ICATSessionDetails.class);
 
 	public static ICATClient icatClient = null;
-	
-	public ICATSessionDetails(ICATClient icatClient){
-		
-		this.icatClient = icatClient;	
+
+	public ICATSessionDetails(ICATClient icatClient) {
+
+		ICATSessionDetails.icatClient = icatClient;
 		logger.debug("icatClient object initialized");
 	}
-	
-	public static void setICAT(ICATClient icat){
+
+	public static void setICAT(ICATClient icat) {
 		icatClient = icat;
 		logger.debug("icatClient object initialized");
 
 	}
-	
-	public static ICATClient getICAT(){
+
+	public static ICATClient getICAT() {
 		return icatClient;
 
 	}
-	
+
 }

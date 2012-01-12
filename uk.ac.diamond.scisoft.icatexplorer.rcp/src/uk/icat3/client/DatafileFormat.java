@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for datafileFormat complex type.
+ * <p>
+ * Java class for datafileFormat complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="datafileFormat">
@@ -43,89 +45,75 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "datafileFormat", propOrder = {
-    "datafileFormatPK",
-    "description",
-    "formatType"
-})
-public class DatafileFormat
-    extends EntityBaseBean
-{
+@XmlType(name = "datafileFormat", propOrder = { "datafileFormatPK",
+		"description", "formatType" })
+public class DatafileFormat extends EntityBaseBean {
 
-    protected DatafileFormatPK datafileFormatPK;
-    protected String description;
-    protected String formatType;
+	protected DatafileFormatPK datafileFormatPK;
+	protected String description;
+	protected String formatType;
 
-    /**
-     * Gets the value of the datafileFormatPK property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link DatafileFormatPK }
-     *     
-     */
-    public DatafileFormatPK getDatafileFormatPK() {
-        return datafileFormatPK;
-    }
+	/**
+	 * Gets the value of the datafileFormatPK property.
+	 * 
+	 * @return possible object is {@link DatafileFormatPK }
+	 * 
+	 */
+	public DatafileFormatPK getDatafileFormatPK() {
+		return datafileFormatPK;
+	}
 
-    /**
-     * Sets the value of the datafileFormatPK property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link DatafileFormatPK }
-     *     
-     */
-    public void setDatafileFormatPK(DatafileFormatPK value) {
-        this.datafileFormatPK = value;
-    }
+	/**
+	 * Sets the value of the datafileFormatPK property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link DatafileFormatPK }
+	 * 
+	 */
+	public void setDatafileFormatPK(DatafileFormatPK value) {
+		this.datafileFormatPK = value;
+	}
 
-    /**
-     * Gets the value of the description property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDescription() {
-        return description;
-    }
+	/**
+	 * Gets the value of the description property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getDescription() {
+		return description;
+	}
 
-    /**
-     * Sets the value of the description property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDescription(String value) {
-        this.description = value;
-    }
+	/**
+	 * Sets the value of the description property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setDescription(String value) {
+		this.description = value;
+	}
 
-    /**
-     * Gets the value of the formatType property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFormatType() {
-        return formatType;
-    }
+	/**
+	 * Gets the value of the formatType property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getFormatType() {
+		return formatType;
+	}
 
-    /**
-     * Sets the value of the formatType property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFormatType(String value) {
-        this.formatType = value;
-    }
+	/**
+	 * Sets the value of the formatType property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setFormatType(String value) {
+		this.formatType = value;
+	}
 
 }

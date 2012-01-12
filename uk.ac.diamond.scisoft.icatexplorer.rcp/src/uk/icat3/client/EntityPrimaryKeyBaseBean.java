@@ -21,11 +21,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for entityPrimaryKeyBaseBean complex type.
+ * <p>
+ * Java class for entityPrimaryKeyBaseBean complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="entityPrimaryKeyBaseBean">
@@ -42,18 +44,10 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "entityPrimaryKeyBaseBean")
-@XmlSeeAlso({
-    ParameterPK.class,
-    DatafileParameterPK.class,
-    DatafileFormatPK.class,
-    KeywordPK.class,
-    DatasetParameterPK.class,
-    ShiftPK.class,
-    RelatedDatafilesPK.class,
-    SampleParameterPK.class,
-    InvestigatorPK.class
-})
+@XmlSeeAlso({ ParameterPK.class, DatafileParameterPK.class,
+		DatafileFormatPK.class, KeywordPK.class, DatasetParameterPK.class,
+		ShiftPK.class, RelatedDatafilesPK.class, SampleParameterPK.class,
+		InvestigatorPK.class })
 public abstract class EntityPrimaryKeyBaseBean {
-
 
 }

@@ -49,244 +49,246 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 import uk.ac.gda.common.rcp.util.EclipseUtils;
 import uk.icat3.client.Datafile;
 
-
 /**
  * @author smw81327
  * @version $Id$
  */
-public class CNFActionProvider extends CommonActionProvider
-{
+public class CNFActionProvider extends CommonActionProvider {
 
-	private static Logger logger = LoggerFactory.getLogger(CNFActionProvider.class);
-	
-    private OpenChildAction openAction;
+	private static Logger logger = LoggerFactory
+			.getLogger(CNFActionProvider.class);
+
+	private OpenChildAction openAction;
 	public IWorkbenchPage page;
 	private Properties properties;
 	private String downloadDir;
 	private String sftpServer;
 
+	public CNFActionProvider() {
+		logger.debug("reading properties file...");
 
-    public CNFActionProvider()
-    {
-    	logger.debug("reading properties file...");
-		
 		try {
 			properties = PropertiesUtils.readConfigFile();
 			downloadDir = properties.getProperty("download.dir");
-			
+
 			InetAddress addr = InetAddress.getLocalHost();
-			
-			if (NetworkUtils.insideDLS(addr)){
+
+			if (NetworkUtils.insideDLS(addr)) {
 				sftpServer = properties.getProperty("internal.sftp.server");
-			}else{
+			} else {
 				sftpServer = properties.getProperty("external.sftp.server");
 			}
-				
+
 		} catch (Exception e) {
 			logger.error("cannot read properties file", e);
 		}
 
-    }
+	}
 
-    @Override
-    public void init(ICommonActionExtensionSite site)
-    {
-        ICommonViewerSite viewSite = site.getViewSite();
-        if (viewSite instanceof ICommonViewerWorkbenchSite) 
-        {
-            ICommonViewerWorkbenchSite workbenchSite = (ICommonViewerWorkbenchSite) viewSite;
-            openAction = new OpenChildAction(workbenchSite.getPage(), workbenchSite.getSelectionProvider());
-           
-        }
-    }
-    
-    
-    
+	@Override
+	public void init(ICommonActionExtensionSite site) {
+		ICommonViewerSite viewSite = site.getViewSite();
+		if (viewSite instanceof ICommonViewerWorkbenchSite) {
+			ICommonViewerWorkbenchSite workbenchSite = (ICommonViewerWorkbenchSite) viewSite;
+			openAction = new OpenChildAction(workbenchSite.getPage(),
+					workbenchSite.getSelectionProvider());
 
-    @Override
-    public void restoreState(IMemento memento)
-    {
-        super.restoreState(memento);
-    }
+		}
+	}
 
-    @Override
-    public void saveState(IMemento memento)
-    {
-        super.saveState(memento);
-    }
+	@Override
+	public void restoreState(IMemento memento) {
+		super.restoreState(memento);
+	}
 
-    @Override
-    public void fillActionBars(IActionBars actionBars)
-    {
-        if (openAction.isEnabled())
-        {
-            actionBars.setGlobalActionHandler(ICommonActionConstants.OPEN, openAction);
-        }
-    }
-    
-    @Override
-    public void fillContextMenu(IMenuManager menu)
-    {
-        if (openAction.isEnabled())
-        {
-            menu.appendToGroup(ICommonMenuConstants.GROUP_OPEN, openAction);
-        }
-    }
+	@Override
+	public void saveState(IMemento memento) {
+		super.saveState(memento);
+	}
 
-    
-    /**
+	@Override
+	public void fillActionBars(IActionBars actionBars) {
+		if (openAction.isEnabled()) {
+			actionBars.setGlobalActionHandler(ICommonActionConstants.OPEN,
+					openAction);
+		}
+	}
+
+	@Override
+	public void fillContextMenu(IMenuManager menu) {
+		if (openAction.isEnabled()) {
+			menu.appendToGroup(ICommonMenuConstants.GROUP_OPEN, openAction);
+		}
+	}
+
+	/**
      * 
      * 
      * 
      */
-    class OpenChildAction extends Action
-    {
+	class OpenChildAction extends Action {
 		private ISelectionProvider provider;
-        private Object data;
+		private Object data;
 
-        public OpenChildAction(IWorkbenchPage workbenchPage, ISelectionProvider selectionProvider)
-        {
-            //super("Open item");
-            //provider = selectionProvider;
-        	setText("Open");
-        	page = workbenchPage;
-        	provider = selectionProvider;
+		public OpenChildAction(IWorkbenchPage workbenchPage,
+				ISelectionProvider selectionProvider) {
+			// super("Open item");
+			// provider = selectionProvider;
+			setText("Open");
+			page = workbenchPage;
+			provider = selectionProvider;
 
-        }
-        
+		}
 
-        @Override
-        public void run()
-        {
-            
-            if (data != null)
-            {
-                logger.debug("open called on " + data.getClass().getName());
-        		       		        				
-    			// If we had a selection lets open the editor
-    			if (data instanceof DInvestigation) {
-    				DInvestigation dinvestigation = (DInvestigation) data;
-    			}else if (data instanceof DDataset) {
-    				DDataset ddataset = (DDataset) data;
-    		         		     
-    			}else if (data instanceof Datafile) {
-    				Datafile datafile = (Datafile) data;
-    				logger.debug("opening " + datafile.getDatafileLocation() + " with id: " +datafile.getId());
-    				
-    				// check current operating system
-    				if (OSDetector.isUnix()){
-    					try {
+		@Override
+		public void run() {
 
-    						EclipseUtils.openExternalEditor(datafile.getDatafileLocation());
-        					
-    					} catch (PartInitException e) {
-    						logger.error("Cannot open file "+datafile.getDatafileLocation(), e);
-    					}
-    				}else{//windows os detected
-    					
-    					logger.info("non-unix system detected...proceed with downloading the file");
-    					
-    					/*
-    					 * check whether temporary download location exists.
-    					 * if not create it in home directory
-    					 * all non-existent ancestor directories are
-    					 * automatically created?
-    					 */
-    				     
-    					File file1 = new File(System.getProperty("user.home"));
-    				    File file2 = new File(file1, downloadDir);
-    					File file3 = new File(file2.getPath());
-    					
-    					// computing the local file path
-    					FilenameUtils fileUtils = new FilenameUtils(datafile.getDatafileLocation(), '/', '.');    					
-    				    File file4 = new File(file2, fileUtils.filename());
-    				    File file5 = new File(file4.getPath());
-    				    
-    				    String localFilePath = file5.getPath();
-    				 
-    				if(!file3.exists()){// download dir does not exist yet, create it
-    					
-						logger.error("Creating: "+ file3.getPath());
+			if (data != null) {
+				logger.debug("open called on " + data.getClass().getName());
 
-    				    boolean success = (new File(file2.getPath())).mkdirs();
-    						if (success) {
-    							
-        						logger.debug("Successfully created: "+ file3.getPath());
+				// If we had a selection lets open the editor
+				if (data instanceof DInvestigation) {
+					DInvestigation dinvestigation = (DInvestigation) data;
+				} else if (data instanceof DDataset) {
+					DDataset ddataset = (DDataset) data;
 
-    						}else {
-    							// Directory creation failed
-        						logger.error("Failed creating download directory: "+ downloadDir);
-    						}
-    						
-    				      }else {//folder exists already, create it
-    						
-   							logger.debug("Download Dir exists: "+ file3.getPath());
-   							
-   							
-   							logger.debug("file exists? " + (Boolean.toString(file5.exists())).toUpperCase() + " - " + localFilePath);
-    						if(!(new File(localFilePath)).exists()){
-   							// download file to temp dir
-							logger.info("downloading datafile id: " + datafile.getId());
-							
-							String fedid = ICATSessionDetails.icatClient.getFedId();
-							String password = ICATSessionDetails.icatClient.getPassword();
-							
-							SftpClient sftpClient = new SftpClient();
-							localFilePath = sftpClient.downloadFile(fedid, password, sftpServer, datafile.getDatafileLocation(), file2.getPath()/*downloadDir*/);
-							
-							logger.info("file successfully downloaded to " + localFilePath);
-    				      }else{
-    				    	  
-    				    	  logger.debug("file: " + localFilePath + " already exist in local filesystem");
-    				      }
-							
+				} else if (data instanceof Datafile) {
+					Datafile datafile = (Datafile) data;
+					logger.debug("opening " + datafile.getDatafileLocation()
+							+ " with id: " + datafile.getId());
+
+					// check current operating system
+					if (OSDetector.isUnix()) {
+						try {
+
+							EclipseUtils.openExternalEditor(datafile
+									.getDatafileLocation());
+
+						} catch (PartInitException e) {
+							logger.error(
+									"Cannot open file "
+											+ datafile.getDatafileLocation(), e);
+						}
+					} else {// windows os detected
+
+						logger.info("non-unix system detected...proceed with downloading the file");
+
+						/*
+						 * check whether temporary download location exists. if
+						 * not create it in home directory all non-existent
+						 * ancestor directories are automatically created?
+						 */
+
+						File file1 = new File(System.getProperty("user.home"));
+						File file2 = new File(file1, downloadDir);
+						File file3 = new File(file2.getPath());
+
+						// computing the local file path
+						FilenameUtils fileUtils = new FilenameUtils(
+								datafile.getDatafileLocation(), '/', '.');
+						File file4 = new File(file2, fileUtils.filename());
+						File file5 = new File(file4.getPath());
+
+						String localFilePath = file5.getPath();
+
+						if (!file3.exists()) {// download dir does not exist
+												// yet, create it
+
+							logger.error("Creating: " + file3.getPath());
+
+							boolean success = (new File(file2.getPath()))
+									.mkdirs();
+							if (success) {
+
+								logger.debug("Successfully created: "
+										+ file3.getPath());
+
+							} else {
+								// Directory creation failed
+								logger.error("Failed creating download directory: "
+										+ downloadDir);
+							}
+
+						} else {// folder exists already, create it
+
+							logger.debug("Download Dir exists: "
+									+ file3.getPath());
+
+							logger.debug("file exists? "
+									+ (Boolean.toString(file5.exists()))
+											.toUpperCase() + " - "
+									+ localFilePath);
+							if (!(new File(localFilePath)).exists()) {
+								// download file to temp dir
+								logger.info("downloading datafile id: "
+										+ datafile.getId());
+
+								String fedid = ICATSessionDetails.icatClient
+										.getFedId();
+								String password = ICATSessionDetails.icatClient
+										.getPassword();
+
+								SftpClient sftpClient = new SftpClient();
+								localFilePath = sftpClient.downloadFile(fedid,
+										password, sftpServer,
+										datafile.getDatafileLocation(),
+										file2.getPath()/* downloadDir */);
+
+								logger.info("file successfully downloaded to "
+										+ localFilePath);
+							} else {
+
+								logger.debug("file: " + localFilePath
+										+ " already exist in local filesystem");
+							}
+
 							// open editor
 							try {
-								logger.debug("open file in editor:  " + datafile.getDatafileLocation());
-	        					EclipseUtils.openExternalEditor(localFilePath);
-	    					} catch (PartInitException e) {
-	    						logger.error("Cannot open file "+datafile.getDatafileLocation(), e);
-	    					}
-				
-    				      }
-    					
-    				}
-    				
-    			}
-    			}// end if data <> null	
-            super.run();
-        }
-        
-        // handle single click
-        @Override
-        public boolean isEnabled()
-        {
-            ISelection selection = provider.getSelection();
-            
-            if (!selection.isEmpty())
-            {
-                IStructuredSelection sSelection = (IStructuredSelection) selection;
-                if (sSelection.size() == 1 && sSelection.getFirstElement() instanceof DInvestigation) 
-                {
-                    data = (DInvestigation)sSelection.getFirstElement();
-                    
-                    return true;
-                }else if (sSelection.size() == 1 && sSelection.getFirstElement() instanceof DDataset) 
-                {
-                	data = (DDataset) sSelection.getFirstElement();                  
-                    return true;
-                }else if (sSelection.getFirstElement() instanceof Datafile) 
-                {
-                    data = (Datafile) sSelection.getFirstElement();
-                    
-                    return true;
-                }
-            }
-            return false;
-        }
+								logger.debug("open file in editor:  "
+										+ datafile.getDatafileLocation());
+								EclipseUtils.openExternalEditor(localFilePath);
+							} catch (PartInitException e) {
+								logger.error(
+										"Cannot open file "
+												+ datafile
+														.getDatafileLocation(),
+										e);
+							}
 
-        
-        
-    }
-	
+						}
+
+					}
+
+				}
+			}// end if data <> null
+			super.run();
+		}
+
+		// handle single click
+		@Override
+		public boolean isEnabled() {
+			ISelection selection = provider.getSelection();
+
+			if (!selection.isEmpty()) {
+				IStructuredSelection sSelection = (IStructuredSelection) selection;
+				if (sSelection.size() == 1
+						&& sSelection.getFirstElement() instanceof DInvestigation) {
+					data = sSelection.getFirstElement();
+
+					return true;
+				} else if (sSelection.size() == 1
+						&& sSelection.getFirstElement() instanceof DDataset) {
+					data = sSelection.getFirstElement();
+					return true;
+				} else if (sSelection.getFirstElement() instanceof Datafile) {
+					data = sSelection.getFirstElement();
+
+					return true;
+				}
+			}
+			return false;
+		}
+
+	}
+
 }

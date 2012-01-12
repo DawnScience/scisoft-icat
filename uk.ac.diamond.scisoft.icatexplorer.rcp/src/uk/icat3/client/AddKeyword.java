@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for addKeyword complex type.
+ * <p>
+ * Java class for addKeyword complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="addKeyword">
@@ -43,87 +45,75 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "addKeyword", propOrder = {
-    "sessionId",
-    "keyword",
-    "investigationId"
-})
+@XmlType(name = "addKeyword", propOrder = { "sessionId", "keyword",
+		"investigationId" })
 public class AddKeyword {
 
-    protected String sessionId;
-    protected Keyword keyword;
-    protected Long investigationId;
+	protected String sessionId;
+	protected Keyword keyword;
+	protected Long investigationId;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the keyword property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Keyword }
-     *     
-     */
-    public Keyword getKeyword() {
-        return keyword;
-    }
+	/**
+	 * Gets the value of the keyword property.
+	 * 
+	 * @return possible object is {@link Keyword }
+	 * 
+	 */
+	public Keyword getKeyword() {
+		return keyword;
+	}
 
-    /**
-     * Sets the value of the keyword property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Keyword }
-     *     
-     */
-    public void setKeyword(Keyword value) {
-        this.keyword = value;
-    }
+	/**
+	 * Sets the value of the keyword property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Keyword }
+	 * 
+	 */
+	public void setKeyword(Keyword value) {
+		this.keyword = value;
+	}
 
-    /**
-     * Gets the value of the investigationId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getInvestigationId() {
-        return investigationId;
-    }
+	/**
+	 * Gets the value of the investigationId property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getInvestigationId() {
+		return investigationId;
+	}
 
-    /**
-     * Sets the value of the investigationId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setInvestigationId(Long value) {
-        this.investigationId = value;
-    }
+	/**
+	 * Sets the value of the investigationId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setInvestigationId(Long value) {
+		this.investigationId = value;
+	}
 
 }

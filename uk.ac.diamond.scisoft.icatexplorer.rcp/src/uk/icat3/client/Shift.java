@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for shift complex type.
+ * <p>
+ * Java class for shift complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="shift">
@@ -42,63 +44,52 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "shift", propOrder = {
-    "shiftComment",
-    "shiftPK"
-})
-public class Shift
-    extends EntityBaseBean
-{
+@XmlType(name = "shift", propOrder = { "shiftComment", "shiftPK" })
+public class Shift extends EntityBaseBean {
 
-    protected String shiftComment;
-    protected ShiftPK shiftPK;
+	protected String shiftComment;
+	protected ShiftPK shiftPK;
 
-    /**
-     * Gets the value of the shiftComment property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getShiftComment() {
-        return shiftComment;
-    }
+	/**
+	 * Gets the value of the shiftComment property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getShiftComment() {
+		return shiftComment;
+	}
 
-    /**
-     * Sets the value of the shiftComment property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setShiftComment(String value) {
-        this.shiftComment = value;
-    }
+	/**
+	 * Sets the value of the shiftComment property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setShiftComment(String value) {
+		this.shiftComment = value;
+	}
 
-    /**
-     * Gets the value of the shiftPK property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ShiftPK }
-     *     
-     */
-    public ShiftPK getShiftPK() {
-        return shiftPK;
-    }
+	/**
+	 * Gets the value of the shiftPK property.
+	 * 
+	 * @return possible object is {@link ShiftPK }
+	 * 
+	 */
+	public ShiftPK getShiftPK() {
+		return shiftPK;
+	}
 
-    /**
-     * Sets the value of the shiftPK property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ShiftPK }
-     *     
-     */
-    public void setShiftPK(ShiftPK value) {
-        this.shiftPK = value;
-    }
+	/**
+	 * Sets the value of the shiftPK property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link ShiftPK }
+	 * 
+	 */
+	public void setShiftPK(ShiftPK value) {
+		this.shiftPK = value;
+	}
 
 }

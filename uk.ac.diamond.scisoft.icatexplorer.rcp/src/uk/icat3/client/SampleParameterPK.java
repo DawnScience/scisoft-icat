@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for sampleParameterPK complex type.
+ * <p>
+ * Java class for sampleParameterPK complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="sampleParameterPK">
@@ -43,89 +45,74 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "sampleParameterPK", propOrder = {
-    "name",
-    "sampleId",
-    "units"
-})
-public class SampleParameterPK
-    extends EntityPrimaryKeyBaseBean
-{
+@XmlType(name = "sampleParameterPK", propOrder = { "name", "sampleId", "units" })
+public class SampleParameterPK extends EntityPrimaryKeyBaseBean {
 
-    protected String name;
-    protected Long sampleId;
-    protected String units;
+	protected String name;
+	protected Long sampleId;
+	protected String units;
 
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Gets the value of the name property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+	/**
+	 * Sets the value of the name property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setName(String value) {
+		this.name = value;
+	}
 
-    /**
-     * Gets the value of the sampleId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getSampleId() {
-        return sampleId;
-    }
+	/**
+	 * Gets the value of the sampleId property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getSampleId() {
+		return sampleId;
+	}
 
-    /**
-     * Sets the value of the sampleId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setSampleId(Long value) {
-        this.sampleId = value;
-    }
+	/**
+	 * Sets the value of the sampleId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setSampleId(Long value) {
+		this.sampleId = value;
+	}
 
-    /**
-     * Gets the value of the units property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUnits() {
-        return units;
-    }
+	/**
+	 * Gets the value of the units property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getUnits() {
+		return units;
+	}
 
-    /**
-     * Sets the value of the units property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUnits(String value) {
-        this.units = value;
-    }
+	/**
+	 * Sets the value of the units property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setUnits(String value) {
+		this.units = value;
+	}
 
 }

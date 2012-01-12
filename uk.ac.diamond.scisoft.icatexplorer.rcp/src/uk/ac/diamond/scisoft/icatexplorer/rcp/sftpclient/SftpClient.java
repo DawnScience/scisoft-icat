@@ -32,49 +32,53 @@ import com.jcraft.jsch.SftpException;
 import com.jcraft.jsch.UserInfo;
 
 public class SftpClient {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(SftpClient.class);
-	
-	public SftpClient(){
-		
+
+	public SftpClient() {
+
 	}
-	
-	public String downloadFile(String fedid, String password, String remoteHost, String remoteFile, String downloadDir){
-		
+
+	public String downloadFile(String fedid, String password,
+			String remoteHost, String remoteFile, String downloadDir) {
+
 		JSch jsch = new JSch();
-				
-		String knownHostsFilename = System.getProperty("user.home") + "/.ssh/known_hosts";
+
+		String knownHostsFilename = System.getProperty("user.home")
+				+ "/.ssh/known_hosts";
 		try {
-			jsch.setKnownHosts( knownHostsFilename );
+			jsch.setKnownHosts(knownHostsFilename);
 		} catch (JSchException e) {
 			logger.error("Error setting known hosts file for sftp", e);
 		}
 
 		Session session = null;
 		try {
-			session = jsch.getSession( fedid, remoteHost );
+			session = jsch.getSession(fedid, remoteHost);
 		} catch (JSchException e) {
-			logger.error("Error getting sftp session with given fedid and remote host, fedid= " + fedid + "  - remote host= " + remoteHost, e);
-		}    
+			logger.error(
+					"Error getting sftp session with given fedid and remote host, fedid= "
+							+ fedid + "  - remote host= " + remoteHost, e);
+		}
 		{
-		  // "interactive" version
-		  // can selectively update specified known_hosts file 
-		  // need to implement UserInfo interface
-		  // MyUserInfo is a swing implementation provided in 
-		  //  examples/Sftp.java in the JSch dist
-		  UserInfo ui = new Sftp.MyUserInfo();
-		  session.setUserInfo(ui);
+			// "interactive" version
+			// can selectively update specified known_hosts file
+			// need to implement UserInfo interface
+			// MyUserInfo is a swing implementation provided in
+			// examples/Sftp.java in the JSch dist
+			UserInfo ui = new Sftp.MyUserInfo();
+			session.setUserInfo(ui);
 
-		  // OR non-interactive version. Relies in host key being in known-hosts file
-		  session.setPassword( password );
+			// OR non-interactive version. Relies in host key being in
+			// known-hosts file
+			session.setPassword(password);
 		}
 
-		
 		Channel channel;
 		ChannelSftp sftpChannel = null;
 		try {
 			session.connect();
-			channel = session.openChannel( "sftp" );
+			channel = session.openChannel("sftp");
 			channel.connect();
 			sftpChannel = (ChannelSftp) channel;
 		} catch (JSchException e) {
@@ -82,28 +86,27 @@ public class SftpClient {
 		}
 
 		FilenameUtils fileUtils = new FilenameUtils(remoteFile, '/', '.');
-		
-		File file1 = new File(downloadDir);
-	    File file2 = new File(file1,fileUtils.filename());
-	    
-	    String localFilePath = file2.getPath();//"C:\\gotFile";
 
-	    //logger.debug("localFilePath: " + localFilePath);
+		File file1 = new File(downloadDir);
+		File file2 = new File(file1, fileUtils.filename());
+
+		String localFilePath = file2.getPath();// "C:\\gotFile";
+
+		// logger.debug("localFilePath: " + localFilePath);
 
 		try {
-			sftpChannel.get(remoteFile, localFilePath);//, monitor);
+			sftpChannel.get(remoteFile, localFilePath);// , monitor);
 		} catch (SftpException e) {
 			logger.error("Error getting file from remote host", e);
 		}
 		// OR
-		//InputStream in = sftpChannel.get( remoteFile );		
+		// InputStream in = sftpChannel.get( remoteFile );
 		// process inputstream as needed
-		
+
 		sftpChannel.exit();
 		session.disconnect();
-		
+
 		return localFilePath;
-	} 
-	
+	}
 
 }

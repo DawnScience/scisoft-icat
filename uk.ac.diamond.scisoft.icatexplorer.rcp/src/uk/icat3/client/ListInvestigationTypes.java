@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for listInvestigationTypes complex type.
+ * <p>
+ * Java class for listInvestigationTypes complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="listInvestigationTypes">
@@ -41,35 +43,30 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "listInvestigationTypes", propOrder = {
-    "sessionId"
-})
+@XmlType(name = "listInvestigationTypes", propOrder = { "sessionId" })
 public class ListInvestigationTypes {
 
-    protected String sessionId;
+	protected String sessionId;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
 }

@@ -21,11 +21,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for logoutResponse complex type.
+ * <p>
+ * Java class for logoutResponse complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="logoutResponse">
@@ -42,28 +44,26 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "logoutResponse", propOrder = {
-    "_return"
-})
+@XmlType(name = "logoutResponse", propOrder = { "_return" })
 public class LogoutResponse {
 
-    @XmlElement(name = "return")
-    protected boolean _return;
+	@XmlElement(name = "return")
+	protected boolean _return;
 
-    /**
-     * Gets the value of the return property.
-     * 
-     */
-    public boolean isReturn() {
-        return _return;
-    }
+	/**
+	 * Gets the value of the return property.
+	 * 
+	 */
+	public boolean isReturn() {
+		return _return;
+	}
 
-    /**
-     * Sets the value of the return property.
-     * 
-     */
-    public void setReturn(boolean value) {
-        this._return = value;
-    }
+	/**
+	 * Sets the value of the return property.
+	 * 
+	 */
+	public void setReturn(boolean value) {
+		this._return = value;
+	}
 
 }

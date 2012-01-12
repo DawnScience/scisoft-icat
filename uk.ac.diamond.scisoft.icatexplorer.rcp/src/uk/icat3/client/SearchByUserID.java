@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for searchByUserID complex type.
+ * <p>
+ * Java class for searchByUserID complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="searchByUserID">
@@ -42,61 +44,52 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "searchByUserID", propOrder = {
-    "sessionId",
-    "userSearch"
-})
+@XmlType(name = "searchByUserID", propOrder = { "sessionId", "userSearch" })
 public class SearchByUserID {
 
-    protected String sessionId;
-    protected String userSearch;
+	protected String sessionId;
+	protected String userSearch;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the userSearch property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUserSearch() {
-        return userSearch;
-    }
+	/**
+	 * Gets the value of the userSearch property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getUserSearch() {
+		return userSearch;
+	}
 
-    /**
-     * Sets the value of the userSearch property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUserSearch(String value) {
-        this.userSearch = value;
-    }
+	/**
+	 * Sets the value of the userSearch property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setUserSearch(String value) {
+		this.userSearch = value;
+	}
 
 }

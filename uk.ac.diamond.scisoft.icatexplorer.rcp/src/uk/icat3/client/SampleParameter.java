@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for sampleParameter complex type.
+ * <p>
+ * Java class for sampleParameter complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="sampleParameter">
@@ -48,211 +50,181 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "sampleParameter", propOrder = {
-    "description",
-    "error",
-    "numeric",
-    "numericValue",
-    "rangeBottom",
-    "rangeTop",
-    "sampleParameterPK",
-    "stringValue"
-})
-public class SampleParameter
-    extends EntityBaseBean
-{
+@XmlType(name = "sampleParameter", propOrder = { "description", "error",
+		"numeric", "numericValue", "rangeBottom", "rangeTop",
+		"sampleParameterPK", "stringValue" })
+public class SampleParameter extends EntityBaseBean {
 
-    protected String description;
-    protected String error;
-    protected boolean numeric;
-    protected Double numericValue;
-    protected String rangeBottom;
-    protected String rangeTop;
-    protected SampleParameterPK sampleParameterPK;
-    protected String stringValue;
+	protected String description;
+	protected String error;
+	protected boolean numeric;
+	protected Double numericValue;
+	protected String rangeBottom;
+	protected String rangeTop;
+	protected SampleParameterPK sampleParameterPK;
+	protected String stringValue;
 
-    /**
-     * Gets the value of the description property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDescription() {
-        return description;
-    }
+	/**
+	 * Gets the value of the description property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getDescription() {
+		return description;
+	}
 
-    /**
-     * Sets the value of the description property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDescription(String value) {
-        this.description = value;
-    }
+	/**
+	 * Sets the value of the description property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setDescription(String value) {
+		this.description = value;
+	}
 
-    /**
-     * Gets the value of the error property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getError() {
-        return error;
-    }
+	/**
+	 * Gets the value of the error property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getError() {
+		return error;
+	}
 
-    /**
-     * Sets the value of the error property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setError(String value) {
-        this.error = value;
-    }
+	/**
+	 * Sets the value of the error property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setError(String value) {
+		this.error = value;
+	}
 
-    /**
-     * Gets the value of the numeric property.
-     * 
-     */
-    public boolean isNumeric() {
-        return numeric;
-    }
+	/**
+	 * Gets the value of the numeric property.
+	 * 
+	 */
+	public boolean isNumeric() {
+		return numeric;
+	}
 
-    /**
-     * Sets the value of the numeric property.
-     * 
-     */
-    public void setNumeric(boolean value) {
-        this.numeric = value;
-    }
+	/**
+	 * Sets the value of the numeric property.
+	 * 
+	 */
+	public void setNumeric(boolean value) {
+		this.numeric = value;
+	}
 
-    /**
-     * Gets the value of the numericValue property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Double }
-     *     
-     */
-    public Double getNumericValue() {
-        return numericValue;
-    }
+	/**
+	 * Gets the value of the numericValue property.
+	 * 
+	 * @return possible object is {@link Double }
+	 * 
+	 */
+	public Double getNumericValue() {
+		return numericValue;
+	}
 
-    /**
-     * Sets the value of the numericValue property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Double }
-     *     
-     */
-    public void setNumericValue(Double value) {
-        this.numericValue = value;
-    }
+	/**
+	 * Sets the value of the numericValue property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Double }
+	 * 
+	 */
+	public void setNumericValue(Double value) {
+		this.numericValue = value;
+	}
 
-    /**
-     * Gets the value of the rangeBottom property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getRangeBottom() {
-        return rangeBottom;
-    }
+	/**
+	 * Gets the value of the rangeBottom property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getRangeBottom() {
+		return rangeBottom;
+	}
 
-    /**
-     * Sets the value of the rangeBottom property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRangeBottom(String value) {
-        this.rangeBottom = value;
-    }
+	/**
+	 * Sets the value of the rangeBottom property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setRangeBottom(String value) {
+		this.rangeBottom = value;
+	}
 
-    /**
-     * Gets the value of the rangeTop property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getRangeTop() {
-        return rangeTop;
-    }
+	/**
+	 * Gets the value of the rangeTop property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getRangeTop() {
+		return rangeTop;
+	}
 
-    /**
-     * Sets the value of the rangeTop property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRangeTop(String value) {
-        this.rangeTop = value;
-    }
+	/**
+	 * Sets the value of the rangeTop property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setRangeTop(String value) {
+		this.rangeTop = value;
+	}
 
-    /**
-     * Gets the value of the sampleParameterPK property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link SampleParameterPK }
-     *     
-     */
-    public SampleParameterPK getSampleParameterPK() {
-        return sampleParameterPK;
-    }
+	/**
+	 * Gets the value of the sampleParameterPK property.
+	 * 
+	 * @return possible object is {@link SampleParameterPK }
+	 * 
+	 */
+	public SampleParameterPK getSampleParameterPK() {
+		return sampleParameterPK;
+	}
 
-    /**
-     * Sets the value of the sampleParameterPK property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link SampleParameterPK }
-     *     
-     */
-    public void setSampleParameterPK(SampleParameterPK value) {
-        this.sampleParameterPK = value;
-    }
+	/**
+	 * Sets the value of the sampleParameterPK property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link SampleParameterPK }
+	 * 
+	 */
+	public void setSampleParameterPK(SampleParameterPK value) {
+		this.sampleParameterPK = value;
+	}
 
-    /**
-     * Gets the value of the stringValue property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStringValue() {
-        return stringValue;
-    }
+	/**
+	 * Gets the value of the stringValue property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getStringValue() {
+		return stringValue;
+	}
 
-    /**
-     * Sets the value of the stringValue property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStringValue(String value) {
-        this.stringValue = value;
-    }
+	/**
+	 * Sets the value of the stringValue property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setStringValue(String value) {
+		this.stringValue = value;
+	}
 
 }

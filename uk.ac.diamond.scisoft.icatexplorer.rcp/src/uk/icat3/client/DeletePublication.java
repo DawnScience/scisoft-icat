@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for deletePublication complex type.
+ * <p>
+ * Java class for deletePublication complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="deletePublication">
@@ -42,61 +44,52 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "deletePublication", propOrder = {
-    "sessionId",
-    "publicationId"
-})
+@XmlType(name = "deletePublication", propOrder = { "sessionId", "publicationId" })
 public class DeletePublication {
 
-    protected String sessionId;
-    protected Long publicationId;
+	protected String sessionId;
+	protected Long publicationId;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the publicationId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getPublicationId() {
-        return publicationId;
-    }
+	/**
+	 * Gets the value of the publicationId property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getPublicationId() {
+		return publicationId;
+	}
 
-    /**
-     * Sets the value of the publicationId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setPublicationId(Long value) {
-        this.publicationId = value;
-    }
+	/**
+	 * Sets the value of the publicationId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setPublicationId(Long value) {
+		this.publicationId = value;
+	}
 
 }

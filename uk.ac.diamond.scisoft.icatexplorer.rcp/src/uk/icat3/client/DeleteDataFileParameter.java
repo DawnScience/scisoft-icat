@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for deleteDataFileParameter complex type.
+ * <p>
+ * Java class for deleteDataFileParameter complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="deleteDataFileParameter">
@@ -42,61 +44,53 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "deleteDataFileParameter", propOrder = {
-    "sessionId",
-    "datafileParameterPK"
-})
+@XmlType(name = "deleteDataFileParameter", propOrder = { "sessionId",
+		"datafileParameterPK" })
 public class DeleteDataFileParameter {
 
-    protected String sessionId;
-    protected DatafileParameterPK datafileParameterPK;
+	protected String sessionId;
+	protected DatafileParameterPK datafileParameterPK;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the datafileParameterPK property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link DatafileParameterPK }
-     *     
-     */
-    public DatafileParameterPK getDatafileParameterPK() {
-        return datafileParameterPK;
-    }
+	/**
+	 * Gets the value of the datafileParameterPK property.
+	 * 
+	 * @return possible object is {@link DatafileParameterPK }
+	 * 
+	 */
+	public DatafileParameterPK getDatafileParameterPK() {
+		return datafileParameterPK;
+	}
 
-    /**
-     * Sets the value of the datafileParameterPK property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link DatafileParameterPK }
-     *     
-     */
-    public void setDatafileParameterPK(DatafileParameterPK value) {
-        this.datafileParameterPK = value;
-    }
+	/**
+	 * Sets the value of the datafileParameterPK property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link DatafileParameterPK }
+	 * 
+	 */
+	public void setDatafileParameterPK(DatafileParameterPK value) {
+		this.datafileParameterPK = value;
+	}
 
 }

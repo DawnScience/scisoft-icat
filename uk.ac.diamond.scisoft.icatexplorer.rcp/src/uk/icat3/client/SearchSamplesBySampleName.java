@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for searchSamplesBySampleName complex type.
+ * <p>
+ * Java class for searchSamplesBySampleName complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="searchSamplesBySampleName">
@@ -42,61 +44,53 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "searchSamplesBySampleName", propOrder = {
-    "sessionId",
-    "sampleName"
-})
+@XmlType(name = "searchSamplesBySampleName", propOrder = { "sessionId",
+		"sampleName" })
 public class SearchSamplesBySampleName {
 
-    protected String sessionId;
-    protected String sampleName;
+	protected String sessionId;
+	protected String sampleName;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the sampleName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSampleName() {
-        return sampleName;
-    }
+	/**
+	 * Gets the value of the sampleName property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSampleName() {
+		return sampleName;
+	}
 
-    /**
-     * Sets the value of the sampleName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSampleName(String value) {
-        this.sampleName = value;
-    }
+	/**
+	 * Sets the value of the sampleName property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSampleName(String value) {
+		this.sampleName = value;
+	}
 
 }

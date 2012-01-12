@@ -23,27 +23,27 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import uk.ac.diamond.scisoft.icatexplorer.rcp.ui.ICATPerspective;
 
-
 /**
  * Workbench advisor
+ * 
  * @author smw81327
  * @version $Id$
  */
-public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor
-{
+public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
-    public void initialize(IWorkbenchConfigurer configurer)
-    {
-     }
+	@Override
+	public void initialize(IWorkbenchConfigurer configurer) {
+	}
 
-    public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer)
-    {
-        return new ApplicationWorkbenchWindowAdvisor(configurer);
-    }
+	@Override
+	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(
+			IWorkbenchWindowConfigurer configurer) {
+		return new ApplicationWorkbenchWindowAdvisor(configurer);
+	}
 
-    public String getInitialWindowPerspectiveId()
-    {
-        return ICATPerspective.PERSPECTIVE_ID;
-    }
+	@Override
+	public String getInitialWindowPerspectiveId() {
+		return ICATPerspective.PERSPECTIVE_ID;
+	}
 
 }

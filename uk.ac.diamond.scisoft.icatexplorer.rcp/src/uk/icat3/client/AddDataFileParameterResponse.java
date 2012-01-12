@@ -21,11 +21,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for addDataFileParameterResponse complex type.
+ * <p>
+ * Java class for addDataFileParameterResponse complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="addDataFileParameterResponse">
@@ -42,36 +44,31 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "addDataFileParameterResponse", propOrder = {
-    "_return"
-})
+@XmlType(name = "addDataFileParameterResponse", propOrder = { "_return" })
 public class AddDataFileParameterResponse {
 
-    @XmlElement(name = "return")
-    protected DatafileParameter _return;
+	@XmlElement(name = "return")
+	protected DatafileParameter _return;
 
-    /**
-     * Gets the value of the return property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link DatafileParameter }
-     *     
-     */
-    public DatafileParameter getReturn() {
-        return _return;
-    }
+	/**
+	 * Gets the value of the return property.
+	 * 
+	 * @return possible object is {@link DatafileParameter }
+	 * 
+	 */
+	public DatafileParameter getReturn() {
+		return _return;
+	}
 
-    /**
-     * Sets the value of the return property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link DatafileParameter }
-     *     
-     */
-    public void setReturn(DatafileParameter value) {
-        this._return = value;
-    }
+	/**
+	 * Sets the value of the return property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link DatafileParameter }
+	 * 
+	 */
+	public void setReturn(DatafileParameter value) {
+		this._return = value;
+	}
 
 }

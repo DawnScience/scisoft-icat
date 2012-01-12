@@ -18,15 +18,18 @@ package uk.icat3.client;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for addDataFileParameters complex type.
+ * <p>
+ * Java class for addDataFileParameters complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="addDataFileParameters">
@@ -45,92 +48,84 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "addDataFileParameters", propOrder = {
-    "sessionId",
-    "dataFileParameters",
-    "datafileId"
-})
+@XmlType(name = "addDataFileParameters", propOrder = { "sessionId",
+		"dataFileParameters", "datafileId" })
 public class AddDataFileParameters {
 
-    protected String sessionId;
-    protected List<DatafileParameter> dataFileParameters;
-    protected Long datafileId;
+	protected String sessionId;
+	protected List<DatafileParameter> dataFileParameters;
+	protected Long datafileId;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the dataFileParameters property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the dataFileParameters property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getDataFileParameters().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link DatafileParameter }
-     * 
-     * 
-     */
-    public List<DatafileParameter> getDataFileParameters() {
-        if (dataFileParameters == null) {
-            dataFileParameters = new ArrayList<DatafileParameter>();
-        }
-        return this.dataFileParameters;
-    }
+	/**
+	 * Gets the value of the dataFileParameters property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the dataFileParameters property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getDataFileParameters().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list
+	 * {@link DatafileParameter }
+	 * 
+	 * 
+	 */
+	public List<DatafileParameter> getDataFileParameters() {
+		if (dataFileParameters == null) {
+			dataFileParameters = new ArrayList<DatafileParameter>();
+		}
+		return this.dataFileParameters;
+	}
 
-    /**
-     * Gets the value of the datafileId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getDatafileId() {
-        return datafileId;
-    }
+	/**
+	 * Gets the value of the datafileId property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getDatafileId() {
+		return datafileId;
+	}
 
-    /**
-     * Sets the value of the datafileId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setDatafileId(Long value) {
-        this.datafileId = value;
-    }
+	/**
+	 * Sets the value of the datafileId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setDatafileId(Long value) {
+		this.datafileId = value;
+	}
 
 }

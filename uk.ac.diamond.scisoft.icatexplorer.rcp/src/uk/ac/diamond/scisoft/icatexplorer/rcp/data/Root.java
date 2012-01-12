@@ -20,10 +20,10 @@ import org.eclipse.core.runtime.PlatformObject;
 
 /**
  * Root
+ * 
  * @author smw81327
  * @version $Id$
  */
-public class Root extends PlatformObject
-{
+public class Root extends PlatformObject {
 
 }

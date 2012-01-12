@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for keyword complex type.
+ * <p>
+ * Java class for keyword complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="keyword">
@@ -41,37 +43,30 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "keyword", propOrder = {
-    "keywordPK"
-})
-public class Keyword
-    extends EntityBaseBean
-{
+@XmlType(name = "keyword", propOrder = { "keywordPK" })
+public class Keyword extends EntityBaseBean {
 
-    protected KeywordPK keywordPK;
+	protected KeywordPK keywordPK;
 
-    /**
-     * Gets the value of the keywordPK property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link KeywordPK }
-     *     
-     */
-    public KeywordPK getKeywordPK() {
-        return keywordPK;
-    }
+	/**
+	 * Gets the value of the keywordPK property.
+	 * 
+	 * @return possible object is {@link KeywordPK }
+	 * 
+	 */
+	public KeywordPK getKeywordPK() {
+		return keywordPK;
+	}
 
-    /**
-     * Sets the value of the keywordPK property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link KeywordPK }
-     *     
-     */
-    public void setKeywordPK(KeywordPK value) {
-        this.keywordPK = value;
-    }
+	/**
+	 * Sets the value of the keywordPK property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link KeywordPK }
+	 * 
+	 */
+	public void setKeywordPK(KeywordPK value) {
+		this.keywordPK = value;
+	}
 
 }

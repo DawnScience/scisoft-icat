@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for deleteDataSetParameter complex type.
+ * <p>
+ * Java class for deleteDataSetParameter complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="deleteDataSetParameter">
@@ -42,61 +44,53 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "deleteDataSetParameter", propOrder = {
-    "sessionId",
-    "datasetParameterPK"
-})
+@XmlType(name = "deleteDataSetParameter", propOrder = { "sessionId",
+		"datasetParameterPK" })
 public class DeleteDataSetParameter {
 
-    protected String sessionId;
-    protected DatasetParameterPK datasetParameterPK;
+	protected String sessionId;
+	protected DatasetParameterPK datasetParameterPK;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the datasetParameterPK property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link DatasetParameterPK }
-     *     
-     */
-    public DatasetParameterPK getDatasetParameterPK() {
-        return datasetParameterPK;
-    }
+	/**
+	 * Gets the value of the datasetParameterPK property.
+	 * 
+	 * @return possible object is {@link DatasetParameterPK }
+	 * 
+	 */
+	public DatasetParameterPK getDatasetParameterPK() {
+		return datasetParameterPK;
+	}
 
-    /**
-     * Sets the value of the datasetParameterPK property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link DatasetParameterPK }
-     *     
-     */
-    public void setDatasetParameterPK(DatasetParameterPK value) {
-        this.datasetParameterPK = value;
-    }
+	/**
+	 * Sets the value of the datasetParameterPK property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link DatasetParameterPK }
+	 * 
+	 */
+	public void setDatasetParameterPK(DatasetParameterPK value) {
+		this.datasetParameterPK = value;
+	}
 
 }

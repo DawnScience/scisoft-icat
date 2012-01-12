@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for ValidationException complex type.
+ * <p>
+ * Java class for ValidationException complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="ValidationException">
@@ -43,87 +45,75 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ValidationException", propOrder = {
-    "message",
-    "stackTraceAsString",
-    "uniqueId"
-})
+@XmlType(name = "ValidationException", propOrder = { "message",
+		"stackTraceAsString", "uniqueId" })
 public class ValidationException {
 
-    protected String message;
-    protected String stackTraceAsString;
-    protected String uniqueId;
+	protected String message;
+	protected String stackTraceAsString;
+	protected String uniqueId;
 
-    /**
-     * Gets the value of the message property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getMessage() {
-        return message;
-    }
+	/**
+	 * Gets the value of the message property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getMessage() {
+		return message;
+	}
 
-    /**
-     * Sets the value of the message property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setMessage(String value) {
-        this.message = value;
-    }
+	/**
+	 * Sets the value of the message property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setMessage(String value) {
+		this.message = value;
+	}
 
-    /**
-     * Gets the value of the stackTraceAsString property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStackTraceAsString() {
-        return stackTraceAsString;
-    }
+	/**
+	 * Gets the value of the stackTraceAsString property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getStackTraceAsString() {
+		return stackTraceAsString;
+	}
 
-    /**
-     * Sets the value of the stackTraceAsString property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStackTraceAsString(String value) {
-        this.stackTraceAsString = value;
-    }
+	/**
+	 * Sets the value of the stackTraceAsString property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setStackTraceAsString(String value) {
+		this.stackTraceAsString = value;
+	}
 
-    /**
-     * Gets the value of the uniqueId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUniqueId() {
-        return uniqueId;
-    }
+	/**
+	 * Gets the value of the uniqueId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getUniqueId() {
+		return uniqueId;
+	}
 
-    /**
-     * Sets the value of the uniqueId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUniqueId(String value) {
-        this.uniqueId = value;
-    }
+	/**
+	 * Sets the value of the uniqueId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setUniqueId(String value) {
+		this.uniqueId = value;
+	}
 
 }

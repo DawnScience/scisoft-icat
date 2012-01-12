@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for removeSampleParameter complex type.
+ * <p>
+ * Java class for removeSampleParameter complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="removeSampleParameter">
@@ -42,61 +44,53 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "removeSampleParameter", propOrder = {
-    "sessionId",
-    "sampleParameterPK"
-})
+@XmlType(name = "removeSampleParameter", propOrder = { "sessionId",
+		"sampleParameterPK" })
 public class RemoveSampleParameter {
 
-    protected String sessionId;
-    protected SampleParameterPK sampleParameterPK;
+	protected String sessionId;
+	protected SampleParameterPK sampleParameterPK;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the sampleParameterPK property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link SampleParameterPK }
-     *     
-     */
-    public SampleParameterPK getSampleParameterPK() {
-        return sampleParameterPK;
-    }
+	/**
+	 * Gets the value of the sampleParameterPK property.
+	 * 
+	 * @return possible object is {@link SampleParameterPK }
+	 * 
+	 */
+	public SampleParameterPK getSampleParameterPK() {
+		return sampleParameterPK;
+	}
 
-    /**
-     * Sets the value of the sampleParameterPK property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link SampleParameterPK }
-     *     
-     */
-    public void setSampleParameterPK(SampleParameterPK value) {
-        this.sampleParameterPK = value;
-    }
+	/**
+	 * Sets the value of the sampleParameterPK property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link SampleParameterPK }
+	 * 
+	 */
+	public void setSampleParameterPK(SampleParameterPK value) {
+		this.sampleParameterPK = value;
+	}
 
 }

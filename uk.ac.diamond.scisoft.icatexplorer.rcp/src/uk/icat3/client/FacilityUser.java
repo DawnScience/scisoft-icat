@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for facilityUser complex type.
+ * <p>
+ * Java class for facilityUser complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="facilityUser">
@@ -47,193 +49,163 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "facilityUser", propOrder = {
-    "facilityUserId",
-    "federalId",
-    "firstName",
-    "initials",
-    "lastName",
-    "middleName",
-    "title"
-})
-public class FacilityUser
-    extends EntityBaseBean
-{
+@XmlType(name = "facilityUser", propOrder = { "facilityUserId", "federalId",
+		"firstName", "initials", "lastName", "middleName", "title" })
+public class FacilityUser extends EntityBaseBean {
 
-    protected String facilityUserId;
-    protected String federalId;
-    protected String firstName;
-    protected String initials;
-    protected String lastName;
-    protected String middleName;
-    protected String title;
+	protected String facilityUserId;
+	protected String federalId;
+	protected String firstName;
+	protected String initials;
+	protected String lastName;
+	protected String middleName;
+	protected String title;
 
-    /**
-     * Gets the value of the facilityUserId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFacilityUserId() {
-        return facilityUserId;
-    }
+	/**
+	 * Gets the value of the facilityUserId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getFacilityUserId() {
+		return facilityUserId;
+	}
 
-    /**
-     * Sets the value of the facilityUserId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFacilityUserId(String value) {
-        this.facilityUserId = value;
-    }
+	/**
+	 * Sets the value of the facilityUserId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setFacilityUserId(String value) {
+		this.facilityUserId = value;
+	}
 
-    /**
-     * Gets the value of the federalId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFederalId() {
-        return federalId;
-    }
+	/**
+	 * Gets the value of the federalId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getFederalId() {
+		return federalId;
+	}
 
-    /**
-     * Sets the value of the federalId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFederalId(String value) {
-        this.federalId = value;
-    }
+	/**
+	 * Sets the value of the federalId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setFederalId(String value) {
+		this.federalId = value;
+	}
 
-    /**
-     * Gets the value of the firstName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFirstName() {
-        return firstName;
-    }
+	/**
+	 * Gets the value of the firstName property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getFirstName() {
+		return firstName;
+	}
 
-    /**
-     * Sets the value of the firstName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFirstName(String value) {
-        this.firstName = value;
-    }
+	/**
+	 * Sets the value of the firstName property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setFirstName(String value) {
+		this.firstName = value;
+	}
 
-    /**
-     * Gets the value of the initials property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getInitials() {
-        return initials;
-    }
+	/**
+	 * Gets the value of the initials property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getInitials() {
+		return initials;
+	}
 
-    /**
-     * Sets the value of the initials property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setInitials(String value) {
-        this.initials = value;
-    }
+	/**
+	 * Sets the value of the initials property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setInitials(String value) {
+		this.initials = value;
+	}
 
-    /**
-     * Gets the value of the lastName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getLastName() {
-        return lastName;
-    }
+	/**
+	 * Gets the value of the lastName property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getLastName() {
+		return lastName;
+	}
 
-    /**
-     * Sets the value of the lastName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setLastName(String value) {
-        this.lastName = value;
-    }
+	/**
+	 * Sets the value of the lastName property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setLastName(String value) {
+		this.lastName = value;
+	}
 
-    /**
-     * Gets the value of the middleName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getMiddleName() {
-        return middleName;
-    }
+	/**
+	 * Gets the value of the middleName property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getMiddleName() {
+		return middleName;
+	}
 
-    /**
-     * Sets the value of the middleName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setMiddleName(String value) {
-        this.middleName = value;
-    }
+	/**
+	 * Sets the value of the middleName property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setMiddleName(String value) {
+		this.middleName = value;
+	}
 
-    /**
-     * Gets the value of the title property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTitle() {
-        return title;
-    }
+	/**
+	 * Gets the value of the title property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getTitle() {
+		return title;
+	}
 
-    /**
-     * Sets the value of the title property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTitle(String value) {
-        this.title = value;
-    }
+	/**
+	 * Sets the value of the title property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setTitle(String value) {
+		this.title = value;
+	}
 
 }

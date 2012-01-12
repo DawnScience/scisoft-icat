@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for deleteKeyword complex type.
+ * <p>
+ * Java class for deleteKeyword complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="deleteKeyword">
@@ -42,61 +44,52 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "deleteKeyword", propOrder = {
-    "sessionId",
-    "keywordPK"
-})
+@XmlType(name = "deleteKeyword", propOrder = { "sessionId", "keywordPK" })
 public class DeleteKeyword {
 
-    protected String sessionId;
-    protected KeywordPK keywordPK;
+	protected String sessionId;
+	protected KeywordPK keywordPK;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the keywordPK property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link KeywordPK }
-     *     
-     */
-    public KeywordPK getKeywordPK() {
-        return keywordPK;
-    }
+	/**
+	 * Gets the value of the keywordPK property.
+	 * 
+	 * @return possible object is {@link KeywordPK }
+	 * 
+	 */
+	public KeywordPK getKeywordPK() {
+		return keywordPK;
+	}
 
-    /**
-     * Sets the value of the keywordPK property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link KeywordPK }
-     *     
-     */
-    public void setKeywordPK(KeywordPK value) {
-        this.keywordPK = value;
-    }
+	/**
+	 * Sets the value of the keywordPK property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link KeywordPK }
+	 * 
+	 */
+	public void setKeywordPK(KeywordPK value) {
+		this.keywordPK = value;
+	}
 
 }

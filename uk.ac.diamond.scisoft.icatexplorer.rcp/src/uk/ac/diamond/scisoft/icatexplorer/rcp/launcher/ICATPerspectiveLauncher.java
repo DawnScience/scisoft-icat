@@ -30,13 +30,14 @@ public class ICATPerspectiveLauncher implements IWorkbenchWindowActionDelegate {
 	@Override
 	public void run(IAction action) {
 		try {
-			PlatformUI.getWorkbench().showPerspective(ICATPerspective.PERSPECTIVE_ID,PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+			PlatformUI.getWorkbench().showPerspective(
+					ICATPerspective.PERSPECTIVE_ID,
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow());
 		} catch (WorkbenchException e) {
 			e.printStackTrace();
-		} 	
+		}
 
 	}
-
 
 	@Override
 	public void dispose() {
@@ -50,12 +51,10 @@ public class ICATPerspectiveLauncher implements IWorkbenchWindowActionDelegate {
 
 	}
 
-
 	@Override
 	public void selectionChanged(IAction arg0, ISelection arg1) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 }

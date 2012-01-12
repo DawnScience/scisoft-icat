@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for publication complex type.
+ * <p>
+ * Java class for publication complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="publication">
@@ -45,141 +47,119 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "publication", propOrder = {
-    "fullReference",
-    "id",
-    "repository",
-    "repositoryId",
-    "url"
-})
-public class Publication
-    extends EntityBaseBean
-{
+@XmlType(name = "publication", propOrder = { "fullReference", "id",
+		"repository", "repositoryId", "url" })
+public class Publication extends EntityBaseBean {
 
-    protected String fullReference;
-    protected Long id;
-    protected String repository;
-    protected String repositoryId;
-    protected String url;
+	protected String fullReference;
+	protected Long id;
+	protected String repository;
+	protected String repositoryId;
+	protected String url;
 
-    /**
-     * Gets the value of the fullReference property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFullReference() {
-        return fullReference;
-    }
+	/**
+	 * Gets the value of the fullReference property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getFullReference() {
+		return fullReference;
+	}
 
-    /**
-     * Sets the value of the fullReference property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFullReference(String value) {
-        this.fullReference = value;
-    }
+	/**
+	 * Sets the value of the fullReference property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setFullReference(String value) {
+		this.fullReference = value;
+	}
 
-    /**
-     * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getId() {
-        return id;
-    }
+	/**
+	 * Gets the value of the id property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setId(Long value) {
-        this.id = value;
-    }
+	/**
+	 * Sets the value of the id property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setId(Long value) {
+		this.id = value;
+	}
 
-    /**
-     * Gets the value of the repository property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getRepository() {
-        return repository;
-    }
+	/**
+	 * Gets the value of the repository property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getRepository() {
+		return repository;
+	}
 
-    /**
-     * Sets the value of the repository property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRepository(String value) {
-        this.repository = value;
-    }
+	/**
+	 * Sets the value of the repository property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setRepository(String value) {
+		this.repository = value;
+	}
 
-    /**
-     * Gets the value of the repositoryId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getRepositoryId() {
-        return repositoryId;
-    }
+	/**
+	 * Gets the value of the repositoryId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getRepositoryId() {
+		return repositoryId;
+	}
 
-    /**
-     * Sets the value of the repositoryId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRepositoryId(String value) {
-        this.repositoryId = value;
-    }
+	/**
+	 * Sets the value of the repositoryId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setRepositoryId(String value) {
+		this.repositoryId = value;
+	}
 
-    /**
-     * Gets the value of the url property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUrl() {
-        return url;
-    }
+	/**
+	 * Gets the value of the url property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getUrl() {
+		return url;
+	}
 
-    /**
-     * Sets the value of the url property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUrl(String value) {
-        this.url = value;
-    }
+	/**
+	 * Sets the value of the url property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setUrl(String value) {
+		this.url = value;
+	}
 
 }

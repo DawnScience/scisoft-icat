@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for getKeywordsForUserType complex type.
+ * <p>
+ * Java class for getKeywordsForUserType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="getKeywordsForUserType">
@@ -42,61 +44,53 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getKeywordsForUserType", propOrder = {
-    "sessionId",
-    "keywordType"
-})
+@XmlType(name = "getKeywordsForUserType", propOrder = { "sessionId",
+		"keywordType" })
 public class GetKeywordsForUserType {
 
-    protected String sessionId;
-    protected KeywordType keywordType;
+	protected String sessionId;
+	protected KeywordType keywordType;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the keywordType property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link KeywordType }
-     *     
-     */
-    public KeywordType getKeywordType() {
-        return keywordType;
-    }
+	/**
+	 * Gets the value of the keywordType property.
+	 * 
+	 * @return possible object is {@link KeywordType }
+	 * 
+	 */
+	public KeywordType getKeywordType() {
+		return keywordType;
+	}
 
-    /**
-     * Sets the value of the keywordType property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link KeywordType }
-     *     
-     */
-    public void setKeywordType(KeywordType value) {
-        this.keywordType = value;
-    }
+	/**
+	 * Sets the value of the keywordType property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link KeywordType }
+	 * 
+	 */
+	public void setKeywordType(KeywordType value) {
+		this.keywordType = value;
+	}
 
 }

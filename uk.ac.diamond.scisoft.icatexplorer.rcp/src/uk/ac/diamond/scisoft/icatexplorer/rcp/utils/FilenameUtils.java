@@ -34,7 +34,7 @@ public class FilenameUtils {
 		return fullPath.substring(dot + 1);
 	}
 
-	public String filename() { 
+	public String filename() {
 		int dot = fullPath.lastIndexOf(extensionSeparator);
 		int sep = fullPath.lastIndexOf(pathSeparator);
 		// return fullPath.substring(sep + 1, dot) ;
@@ -51,12 +51,12 @@ public class FilenameUtils {
 
 		return fullPath.replace("/", backslash + backslash);
 	}
-	
-	public String localFilePath(String downloadDir){
+
+	public String localFilePath(String downloadDir) {
 		File file1 = new File(downloadDir);
-	    File file2 = new File(file1, filename());    
-	    String localFilePath = file2.getPath();	
-	    
+		File file2 = new File(file1, filename());
+		String localFilePath = file2.getPath();
+
 		return localFilePath;
 	}
 

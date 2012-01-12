@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for loginAdmin complex type.
+ * <p>
+ * Java class for loginAdmin complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="loginAdmin">
@@ -41,35 +43,30 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "loginAdmin", propOrder = {
-    "runAsUserFedId"
-})
+@XmlType(name = "loginAdmin", propOrder = { "runAsUserFedId" })
 public class LoginAdmin {
 
-    protected String runAsUserFedId;
+	protected String runAsUserFedId;
 
-    /**
-     * Gets the value of the runAsUserFedId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getRunAsUserFedId() {
-        return runAsUserFedId;
-    }
+	/**
+	 * Gets the value of the runAsUserFedId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getRunAsUserFedId() {
+		return runAsUserFedId;
+	}
 
-    /**
-     * Sets the value of the runAsUserFedId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRunAsUserFedId(String value) {
-        this.runAsUserFedId = value;
-    }
+	/**
+	 * Sets the value of the runAsUserFedId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setRunAsUserFedId(String value) {
+		this.runAsUserFedId = value;
+	}
 
 }

@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for getDataset complex type.
+ * <p>
+ * Java class for getDataset complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="getDataset">
@@ -42,61 +44,52 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getDataset", propOrder = {
-    "sessionId",
-    "datasetId"
-})
+@XmlType(name = "getDataset", propOrder = { "sessionId", "datasetId" })
 public class GetDataset {
 
-    protected String sessionId;
-    protected Long datasetId;
+	protected String sessionId;
+	protected Long datasetId;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the datasetId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getDatasetId() {
-        return datasetId;
-    }
+	/**
+	 * Gets the value of the datasetId property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getDatasetId() {
+		return datasetId;
+	}
 
-    /**
-     * Sets the value of the datasetId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setDatasetId(Long value) {
-        this.datasetId = value;
-    }
+	/**
+	 * Sets the value of the datasetId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setDatasetId(Long value) {
+		this.datasetId = value;
+	}
 
 }

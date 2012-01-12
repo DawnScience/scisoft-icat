@@ -21,11 +21,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for addKeywordResponse complex type.
+ * <p>
+ * Java class for addKeywordResponse complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="addKeywordResponse">
@@ -42,36 +44,31 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "addKeywordResponse", propOrder = {
-    "_return"
-})
+@XmlType(name = "addKeywordResponse", propOrder = { "_return" })
 public class AddKeywordResponse {
 
-    @XmlElement(name = "return")
-    protected Keyword _return;
+	@XmlElement(name = "return")
+	protected Keyword _return;
 
-    /**
-     * Gets the value of the return property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Keyword }
-     *     
-     */
-    public Keyword getReturn() {
-        return _return;
-    }
+	/**
+	 * Gets the value of the return property.
+	 * 
+	 * @return possible object is {@link Keyword }
+	 * 
+	 */
+	public Keyword getReturn() {
+		return _return;
+	}
 
-    /**
-     * Sets the value of the return property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Keyword }
-     *     
-     */
-    public void setReturn(Keyword value) {
-        this._return = value;
-    }
+	/**
+	 * Sets the value of the return property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Keyword }
+	 * 
+	 */
+	public void setReturn(Keyword value) {
+		this._return = value;
+	}
 
 }

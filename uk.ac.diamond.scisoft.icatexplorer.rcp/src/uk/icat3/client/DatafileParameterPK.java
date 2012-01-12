@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for datafileParameterPK complex type.
+ * <p>
+ * Java class for datafileParameterPK complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="datafileParameterPK">
@@ -43,89 +45,75 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "datafileParameterPK", propOrder = {
-    "datafileId",
-    "name",
-    "units"
-})
-public class DatafileParameterPK
-    extends EntityPrimaryKeyBaseBean
-{
+@XmlType(name = "datafileParameterPK", propOrder = { "datafileId", "name",
+		"units" })
+public class DatafileParameterPK extends EntityPrimaryKeyBaseBean {
 
-    protected Long datafileId;
-    protected String name;
-    protected String units;
+	protected Long datafileId;
+	protected String name;
+	protected String units;
 
-    /**
-     * Gets the value of the datafileId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getDatafileId() {
-        return datafileId;
-    }
+	/**
+	 * Gets the value of the datafileId property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getDatafileId() {
+		return datafileId;
+	}
 
-    /**
-     * Sets the value of the datafileId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setDatafileId(Long value) {
-        this.datafileId = value;
-    }
+	/**
+	 * Sets the value of the datafileId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setDatafileId(Long value) {
+		this.datafileId = value;
+	}
 
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Gets the value of the name property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+	/**
+	 * Sets the value of the name property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setName(String value) {
+		this.name = value;
+	}
 
-    /**
-     * Gets the value of the units property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUnits() {
-        return units;
-    }
+	/**
+	 * Gets the value of the units property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getUnits() {
+		return units;
+	}
 
-    /**
-     * Sets the value of the units property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUnits(String value) {
-        this.units = value;
-    }
+	/**
+	 * Sets the value of the units property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setUnits(String value) {
+		this.units = value;
+	}
 
 }

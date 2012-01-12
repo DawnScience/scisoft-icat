@@ -19,12 +19,15 @@ package uk.icat3.client;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for datasetInclude.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
+ * Java class for datasetInclude.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ * <p>
+ * 
  * <pre>
  * &lt;simpleType name="datasetInclude">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -41,17 +44,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum DatasetInclude {
 
-    DATASET_AND_DATAFILES_ONLY,
-    DATASET_PARAMETERS_ONLY,
-    DATASET_DATAFILES_AND_PARAMETERS,
-    NONE;
+	DATASET_AND_DATAFILES_ONLY, DATASET_PARAMETERS_ONLY, DATASET_DATAFILES_AND_PARAMETERS, NONE;
 
-    public String value() {
-        return name();
-    }
+	public String value() {
+		return name();
+	}
 
-    public static DatasetInclude fromValue(String v) {
-        return valueOf(v);
-    }
+	public static DatasetInclude fromValue(String v) {
+		return valueOf(v);
+	}
 
 }

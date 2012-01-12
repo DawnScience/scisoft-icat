@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for investigator complex type.
+ * <p>
+ * Java class for investigator complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="investigator">
@@ -43,89 +45,75 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "investigator", propOrder = {
-    "facilityUser",
-    "investigatorPK",
-    "role"
-})
-public class Investigator
-    extends EntityBaseBean
-{
+@XmlType(name = "investigator", propOrder = { "facilityUser", "investigatorPK",
+		"role" })
+public class Investigator extends EntityBaseBean {
 
-    protected FacilityUser facilityUser;
-    protected InvestigatorPK investigatorPK;
-    protected String role;
+	protected FacilityUser facilityUser;
+	protected InvestigatorPK investigatorPK;
+	protected String role;
 
-    /**
-     * Gets the value of the facilityUser property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link FacilityUser }
-     *     
-     */
-    public FacilityUser getFacilityUser() {
-        return facilityUser;
-    }
+	/**
+	 * Gets the value of the facilityUser property.
+	 * 
+	 * @return possible object is {@link FacilityUser }
+	 * 
+	 */
+	public FacilityUser getFacilityUser() {
+		return facilityUser;
+	}
 
-    /**
-     * Sets the value of the facilityUser property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link FacilityUser }
-     *     
-     */
-    public void setFacilityUser(FacilityUser value) {
-        this.facilityUser = value;
-    }
+	/**
+	 * Sets the value of the facilityUser property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link FacilityUser }
+	 * 
+	 */
+	public void setFacilityUser(FacilityUser value) {
+		this.facilityUser = value;
+	}
 
-    /**
-     * Gets the value of the investigatorPK property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link InvestigatorPK }
-     *     
-     */
-    public InvestigatorPK getInvestigatorPK() {
-        return investigatorPK;
-    }
+	/**
+	 * Gets the value of the investigatorPK property.
+	 * 
+	 * @return possible object is {@link InvestigatorPK }
+	 * 
+	 */
+	public InvestigatorPK getInvestigatorPK() {
+		return investigatorPK;
+	}
 
-    /**
-     * Sets the value of the investigatorPK property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link InvestigatorPK }
-     *     
-     */
-    public void setInvestigatorPK(InvestigatorPK value) {
-        this.investigatorPK = value;
-    }
+	/**
+	 * Sets the value of the investigatorPK property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link InvestigatorPK }
+	 * 
+	 */
+	public void setInvestigatorPK(InvestigatorPK value) {
+		this.investigatorPK = value;
+	}
 
-    /**
-     * Gets the value of the role property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getRole() {
-        return role;
-    }
+	/**
+	 * Gets the value of the role property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getRole() {
+		return role;
+	}
 
-    /**
-     * Sets the value of the role property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRole(String value) {
-        this.role = value;
-    }
+	/**
+	 * Sets the value of the role property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setRole(String value) {
+		this.role = value;
+	}
 
 }

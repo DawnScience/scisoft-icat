@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for icatAuthorisation complex type.
+ * <p>
+ * Java class for icatAuthorisation complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="icatAuthorisation">
@@ -46,167 +48,141 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "icatAuthorisation", propOrder = {
-    "elementId",
-    "elementType",
-    "id",
-    "role",
-    "userChildRecord",
-    "userId"
-})
-public class IcatAuthorisation
-    extends EntityBaseBean
-{
+@XmlType(name = "icatAuthorisation", propOrder = { "elementId", "elementType",
+		"id", "role", "userChildRecord", "userId" })
+public class IcatAuthorisation extends EntityBaseBean {
 
-    protected Long elementId;
-    protected ElementType elementType;
-    protected Long id;
-    protected IcatRole role;
-    protected Long userChildRecord;
-    protected String userId;
+	protected Long elementId;
+	protected ElementType elementType;
+	protected Long id;
+	protected IcatRole role;
+	protected Long userChildRecord;
+	protected String userId;
 
-    /**
-     * Gets the value of the elementId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getElementId() {
-        return elementId;
-    }
+	/**
+	 * Gets the value of the elementId property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getElementId() {
+		return elementId;
+	}
 
-    /**
-     * Sets the value of the elementId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setElementId(Long value) {
-        this.elementId = value;
-    }
+	/**
+	 * Sets the value of the elementId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setElementId(Long value) {
+		this.elementId = value;
+	}
 
-    /**
-     * Gets the value of the elementType property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ElementType }
-     *     
-     */
-    public ElementType getElementType() {
-        return elementType;
-    }
+	/**
+	 * Gets the value of the elementType property.
+	 * 
+	 * @return possible object is {@link ElementType }
+	 * 
+	 */
+	public ElementType getElementType() {
+		return elementType;
+	}
 
-    /**
-     * Sets the value of the elementType property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ElementType }
-     *     
-     */
-    public void setElementType(ElementType value) {
-        this.elementType = value;
-    }
+	/**
+	 * Sets the value of the elementType property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link ElementType }
+	 * 
+	 */
+	public void setElementType(ElementType value) {
+		this.elementType = value;
+	}
 
-    /**
-     * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getId() {
-        return id;
-    }
+	/**
+	 * Gets the value of the id property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setId(Long value) {
-        this.id = value;
-    }
+	/**
+	 * Sets the value of the id property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setId(Long value) {
+		this.id = value;
+	}
 
-    /**
-     * Gets the value of the role property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link IcatRole }
-     *     
-     */
-    public IcatRole getRole() {
-        return role;
-    }
+	/**
+	 * Gets the value of the role property.
+	 * 
+	 * @return possible object is {@link IcatRole }
+	 * 
+	 */
+	public IcatRole getRole() {
+		return role;
+	}
 
-    /**
-     * Sets the value of the role property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link IcatRole }
-     *     
-     */
-    public void setRole(IcatRole value) {
-        this.role = value;
-    }
+	/**
+	 * Sets the value of the role property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link IcatRole }
+	 * 
+	 */
+	public void setRole(IcatRole value) {
+		this.role = value;
+	}
 
-    /**
-     * Gets the value of the userChildRecord property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getUserChildRecord() {
-        return userChildRecord;
-    }
+	/**
+	 * Gets the value of the userChildRecord property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getUserChildRecord() {
+		return userChildRecord;
+	}
 
-    /**
-     * Sets the value of the userChildRecord property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setUserChildRecord(Long value) {
-        this.userChildRecord = value;
-    }
+	/**
+	 * Sets the value of the userChildRecord property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setUserChildRecord(Long value) {
+		this.userChildRecord = value;
+	}
 
-    /**
-     * Gets the value of the userId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUserId() {
-        return userId;
-    }
+	/**
+	 * Gets the value of the userId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getUserId() {
+		return userId;
+	}
 
-    /**
-     * Sets the value of the userId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUserId(String value) {
-        this.userId = value;
-    }
+	/**
+	 * Sets the value of the userId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setUserId(String value) {
+		this.userId = value;
+	}
 
 }

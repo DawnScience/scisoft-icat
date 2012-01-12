@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for login complex type.
+ * <p>
+ * Java class for login complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="login">
@@ -42,61 +44,52 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "login", propOrder = {
-    "username",
-    "password"
-})
+@XmlType(name = "login", propOrder = { "username", "password" })
 public class Login {
 
-    protected String username;
-    protected String password;
+	protected String username;
+	protected String password;
 
-    /**
-     * Gets the value of the username property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUsername() {
-        return username;
-    }
+	/**
+	 * Gets the value of the username property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getUsername() {
+		return username;
+	}
 
-    /**
-     * Sets the value of the username property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUsername(String value) {
-        this.username = value;
-    }
+	/**
+	 * Sets the value of the username property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setUsername(String value) {
+		this.username = value;
+	}
 
-    /**
-     * Gets the value of the password property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPassword() {
-        return password;
-    }
+	/**
+	 * Gets the value of the password property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getPassword() {
+		return password;
+	}
 
-    /**
-     * Sets the value of the password property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPassword(String value) {
-        this.password = value;
-    }
+	/**
+	 * Sets the value of the password property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setPassword(String value) {
+		this.password = value;
+	}
 
 }

@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for relatedDatafilesPK complex type.
+ * <p>
+ * Java class for relatedDatafilesPK complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="relatedDatafilesPK">
@@ -42,63 +44,53 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "relatedDatafilesPK", propOrder = {
-    "destDatafileId",
-    "sourceDatafileId"
-})
-public class RelatedDatafilesPK
-    extends EntityPrimaryKeyBaseBean
-{
+@XmlType(name = "relatedDatafilesPK", propOrder = { "destDatafileId",
+		"sourceDatafileId" })
+public class RelatedDatafilesPK extends EntityPrimaryKeyBaseBean {
 
-    protected Long destDatafileId;
-    protected Long sourceDatafileId;
+	protected Long destDatafileId;
+	protected Long sourceDatafileId;
 
-    /**
-     * Gets the value of the destDatafileId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getDestDatafileId() {
-        return destDatafileId;
-    }
+	/**
+	 * Gets the value of the destDatafileId property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getDestDatafileId() {
+		return destDatafileId;
+	}
 
-    /**
-     * Sets the value of the destDatafileId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setDestDatafileId(Long value) {
-        this.destDatafileId = value;
-    }
+	/**
+	 * Sets the value of the destDatafileId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setDestDatafileId(Long value) {
+		this.destDatafileId = value;
+	}
 
-    /**
-     * Gets the value of the sourceDatafileId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getSourceDatafileId() {
-        return sourceDatafileId;
-    }
+	/**
+	 * Gets the value of the sourceDatafileId property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getSourceDatafileId() {
+		return sourceDatafileId;
+	}
 
-    /**
-     * Sets the value of the sourceDatafileId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setSourceDatafileId(Long value) {
-        this.sourceDatafileId = value;
-    }
+	/**
+	 * Sets the value of the sourceDatafileId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setSourceDatafileId(Long value) {
+		this.sourceDatafileId = value;
+	}
 
 }

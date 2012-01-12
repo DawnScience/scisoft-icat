@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for getInvestigationIncludes complex type.
+ * <p>
+ * Java class for getInvestigationIncludes complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="getInvestigationIncludes">
@@ -43,87 +45,75 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getInvestigationIncludes", propOrder = {
-    "sessionId",
-    "investigationId",
-    "investigationInclude"
-})
+@XmlType(name = "getInvestigationIncludes", propOrder = { "sessionId",
+		"investigationId", "investigationInclude" })
 public class GetInvestigationIncludes {
 
-    protected String sessionId;
-    protected Long investigationId;
-    protected InvestigationInclude investigationInclude;
+	protected String sessionId;
+	protected Long investigationId;
+	protected InvestigationInclude investigationInclude;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the investigationId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getInvestigationId() {
-        return investigationId;
-    }
+	/**
+	 * Gets the value of the investigationId property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getInvestigationId() {
+		return investigationId;
+	}
 
-    /**
-     * Sets the value of the investigationId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setInvestigationId(Long value) {
-        this.investigationId = value;
-    }
+	/**
+	 * Sets the value of the investigationId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setInvestigationId(Long value) {
+		this.investigationId = value;
+	}
 
-    /**
-     * Gets the value of the investigationInclude property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link InvestigationInclude }
-     *     
-     */
-    public InvestigationInclude getInvestigationInclude() {
-        return investigationInclude;
-    }
+	/**
+	 * Gets the value of the investigationInclude property.
+	 * 
+	 * @return possible object is {@link InvestigationInclude }
+	 * 
+	 */
+	public InvestigationInclude getInvestigationInclude() {
+		return investigationInclude;
+	}
 
-    /**
-     * Sets the value of the investigationInclude property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link InvestigationInclude }
-     *     
-     */
-    public void setInvestigationInclude(InvestigationInclude value) {
-        this.investigationInclude = value;
-    }
+	/**
+	 * Sets the value of the investigationInclude property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link InvestigationInclude }
+	 * 
+	 */
+	public void setInvestigationInclude(InvestigationInclude value) {
+		this.investigationInclude = value;
+	}
 
 }

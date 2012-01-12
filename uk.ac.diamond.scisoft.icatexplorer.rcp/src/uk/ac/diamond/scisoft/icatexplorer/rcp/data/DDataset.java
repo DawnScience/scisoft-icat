@@ -16,7 +16,6 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.rcp.data;
 
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,36 +29,37 @@ import uk.ac.diamond.scisoft.analysis.io.MetaDataAdapter;
 
 /**
  * DDataset element
+ * 
  * @author smw81327
  * @version $Id$
  */
-public class DDataset extends uk.icat3.client.Dataset implements IMetadataProvider
-{
-	
-    private static final Logger logger = LoggerFactory.getLogger(DDataset.class); 
-	
-   	private String name;
-    private long id;
-    private long sample_id;
+public class DDataset extends uk.icat3.client.Dataset implements
+		IMetadataProvider {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(DDataset.class);
+
+	private String name;
+	private long id;
+	private long sample_id;
 	private long investigation_id;
-    private String dataset_type;
-    private String dataset_status;
-    private String location;
-    private String description;
-    private String mod_time;
-    private String mod_id;
-    private String create_time;
-    private String create_id;
-    private String facility_acquired;
-    private String deleted;
-    
+	private String dataset_type;
+	private String dataset_status;
+	private String location;
+	private String description;
+	private String mod_time;
+	private String mod_id;
+	private String create_time;
+	private String create_id;
+	private String facility_acquired;
+	private String deleted;
+
 	private DInvestigation dInvestigation;
 
-    public long getSample_id() {
+	public long getSample_id() {
 		return sample_id;
 	}
 
-	
 	public long getInvestigation_id() {
 		return investigation_id;
 	}
@@ -72,10 +72,12 @@ public class DDataset extends uk.icat3.client.Dataset implements IMetadataProvid
 		return dataset_status;
 	}
 
+	@Override
 	public String getLocation() {
 		return super.location;
 	}
 
+	@Override
 	public String getDescription() {
 		return description;
 	}
@@ -83,7 +85,6 @@ public class DDataset extends uk.icat3.client.Dataset implements IMetadataProvid
 	public String getMod_time() {
 		return mod_time;
 	}
-
 
 	public String getMod_id() {
 		return mod_id;
@@ -105,78 +106,75 @@ public class DDataset extends uk.icat3.client.Dataset implements IMetadataProvid
 		return deleted;
 	}
 
-
+	@Override
 	public String getName() {
 		return name;
 	}
 
-
 	/**
-     * Constructor
-     */
-    public DDataset(long id, String name)
-    {
-        super();
-        this.id = id;
-        this.name = name;
-    }
+	 * Constructor
+	 */
+	public DDataset(long id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
 
-    public DDataset(Long id, String name, String datasetStatus,
+	public DDataset(Long id, String name, String datasetStatus,
 			String datasetType, String description, Long investigationId,
 			String location, Long sampleId, String uniqueId) {
-    	
-    	this.id = id;
-    	this.name = name;
-    	this.dataset_status = datasetStatus;
-    	this.dataset_type = datasetType;
-    	this.description = description;
-    	this.investigation_id = investigationId;
-    	this.location = location;  	
-    	//this.sample_id = sampleId;  	
-    
-    }
 
+		this.id = id;
+		this.name = name;
+		this.dataset_status = datasetStatus;
+		this.dataset_type = datasetType;
+		this.description = description;
+		this.investigation_id = investigationId;
+		this.location = location;
+		// this.sample_id = sampleId;
 
+	}
+
+	@Override
 	public Long getId() {
-			return this.id;
-		}
+		return this.id;
+	}
 
-	
-    /**
-     * @param dInvestigation
-     */
-    public void setParent(DInvestigation dInvestigation)
-    {
-        this.dInvestigation = dInvestigation;
-    }
+	/**
+	 * @param dInvestigation
+	 */
+	public void setParent(DInvestigation dInvestigation) {
+		this.dInvestigation = dInvestigation;
+	}
 
-    public DInvestigation getParent()
-    {
-        return dInvestigation;
-    }
+	public DInvestigation getParent() {
+		return dInvestigation;
+	}
 
 	@Override
 	public IMetaData getMetadata() throws Exception {
-		final HashMap <String, String> pairs = new HashMap<String, String>();	
+		final HashMap<String, String> pairs = new HashMap<String, String>();
 		pairs.put("ID", Long.toString(this.getId()));
 		pairs.put("SAMPLE_ID", Long.toString(this.getSample_id()));
 		pairs.put("INVESTIGATION_ID", Long.toString(this.getInvestigation_id()));
-		pairs.put("NAME",this.getName());
-		pairs.put("DATASET_TYPE",this.getDataset_type());
-		pairs.put("DATASET_STATUS",this.getDataset_status());
-		pairs.put("LOCATION",this.getLocation());
+		pairs.put("NAME", this.getName());
+		pairs.put("DATASET_TYPE", this.getDataset_type());
+		pairs.put("DATASET_STATUS", this.getDataset_status());
+		pairs.put("LOCATION", this.getLocation());
 		pairs.put("DESCRIPTION", this.getDescription());
-		//pairs.put("MOD_TIME", UnitsConverter.gregorianToString(this.get .get.getMod_time()));
-		//pairs.put("MOD_ID", Long.toString(this.getMod_id()));
-		//pairs.put("CREATE_TIME", UnitsConverter.gregorianToString(this.getCreate_time()));
-		//pairs.put("CREATE_ID", Long.toString(this.getMod_id()));
-		//pairs.put("FACILITY_ACQUIRED", this.getFacility_acquired());
-		//pairs.put("DELETED", this.getDeleted());
-		
-		final HashMap <String, String> name = new HashMap<String, String>();
-		name.put("NAME", "DATASET: "+this.getName());
-		
-		return new MetaDataAdapter(){
+		// pairs.put("MOD_TIME", UnitsConverter.gregorianToString(this.get
+		// .get.getMod_time()));
+		// pairs.put("MOD_ID", Long.toString(this.getMod_id()));
+		// pairs.put("CREATE_TIME",
+		// UnitsConverter.gregorianToString(this.getCreate_time()));
+		// pairs.put("CREATE_ID", Long.toString(this.getMod_id()));
+		// pairs.put("FACILITY_ACQUIRED", this.getFacility_acquired());
+		// pairs.put("DELETED", this.getDeleted());
+
+		final HashMap<String, String> name = new HashMap<String, String>();
+		name.put("NAME", "DATASET: " + this.getName());
+
+		return new MetaDataAdapter() {
 
 			@Override
 			public Serializable getMetaValue(String key) throws Exception {
@@ -185,19 +183,17 @@ public class DDataset extends uk.icat3.client.Dataset implements IMetadataProvid
 
 			@Override
 			public Collection<String> getMetaNames() throws Exception {
-				
+
 				return pairs.keySet();
 			}
-			
+
 			@Override
 			public Collection<String> getDataNames() {
-				
+
 				return name.values();
 			}
 
-			
 		};
 	}
-
 
 }

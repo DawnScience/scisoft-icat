@@ -21,11 +21,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for addPublicationResponse complex type.
+ * <p>
+ * Java class for addPublicationResponse complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="addPublicationResponse">
@@ -42,36 +44,31 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "addPublicationResponse", propOrder = {
-    "_return"
-})
+@XmlType(name = "addPublicationResponse", propOrder = { "_return" })
 public class AddPublicationResponse {
 
-    @XmlElement(name = "return")
-    protected Publication _return;
+	@XmlElement(name = "return")
+	protected Publication _return;
 
-    /**
-     * Gets the value of the return property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Publication }
-     *     
-     */
-    public Publication getReturn() {
-        return _return;
-    }
+	/**
+	 * Gets the value of the return property.
+	 * 
+	 * @return possible object is {@link Publication }
+	 * 
+	 */
+	public Publication getReturn() {
+		return _return;
+	}
 
-    /**
-     * Sets the value of the return property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Publication }
-     *     
-     */
-    public void setReturn(Publication value) {
-        this._return = value;
-    }
+	/**
+	 * Sets the value of the return property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Publication }
+	 * 
+	 */
+	public void setReturn(Publication value) {
+		this._return = value;
+	}
 
 }

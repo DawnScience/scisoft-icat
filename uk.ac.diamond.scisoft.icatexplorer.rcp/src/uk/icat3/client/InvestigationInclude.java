@@ -19,12 +19,15 @@ package uk.icat3.client;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for investigationInclude.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
+ * Java class for investigationInclude.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ * <p>
+ * 
  * <pre>
  * &lt;simpleType name="investigationInclude">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -55,31 +58,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum InvestigationInclude {
 
-    INVESTIGATORS_ONLY,
-    KEYWORDS_ONLY,
-    PUBLICATIONS_ONLY,
-    INVESTIGATORS_AND_KEYWORDS,
-    INVESTIGATORS_AND_SHIFTS,
-    INVESTIGATORS_SHIFTS_AND_SAMPLES,
-    INVESTIGATORS_SHIFTS_SAMPLES_AND_PUBLICATIONS,
-    DATASETS_ONLY,
-    DATASETS_AND_DATASET_PARAMETERS_ONLY,
-    DATASETS_AND_DATAFILES,
-    DATASETS_DATAFILES_AND_PARAMETERS,
-    SAMPLES_ONLY,
-    ROLE_ONLY,
-    SHIFT_ONLY,
-    ALL,
-    NONE,
-    ALL_EXCEPT_DATASETS_AND_DATAFILES,
-    ALL_EXCEPT_DATASETS_DATAFILES_AND_ROLES;
+	INVESTIGATORS_ONLY, KEYWORDS_ONLY, PUBLICATIONS_ONLY, INVESTIGATORS_AND_KEYWORDS, INVESTIGATORS_AND_SHIFTS, INVESTIGATORS_SHIFTS_AND_SAMPLES, INVESTIGATORS_SHIFTS_SAMPLES_AND_PUBLICATIONS, DATASETS_ONLY, DATASETS_AND_DATASET_PARAMETERS_ONLY, DATASETS_AND_DATAFILES, DATASETS_DATAFILES_AND_PARAMETERS, SAMPLES_ONLY, ROLE_ONLY, SHIFT_ONLY, ALL, NONE, ALL_EXCEPT_DATASETS_AND_DATAFILES, ALL_EXCEPT_DATASETS_DATAFILES_AND_ROLES;
 
-    public String value() {
-        return name();
-    }
+	public String value() {
+		return name();
+	}
 
-    public static InvestigationInclude fromValue(String v) {
-        return valueOf(v);
-    }
+	public static InvestigationInclude fromValue(String v) {
+		return valueOf(v);
+	}
 
 }

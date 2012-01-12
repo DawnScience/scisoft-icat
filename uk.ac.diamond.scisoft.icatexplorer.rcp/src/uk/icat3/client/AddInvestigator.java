@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for addInvestigator complex type.
+ * <p>
+ * Java class for addInvestigator complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="addInvestigator">
@@ -43,87 +45,75 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "addInvestigator", propOrder = {
-    "sessionId",
-    "investigator",
-    "investigationId"
-})
+@XmlType(name = "addInvestigator", propOrder = { "sessionId", "investigator",
+		"investigationId" })
 public class AddInvestigator {
 
-    protected String sessionId;
-    protected Investigator investigator;
-    protected Long investigationId;
+	protected String sessionId;
+	protected Investigator investigator;
+	protected Long investigationId;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the investigator property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Investigator }
-     *     
-     */
-    public Investigator getInvestigator() {
-        return investigator;
-    }
+	/**
+	 * Gets the value of the investigator property.
+	 * 
+	 * @return possible object is {@link Investigator }
+	 * 
+	 */
+	public Investigator getInvestigator() {
+		return investigator;
+	}
 
-    /**
-     * Sets the value of the investigator property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Investigator }
-     *     
-     */
-    public void setInvestigator(Investigator value) {
-        this.investigator = value;
-    }
+	/**
+	 * Sets the value of the investigator property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Investigator }
+	 * 
+	 */
+	public void setInvestigator(Investigator value) {
+		this.investigator = value;
+	}
 
-    /**
-     * Gets the value of the investigationId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getInvestigationId() {
-        return investigationId;
-    }
+	/**
+	 * Gets the value of the investigationId property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getInvestigationId() {
+		return investigationId;
+	}
 
-    /**
-     * Sets the value of the investigationId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setInvestigationId(Long value) {
-        this.investigationId = value;
-    }
+	/**
+	 * Sets the value of the investigationId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setInvestigationId(Long value) {
+		this.investigationId = value;
+	}
 
 }

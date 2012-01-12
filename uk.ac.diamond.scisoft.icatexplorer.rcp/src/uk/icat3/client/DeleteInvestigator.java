@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for deleteInvestigator complex type.
+ * <p>
+ * Java class for deleteInvestigator complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="deleteInvestigator">
@@ -42,61 +44,53 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "deleteInvestigator", propOrder = {
-    "sessionId",
-    "investigatorPK"
-})
+@XmlType(name = "deleteInvestigator", propOrder = { "sessionId",
+		"investigatorPK" })
 public class DeleteInvestigator {
 
-    protected String sessionId;
-    protected InvestigatorPK investigatorPK;
+	protected String sessionId;
+	protected InvestigatorPK investigatorPK;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the investigatorPK property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link InvestigatorPK }
-     *     
-     */
-    public InvestigatorPK getInvestigatorPK() {
-        return investigatorPK;
-    }
+	/**
+	 * Gets the value of the investigatorPK property.
+	 * 
+	 * @return possible object is {@link InvestigatorPK }
+	 * 
+	 */
+	public InvestigatorPK getInvestigatorPK() {
+		return investigatorPK;
+	}
 
-    /**
-     * Sets the value of the investigatorPK property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link InvestigatorPK }
-     *     
-     */
-    public void setInvestigatorPK(InvestigatorPK value) {
-        this.investigatorPK = value;
-    }
+	/**
+	 * Sets the value of the investigatorPK property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link InvestigatorPK }
+	 * 
+	 */
+	public void setInvestigatorPK(InvestigatorPK value) {
+		this.investigatorPK = value;
+	}
 
 }

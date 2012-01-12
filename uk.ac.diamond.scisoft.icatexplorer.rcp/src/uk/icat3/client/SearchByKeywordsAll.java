@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for searchByKeywordsAll complex type.
+ * <p>
+ * Java class for searchByKeywordsAll complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="searchByKeywordsAll">
@@ -44,97 +46,87 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "searchByKeywordsAll", propOrder = {
-    "sessionId",
-    "keywordDetails",
-    "startIndex",
-    "numberOfResults"
-})
+@XmlType(name = "searchByKeywordsAll", propOrder = { "sessionId",
+		"keywordDetails", "startIndex", "numberOfResults" })
 public class SearchByKeywordsAll {
 
-    protected String sessionId;
-    protected KeywordDetails keywordDetails;
-    protected int startIndex;
-    protected int numberOfResults;
+	protected String sessionId;
+	protected KeywordDetails keywordDetails;
+	protected int startIndex;
+	protected int numberOfResults;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the keywordDetails property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link KeywordDetails }
-     *     
-     */
-    public KeywordDetails getKeywordDetails() {
-        return keywordDetails;
-    }
+	/**
+	 * Gets the value of the keywordDetails property.
+	 * 
+	 * @return possible object is {@link KeywordDetails }
+	 * 
+	 */
+	public KeywordDetails getKeywordDetails() {
+		return keywordDetails;
+	}
 
-    /**
-     * Sets the value of the keywordDetails property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link KeywordDetails }
-     *     
-     */
-    public void setKeywordDetails(KeywordDetails value) {
-        this.keywordDetails = value;
-    }
+	/**
+	 * Sets the value of the keywordDetails property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link KeywordDetails }
+	 * 
+	 */
+	public void setKeywordDetails(KeywordDetails value) {
+		this.keywordDetails = value;
+	}
 
-    /**
-     * Gets the value of the startIndex property.
-     * 
-     */
-    public int getStartIndex() {
-        return startIndex;
-    }
+	/**
+	 * Gets the value of the startIndex property.
+	 * 
+	 */
+	public int getStartIndex() {
+		return startIndex;
+	}
 
-    /**
-     * Sets the value of the startIndex property.
-     * 
-     */
-    public void setStartIndex(int value) {
-        this.startIndex = value;
-    }
+	/**
+	 * Sets the value of the startIndex property.
+	 * 
+	 */
+	public void setStartIndex(int value) {
+		this.startIndex = value;
+	}
 
-    /**
-     * Gets the value of the numberOfResults property.
-     * 
-     */
-    public int getNumberOfResults() {
-        return numberOfResults;
-    }
+	/**
+	 * Gets the value of the numberOfResults property.
+	 * 
+	 */
+	public int getNumberOfResults() {
+		return numberOfResults;
+	}
 
-    /**
-     * Sets the value of the numberOfResults property.
-     * 
-     */
-    public void setNumberOfResults(int value) {
-        this.numberOfResults = value;
-    }
+	/**
+	 * Sets the value of the numberOfResults property.
+	 * 
+	 */
+	public void setNumberOfResults(int value) {
+		this.numberOfResults = value;
+	}
 
 }

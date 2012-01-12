@@ -19,12 +19,15 @@ package uk.icat3.client;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for elementType.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
+ * Java class for elementType.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ * <p>
+ * 
  * <pre>
  * &lt;simpleType name="elementType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -48,24 +51,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum ElementType {
 
-    STUDY,
-    INVESTIGATION,
-    INVESTIGATOR,
-    KEYWORD,
-    SAMPLE,
-    SAMPLE_PARAMETER,
-    PUBLICATION,
-    DATASET,
-    DATASET_PARAMETER,
-    DATAFILE,
-    DATAFILE_PARAMETER;
+	STUDY, INVESTIGATION, INVESTIGATOR, KEYWORD, SAMPLE, SAMPLE_PARAMETER, PUBLICATION, DATASET, DATASET_PARAMETER, DATAFILE, DATAFILE_PARAMETER;
 
-    public String value() {
-        return name();
-    }
+	public String value() {
+		return name();
+	}
 
-    public static ElementType fromValue(String v) {
-        return valueOf(v);
-    }
+	public static ElementType fromValue(String v) {
+		return valueOf(v);
+	}
 
 }

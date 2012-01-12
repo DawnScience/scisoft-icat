@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for addPublication complex type.
+ * <p>
+ * Java class for addPublication complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="addPublication">
@@ -43,87 +45,75 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "addPublication", propOrder = {
-    "sessionId",
-    "publication",
-    "investigationId"
-})
+@XmlType(name = "addPublication", propOrder = { "sessionId", "publication",
+		"investigationId" })
 public class AddPublication {
 
-    protected String sessionId;
-    protected Publication publication;
-    protected Long investigationId;
+	protected String sessionId;
+	protected Publication publication;
+	protected Long investigationId;
 
-    /**
-     * Gets the value of the sessionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionId() {
-        return sessionId;
-    }
+	/**
+	 * Gets the value of the sessionId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * Sets the value of the sessionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionId(String value) {
-        this.sessionId = value;
-    }
+	/**
+	 * Sets the value of the sessionId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionId(String value) {
+		this.sessionId = value;
+	}
 
-    /**
-     * Gets the value of the publication property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Publication }
-     *     
-     */
-    public Publication getPublication() {
-        return publication;
-    }
+	/**
+	 * Gets the value of the publication property.
+	 * 
+	 * @return possible object is {@link Publication }
+	 * 
+	 */
+	public Publication getPublication() {
+		return publication;
+	}
 
-    /**
-     * Sets the value of the publication property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Publication }
-     *     
-     */
-    public void setPublication(Publication value) {
-        this.publication = value;
-    }
+	/**
+	 * Sets the value of the publication property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Publication }
+	 * 
+	 */
+	public void setPublication(Publication value) {
+		this.publication = value;
+	}
 
-    /**
-     * Gets the value of the investigationId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getInvestigationId() {
-        return investigationId;
-    }
+	/**
+	 * Gets the value of the investigationId property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getInvestigationId() {
+		return investigationId;
+	}
 
-    /**
-     * Sets the value of the investigationId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setInvestigationId(Long value) {
-        this.investigationId = value;
-    }
+	/**
+	 * Sets the value of the investigationId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setInvestigationId(Long value) {
+		this.investigationId = value;
+	}
 
 }

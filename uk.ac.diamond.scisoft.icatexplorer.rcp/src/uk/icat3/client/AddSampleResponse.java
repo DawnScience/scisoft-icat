@@ -21,11 +21,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for addSampleResponse complex type.
+ * <p>
+ * Java class for addSampleResponse complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="addSampleResponse">
@@ -42,36 +44,31 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "addSampleResponse", propOrder = {
-    "_return"
-})
+@XmlType(name = "addSampleResponse", propOrder = { "_return" })
 public class AddSampleResponse {
 
-    @XmlElement(name = "return")
-    protected Sample _return;
+	@XmlElement(name = "return")
+	protected Sample _return;
 
-    /**
-     * Gets the value of the return property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Sample }
-     *     
-     */
-    public Sample getReturn() {
-        return _return;
-    }
+	/**
+	 * Gets the value of the return property.
+	 * 
+	 * @return possible object is {@link Sample }
+	 * 
+	 */
+	public Sample getReturn() {
+		return _return;
+	}
 
-    /**
-     * Sets the value of the return property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Sample }
-     *     
-     */
-    public void setReturn(Sample value) {
-        this._return = value;
-    }
+	/**
+	 * Sets the value of the return property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Sample }
+	 * 
+	 */
+	public void setReturn(Sample value) {
+		this._return = value;
+	}
 
 }

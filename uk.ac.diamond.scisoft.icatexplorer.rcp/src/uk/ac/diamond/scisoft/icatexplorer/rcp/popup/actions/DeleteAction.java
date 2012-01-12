@@ -24,58 +24,52 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 import uk.ac.diamond.scisoft.icatexplorer.rcp.data.DDataset;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.provider.CNFContentProvider;
 
+public class DeleteAction implements IObjectActionDelegate {
+	// private final static Logger logger =
+	// Logger.getLogger(DeleteAction.class);
 
-public class DeleteAction implements IObjectActionDelegate
-{
-	//private final static Logger logger = Logger.getLogger(DeleteAction.class);
+	private DDataset data;
 
-    private DDataset data;
+	/**
+	 * Constructor for Action1.
+	 */
+	public DeleteAction() {
+		super();
+	}
 
-    /**
-     * Constructor for Action1.
-     */
-    public DeleteAction()
-    {
-        super();
-    }
+	/**
+	 * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
+	 */
+	@Override
+	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
+	}
 
-    /**
-     * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
-     */
-    public void setActivePart(IAction action, IWorkbenchPart targetPart)
-    {
-    }
+	/**
+	 * @see IActionDelegate#run(IAction)
+	 */
+	@Override
+	public void run(IAction action) {
+		if (data != null) {
+			System.out.println("Delete on " + data.getName());
+		}
+	}
 
-    /**
-     * @see IActionDelegate#run(IAction)
-     */
-    public void run(IAction action)
-    {
-        if (data != null)
-        {
-            System.out.println("Delete on " + data.getName());
-        }
-    }
+	/**
+	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
+	 */
+	@Override
+	public void selectionChanged(IAction action, ISelection selection) {
+		if (!selection.isEmpty()) {
+			IStructuredSelection sSelection = (IStructuredSelection) selection;
+			if (sSelection.size() == 1
+					&& sSelection.getFirstElement() instanceof DDataset) {
 
-    /**
-     * @see IActionDelegate#selectionChanged(IAction, ISelection)
-     */
-    public void selectionChanged(IAction action, ISelection selection)
-    {
-        if (!selection.isEmpty())
-        {
-            IStructuredSelection sSelection = (IStructuredSelection) selection;
-            if (sSelection.size() == 1 && sSelection.getFirstElement() instanceof DDataset)
-            {
-
-                if (sSelection.getFirstElement() instanceof DDataset)
-                {
-                    data = (DDataset) sSelection.getFirstElement();
-                }
-            }
-        }
-    }
+				if (sSelection.getFirstElement() instanceof DDataset) {
+					data = (DDataset) sSelection.getFirstElement();
+				}
+			}
+		}
+	}
 
 }

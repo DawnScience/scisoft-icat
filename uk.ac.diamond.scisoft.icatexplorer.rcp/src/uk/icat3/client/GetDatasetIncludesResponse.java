@@ -21,11 +21,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for getDatasetIncludesResponse complex type.
+ * <p>
+ * Java class for getDatasetIncludesResponse complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="getDatasetIncludesResponse">
@@ -42,36 +44,31 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getDatasetIncludesResponse", propOrder = {
-    "_return"
-})
+@XmlType(name = "getDatasetIncludesResponse", propOrder = { "_return" })
 public class GetDatasetIncludesResponse {
 
-    @XmlElement(name = "return")
-    protected Dataset _return;
+	@XmlElement(name = "return")
+	protected Dataset _return;
 
-    /**
-     * Gets the value of the return property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Dataset }
-     *     
-     */
-    public Dataset getReturn() {
-        return _return;
-    }
+	/**
+	 * Gets the value of the return property.
+	 * 
+	 * @return possible object is {@link Dataset }
+	 * 
+	 */
+	public Dataset getReturn() {
+		return _return;
+	}
 
-    /**
-     * Sets the value of the return property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Dataset }
-     *     
-     */
-    public void setReturn(Dataset value) {
-        this._return = value;
-    }
+	/**
+	 * Sets the value of the return property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Dataset }
+	 * 
+	 */
+	public void setReturn(Dataset value) {
+		this._return = value;
+	}
 
 }

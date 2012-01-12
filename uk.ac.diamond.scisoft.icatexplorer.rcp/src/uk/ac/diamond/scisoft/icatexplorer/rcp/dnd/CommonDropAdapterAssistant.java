@@ -50,20 +50,25 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.jobs.SftpTransferJob;
 
 public class CommonDropAdapterAssistant extends
-		org.eclipse.ui.navigator.CommonDropAdapterAssistant{
+		org.eclipse.ui.navigator.CommonDropAdapterAssistant {
 
-    private static final Logger logger = LoggerFactory.getLogger(CommonDropAdapterAssistant.class); 
-	
+	private static final Logger logger = LoggerFactory
+			.getLogger(CommonDropAdapterAssistant.class);
+
 	private static final boolean DEBUG = false;
 	private static final IResource[] NO_RESOURCES = new IResource[0];
-	
-	public CommonDropAdapterAssistant() {}
-	
+
+	public CommonDropAdapterAssistant() {
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.navigator.CommonDropAdapterAssistant#isSupportedType(org.eclipse.swt.dnd.TransferData)
+	 * @see
+	 * org.eclipse.ui.navigator.CommonDropAdapterAssistant#isSupportedType(org
+	 * .eclipse.swt.dnd.TransferData)
 	 */
+	@Override
 	public boolean isSupportedType(TransferData aTransferType) {
 
 		return super.isSupportedType(aTransferType)
@@ -73,118 +78,130 @@ public class CommonDropAdapterAssistant extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.navigator.CommonDropAdapterAssistant#validateDrop(java.lang.Object,
-	 *      int, org.eclipse.swt.dnd.TransferData)
-	 */
-	  @Override
-	    public IStatus validateDrop(Object target, int operation, TransferData transferType) {
-
-		  // target shouldn't be a virtual folder to copy to
-		  if (target instanceof IResource && !((IResource)target).isVirtual()) {
-	            return Status.OK_STATUS;
-	        }
-	        return Status.CANCEL_STATUS;
-	    }
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.navigator.CommonDropAdapterAssistant#handleDrop(CommonDropAdapter,
-	 *      DropTargetEvent, Object)
+	 * @see
+	 * org.eclipse.ui.navigator.CommonDropAdapterAssistant#validateDrop(java
+	 * .lang.Object, int, org.eclipse.swt.dnd.TransferData)
 	 */
 	@Override
-    public IStatus handleDrop(CommonDropAdapter dropAdapter, DropTargetEvent dropTargetEvent, Object dropTarget) {
-        
-        /* 
-         * check whether the destination target is a folder
-         * If not drop to parent folder
-         */
-        IContainer targetContainer = getActualTarget((IResource)dropTarget);
-        
-        if (LocalSelectionTransfer.getTransfer().isSupportedType(dropAdapter.getCurrentTransfer())) {              
-        	  handleDropMove((IResource)targetContainer);       	
-            }
-        return null;
-    }
-	
-	 private void handleDropMove(final IResource target) {
-		 	ISelection s = LocalSelectionTransfer.getTransfer()
-					.getSelection();
-		 		 	
-	        if (s instanceof IStructuredSelection) {
-            List<?> selectedElements = ((IStructuredSelection) s).toList();
-            				
-			SftpTransferJob transferJob = new SftpTransferJob("Transfering from DLS... ", selectedElements, target);
-			transferJob.setUser(true);// shows the dialog for 'run in background' and 'details' 
-			transferJob.schedule();
-            
-	        }
-       
-	 }
-		 	
-//	        if (s instanceof IStructuredSelection) {
-//	            List<?> selectedElements = ((IStructuredSelection) s).toList();
-//	            for (Object o : selectedElements) {
-//	                if (o instanceof uk.icat3.client.Datafile) {
-//	                    Datafile element = (Datafile) o;
-//	                    moveDatafileTo(element, target, null);
-//	                }else if(o instanceof DDataset){
-//	                	logger.debug("moving a dataset");
-//	                	DDataset ddataset = ((DDataset)o);
-//	                	uk.icat3.client.Dataset dataset = null;
-//	                	try {
-//							dataset = ICATClient.getIcat().getDatasetIncludes(ICATSessionDetails.icatClient.getSessionId(), ddataset.getId(), DatasetInclude.DATASET_AND_DATAFILES_ONLY);
-//						} catch (InsufficientPrivilegesException_Exception e) {
-//							logger.error("problem getting dataset content from ICAT", e);
-//						} catch (NoSuchObjectFoundException_Exception e) {
-//							logger.error("problem getting dataset content from ICAT", e);
-//						} catch (SessionException_Exception e) {
-//							logger.error("problem getting dataset content from ICAT", e);
-//						} catch (Exception e) {
-//							logger.error("problem getting dataset content from ICAT", e);
-//						}
-//	                	datafilesList. = dataset.getDatafileCollection();
-//	                	int nbFiles = datafilesList.size();        	
-//	                 	
-//	                	logger.debug("number of files in dataset " + ddataset.getName() + ": " + nbFiles);
-//	                	/*
-//	                	 *  create folder in target with dataset name
-//	                	 *  all non-existent ancestor directories are
-//	                	 *  automatically created
-//	                	 */
-//	                	boolean success = (new File(target.getLocation().toString(), ddataset.getName())).mkdirs();
-//	                	if (!success) {
-//		                	 logger.error("error creating folder '" + ddataset.getName() +"' into '" + target.getName()+"'" );
-//	                	}
-//	                	// move all dataset files into the newly created folder               	      
-//	  	                String parentFolder = ddataset.getName();
-//	  	                moveDatasetTo(parentFolder, datafilesList, target, parentFolder);      	
-//	                	
-//	                }
-////                	getShell().getShell().getDisplay().asyncExec
-////                    (new Runnable() {
-////                        public void run() {
-////                            MessageDialog.openInformation(getShell().getShell(),"Info", "All selected files moved into the Project Explorer");
-////                        }
-////                    });        
-//                	logger.info("ALL selected files moved!");
-//	            }
-//	            // gathered all selected elements to be moved
-//	            moveDatafilesTo(parentFolder, datafilesList, target, parentFolder);      	
-//	        }
-	          
-//	    }
-	 
+	public IStatus validateDrop(Object target, int operation,
+			TransferData transferType) {
+
+		// target shouldn't be a virtual folder to copy to
+		if (target instanceof IResource && !((IResource) target).isVirtual()) {
+			return Status.OK_STATUS;
+		}
+		return Status.CANCEL_STATUS;
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.navigator.CommonDropAdapterAssistant#validatePluginTransferDrop(org.eclipse.jface.viewers.IStructuredSelection,
-	 *      java.lang.Object)
+	 * @see org.eclipse.ui.navigator.CommonDropAdapterAssistant#handleDrop(
+	 * CommonDropAdapter, DropTargetEvent, Object)
 	 */
+	@Override
+	public IStatus handleDrop(CommonDropAdapter dropAdapter,
+			DropTargetEvent dropTargetEvent, Object dropTarget) {
+
+		/*
+		 * check whether the destination target is a folder If not drop to
+		 * parent folder
+		 */
+		IContainer targetContainer = getActualTarget((IResource) dropTarget);
+
+		if (LocalSelectionTransfer.getTransfer().isSupportedType(
+				dropAdapter.getCurrentTransfer())) {
+			handleDropMove(targetContainer);
+		}
+		return null;
+	}
+
+	private void handleDropMove(final IResource target) {
+		ISelection s = LocalSelectionTransfer.getTransfer().getSelection();
+
+		if (s instanceof IStructuredSelection) {
+			List<?> selectedElements = ((IStructuredSelection) s).toList();
+
+			SftpTransferJob transferJob = new SftpTransferJob(
+					"Transfering from DLS... ", selectedElements, target);
+			transferJob.setUser(true);// shows the dialog for 'run in
+										// background' and 'details'
+			transferJob.schedule();
+
+		}
+
+	}
+
+	// if (s instanceof IStructuredSelection) {
+	// List<?> selectedElements = ((IStructuredSelection) s).toList();
+	// for (Object o : selectedElements) {
+	// if (o instanceof uk.icat3.client.Datafile) {
+	// Datafile element = (Datafile) o;
+	// moveDatafileTo(element, target, null);
+	// }else if(o instanceof DDataset){
+	// logger.debug("moving a dataset");
+	// DDataset ddataset = ((DDataset)o);
+	// uk.icat3.client.Dataset dataset = null;
+	// try {
+	// dataset =
+	// ICATClient.getIcat().getDatasetIncludes(ICATSessionDetails.icatClient.getSessionId(),
+	// ddataset.getId(), DatasetInclude.DATASET_AND_DATAFILES_ONLY);
+	// } catch (InsufficientPrivilegesException_Exception e) {
+	// logger.error("problem getting dataset content from ICAT", e);
+	// } catch (NoSuchObjectFoundException_Exception e) {
+	// logger.error("problem getting dataset content from ICAT", e);
+	// } catch (SessionException_Exception e) {
+	// logger.error("problem getting dataset content from ICAT", e);
+	// } catch (Exception e) {
+	// logger.error("problem getting dataset content from ICAT", e);
+	// }
+	// datafilesList. = dataset.getDatafileCollection();
+	// int nbFiles = datafilesList.size();
+	//
+	// logger.debug("number of files in dataset " + ddataset.getName() + ": " +
+	// nbFiles);
+	// /*
+	// * create folder in target with dataset name
+	// * all non-existent ancestor directories are
+	// * automatically created
+	// */
+	// boolean success = (new File(target.getLocation().toString(),
+	// ddataset.getName())).mkdirs();
+	// if (!success) {
+	// logger.error("error creating folder '" + ddataset.getName() +"' into '" +
+	// target.getName()+"'" );
+	// }
+	// // move all dataset files into the newly created folder
+	// String parentFolder = ddataset.getName();
+	// moveDatasetTo(parentFolder, datafilesList, target, parentFolder);
+	//
+	// }
+	// // getShell().getShell().getDisplay().asyncExec
+	// // (new Runnable() {
+	// // public void run() {
+	// // MessageDialog.openInformation(getShell().getShell(),"Info",
+	// "All selected files moved into the Project Explorer");
+	// // }
+	// // });
+	// logger.info("ALL selected files moved!");
+	// }
+	// // gathered all selected elements to be moved
+	// moveDatafilesTo(parentFolder, datafilesList, target, parentFolder);
+	// }
+
+	// }
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.navigator.CommonDropAdapterAssistant#
+	 * validatePluginTransferDrop
+	 * (org.eclipse.jface.viewers.IStructuredSelection, java.lang.Object)
+	 */
+	@Override
 	public IStatus validatePluginTransferDrop(
 			IStructuredSelection aDragSelection, Object aDropTarget) {
-				
+
 		if (!(aDropTarget instanceof IResource)) {
 			return WorkbenchNavigatorPlugin
 					.createStatus(
@@ -195,17 +212,23 @@ public class CommonDropAdapterAssistant extends
 		}
 		return Status.OK_STATUS;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.navigator.CommonDropAdapterAssistant#handlePluginTransferDrop(org.eclipse.jface.viewers.IStructuredSelection, java.lang.Object)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.navigator.CommonDropAdapterAssistant#handlePluginTransferDrop
+	 * (org.eclipse.jface.viewers.IStructuredSelection, java.lang.Object)
 	 */
-	public IStatus handlePluginTransferDrop(IStructuredSelection aDragSelection, Object aDropTarget) {
-	
+	@Override
+	public IStatus handlePluginTransferDrop(
+			IStructuredSelection aDragSelection, Object aDropTarget) {
+
 		IContainer target = getActualTarget((IResource) aDropTarget);
 		IResource[] resources = getSelectedResources(aDragSelection);
-		
+
 		MoveFilesAndFoldersOperation operation = new MoveFilesAndFoldersOperation(
-				 getShell());
+				getShell());
 		operation.copyResources(resources, target);
 
 		if (target != null && target.isAccessible()) {
@@ -224,10 +247,11 @@ public class CommonDropAdapterAssistant extends
 	 * feedback is enabled, the target is also the parent.
 	 */
 	private IContainer getActualTarget(IResource mouseTarget) {
-		
+
 		/* if cursor is on a file, return the parent */
 		if (mouseTarget.getType() == IResource.FILE) {
-			logger.debug("selected target is a FILE, moving instead to parent folder: " + mouseTarget.getParent());
+			logger.debug("selected target is a FILE, moving instead to parent folder: "
+					+ mouseTarget.getParent());
 			return mouseTarget.getParent();
 		}
 		/* otherwise the mouseTarget is the real target */
@@ -240,15 +264,15 @@ public class CommonDropAdapterAssistant extends
 	 * @return the resource selection from the LocalSelectionTransfer
 	 */
 	private IResource[] getSelectedResources() {
-			
+
 		ISelection selection = LocalSelectionTransfer.getTransfer()
 				.getSelection();
-				//ICATTransfer.getTransfer().getSelection(); 
-				
+		// ICATTransfer.getTransfer().getSelection();
+
 		if (selection instanceof IStructuredSelection) {
 
-			return getSelectedResources((IStructuredSelection)selection);
-		} 
+			return getSelectedResources((IStructuredSelection) selection);
+		}
 		return NO_RESOURCES;
 	}
 
@@ -258,7 +282,7 @@ public class CommonDropAdapterAssistant extends
 	 * @return the resource selection from the LocalSelectionTransfer
 	 */
 	private IResource[] getSelectedResources(IStructuredSelection selection) {
-				
+
 		ArrayList selectedResources = new ArrayList();
 
 		for (Iterator i = selection.iterator(); i.hasNext();) {
@@ -270,7 +294,7 @@ public class CommonDropAdapterAssistant extends
 				IResource r = (IResource) a.getAdapter(IResource.class);
 				if (r != null) {
 					selectedResources.add(r);
-				}else{
+				} else {
 					System.out.println("r is NULL");
 				}
 			}
@@ -284,12 +308,14 @@ public class CommonDropAdapterAssistant extends
 	 */
 	private IStatus performResourceCopy(CommonDropAdapter dropAdapter,
 			Shell shell, IResource[] sources) {
-				
+
 		MultiStatus problems = new MultiStatus(PlatformUI.PLUGIN_ID, 1,
 				WorkbenchNavigatorMessages.DropAdapter_problemsMoving, null);
-		mergeStatus(problems, validateTarget(dropAdapter.getCurrentTarget(),
-				dropAdapter.getCurrentTransfer(), dropAdapter
-						.getCurrentOperation()));
+		mergeStatus(
+				problems,
+				validateTarget(dropAdapter.getCurrentTarget(),
+						dropAdapter.getCurrentTransfer(),
+						dropAdapter.getCurrentOperation()));
 
 		IContainer target = getActualTarget((IResource) dropAdapter
 				.getCurrentTarget());
@@ -305,12 +331,14 @@ public class CommonDropAdapterAssistant extends
 	 */
 	private IStatus performResourceMove(CommonDropAdapter dropAdapter,
 			IResource[] sources) {
-		
+
 		MultiStatus problems = new MultiStatus(PlatformUI.PLUGIN_ID, 1,
 				WorkbenchNavigatorMessages.DropAdapter_problemsMoving, null);
-		mergeStatus(problems, validateTarget(dropAdapter.getCurrentTarget(),
-				dropAdapter.getCurrentTransfer(), dropAdapter
-						.getCurrentOperation()));
+		mergeStatus(
+				problems,
+				validateTarget(dropAdapter.getCurrentTarget(),
+						dropAdapter.getCurrentTransfer(),
+						dropAdapter.getCurrentOperation()));
 
 		IContainer target = getActualTarget((IResource) dropAdapter
 				.getCurrentTarget());
@@ -329,12 +357,14 @@ public class CommonDropAdapterAssistant extends
 	 * Performs a drop using the FileTransfer transfer type.
 	 */
 	private IStatus performFileDrop(CommonDropAdapter anAdapter, Object data) {
-				
+
 		MultiStatus problems = new MultiStatus(PlatformUI.PLUGIN_ID, 0,
 				WorkbenchNavigatorMessages.DropAdapter_problemImporting, null);
-		mergeStatus(problems,
-				validateTarget(anAdapter.getCurrentTarget(), anAdapter
-						.getCurrentTransfer(), anAdapter.getCurrentOperation()));
+		mergeStatus(
+				problems,
+				validateTarget(anAdapter.getCurrentTarget(),
+						anAdapter.getCurrentTransfer(),
+						anAdapter.getCurrentOperation()));
 
 		final IContainer target = getActualTarget((IResource) anAdapter
 				.getCurrentTarget());
@@ -343,6 +373,7 @@ public class CommonDropAdapterAssistant extends
 		// Otherwise the drag source (e.g., Windows Explorer) will be blocked
 		// while the operation executes. Fixes bug 16478.
 		Display.getCurrent().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				getShell().forceActive();
 				CopyFilesAndFoldersOperation operation = new CopyFilesAndFoldersOperation(
@@ -358,7 +389,7 @@ public class CommonDropAdapterAssistant extends
 	 */
 	private IStatus validateTarget(Object target, TransferData transferType,
 			int dropOperation) {
-				
+
 		if (!(target instanceof IResource)) {
 			return WorkbenchNavigatorPlugin
 					.createInfoStatus(WorkbenchNavigatorMessages.DropAdapter_targetMustBeResource);

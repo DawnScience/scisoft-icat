@@ -21,11 +21,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for createDataFileResponse complex type.
+ * <p>
+ * Java class for createDataFileResponse complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="createDataFileResponse">
@@ -42,36 +44,31 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "createDataFileResponse", propOrder = {
-    "_return"
-})
+@XmlType(name = "createDataFileResponse", propOrder = { "_return" })
 public class CreateDataFileResponse {
 
-    @XmlElement(name = "return")
-    protected Datafile _return;
+	@XmlElement(name = "return")
+	protected Datafile _return;
 
-    /**
-     * Gets the value of the return property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Datafile }
-     *     
-     */
-    public Datafile getReturn() {
-        return _return;
-    }
+	/**
+	 * Gets the value of the return property.
+	 * 
+	 * @return possible object is {@link Datafile }
+	 * 
+	 */
+	public Datafile getReturn() {
+		return _return;
+	}
 
-    /**
-     * Sets the value of the return property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Datafile }
-     *     
-     */
-    public void setReturn(Datafile value) {
-        this._return = value;
-    }
+	/**
+	 * Sets the value of the return property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Datafile }
+	 * 
+	 */
+	public void setReturn(Datafile value) {
+		this._return = value;
+	}
 
 }

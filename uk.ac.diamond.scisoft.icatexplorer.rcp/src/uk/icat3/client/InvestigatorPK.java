@@ -20,11 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for investigatorPK complex type.
+ * <p>
+ * Java class for investigatorPK complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="investigatorPK">
@@ -42,63 +44,53 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "investigatorPK", propOrder = {
-    "facilityUserId",
-    "investigationId"
-})
-public class InvestigatorPK
-    extends EntityPrimaryKeyBaseBean
-{
+@XmlType(name = "investigatorPK", propOrder = { "facilityUserId",
+		"investigationId" })
+public class InvestigatorPK extends EntityPrimaryKeyBaseBean {
 
-    protected String facilityUserId;
-    protected Long investigationId;
+	protected String facilityUserId;
+	protected Long investigationId;
 
-    /**
-     * Gets the value of the facilityUserId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFacilityUserId() {
-        return facilityUserId;
-    }
+	/**
+	 * Gets the value of the facilityUserId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getFacilityUserId() {
+		return facilityUserId;
+	}
 
-    /**
-     * Sets the value of the facilityUserId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFacilityUserId(String value) {
-        this.facilityUserId = value;
-    }
+	/**
+	 * Sets the value of the facilityUserId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setFacilityUserId(String value) {
+		this.facilityUserId = value;
+	}
 
-    /**
-     * Gets the value of the investigationId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getInvestigationId() {
-        return investigationId;
-    }
+	/**
+	 * Gets the value of the investigationId property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getInvestigationId() {
+		return investigationId;
+	}
 
-    /**
-     * Sets the value of the investigationId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setInvestigationId(Long value) {
-        this.investigationId = value;
-    }
+	/**
+	 * Sets the value of the investigationId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setInvestigationId(Long value) {
+		this.investigationId = value;
+	}
 
 }

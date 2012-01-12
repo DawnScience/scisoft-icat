@@ -24,14 +24,14 @@ import java.util.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public final class PropertiesUtils {
-	
-    private static final Logger logger = LoggerFactory.getLogger(PropertiesUtils.class); 
 
-	
+	private static final Logger logger = LoggerFactory
+			.getLogger(PropertiesUtils.class);
+
 	/* *
 	 * Reads properties from configuration file.
+	 * 
 	 * @returns set of properties
 	 */
 	public static Properties readConfigFile() {
@@ -50,16 +50,16 @@ public final class PropertiesUtils {
 		try {
 			bundle = new PropertyResourceBundle(
 					PropertiesUtils.class
-					.getResourceAsStream("/conf/icatexplorer.properties"));
-			
+							.getResourceAsStream("/conf/icatexplorer.properties"));
+
 			logger.debug("properties file loaded");
-			
+
 			properties = new Properties();
 			Enumeration<String> keys = bundle.getKeys();
-						
+
 			while (keys.hasMoreElements()) {
-				String prop = (String) keys.nextElement();
-				//logger.debug("prop= " + prop);
+				String prop = keys.nextElement();
+				// logger.debug("prop= " + prop);
 				String val = bundle.getString(prop);
 
 				// check whether all required keys and (non null) values are
@@ -67,7 +67,7 @@ public final class PropertiesUtils {
 				if ((prop != null) && (prop.equals("wsdl.location"))) {
 					if ((val != null) && (val.length() > 0))
 						wsdlLocationVerified = true;
-					//logger.debug("wsdlLocation = " + val);
+					// logger.debug("wsdlLocation = " + val);
 				}
 				if ((prop != null) && (prop.equals("namespace.uri"))) {
 					if ((val != null) && (val.length() > 0))
@@ -97,35 +97,27 @@ public final class PropertiesUtils {
 					if ((val != null) && (val.length() > 0))
 						exServerVerified = true;
 				}
-				
+
 				properties.setProperty(prop, val);
 			}// end while
 
 			// in case one of the keys/values is missing
 			if (!wsdlLocationVerified)
-				logger.error(
-						"Please check icatexplorer.properties file to ensure that wsdl.location key is supplied");
+				logger.error("Please check icatexplorer.properties file to ensure that wsdl.location key is supplied");
 			if (!namespaceUriVerified)
-				logger.error(
-						"Please check icatexplorer.properties file to ensure that namespace.uri key is supplied");
+				logger.error("Please check icatexplorer.properties file to ensure that namespace.uri key is supplied");
 			if (!namespaceLocalPartVerified)
-				logger.error(
-						"Please check icatexplorer.properties file to ensure that namespace.localpart key is supplied");
+				logger.error("Please check icatexplorer.properties file to ensure that namespace.localpart key is supplied");
 			if (!truststoreLocationVerified)
-				logger.error(
-						"Please check icatexplorer.properties file to ensure that truststore.location key is supplied");
+				logger.error("Please check icatexplorer.properties file to ensure that truststore.location key is supplied");
 			if (!truststorePasswordVerified)
-				logger.error(
-						"Please check icatexplorer.properties file to ensure that truststore.password key is supplied");
+				logger.error("Please check icatexplorer.properties file to ensure that truststore.password key is supplied");
 			if (!downloadDirVerified)
-				logger.error(
-						"Please check icatexplorer.properties file to ensure that download.dir key is supplied");
+				logger.error("Please check icatexplorer.properties file to ensure that download.dir key is supplied");
 			if (!inServerVerified)
-				logger.error(
-						"Please check icatexplorer.properties file to ensure that internal.sftp.server key is supplied");
+				logger.error("Please check icatexplorer.properties file to ensure that internal.sftp.server key is supplied");
 			if (!exServerVerified)
-				logger.error(
-						"Please check icatexplorer.properties file to ensure that external.sftp.server key is supplied");
+				logger.error("Please check icatexplorer.properties file to ensure that external.sftp.server key is supplied");
 
 		} catch (Exception io) {
 			io.printStackTrace();
@@ -136,28 +128,28 @@ public final class PropertiesUtils {
 	}
 
 	/*
-	 * to simplify testing - should be removed in production
-	 * **/ 
+	 * to simplify testing - should be removed in production *
+	 */
 	public static Properties readCredentialsFile() {
 		ResourceBundle bundle = null;
 		Properties properties = null;
 
 		boolean fedidVerified = false;
 		boolean passwordVerified = false;
-		
+
 		try {
 			bundle = new PropertyResourceBundle(
 					PropertiesUtils.class
-					.getResourceAsStream("/conf/credentials.properties"));
-			
+							.getResourceAsStream("/conf/credentials.properties"));
+
 			logger.debug("credential config file loaded");
-			
+
 			properties = new Properties();
 			Enumeration<String> keys = bundle.getKeys();
-						
+
 			int counter = 0;
 			while (keys.hasMoreElements()) {
-				String prop = (String) keys.nextElement();
+				String prop = keys.nextElement();
 				String val = bundle.getString(prop);
 
 				// check whether all required keys and (non null) values are
@@ -170,24 +162,22 @@ public final class PropertiesUtils {
 					if ((val != null) && (val.length() > 0))
 						passwordVerified = true;
 				}
-				
+
 				properties.setProperty(prop, val);
 			}// end while
 
 			// in case one of the keys/values is missing
 			if (!fedidVerified)
-				logger.error(
-						"Please check credentials.properties file to ensure that fedid key is supplied");
+				logger.error("Please check credentials.properties file to ensure that fedid key is supplied");
 			if (!passwordVerified)
-				logger.error(
-						"Please check credentials.properties file to ensure that password key is supplied");
-			
+				logger.error("Please check credentials.properties file to ensure that password key is supplied");
+
 		} catch (Exception io) {
-			//io.printStackTrace();
-			//System.exit(0);
-			
+			// io.printStackTrace();
+			// System.exit(0);
+
 			logger.debug("credentials.properties does not exist");
-			
+
 		}// end try/catch
 
 		return properties;
