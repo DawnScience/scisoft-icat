@@ -123,7 +123,7 @@ public class CommonDropAdapterAssistant extends
 			List<?> selectedElements = ((IStructuredSelection) s).toList();
 
 			SftpTransferJob transferJob = new SftpTransferJob(
-					"Transfering from DLS... ", selectedElements, target);
+					"Transfering from DLS ... ", selectedElements, target);
 			transferJob.setUser(true);// shows the dialog for 'run in
 										// background' and 'details'
 			transferJob.schedule();

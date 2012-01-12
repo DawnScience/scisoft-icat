@@ -31,6 +31,7 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -260,10 +261,14 @@ public class LoginView extends ViewPart {
 				String headerTable = "fable.imageviewer.views.HeaderView";
 				logger.debug("showing view: " + headerTable);
 				window.getActivePage().showView(headerTable);
+				
+				// open project explorer view
+				String projectExplorer = ProjectExplorer.VIEW_ID;
+				logger.debug("showing view: " + projectExplorer);
+				window.getActivePage().showView(projectExplorer);
 
 			} catch (PartInitException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				logger.error("can't open view: ", e1);
 			}
 
 		} else {
