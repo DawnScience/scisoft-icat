@@ -29,7 +29,7 @@ public class Application implements IApplication {
 
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
-		System.out.println("start application");
+
 		Display display = PlatformUI.createDisplay();
 		try {
 			int returnCode = PlatformUI.createAndRunWorkbench(display,
@@ -48,7 +48,6 @@ public class Application implements IApplication {
 
 	@Override
 	public void stop() {
-		System.out.println("stop application");
 		final IWorkbench workbench = PlatformUI.getWorkbench();
 		if (workbench == null)
 			return;

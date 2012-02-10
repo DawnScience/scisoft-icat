@@ -38,13 +38,12 @@ public final class PropertiesUtils {
 		ResourceBundle bundle = null;
 		Properties properties = null;
 
-		boolean wsdlLocationDLSVerified = false;
-		boolean wsdlLocationISISVerified = false;
+		boolean wsdlLocationVerified = false;
 		boolean namespaceUriVerified = false;
 		boolean namespaceLocalPartVerified = false;
-		boolean truststoreDLSLocationVerified = false;
-		boolean truststoreISISLocationVerified = false;
+		boolean truststoreLocationVerified = false;
 		boolean truststorePasswordVerified = false;
+		boolean downloadDirVerified = false;
 		boolean inServerVerified = false;
 		boolean exServerVerified = false;
 
@@ -65,14 +64,10 @@ public final class PropertiesUtils {
 
 				// check whether all required keys and (non null) values are
 				// present
-				if ((prop != null) && (prop.equals("wsdl.location.dls"))) {
+				if ((prop != null) && (prop.equals("wsdl.location"))) {
 					if ((val != null) && (val.length() > 0))
-						wsdlLocationDLSVerified = true;
+						wsdlLocationVerified = true;
 					// logger.debug("wsdlLocation = " + val);
-				}
-				if ((prop != null) && (prop.equals("wsdl.location.isis"))) {
-					if ((val != null) && (val.length() > 0))
-						wsdlLocationISISVerified = true;
 				}
 				if ((prop != null) && (prop.equals("namespace.uri"))) {
 					if ((val != null) && (val.length() > 0))
@@ -82,17 +77,17 @@ public final class PropertiesUtils {
 					if ((val != null) && (val.length() > 0))
 						namespaceLocalPartVerified = true;
 				}
-				if ((prop != null) && (prop.equals("truststore.location.dls"))) {
+				if ((prop != null) && (prop.equals("truststore.location"))) {
 					if ((val != null) && (val.length() > 0))
-						truststoreDLSLocationVerified = true;
-				}
-				if ((prop != null) && (prop.equals("truststore.location.isis"))) {
-					if ((val != null) && (val.length() > 0))
-						truststoreISISLocationVerified = true;
+						truststoreLocationVerified = true;
 				}
 				if ((prop != null) && (prop.equals("truststore.password"))) {
 					if ((val != null) && (val.length() > 0))
 						truststorePasswordVerified = true;
+				}
+				if ((prop != null) && (prop.equals("download.dir"))) {
+					if ((val != null) && (val.length() > 0))
+						downloadDirVerified = true;
 				}
 				if ((prop != null) && (prop.equals("internal.sftp.server"))) {
 					if ((val != null) && (val.length() > 0))
@@ -107,20 +102,18 @@ public final class PropertiesUtils {
 			}// end while
 
 			// in case one of the keys/values is missing
-			if (!wsdlLocationDLSVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that wsdl.location.dls key is supplied");
-			if (!wsdlLocationISISVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that wsdl.location.isis key is supplied");
+			if (!wsdlLocationVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that wsdl.location key is supplied");
 			if (!namespaceUriVerified)
 				logger.error("Please check icatexplorer.properties file to ensure that namespace.uri key is supplied");
 			if (!namespaceLocalPartVerified)
 				logger.error("Please check icatexplorer.properties file to ensure that namespace.localpart key is supplied");
-			if (!truststoreDLSLocationVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that truststore.location.dls key is supplied");
-			if (!truststoreISISLocationVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that truststore.location.isis key is supplied");
+			if (!truststoreLocationVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that truststore.location key is supplied");
 			if (!truststorePasswordVerified)
 				logger.error("Please check icatexplorer.properties file to ensure that truststore.password key is supplied");
+			if (!downloadDirVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that download.dir key is supplied");
 			if (!inServerVerified)
 				logger.error("Please check icatexplorer.properties file to ensure that internal.sftp.server key is supplied");
 			if (!exServerVerified)

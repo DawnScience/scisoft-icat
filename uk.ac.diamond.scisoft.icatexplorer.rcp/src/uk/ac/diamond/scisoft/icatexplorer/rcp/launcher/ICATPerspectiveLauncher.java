@@ -18,14 +18,12 @@ package uk.ac.diamond.scisoft.icatexplorer.rcp.launcher;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 
-import uk.ac.diamond.scisoft.icatexplorer.rcp.perspectives.ICATPerspective;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.wizards.ICATNewWizard;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.ui.ICATPerspective;
 
 public class ICATPerspectiveLauncher implements IWorkbenchWindowActionDelegate {
 
@@ -35,7 +33,6 @@ public class ICATPerspectiveLauncher implements IWorkbenchWindowActionDelegate {
 			PlatformUI.getWorkbench().showPerspective(
 					ICATPerspective.PERSPECTIVE_ID,
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow());
-
 		} catch (WorkbenchException e) {
 			e.printStackTrace();
 		}
@@ -51,6 +48,7 @@ public class ICATPerspectiveLauncher implements IWorkbenchWindowActionDelegate {
 	@Override
 	public void init(IWorkbenchWindow window) {
 		// TODO Auto-generated method stub
+
 	}
 
 	@Override
