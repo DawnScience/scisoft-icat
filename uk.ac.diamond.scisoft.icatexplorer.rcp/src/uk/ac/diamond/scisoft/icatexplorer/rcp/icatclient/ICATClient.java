@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
+import uk.icat3.client.Datafile;
 import uk.icat3.client.Dataset;
 import uk.icat3.client.DatasetInclude;
 import uk.icat3.client.ICAT;
@@ -40,27 +41,33 @@ import uk.icat3.client.ICATService;
 import uk.icat3.client.InsufficientPrivilegesException_Exception;
 import uk.icat3.client.Investigation;
 import uk.icat3.client.InvestigationInclude;
-import uk.icat3.client.NoSuchObjectFoundException_Exception;
-import uk.icat3.client.SessionException_Exception;
+import uk.icat3.client.NoSuchUserException_Exception;
+import uk.icat3.client.SessionException;
+
 
 public class ICATClient {
 
 	URL icatURL = null;
 	static Properties properties;
-
+	
+	protected static String icatdb;
 	protected String fedid;
 	protected String password;
 	protected String sessionId;
 	protected String truststorePath;
+	protected String downloadDir;
+	protected String projectName;
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(ICATClient.class);
+	private static final Logger logger = LoggerFactory.getLogger(ICATClient.class);
 
-	public ICATClient() {
+	public ICATClient(String icatdb, String downloadDir, String projectName) {
 
 		String tpath = null;
+		this.icatdb = icatdb;
+		this.downloadDir = downloadDir;
+		this.projectName = projectName;
+		
 		try {
-
 			logger.info("reading properties file");
 			properties = PropertiesUtils.readConfigFile();
 
@@ -69,17 +76,19 @@ public class ICATClient {
 		}
 
 		logger.debug("truststore.location: "
-				+ properties.getProperty("truststore.location"));
+				+ properties.getProperty("truststore.location." + icatdb));
 		logger.debug("(A) truststore: "
 				+ System.getProperty("javax.net.ssl.trustStore"));
 
 		try {
 			tpath = getTruststorePath2(properties
-					.getProperty("truststore.location"));
+					.getProperty("truststore.location." + icatdb));
 		} catch (IOException e) {
 			logger.error("error setting truststore file: ", e);
 		}
-
+		///
+		///tpath = "C:\\certs\\cacerts.jks";
+		///
 		System.setProperty("javax.net.ssl.trustStore", tpath);
 		System.setProperty("javax.net.ssl.trustStorePassword",
 				properties.getProperty("truststore.password"));
@@ -161,73 +170,110 @@ public class ICATClient {
 
 	private static URL getServiceWsdlLocation() throws MalformedURLException {
 		URL baseUrl = uk.icat3.client.ICATService.class.getResource(".");
-		return new URL(baseUrl, properties.getProperty("wsdl.location"));
+				
+		return new URL(baseUrl, properties.getProperty("wsdl.location." + icatdb));
 	}
 
 	public String login(String fedid, String password) {
 		ICAT icat;
 		try {
+			
 			this.fedid = fedid;
 			this.password = password;
-
+			
 			icat = getIcat();
+			logger.debug("wsdl location: " + getServiceWsdlLocation());
 			this.sessionId = icat.login(fedid, password);
-			logger.info("User " + this.fedid + " logged in icat. sessionId: "
-					+ this.sessionId);
-
+			
+			// initialise sessionDetails
+			ICATSessions.add(projectName, this);
+			
+			logger.info("User " + this.fedid + " logged in icat. sessionId: " + 
+					this.sessionId);
+			
 		} catch (Exception e) {
 			logger.error("failed to authenticate! ", e);
 		}
 
 		return sessionId;
 	}
+	
+	public String getICATVersion(String icatdb){
+		
+		String versionId = "";
+		
+		ICAT icat;
+		
+		try {
+			icat = getIcat();
+			versionId = 
+					icat.getICATAPIVersion("");
+		} catch (Exception e) {
+			logger.error("problem getting ICAT api version: " + e);
+		}
+		
+		return versionId;
+	}
 
-	// public String login(String fedid, String password) {
-	//
-	// uk.icat3.client.admin.ICATAdmin icatAdminPort = null;
-	// uk.icat3.client.ICAT icatPort = null;
-	//
-	// try {
-	//
-	// // Call Web Service Operation
-	// URL adminURL = new
-	// URL("https://facilities02.esc.rl.ac.uk:8181/ICATAdminService/ICATAdmin?wsdl");//properties.getProperty("icatadmin_endpoint"));
-	// icatAdminPort = new uk.icat3.client.admin.ICATAdminService(adminURL, new
-	// QName("admin.client.icat3.uk", "ICATAdminService")).getICATAdminPort();
-	//
-	// ((BindingProvider)icatAdminPort).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-	// "https://facilities02.esc.rl.ac.uk:8181/ICATAdminService/ICATAdmin?wsdl");//properties.getProperty("icatadmin_endpoint"));
-	// ((BindingProvider)icatAdminPort).getRequestContext().put(BindingProvider.USERNAME_PROPERTY,
-	// "DLS-admin");//properties.getProperty("username"));
-	// ((BindingProvider)icatAdminPort).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY,
-	// "TaunWuOd5");//properties.getProperty("password"));
-	//
-	// /*URL*/ icatURL = new
-	// URL("https://facilities02.esc.rl.ac.uk:8181/ICATService/ICAT?wsdl");//new
-	// URL(properties.getProperty("icat_endpoint"));
-	//
-	// icatPort = new uk.icat3.client.ICATService(icatURL, new
-	// QName("client.icat3.uk", "ICATService")).getICATPort();
-	// ((BindingProvider)icatPort).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-	// "https://facilities02.esc.rl.ac.uk:8181/ICATService/ICAT?wsdl");//properties.getProperty("icat_endpoint"));
-	//
-	// logger.debug("Logging in...");
-	// this.sessionId = icatAdminPort.loginAdmin(fedid);
-	// this.fedid = fedid;
-	// this.password = password;
-	//
-	// logger.debug("SessionId = " + sessionId);
-	//
-	//
-	//
-	// } catch (Exception ex) {
-	// //ex.printStackTrace();
-	// return null;
-	// }
-	//
-	// return this.sessionId;
-	//
-	// }
+//	public String login(String fedid, String password) {
+//		
+//		logger.debug("(1) loggin in ...> ");
+//		
+//		//fedid = "DLS-admin";
+//		//password = "10Aqzq!Jr9$Y" ;
+//		ICATAdmin icatAdminPort = null;
+//		ICAT icatPort = null;
+//
+//		try {
+//
+//			// Call Web Service Operation
+//			URL adminURL = new
+//					URL("https://facilities02.esc.rl.ac.uk:8181/ICATAdminService/ICATAdmin?wsdl");//properties.getProperty("icatadmin_endpoint"));
+//			icatAdminPort = new ICATAdminService(adminURL, new
+//					QName("admin.client.icat3.uk", "ICATAdminService")).getICATAdminPort();
+//
+//			logger.debug("(2) logging in ...> ");
+//
+//			
+//			((BindingProvider)icatAdminPort).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+//					"https://facilities02.esc.rl.ac.uk:8181/ICATAdminService/ICATAdmin?wsdl");//properties.getProperty("icatadmin_endpoint"));
+//			((BindingProvider)icatAdminPort).getRequestContext().put(BindingProvider.USERNAME_PROPERTY,
+//					"DLS-admin");//properties.getProperty("username"));
+//			((BindingProvider)icatAdminPort).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY,
+//					"10Aqzq!Jr9$Y");//properties.getProperty("password"));
+//			
+//			logger.debug("(3) logging in ...> ");
+//
+//			
+//			/*URL*/ icatURL = new
+//					URL("https://facilities02.esc.rl.ac.uk:8181/ICATService/ICAT?wsdl");//new URL(properties.getProperty("icat_endpoint"));
+//
+//			icatPort = new uk.icat3.client.ICATService(icatURL, new
+//					QName("client.icat3.uk", "ICATService")).getICATPort();
+//			
+//			logger.debug("(4) loggin in ...> ");
+//
+//			
+//			((BindingProvider)icatPort).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+//					"https://facilities02.esc.rl.ac.uk:8181/ICATService/ICAT?wsdl");//properties.getProperty("icat_endpoint"));
+//
+//			logger.debug("Logging in...");
+//			this.sessionId = icatAdminPort.loginAdmin(fedid);
+//			this.fedid = fedid;
+//			this.password = password;
+//
+//			logger.debug("SessionId = " + sessionId);
+//
+//
+//
+//		} catch (Exception ex) {
+//			ex.printStackTrace();
+//			//return null;
+//		}
+//
+//		return this.sessionId;
+//
+//	}
 
 	public void logout() {
 
@@ -251,9 +297,9 @@ public class ICATClient {
 	}
 
 	public List<Investigation> getLightInvestigations()
-			throws MalformedURLException, SessionException_Exception,
+			throws MalformedURLException, SessionException,
 			InsufficientPrivilegesException_Exception,
-			NoSuchObjectFoundException_Exception {
+			NoSuchUserException_Exception {
 
 		ICAT icat;
 		List<Investigation> myInvestigations = null;
@@ -262,7 +308,7 @@ public class ICATClient {
 			long startTime = System.currentTimeMillis();
 			icat = getIcat();
 
-			logger.debug("Calling getInvestigations()...");
+			logger.debug("Calling getInvestigations()...sessionid: " + sessionId);
 			myInvestigations = icat.getMyInvestigationsIncludes(this.sessionId,
 					InvestigationInclude.NONE);
 
@@ -312,6 +358,29 @@ public class ICATClient {
 
 		return datasets;
 	}
+	
+	public List<Datafile> getDatafiles(Long datasetId) {
+
+		List<Datafile> datafiles = null;
+		try {
+			Dataset dataset = ICATClient.getIcat()
+					.getDatasetIncludes(sessionId, datasetId,
+							DatasetInclude.DATASET_AND_DATAFILES_ONLY);
+
+			datafiles = dataset.getDatafileCollection();
+			
+			logger.debug("datafiles number: " + datafiles.size());
+
+
+		} catch (Exception e) {
+			// e.printStackTrace();
+			logger.error(
+					"problem retrieving datafiles for user: " + this.getFedId(),
+					e);
+		}
+
+		return datafiles;
+	}
 
 	public String getSessionId() {
 		return this.sessionId;
@@ -331,6 +400,10 @@ public class ICATClient {
 
 	public String getPassword() {
 		return this.password;
+	}
+	
+	public String getDownloadDir() {
+		return this.downloadDir;
 	}
 
 	public String getIcatHost() {
@@ -468,6 +541,14 @@ public class ICATClient {
 
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
+	}
+	
+	public String getIcatdb() {
+		return icatdb;
+	}
+
+	public void setIcatdb(String icatdb) {
+		this.icatdb = icatdb;
 	}
 
 }

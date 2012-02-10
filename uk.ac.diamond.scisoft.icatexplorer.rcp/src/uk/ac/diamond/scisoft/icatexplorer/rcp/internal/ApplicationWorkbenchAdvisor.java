@@ -21,7 +21,8 @@ import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
-import uk.ac.diamond.scisoft.icatexplorer.rcp.ui.ICATPerspective;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.perspectives.ICATPerspective;
+
 
 /**
  * Workbench advisor
