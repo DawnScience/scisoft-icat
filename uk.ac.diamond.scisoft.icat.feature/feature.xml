@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="uk.ac.diamond.scisoft.icat.feature"
-      label="ICat Feature"
-      version="1.0.0.qualifier"
+      label="ICAT Feature"
+      version="1.2.0.qualifier"
       provider-name="Diamond Light Source Ltd.">
 
    <description url="http://www.example.com/description">
@@ -28,6 +28,6 @@
          id="uk.ac.diamond.scisoft.icatexplorer.rcp"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="1.2.0"/>
 
 </feature>
