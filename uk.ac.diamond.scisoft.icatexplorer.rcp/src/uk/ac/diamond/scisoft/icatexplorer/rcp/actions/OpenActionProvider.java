@@ -229,7 +229,7 @@ public class OpenActionProvider extends CommonActionProvider {
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(plot);
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(MetadataPageView.ID);
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(DatasetInspectorView.ID);
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(SidePlotView.ID + ":*");
+						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(SidePlotView.ID + ":Dataset Plot");
 					} catch (PartInitException e) {
 						logger.error("Error opening view: ", e);
 					}
