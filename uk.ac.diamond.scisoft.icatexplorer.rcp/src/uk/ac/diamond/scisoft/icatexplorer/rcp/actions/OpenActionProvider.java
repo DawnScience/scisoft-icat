@@ -36,6 +36,7 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.NetworkUtils;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.visits.VisitTreeData;
+import uk.ac.diamond.sda.meta.views.MetadataPageView;
 import uk.ac.gda.common.rcp.util.EclipseUtils;
 
 public class OpenActionProvider extends CommonActionProvider {
@@ -48,7 +49,7 @@ public class OpenActionProvider extends CommonActionProvider {
 	private Properties properties;
 	private String downloadDir;
 	private String sftpServer;
-	private String projectName;
+	//private String projectName;
 
 	public OpenActionProvider() {
 		logger.debug("reading properties file...");
@@ -226,9 +227,9 @@ public class OpenActionProvider extends CommonActionProvider {
 					try {
 						String plot = PlotView.ID + "DP";
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(plot);
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(SidePlotView.ID + ":*");
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("fable.imageviewer.views.HeaderView");
+						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(MetadataPageView.ID);
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(DatasetInspectorView.ID);
+						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(SidePlotView.ID + ":*");
 					} catch (PartInitException e) {
 						logger.error("Error opening view: ", e);
 					}
