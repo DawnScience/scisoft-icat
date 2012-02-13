@@ -31,6 +31,8 @@ public class DatafileTreeData implements IMetadataProvider{
 	public DatafileTreeData(Datafile icatDatafile, String parentProject) {
 		this.setIcatDatafile(icatDatafile);
 		this.parentProject = parentProject;
+		
+		logger.debug("DatafileTree data created: " + icatDatafile.getName());
 	}
 
 	public String getParentProject() {
