@@ -43,7 +43,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 			String prevFolder, String prevDirectory, String prevFedid, String prevPassword) {
 		super("ICATWizardPage"); 
 				
-		this.initProject = prevProject != null ? prevProject : "ICAT"; 
+		this.initProject = "";//prevProject != null ? prevProject : "ICAT"; 
 		//this.initFolder = prevFolder != null ? prevFolder : "myIcat"; 
 		this.initDirectory = prevDirectory != null ? prevDirectory : ""; 
 		this.initFedid = prevFedid != null ? prevFedid : ""; 
@@ -63,7 +63,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		container.setLocation(-708, 1);
 		container.setLayout(null);
 		Label lblProjectName = new Label(container, SWT.NULL);
-		lblProjectName.setBounds(5, 136, 38, 13);
+		lblProjectName.setBounds(5, 136, 64, 16);
 		lblProjectName.setText("&Project:"); 
 		txtProject = new Text(container, SWT.BORDER);
 		txtProject.setBounds(113, 133, 321, 19);
@@ -75,16 +75,16 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		composite_1.setBounds(708, 108, 64, 64);
 
 		Label lbldownloadDirectory = new Label(container, SWT.NULL);
-		lbldownloadDirectory.setBounds(5, 171, 102, 13);
+		lbldownloadDirectory.setBounds(5, 171, 141, 19);
 		lbldownloadDirectory.setText("&Download directory:"); 
 		txtDirectory = new Text(container, SWT.BORDER);
-		txtDirectory.setBounds(113, 168, 321, 19);
+		txtDirectory.setBounds(152, 171, 321, 19);
 		txtDirectory.setText(initDirectory);
 		txtDirectory.setEditable(true);
 		txtDirectory.setEnabled(true);
 
 		Button button = new Button(container, SWT.PUSH);
-		button.setBounds(454, 166, 59, 23);
+		button.setBounds(488, 163, 71, 27);
 		button.setText("Browse..."); 
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -99,7 +99,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		
 		icatdbCombo = new Combo(container, SWT.READ_ONLY);//non-editable
 		icatdbCombo.setItems(new String[] {"Diamond Light Source Ltd.", "ISIS"});  //$NON-NLS-2$
-		icatdbCombo.setBounds(113, 20, 186, 21);
+		icatdbCombo.setBounds(113, 20, 212, 27);
 		icatdbCombo.select(0);
 		
 		Label fedidLbl = new Label(container, SWT.NONE);
@@ -107,7 +107,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		fedidLbl.setText("&FedId:"); 
 		
 		Label passwordLbl = new Label(container, SWT.NONE);
-		passwordLbl.setBounds(5, 98, 49, 13);
+		passwordLbl.setBounds(5, 98, 64, 13);
 		passwordLbl.setText("&Password:"); 
 		
 		txtFedid = new Text(container, SWT.BORDER);
