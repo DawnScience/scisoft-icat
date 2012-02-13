@@ -60,11 +60,14 @@ public class DatafileContentProvider implements ITreeContentProvider {
 	 * @return
 	 */
 	private Object[] getDatafiles(long id, String projectName) {
+		
+		logger.debug("in getDatafiles");
+		
 		ICATClient icatClient = ICATSessions.get(projectName);
 		List<Datafile> result = null;
 		result = icatClient.getDatafiles(id);
 		DatafileTreeData[] datafilesTree = new DatafileTreeData[result.size()];
-		
+				
 		for(int i=0; i< result.size(); i++){	
 			Datafile icatDatafile = result.get(i);
 			DatafileTreeData datafile = new DatafileTreeData(icatDatafile, projectName);
