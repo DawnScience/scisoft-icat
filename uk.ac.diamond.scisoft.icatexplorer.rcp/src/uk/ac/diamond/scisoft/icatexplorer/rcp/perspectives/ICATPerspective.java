@@ -35,6 +35,7 @@ import uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessions;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.wizards.ICATNewWizard;
+import uk.ac.diamond.sda.meta.views.MetadataPageView;
 
 public class ICATPerspective implements IPerspectiveFactory {
 
@@ -66,7 +67,7 @@ public class ICATPerspective implements IPerspectiveFactory {
 		right.addPlaceholder(plot);
 		right.addPlaceholder(SidePlotView.ID + ":*");
 
-		bottom.addView("fable.imageviewer.views.HeaderView");
+		bottom.addView(MetadataPageView.ID);//("fable.imageviewer.views.HeaderView");
 		String inspector = DatasetInspectorView.ID;
 		bottom.addView(inspector);
 		if (layout.getViewLayout(inspector) != null)
