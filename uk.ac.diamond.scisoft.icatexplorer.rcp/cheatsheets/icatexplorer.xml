@@ -7,7 +7,6 @@
     </description>
   </intro>
   <item
-        href="/org.eclipse.platform.doc.user/tasks/tasks-1h.htm"
         title="Open the ICAT Explorer perspective">
     <description>
       From the main menu, select <b> Window &gt; Open Perspective &gt; Other...,
