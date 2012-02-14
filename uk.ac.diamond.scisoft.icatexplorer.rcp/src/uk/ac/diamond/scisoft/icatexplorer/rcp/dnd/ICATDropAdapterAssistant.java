@@ -20,7 +20,6 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.CopyFilesAndFoldersOperation;
 import org.eclipse.ui.actions.MoveFilesAndFoldersOperation;
@@ -439,30 +438,30 @@ private void mergeStatus(MultiStatus status, IStatus toMerge) {
  * Opens an error dialog if necessary. Takes care of complex rules necessary
  * for making the error dialog look nice.
  */
-private void openError(IStatus status) {
-	if (status == null) {
-		return;
-	}
-
-	String genericTitle = WorkbenchNavigatorMessages.DropAdapter_title;
-	int codes = IStatus.ERROR | IStatus.WARNING;
-
-	// simple case: one error, not a multistatus
-	if (!status.isMultiStatus()) {
-		ErrorDialog
-		.openError(getShell(), genericTitle, null, status, codes);
-		return;
-	}
-
-	// one error, single child of multistatus
-	IStatus[] children = status.getChildren();
-	if (children.length == 1) {
-		ErrorDialog.openError(getShell(), status.getMessage(), null,
-				children[0], codes);
-		return;
-	}
-	// several problems
-	ErrorDialog.openError(getShell(), genericTitle, null, status, codes);
-}
+//private void openError(IStatus status) {
+//	if (status == null) {
+//		return;
+//	}
+//
+//	String genericTitle = WorkbenchNavigatorMessages.DropAdapter_title;
+//	int codes = IStatus.ERROR | IStatus.WARNING;
+//
+//	// simple case: one error, not a multistatus
+//	if (!status.isMultiStatus()) {
+//		ErrorDialog
+//		.openError(getShell(), genericTitle, null, status, codes);
+//		return;
+//	}
+//
+//	// one error, single child of multistatus
+//	IStatus[] children = status.getChildren();
+//	if (children.length == 1) {
+//		ErrorDialog.openError(getShell(), status.getMessage(), null,
+//				children[0], codes);
+//		return;
+//	}
+//	// several problems
+//	ErrorDialog.openError(getShell(), genericTitle, null, status, codes);
+//}
 
 }
