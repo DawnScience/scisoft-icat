@@ -66,7 +66,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		lblProjectName.setBounds(5, 136, 64, 16);
 		lblProjectName.setText("&Project:"); 
 		txtProject = new Text(container, SWT.BORDER);
-		txtProject.setBounds(113, 133, 321, 19);
+		txtProject.setBounds(113, 133, 212, 19);
 		txtProject.setText(initProject);
 		txtProject.addKeyListener(this);
 		Composite composite = new Composite(container, SWT.NULL);
@@ -75,16 +75,16 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		composite_1.setBounds(708, 108, 64, 64);
 
 		Label lbldownloadDirectory = new Label(container, SWT.NULL);
-		lbldownloadDirectory.setBounds(5, 171, 141, 19);
+		lbldownloadDirectory.setBounds(10, 221, 110, 19);
 		lbldownloadDirectory.setText("&Download directory:"); 
 		txtDirectory = new Text(container, SWT.BORDER);
-		txtDirectory.setBounds(152, 171, 321, 19);
+		txtDirectory.setBounds(163, 218, 321, 19);
 		txtDirectory.setText(initDirectory);
 		txtDirectory.setEditable(true);
 		txtDirectory.setEnabled(true);
 
 		Button button = new Button(container, SWT.PUSH);
-		button.setBounds(488, 163, 71, 27);
+		button.setBounds(490, 210, 71, 27);
 		button.setText("Browse..."); 
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -112,17 +112,24 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		
 		txtFedid = new Text(container, SWT.BORDER);
 		txtFedid.setText(initFedid);
-		txtFedid.setBounds(113, 65, 153, 19);
+		txtFedid.setBounds(113, 65, 212, 19);
 		txtFedid.addKeyListener(this);
 
 		
 		txtPassword = new Text(container, SWT.BORDER | SWT.PASSWORD);
 		//txtPassword.setText(initPassword);
-		txtPassword.setBounds(113, 95, 153, 19);
+		txtPassword.setBounds(113, 95, 212, 19);
 		txtPassword.addKeyListener(this);
 		
 		dialogChanged();
 		setControl(container);
+		
+		Combo sftpServerCombo = new Combo(container, SWT.NONE);
+		sftpServerCombo.setBounds(113, 176, 212, 21);
+		
+		Label sftpServerLbl = new Label(container, SWT.NONE);
+		sftpServerLbl.setBounds(5, 179, 79, 13);
+		sftpServerLbl.setText("&SFTP Server:");
 
 	}
 
