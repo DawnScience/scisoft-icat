@@ -3,7 +3,7 @@
       id="uk.ac.diamond.scisoft.icat.feature"
       label="ICAT Feature"
       version="1.2.0.qualifier"
-      provider-name="Diamond Light Source Ltd.">
+      provider-name="Diamond Light Source">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
