@@ -1,7 +1,25 @@
+/*
+ * Copyright © 2011 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package uk.ac.diamond.scisoft.icatexplorer.rcp.wizards;
 
 import org.eclipse.jface.dialogs.IDialogPage;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -10,11 +28,15 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATConnection;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.internal.ICATExplorerActivator;
 
 
 public class ICATWizardPage extends WizardPage implements KeyListener {
@@ -23,14 +45,22 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 	private Text txtProject;
 	private Text txtFedid;
 	private Text txtPassword;
-	private Combo icatdbCombo;
+	private Text icatSiteNameText;
 	private final String initProject;
 	private final String initDirectory;
 	//private final String initFolder;
 	//private final String initIcatdb;
+	
+	
 	private final String initFedid;
 	private final String initPassword;
+	private IPreferenceStore preferenceStore;	
 	
+	private static final Logger logger = LoggerFactory.getLogger(ICATWizardPage.class);
+	
+	private Text icatIDText;
+	private Text sftpServerText;
+
 
 	/**
 	 * Constructor for SampleNewWizardPage.
@@ -48,7 +78,6 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		this.initDirectory = prevDirectory != null ? prevDirectory : ""; 
 		this.initFedid = prevFedid != null ? prevFedid : ""; 
 		this.initPassword = prevPassword != null ? prevPassword : ""; 
-		//this.initIcatdb = prevIcatdb != null ? prevIcatdb : ""; 
 		setTitle("ICAT Project Wizard - creates a connection to an ICAT database"); 
 		setDescription("Wizard to create an ICAT connection to browse datafiles"); 
 	}
@@ -63,10 +92,10 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		container.setLocation(-708, 1);
 		container.setLayout(null);
 		Label lblProjectName = new Label(container, SWT.NULL);
-		lblProjectName.setBounds(5, 136, 64, 16);
-		lblProjectName.setText("&Project:"); 
+		lblProjectName.setBounds(4, 174, 103, 16);
+		lblProjectName.setText("&Project name:"); 
 		txtProject = new Text(container, SWT.BORDER);
-		txtProject.setBounds(113, 133, 212, 19);
+		txtProject.setBounds(113, 173, 212, 27);
 		txtProject.setText(initProject);
 		txtProject.addKeyListener(this);
 		Composite composite = new Composite(container, SWT.NULL);
@@ -75,16 +104,16 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		composite_1.setBounds(708, 108, 64, 64);
 
 		Label lbldownloadDirectory = new Label(container, SWT.NULL);
-		lbldownloadDirectory.setBounds(10, 221, 110, 19);
+		lbldownloadDirectory.setBounds(4, 258, 135, 19);
 		lbldownloadDirectory.setText("&Download directory:"); 
 		txtDirectory = new Text(container, SWT.BORDER);
-		txtDirectory.setBounds(163, 218, 321, 19);
+		txtDirectory.setBounds(150, 253, 321, 27);
 		txtDirectory.setText(initDirectory);
 		txtDirectory.setEditable(true);
 		txtDirectory.setEnabled(true);
 
 		Button button = new Button(container, SWT.PUSH);
-		button.setBounds(490, 210, 71, 27);
+		button.setBounds(485, 253, 71, 27);
 		button.setText("Browse..."); 
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -94,42 +123,71 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		});
 				
 		Label lblicatDatabase = new Label(container, SWT.NONE);
-		lblicatDatabase.setText("&ICAT Database:"); 
-		lblicatDatabase.setBounds(5, 23, 103, 13);
-		
-		icatdbCombo = new Combo(container, SWT.READ_ONLY);//non-editable
-		icatdbCombo.setItems(new String[] {"Diamond Light Source Ltd.", "ISIS"});  //$NON-NLS-2$
-		icatdbCombo.setBounds(113, 20, 212, 27);
-		icatdbCombo.select(0);
-		
-		Label fedidLbl = new Label(container, SWT.NONE);
-		fedidLbl.setBounds(5, 68, 49, 13);
-		fedidLbl.setText("&FedId:"); 
+		lblicatDatabase.setText("&ICAT site name:"); 
+		lblicatDatabase.setBounds(4, 63, 103, 13);
 		
 		Label passwordLbl = new Label(container, SWT.NONE);
-		passwordLbl.setBounds(5, 98, 64, 13);
+		passwordLbl.setBounds(4, 139, 64, 13);
 		passwordLbl.setText("&Password:"); 
 		
 		txtFedid = new Text(container, SWT.BORDER);
 		txtFedid.setText(initFedid);
-		txtFedid.setBounds(113, 65, 212, 19);
+		txtFedid.setBounds(113, 93, 212, 27);
 		txtFedid.addKeyListener(this);
 
 		
 		txtPassword = new Text(container, SWT.BORDER | SWT.PASSWORD);
 		//txtPassword.setText(initPassword);
-		txtPassword.setBounds(113, 95, 212, 19);
+		txtPassword.setBounds(113, 133, 212, 27);
 		txtPassword.addKeyListener(this);
+		
+		
+		Label sftpServerLbl = new Label(container, SWT.NONE);
+		sftpServerLbl.setBounds(4, 219, 79, 13);
+		sftpServerLbl.setText("&SFTP server:");
 		
 		dialogChanged();
 		setControl(container);
+		/*
+		 * populate wizard with current ICAT preferences
+		 */
+				
+		icatIDText = new Text(container, SWT.BORDER | SWT.READ_ONLY);
 		
-		Combo sftpServerCombo = new Combo(container, SWT.NONE);
-		sftpServerCombo.setBounds(113, 176, 212, 21);
+		String icatID = ICATExplorerActivator.getDefault().getPreferenceStore()
+				.getString("ICAT_ID_PREF");
+		icatIDText.setText(icatID);
 		
-		Label sftpServerLbl = new Label(container, SWT.NONE);
-		sftpServerLbl.setBounds(5, 179, 79, 13);
-		sftpServerLbl.setText("&SFTP Server:");
+		icatIDText.setEditable(true);
+		icatIDText.setBounds(113, 13, 212, 27);
+				
+		Label lblNewLabel = new Label(container, SWT.NONE);
+		lblNewLabel.setBounds(4, 20, 81, 17);
+		lblNewLabel.setText("&ICAT site ID");
+		
+		icatSiteNameText = new Text(container, SWT.BORDER | SWT.READ_ONLY);
+		icatSiteNameText.setEditable(true);
+		
+		String siteName = ICATExplorerActivator.getDefault().getPreferenceStore()
+				.getString("ICAT_NAME_PREF");
+		icatSiteNameText.setText(siteName);
+		
+		icatSiteNameText.setBounds(113, 53, 212, 27);
+				
+		
+		
+		sftpServerText = new Text(container, SWT.BORDER | SWT.READ_ONLY);
+		sftpServerText.setEditable(true);
+		
+		String sftpServer = ICATExplorerActivator.getDefault().getPreferenceStore()
+				.getString("ICAT_SFTPSERVER_PREF");
+		sftpServerText.setText(sftpServer);
+		
+		sftpServerText.setBounds(113, 213, 212, 27);
+		
+		Label fedidLbl = new Label(container, SWT.NONE);
+		fedidLbl.setText("&FedId:");
+		fedidLbl.setBounds(4, 108, 64, 13);
 
 	}
 
@@ -185,16 +243,19 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		setPageComplete(message == null);
 	}
 	
-	public String getIcatdb(){
-		String site = icatdbCombo.getItem(icatdbCombo.getSelectionIndex()).toUpperCase();
+	public ICATConnection getIcatCon(){
+				
+		String id = icatIDText.getText();
+		String siteName = icatSiteNameText.getText();
+		String sftpServer = sftpServerText.getText();
 		
-		if(site.contains("diamond".toUpperCase())){
-			
-			return "dls";
-		}else if(site.contains("isis".toUpperCase())){
-			return "isis";
-		}
-		return site;
+							
+		String wsdl =  ICATExplorerActivator.getDefault().getPreferenceStore()
+				.getString("ICAT_WSDL_PREF");
+
+		ICATConnection icatCon = new ICATConnection(id, siteName, sftpServer, wsdl);
+		
+		return icatCon;
 	}
 	
 	public String getFedid(){

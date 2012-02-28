@@ -4,8 +4,8 @@ Bundle-Name: ICAT Explorer RCP
 Bundle-SymbolicName: uk.ac.diamond.scisoft.icatexplorer.rcp;singleton:=true
 Bundle-Version: 1.2.0.qualifier
 Eclipse-BundleShape: dir
-Bundle-Activator: uk.ac.diamond.scisoft.icatexplorer.rcp.internal.Activator
-Bundle-Vendor: Diamond Light Source
+Bundle-Activator: uk.ac.diamond.scisoft.icatexplorer.rcp.internal.ICATExplorerActivator
+Bundle-Vendor: Diamond Light Source Ltd.
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.navigator;bundle-version="3.3.101",
  org.eclipse.ui.views.properties.tabbed,

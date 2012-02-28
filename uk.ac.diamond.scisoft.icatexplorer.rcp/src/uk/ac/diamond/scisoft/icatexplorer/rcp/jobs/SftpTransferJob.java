@@ -17,9 +17,7 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.jobs;
 
 import java.io.File;
-import java.net.InetAddress;
 import java.util.List;
-import java.util.Properties;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -37,8 +35,6 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.datasets.DatasetTreeData;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessions;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.sftpclient.SftpClient;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.NetworkUtils;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 import uk.icat3.client.Datafile;
 import uk.icat3.client.Dataset;
 import uk.icat3.client.DatasetInclude;
@@ -49,8 +45,7 @@ import uk.icat3.client.SessionException;
 
 public class SftpTransferJob extends Job {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(SftpTransferJob.class);
+	private static final Logger logger = LoggerFactory.getLogger(SftpTransferJob.class);
 
 	private IResource target;
 	private String sftpServer;
@@ -66,29 +61,12 @@ public class SftpTransferJob extends Job {
 		super(name);
 		this.target = target;
 		this.elements = elements;
-
-		logger.debug("reading properties file...");
-
-		try {
-			Properties properties = PropertiesUtils.readConfigFile();
-			InetAddress addr = InetAddress.getLocalHost();
-
-			if (NetworkUtils.insideDLS(addr)) {
-				sftpServer = properties.getProperty("internal.sftp.server");
-			} else {
-				sftpServer = properties.getProperty("external.sftp.server");
-			}
-
-		} catch (Exception e) {
-			logger.error("cannot read properties file", e);
-		}
 		
 		/* 
 		 * Preparing sftp connection
 		 * this is done by taking the fedid/password from one of the elements to move i.e. first datafile/dataset 
 		 * in the list of elements to move
 		 * Can be improved to use corresponding fedids/password for elements coming from different icat projects (connections) 
-		 * however, this case study is likely to happen in real contexts. 
 		 */
 		if (elements.get(0) instanceof DatasetTreeData){
 			projectName = ((DatasetTreeData)elements.get(0)).getParentProject();
@@ -99,7 +77,10 @@ public class SftpTransferJob extends Job {
 		
 		fedid = ICATSessions.get(projectName).getFedId();
 		password = ICATSessions.get(projectName).getPassword();
+		sftpServer = ICATSessions.get(projectName).getIcatCon().getSftpServer();
 		sftpClient = new SftpClient();
+		
+		logger.debug("using sftp server: " + sftpServer);
 
 	}
 
@@ -133,15 +114,13 @@ public class SftpTransferJob extends Job {
 				} catch (InsufficientPrivilegesException_Exception e) {
 					logger.error("problem getting dataset content from ICAT", e);
 				} catch (NoSuchObjectFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error("problem getting dataset content from ICAT", e);
 				} catch (SessionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error("problem getting dataset content from ICAT", e);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error("problem getting dataset content from ICAT", e);
 				} 
+				
 				List<Datafile> datafilesList = dataset.getDatafileCollection();
 				/*
 				 * create folder in target with dataset name all non-existent

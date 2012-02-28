@@ -16,7 +16,9 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.rcp.utils;
 
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,24 @@ public class NetworkUtils {
 			logger.debug("Connected from OUTSIDE Diamond: " + hostname);
 			return false;
 		}
+	}
+	
+	public static boolean isReachable(String serverName){
+		
+		boolean isReachabale = false;
+	     try {
+	         InetAddress address = InetAddress.getByName(serverName);
+	         isReachabale = address.isReachable(3000);
+	         logger.debug(serverName + " reachable? " + isReachabale);
+	       }
+	       catch (UnknownHostException e) {
+	         logger.error("Unable to lookup: " + serverName);
+	       }
+	       catch (IOException e) {
+		     logger.error("Unable to reach: " + serverName);
+	       }
+	     
+	     return isReachabale;
 	}
 
 }

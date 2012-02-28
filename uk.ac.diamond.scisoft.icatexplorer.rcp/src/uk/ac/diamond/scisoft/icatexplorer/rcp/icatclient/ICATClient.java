@@ -31,6 +31,7 @@ import javax.xml.namespace.QName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.icatexplorer.rcp.sftpclient.SftpClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 import uk.icat3.client.Datafile;
@@ -57,13 +58,24 @@ public class ICATClient {
 	protected String truststorePath;
 	protected String downloadDir;
 	protected String projectName;
+	static protected ICATConnection icatCon;
+
+	
+	public ICATConnection getIcatCon() {
+		return icatCon;
+	}
+
+	public static void setIcatCon(ICATConnection icatCon) {
+		ICATClient.icatCon = icatCon;
+	}
 
 	private static final Logger logger = LoggerFactory.getLogger(ICATClient.class);
-
-	public ICATClient(String icatdb, String downloadDir, String projectName) {
+	
+	
+	public ICATClient(ICATConnection icatCon, String downloadDir, String projectName) {
 
 		String tpath = null;
-		this.icatdb = icatdb;
+		this.icatCon = icatCon;
 		this.downloadDir = downloadDir;
 		this.projectName = projectName;
 		
@@ -75,19 +87,19 @@ public class ICATClient {
 			logger.error("problem reading properties file", e);
 		}
 
-		logger.debug("truststore.location: "
-				+ properties.getProperty("truststore.location." + icatdb));
-		logger.debug("(A) truststore: "
-				+ System.getProperty("javax.net.ssl.trustStore"));
+//		logger.debug("truststore.location: "
+//				+ properties.getProperty("truststore.location." + icatCon.getId()));
+//		logger.debug("(A) truststore: "
+//				+ System.getProperty("javax.net.ssl.trustStore"));
 
-		try {
-			tpath = getTruststorePath2(properties
-					.getProperty("truststore.location." + icatdb));
-		} catch (IOException e) {
-			logger.error("error setting truststore file: ", e);
-		}
+//		try {
+//			tpath = getTruststorePath2(properties
+//					.getProperty("truststore.location." + icatCon.getId()));
+//		} catch (IOException e) {
+//			logger.error("error setting truststore file: ", e);
+//		}
 		///
-		///tpath = "C:\\certs\\cacerts.jks";
+		tpath = "/dls/bl-misc/dropfiles2/certs/cacerts.jks";
 		///
 		System.setProperty("javax.net.ssl.trustStore", tpath);
 		System.setProperty("javax.net.ssl.trustStorePassword",
@@ -162,16 +174,17 @@ public class ICATClient {
 		URL icatServiceWsdlLocation = getServiceWsdlLocation();
 
 		ICATService service = new ICATService(icatServiceWsdlLocation,
-				new QName(properties.getProperty("namespace.uri"),
-						properties.getProperty("namespace.localpart")));
+				new QName("client.icat3.uk", "ICATService"));
+//				new QName(properties.getProperty("namespace.uri"),
+//						properties.getProperty("namespace.localpart")));
 
 		return service.getICATPort();
 	}
 
 	private static URL getServiceWsdlLocation() throws MalformedURLException {
 		URL baseUrl = uk.icat3.client.ICATService.class.getResource(".");
-				
-		return new URL(baseUrl, properties.getProperty("wsdl.location." + icatdb));
+		
+		return new URL(baseUrl, icatCon.getWsdlLocation());//properties.getProperty("wsdl.location." + icatdb));
 	}
 
 	public String login(String fedid, String password) {
@@ -198,7 +211,7 @@ public class ICATClient {
 		return sessionId;
 	}
 	
-	public String getICATVersion(String icatdb){
+	public String getICATVersion(){
 		
 		String versionId = "";
 		
@@ -207,7 +220,7 @@ public class ICATClient {
 		try {
 			icat = getIcat();
 			versionId = 
-					icat.getICATAPIVersion("");
+					icat.getICATAPIVersion("xxx");
 		} catch (Exception e) {
 			logger.error("problem getting ICAT api version: " + e);
 		}
@@ -406,17 +419,17 @@ public class ICATClient {
 		return this.downloadDir;
 	}
 
-	public String getIcatHost() {
-
-		URL url = null;
-		try {
-			url = new URL(properties.getProperty("wsdl.location"));
-		} catch (MalformedURLException e) {
-			logger.error("error parsing URL: " + url.toString(), e);
-			// e.printStackTrace();
-		}
-		return url.getHost();
-	}
+//	public String getIcatHost() {
+//
+//		URL url = null;
+//		try {
+//			url = new URL(properties.getProperty("wsdl.location"));
+//		} catch (MalformedURLException e) {
+//			logger.error("error parsing URL: " + url.toString(), e);
+//			// e.printStackTrace();
+//		}
+//		return url.getHost();
+//	}
 
 	String getTruststorePath(String truststoreLocation) throws IOException {
 		java.security.ProtectionDomain pd = ICATClient.class
@@ -542,13 +555,6 @@ public class ICATClient {
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
 	}
-	
-	public String getIcatdb() {
-		return icatdb;
-	}
 
-	public void setIcatdb(String icatdb) {
-		this.icatdb = icatdb;
-	}
 
 }

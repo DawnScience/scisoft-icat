@@ -1,8 +1,24 @@
+/*
+ * Copyright © 2011 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package uk.ac.diamond.scisoft.icatexplorer.rcp.actions;
 
 import java.io.File;
-import java.net.InetAddress;
-import java.util.Properties;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
@@ -32,9 +48,7 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessions;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.sftpclient.SftpClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.FilenameUtils;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.NetworkUtils;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.visits.VisitTreeData;
 import uk.ac.diamond.sda.meta.views.MetadataPageView;
 import uk.ac.gda.common.rcp.util.EclipseUtils;
@@ -46,29 +60,11 @@ public class OpenActionProvider extends CommonActionProvider {
 
 	private OpenChildAction openAction;
 	public IWorkbenchPage page;
-	private Properties properties;
 	private String downloadDir;
 	private String sftpServer;
 	//private String projectName;
 
 	public OpenActionProvider() {
-		logger.debug("reading properties file...");
-
-		try {
-			properties = PropertiesUtils.readConfigFile();
-
-			InetAddress addr = InetAddress.getLocalHost();
-
-			if (NetworkUtils.insideDLS(addr)) {
-				sftpServer = properties.getProperty("internal.sftp.server");
-			} else {
-				sftpServer = properties.getProperty("external.sftp.server");
-			}
-
-		} catch (Exception e) {
-			logger.error("cannot read properties file", e);
-		}
-
 	}
 
 	@Override
@@ -193,8 +189,9 @@ public class OpenActionProvider extends CommonActionProvider {
 									.getFedId();
 							String password = ICATSessions.get(projectName)
 									.getPassword();
-
-							SftpClient sftpClient = new SftpClient();
+							
+							sftpServer = ICATSessions.get(projectName).getIcatCon().getSftpServer();
+							SftpClient sftpClient = new SftpClient();						
 							localFilePath = sftpClient.downloadFile(fedid,
 									password, sftpServer, DatafileTreeData
 									.getIcatDatafile().getLocation(),
