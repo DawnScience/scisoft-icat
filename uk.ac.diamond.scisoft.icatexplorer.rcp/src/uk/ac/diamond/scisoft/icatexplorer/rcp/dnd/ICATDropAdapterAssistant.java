@@ -1,3 +1,21 @@
+/*
+ * Copyright © 2011 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package uk.ac.diamond.scisoft.icatexplorer.rcp.dnd;
 
 import java.util.ArrayList;
@@ -113,64 +131,6 @@ private void handleDropMove(final IResource target) {
 
 }
 
-// if (s instanceof IStructuredSelection) {
-// List<?> selectedElements = ((IStructuredSelection) s).toList();
-// for (Object o : selectedElements) {
-// if (o instanceof uk.icat3.client.Datafile) {
-// Datafile element = (Datafile) o;
-// moveDatafileTo(element, target, null);
-// }else if(o instanceof DDataset){
-// logger.debug("moving a dataset");
-// DDataset ddataset = ((DDataset)o);
-// uk.icat3.client.Dataset dataset = null;
-// try {
-// dataset =
-// ICATClient.getIcat().getDatasetIncludes(ICATSessions.icatClient.getSessionId(),
-// ddataset.getId(), DatasetInclude.DATASET_AND_DATAFILES_ONLY);
-// } catch (InsufficientPrivilegesException_Exception e) {
-// logger.error("problem getting dataset content from ICAT", e);
-// } catch (NoSuchObjectFoundException_Exception e) {
-// logger.error("problem getting dataset content from ICAT", e);
-// } catch (SessionException_Exception e) {
-// logger.error("problem getting dataset content from ICAT", e);
-// } catch (Exception e) {
-// logger.error("problem getting dataset content from ICAT", e);
-// }
-// datafilesList. = dataset.getDatafileCollection();
-// int nbFiles = datafilesList.size();
-//
-// logger.debug("number of files in dataset " + ddataset.getName() + ": " +
-// nbFiles);
-// /*
-// * create folder in target with dataset name
-// * all non-existent ancestor directories are
-// * automatically created
-// */
-// boolean success = (new File(target.getLocation().toString(),
-// ddataset.getName())).mkdirs();
-// if (!success) {
-// logger.error("error creating folder '" + ddataset.getName() +"' into '" +
-// target.getName()+"'" );
-// }
-// // move all dataset files into the newly created folder
-// String parentFolder = ddataset.getName();
-// moveDatasetTo(parentFolder, datafilesList, target, parentFolder);
-//
-// }
-// // getShell().getShell().getDisplay().asyncExec
-// // (new Runnable() {
-// // public void run() {
-// // MessageDialog.openInformation(getShell().getShell(),"Info",
-// "All selected files moved into the Project Explorer");
-// // }
-// // });
-// logger.info("ALL selected files moved!");
-// }
-// // gathered all selected elements to be moved
-// moveDatafilesTo(parentFolder, datafilesList, target, parentFolder);
-// }
-
-// }
 
 /*
  * (non-Javadoc)
@@ -284,28 +244,6 @@ private IResource[] getSelectedResources(IStructuredSelection selection) {
 			.toArray(new IResource[selectedResources.size()]);
 }
 
-/**
- * Performs a resource copy
- */
-//private IStatus performResourceCopy(CommonDropAdapter dropAdapter,
-//		Shell shell, IResource[] sources) {
-//
-//	MultiStatus problems = new MultiStatus(PlatformUI.PLUGIN_ID, 1,
-//			WorkbenchNavigatorMessages.DropAdapter_problemsMoving, null);
-//	mergeStatus(
-//			problems,
-//			validateTarget(dropAdapter.getCurrentTarget(),
-//					dropAdapter.getCurrentTransfer(),
-//					dropAdapter.getCurrentOperation()));
-//
-//	IContainer target = getActualTarget((IResource) dropAdapter
-//			.getCurrentTarget());
-//	CopyFilesAndFoldersOperation operation = new CopyFilesAndFoldersOperation(
-//			shell);
-//	operation.copyResources(sources, target);
-//
-//	return problems;
-//}
 
 /**
  * Performs a resource move
@@ -433,35 +371,5 @@ private void mergeStatus(MultiStatus status, IStatus toMerge) {
 		status.merge(toMerge);
 	}
 }
-
-/**
- * Opens an error dialog if necessary. Takes care of complex rules necessary
- * for making the error dialog look nice.
- */
-//private void openError(IStatus status) {
-//	if (status == null) {
-//		return;
-//	}
-//
-//	String genericTitle = WorkbenchNavigatorMessages.DropAdapter_title;
-//	int codes = IStatus.ERROR | IStatus.WARNING;
-//
-//	// simple case: one error, not a multistatus
-//	if (!status.isMultiStatus()) {
-//		ErrorDialog
-//		.openError(getShell(), genericTitle, null, status, codes);
-//		return;
-//	}
-//
-//	// one error, single child of multistatus
-//	IStatus[] children = status.getChildren();
-//	if (children.length == 1) {
-//		ErrorDialog.openError(getShell(), status.getMessage(), null,
-//				children[0], codes);
-//		return;
-//	}
-//	// several problems
-//	ErrorDialog.openError(getShell(), genericTitle, null, status, codes);
-//}
 
 }

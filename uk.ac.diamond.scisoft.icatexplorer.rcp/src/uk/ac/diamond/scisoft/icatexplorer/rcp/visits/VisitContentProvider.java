@@ -1,37 +1,33 @@
+/*
+ * Copyright © 2011 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package uk.ac.diamond.scisoft.icatexplorer.rcp.visits;
 
 import java.net.MalformedURLException;
-import java.rmi.activation.Activator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.ui.ISelectionService;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.Workbench;
-import org.eclipse.ui.internal.WorkbenchPlugin;
-import org.eclipse.ui.progress.UIJob;
-import org.eclipse.ui.views.navigator.ResourceNavigator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,7 +65,6 @@ public class VisitContentProvider implements ITreeContentProvider
 	 *
 	 */
 	public VisitContentProvider() {
-		//ResourcesPlugin.getWorkspace().addResourceChangeListener(this, IResourceChangeEvent.POST_CHANGE);
 	}
 
 	/**
@@ -137,32 +132,6 @@ public class VisitContentProvider implements ITreeContentProvider
 	private synchronized String[] updateModel(IFolder modelFolder) { 
 		
 		return getNames();
-		
-//		if(PROPERTIES_EXT.equals(modelFolder.getFileExtension()) ) {
-//			Properties model = new Properties();
-//			if (modelFolder.exists()) {
-//				try {
-//					//model.load(modelFolder.getName());//.getContents()); 
-//					
-//					String propertyName; 
-//					List properties = new ArrayList();
-//					for(Enumeration names = model.propertyNames(); names.hasMoreElements(); ) {
-//						propertyName = (String) names.nextElement();
-//						properties.add(new VisitTreeData(propertyName,  model.getProperty(propertyName), modelFolder));
-//					}
-//					VisitTreeData[] visitsTreeData = (VisitTreeData[])
-//						properties.toArray(new VisitTreeData[properties.size()]);
-//					
-//					cachedModelMap.put(modelFolder, visitsTreeData);
-//					return getNames();//model; 
-//				} catch (IOException e) {
-//				} catch (CoreException e) {
-//				}
-//			} else {
-//				cachedModelMap.remove(modelFolder);
-//			}
-//		}
-//		return null; 
 	}
 /**
 	 * @return
@@ -171,35 +140,6 @@ public class VisitContentProvider implements ITreeContentProvider
 		String[] names = new String[]{"123", "456", "789"};
 		return names;
 	}
-
-//	private synchronized Properties updateModel(IFile modelFile) { 
-//		
-//		if(PROPERTIES_EXT.equals(modelFile.getFileExtension()) ) {
-//			Properties model = new Properties();
-//			if (modelFile.exists()) {
-//				try {
-//					model.load(modelFile.getContents()); 
-//					
-//					String propertyName; 
-//					List properties = new ArrayList();
-//					for(Enumeration names = model.propertyNames(); names.hasMoreElements(); ) {
-//						propertyName = (String) names.nextElement();
-//						properties.add(new VisitTreeData(propertyName,  model.getProperty(propertyName), modelFile));
-//					}
-//					VisitTreeData[] propertiesTreeData = (VisitTreeData[])
-//						properties.toArray(new VisitTreeData[properties.size()]);
-//					
-//					cachedModelMap.put(modelFile, propertiesTreeData);
-//					return model; 
-//				} catch (IOException e) {
-//				} catch (CoreException e) {
-//				}
-//			} else {
-//				cachedModelMap.remove(modelFile);
-//			}
-//		}
-//		return null; 
-//	}
 
 	public Object getParent(Object element) {
 		logger.debug("in getParent");
@@ -239,12 +179,6 @@ public class VisitContentProvider implements ITreeContentProvider
 	 */
 	public void resourceChanged(IResourceChangeEvent event) {
 
-//		IResourceDelta delta = event.getDelta();
-//		try {
-//			delta.accept(this);
-//		} catch (CoreException e) { 
-//			e.printStackTrace();
-//		} 
 	}
 
 	/*

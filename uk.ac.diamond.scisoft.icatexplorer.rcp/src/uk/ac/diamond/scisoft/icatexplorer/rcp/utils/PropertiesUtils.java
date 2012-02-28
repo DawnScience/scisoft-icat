@@ -59,11 +59,12 @@ public final class PropertiesUtils {
 
 			while (keys.hasMoreElements()) {
 				String prop = keys.nextElement();
-				// logger.debug("prop= " + prop);
 				String val = bundle.getString(prop);
 
-				// check whether all required keys and (non null) values are
-				// present
+				/*
+				 *  check whether all required keys and (non null) values are
+				 *  present
+				 */
 				if ((prop != null) && (prop.equals("wsdl.location"))) {
 					if ((val != null) && (val.length() > 0))
 						wsdlLocationVerified = true;

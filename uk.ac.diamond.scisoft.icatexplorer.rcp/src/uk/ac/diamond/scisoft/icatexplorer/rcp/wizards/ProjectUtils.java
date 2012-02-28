@@ -1,4 +1,4 @@
-/*-
+/*
  * Copyright © 2011 Diamond Light Source Ltd.
  *
  * This file is part of GDA.

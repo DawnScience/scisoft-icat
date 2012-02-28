@@ -601,6 +601,20 @@
             natureId="uk.ac.diamond.scisoft.icatexplorer.rcp.icat.nature">
       </image>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="uk.ac.diamond.scisoft.icatexplorer.rcp.preferences.ICATPreferencePage"
+            id="uk.ac.diamond.scisoft.icatexplorer.rcp.preferences"
+            name="ICAT Explorer">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="uk.ac.diamond.scisoft.icatexplorer.rcp.preferences.ICATPreferenceInitializer">
+      </initializer>
+   </extension>
    <!-- extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution

@@ -1,3 +1,21 @@
+/*
+ * Copyright © 2011 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package uk.ac.diamond.scisoft.icatexplorer.rcp.wizards;
 
 import java.net.MalformedURLException;
@@ -26,8 +44,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATConnection;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessions;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.internal.Activator;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.internal.ICATExplorerActivator;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.projects.ICATProjectSupport;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.ICATHierarchyUtils;
 import uk.icat3.client.InsufficientPrivilegesException_Exception;
@@ -56,7 +75,7 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 	public ICATNewWizard() {
 		super();
 		setNeedsProgressMonitor(true);
-		IDialogSettings dialogSettings = Activator.getDefault().getDialogSettings();
+		IDialogSettings dialogSettings = ICATExplorerActivator.getDefault().getDialogSettings();
 		IDialogSettings section = dialogSettings.getSection(ICAT_WIZARD);
 		if(section == null){
 			section = dialogSettings.addNewSection(ICAT_WIZARD);
@@ -92,7 +111,8 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 	
 		final String directory = page.getDirectory();
 		//final String folder = page.getFolder();
-		final String icatdb    = page.getIcatdb();
+		//final String icatdb    = page.getIcatdb();
+		final ICATConnection icatCon  = page.getIcatCon();
 		final String fedid     = page.getFedid();
 		final String password  = page.getPassword();
 		final String project   = page.getProject();// + "@"+ icatdb + ".icat" ;
@@ -106,8 +126,9 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 				try {
 					//ProjectUtils.createImportProjectAndFolder(project, folder, directory, ICATProjectNature.NATURE_ID, null, monitor);
 					
-					// initiate ICAT connection									
-					ICATClient icatClient = new ICATClient(icatdb, directory, project);
+					logger.debug("using connection: ID= " + icatCon.getId() + " - Name: " + icatCon.getSiteName() + " - wsdl: "+ icatCon.getWsdlLocation());
+					
+					ICATClient icatClient = new ICATClient(icatCon, directory, project);
 					String sessionid = icatClient.login(fedid, password);
 					
 					logger.debug("sessionID = " + sessionid);	
@@ -117,6 +138,7 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 					
 					// getting the list of visits
 					List<Investigation> allVisits = icatClient.getLightInvestigations();
+		            
 					
 					// create project
 					IProgressMonitor progressMonitor = new NullProgressMonitor();
@@ -225,7 +247,7 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 				} catch (CoreException e) {
 					logger.error("Problem occured: ", e);
 				}
-				return new Status(IStatus.OK, Activator.PLUGIN_ID, "Project " + project + " created");
+				return new Status(IStatus.OK, ICATExplorerActivator.PLUGIN_ID, "Project " + project + " created");
 			}
 		};
 
