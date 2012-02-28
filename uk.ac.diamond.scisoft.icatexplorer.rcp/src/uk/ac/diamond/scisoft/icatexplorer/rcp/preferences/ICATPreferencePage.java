@@ -205,6 +205,7 @@ public class ICATPreferencePage extends PreferencePage implements
 		new Label(composite, SWT.NONE);
 		
 		Button btnTestWS = formToolkit.createButton(composite, "Test ICAT webservice", SWT.NONE);
+		btnTestWS.setImage(ResourceManager.getPluginImage("uk.ac.diamond.scisoft.icatexplorer.rcp", "icons/database.png"));
 		btnTestWS.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -234,7 +235,6 @@ public class ICATPreferencePage extends PreferencePage implements
 				
 			}
 		});
-		btnTestWS.setImage(ResourceManager.getPluginImage("uk.ac.diamond.scisoft.icatexplorer.rcp", "icons/database.png"));
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);

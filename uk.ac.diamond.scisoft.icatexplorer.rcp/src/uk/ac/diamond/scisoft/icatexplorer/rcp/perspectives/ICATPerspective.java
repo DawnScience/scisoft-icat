@@ -139,6 +139,7 @@ public class ICATPerspective implements IPerspectiveFactory {
  	    }
 
 	protected void sweepICATConnections() {
+		logger.debug("--------------> sweepICATConnections");
 		Iterator it = ICATSessions.icatsMap.entrySet().iterator();
  	    while (it.hasNext()) {
  	        Map.Entry pairs = (Map.Entry)it.next();
