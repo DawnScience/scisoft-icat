@@ -476,6 +476,32 @@
          </filterExpression>
       </commonFilter>
    </extension>
+  <extension point="org.eclipse.ui.navigator.navigatorContent">
+    <commonFilter
+          activeByDefault="true"
+          class="uk.ac.diamond.scisoft.icatexplorer.rcp.projects.DisconnectedICATsHandler"
+          description="Disconnects ICAT projects"
+          id="uk.ac.diamond.scisoft.icatexplorer.rcp.SweepDeadICAT"
+          name="*.icat projects"
+          visibleInUI="true">
+       <!-- <filterExpression>
+            <and>
+                <adapt type="org.eclipse.core.resources.IResource">
+                    <test property="org.eclipse.core.resources.projectNature" value="uk.ac.diamond.scisoft.icatexplorer.rcp.icat.nature"/>
+                </adapt>
+            </and>
+        </filterExpression> -->
+    </commonFilter>
+</extension>
+<extension point="org.eclipse.ui.navigator.viewer">
+    <viewerContentBinding
+          viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+          <includes>
+            <contentExtension pattern="uk.ac.diamond.scisoft.icatexplorer.rcp.SweepDeadICAT"/> 
+          </includes>
+    </viewerContentBinding>
+</extension> 
+   
    <extension
          point="org.eclipse.ui.newWizards">
       <category
@@ -614,6 +640,24 @@
       <initializer
             class="uk.ac.diamond.scisoft.icatexplorer.rcp.preferences.ICATPreferenceInitializer">
       </initializer>
+   </extension>
+   <extension
+         id="uk.ac.diamond.scisoft.icatexplorer.rcp.disc.icat.nature"
+         name="Disconnected ICAT nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="uk.ac.diamond.scisoft.icatexplorer.rcp.natures.DiscICATProjectNature">
+         </run>
+      </runtime>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="icons/database-disc.png"
+            id="disconnectedIcatexplorer.projectNature.img"
+            natureId="uk.ac.diamond.scisoft.icatexplorer.rcp.disc.icat.nature">
+      </image>
    </extension>
    <!-- extension
          point="org.eclipse.ui.popupMenus">

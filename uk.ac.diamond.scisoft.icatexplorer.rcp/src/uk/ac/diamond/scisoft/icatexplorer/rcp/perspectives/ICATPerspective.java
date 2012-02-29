@@ -28,6 +28,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
@@ -48,8 +49,7 @@ public class ICATPerspective implements IPerspectiveFactory {
 
 	public static final String PERSPECTIVE_ID = "uk.ac.diamond.scisoft.icatexplorer.rcp.perspective";
 
-	private static Logger logger = LoggerFactory
-			.getLogger(ICATPerspective.class);
+	private static Logger logger = LoggerFactory.getLogger(ICATPerspective.class);
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
@@ -79,74 +79,6 @@ public class ICATPerspective implements IPerspectiveFactory {
 		bottom.addView(inspector);
 		if (layout.getViewLayout(inspector) != null)
 			layout.getViewLayout(inspector).setCloseable(false);
-
-//		// delete closed icat connections
-//		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();	
-//		// get list of existing icat projects
-//		IProject[] projectsList = root.getProjects();
-//		for(int count=0; count< projectsList.length; count++){
-//			try {
-//				for (int natureCount=0; natureCount < ((IProject)projectsList[count]).getDescription().getNatureIds().length; natureCount++){
-//					logger.debug("checking ICAT project: " + ((IProject)projectsList[count]).getName() +" - " + ((IProject)projectsList[count]).getDescription().getNatureIds()[natureCount]);
-//
-//					boolean isICATProject = ((IProject)projectsList[count]).getDescription().getNatureIds()[natureCount].toString().equalsIgnoreCase("uk.ac.diamond.scisoft.icatexplorer.rcp.icat.nature");
-//					ICATClient currentIcatClient = ICATSessions.get(((IProject)projectsList[count]).getName());
-//					//logger.debug("currentIcatClient: " + currentIcatClient);
-//					boolean isICATSessionClosed = (currentIcatClient == null);
-//					if( isICATProject && isICATSessionClosed){
-//						// remove icat project from project explorer
-//						logger.info("deleting project: " + projectsList[count].getName());
-//						((IProject)projectsList[count]).delete(true, null);						
-//					}
-//				}
-//			} catch (CoreException e) {
-//				logger.debug("problem cleaning dead icat projects");
-//			}						
-//
-//		}
-
-		/*
-		 *  change icon of ICAT dead connections to a grayed one
-		 */
-		Job job = new Job("Check disconnected ICATs job") {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				sweepICATConnections();
-				updatePExplorer();
-				// Use this to open a Shell in the UI thread
-				return Status.OK_STATUS;
-			}
-
-		};
-		job.setUser(true);
-		job.schedule();
-		
-		
-//		// check whether there is an active session to icat webservice
-//		if (ICATSessions.icatsMap.isEmpty()) {
-//			
-//			// no open session so show icat connection wizard
-//			logger.info("no active session detected... showing the icat wizard");
-//			WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench()
-//					.getActiveWorkbenchWindow().getShell(), new ICATNewWizard());
-//			dialog.open();
-//			
-//		}
-	}
-
-	protected void updatePExplorer() {
-		logger.debug("=============> updating project explorer");
- 	    }
-
-	protected void sweepICATConnections() {
-		logger.debug("--------------> sweepICATConnections");
-		Iterator it = ICATSessions.icatsMap.entrySet().iterator();
- 	    while (it.hasNext()) {
- 	        Map.Entry pairs = (Map.Entry)it.next();
- 	        logger.debug("=============> " + pairs.getKey() + " = " + pairs.getValue());
- 	        it.remove(); // avoids a ConcurrentModificationException		
- 	    }
- 	    
 	}
 
 }

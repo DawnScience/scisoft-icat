@@ -22,6 +22,8 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -37,6 +39,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.wb.swt.ResourceManager;
+import org.eclipse.wb.swt.SWTResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,11 +48,6 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATConnection;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.internal.ICATExplorerActivator;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.NetworkUtils;
-
-import org.eclipse.wb.swt.ResourceManager;
-import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.ModifyEvent;
 
 public class ICATPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
@@ -175,7 +174,7 @@ public class ICATPreferencePage extends PreferencePage implements
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		
-		textiCATDownloaddir = formToolkit.createText(composite, "New Text", SWT.NONE);
+		textiCATDownloaddir = formToolkit.createText(composite, "", SWT.NONE);
 		textiCATDownloaddir.setText(preferenceStore.getString("ICAT_DOWNLOADDIR_PREF"));
 		textiCATDownloaddir.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
@@ -213,8 +212,8 @@ public class ICATPreferencePage extends PreferencePage implements
 			}
 
 			private void handleTestWebservice() {
-				
-				Display.getDefault().syncExec( new Runnable() {  
+								
+				Display.getDefault().asyncExec( new Runnable() {  
 					
 					public void run() {
 					final String wsdl = textICATwsdl.getText();
