@@ -29,12 +29,12 @@ public final class ICATSessions {
 	public static HashMap<String, Object> icatsMap = new HashMap<String, Object>();
 	
 	public static void add(String projectName, ICATClient icatClient){
-		logger.debug("registering icat client: " + projectName);
+		//logger.debug("registering icat client: " + projectName);
 		icatsMap.put(projectName, icatClient);
 	}
 	
 	public static ICATClient get(String projectName){	
-		logger.debug("getting icat client: " + projectName);
+		//logger.debug("getting icat client: " + projectName);
 		return (ICATClient) icatsMap.get(projectName);
 	}
 	

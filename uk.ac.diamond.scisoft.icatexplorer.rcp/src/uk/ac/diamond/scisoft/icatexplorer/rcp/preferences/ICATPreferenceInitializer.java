@@ -18,18 +18,16 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.rcp.preferences;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.icatexplorer.rcp.internal.ICATExplorerActivator;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.NetworkUtils;
 
 public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
+	
+	public static final String DELIMITER =  "-----";
 	
 	private static Logger logger = LoggerFactory.getLogger(ICATPreferenceInitializer.class);
 	
@@ -40,27 +38,15 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
 	@Override
 	public void initializeDefaultPreferences() {
 		
+		logger.debug("initializing ICAT preferences...");
+		
 		IPreferenceStore store = ICATExplorerActivator.getDefault().getPreferenceStore();
 		
-		store.setDefault("ICAT_ID_PREF", "DLS");
-		store.setDefault("ICAT_NAME_PREF", "Diamond Light Source Ltd.");
-		store.setDefault("ICAT_WSDL_PREF", "https://facilities02.esc.rl.ac.uk:8181/ICATService/ICAT?wsdl");
-		
-		InetAddress addr = null;
-		try {
-			addr = InetAddress.getLocalHost();
-		} catch (UnknownHostException e) {
-			logger.debug("problem retrieving address of host", e);
-		}
-		
-		String sftpServer = null;
-		if (NetworkUtils.insideDLS(addr)){
-			sftpServer = "linux.diamond.ac.uk";
-		}else{
-			sftpServer = "linux-staff.diamond.ac.uk";
-		}
-		store.setDefault("ICAT_SFTPSERVER_PREF", sftpServer);		
-		store.setDefault("ICAT_DOWNLOADDIR_PREF", System.getProperty("user.home"));
+		store.setDefault("ICAT_ID_PREF", "DLS"+ DELIMITER + "ISIS");
+		store.setDefault("ICAT_NAME_PREF", "Diamond Light Source Ltd." + DELIMITER + "ISIS");
+		store.setDefault("ICAT_WSDL_PREF", "https://facilities02.esc.rl.ac.uk:8181/ICATService/ICAT?wsdl"+ DELIMITER + "https://facilities01.esc.rl.ac.uk:8181/ICATService/ICAT?wsdl");
+		store.setDefault("ICAT_SFTPSERVER_PREF", "linux.diamond.ac.uk" + DELIMITER+ "sftp.isis.ac.uk");		
+		store.setDefault("ICAT_DOWNLOADDIR_PREF", System.getProperty("user.home") + DELIMITER+  System.getProperty("user.home"));
 		
 	}
 

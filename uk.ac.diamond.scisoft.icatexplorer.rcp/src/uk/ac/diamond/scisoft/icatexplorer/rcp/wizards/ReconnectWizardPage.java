@@ -19,17 +19,17 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.wizards;
 
 import org.eclipse.jface.dialogs.IDialogPage;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
@@ -39,34 +39,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATConnection;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.internal.ICATExplorerActivator;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.preferences.ICATPreferenceInitializer;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.NetworkUtils;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.ModifyEvent;
 
 
-public class ICATWizardPage extends WizardPage implements KeyListener {
+public class ReconnectWizardPage extends WizardPage implements KeyListener {
 
 	private Text txtDirectory;
 	private Text txtProject;
 	private Text txtFedid;
 	private Text txtPassword;
 	private Text icatSiteNameText;
-	private final String initProject;
-	private final String initDirectory;
-	//private final String initFolder;
-	//private final String initIcatdb;
+	private String initProject = "";
+	private String initDirectory = "";
+	private ICATConnection icatCon;
 	
 	
 	private final String initFedid;
-	private final String initPassword;
-	private IPreferenceStore preferenceStore;	
 	
-	private static final Logger logger = LoggerFactory.getLogger(ICATWizardPage.class);
-	private static String DELIMITER = null;
 	
-	private Combo icatIDCombo;
+	private static final Logger logger = LoggerFactory.getLogger(ReconnectWizardPage.class);
+	
+	private Text icatIDText;
 	private Text sftpServerText;
 
 
@@ -76,22 +69,22 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 	 * @param prevDirectory
 	 * @param prevFolder
 	 * @param prevProject
+	 * @param icatCon 
 	 */
-	public ICATWizardPage(@SuppressWarnings("unused") ISelection selection, String prevProject,
-			String prevFolder, String prevDirectory, String prevFedid, String prevPassword) {
-		super("ICATWizardPage"); 
+	public ReconnectWizardPage(@SuppressWarnings("unused") ISelection selection, String prevProject,
+			String prevFolder, String prevDirectory, String prevFedid, String prevPassword, ICATConnection icatCon) {
+		super("ICATReconnectWizardPage"); 
 				
-		this.initProject = "";//prevProject != null ? prevProject : "ICAT"; 
+		this.initProject = prevProject; //prevProject != null ? prevProject : "ICAT"; 
 		//this.initFolder = prevFolder != null ? prevFolder : "myIcat"; 
-		this.initDirectory = prevDirectory != null ? prevDirectory : ""; 
+		this.initDirectory = prevDirectory != null ? prevDirectory : "";
+		logger.debug("this.initDirectory= " + this.initDirectory );
 		this.initFedid = prevFedid != null ? prevFedid : ""; 
-		this.initPassword = prevPassword != null ? prevPassword : ""; 
+		//this.initPassword = prevPassword != null ? prevPassword : ""; 
+		setTitle("ICAT Reconnection Wizard - reconnect based on previous parameters"); 
+		setDescription("Wizard to reconnect a closed ICAT connection"); 
 		
-		preferenceStore = ICATExplorerActivator.getDefault().getPreferenceStore();
-		DELIMITER = ICATPreferenceInitializer.DELIMITER;
-		
-		setTitle("ICAT Project Wizard - creates a connection to an ICAT database"); 
-		setDescription("Wizard to create an ICAT connection to browse datafiles"); 
+		this.icatCon = icatCon;
 	}
 
 	/**
@@ -109,6 +102,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		txtProject = new Text(container, SWT.BORDER);
 		txtProject.setBounds(113, 173, 212, 27);
 		txtProject.setText(initProject);
+		txtProject.setEditable(false);
 		txtProject.addKeyListener(this);
 		Composite composite = new Composite(container, SWT.NULL);
 		composite.setBounds(708, 37, 64, 64);
@@ -158,38 +152,18 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		sftpServerLbl.setBounds(4, 219, 79, 13);
 		sftpServerLbl.setText("&SFTP server:");
 		
-		dialogChanged();
 		setControl(container);
 		/*
 		 * populate wizard with current ICAT preferences
 		 */
 				
-		icatIDCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
-		icatIDCombo.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				logger.debug("selection changed: " + icatIDCombo.getText());
-				
-				// change remaining parameters
-				int index = icatIDCombo.getSelectionIndex();
-				icatSiteNameText.setText(getToken(index, preferenceStore.getString("ICAT_NAME_PREF"), DELIMITER));
-				sftpServerText.setText(getToken(index, preferenceStore.getString("ICAT_SFTPSERVER_PREF"), DELIMITER));
-				txtDirectory.setText(getToken(index, preferenceStore.getString("ICAT_DOWNLOADDIR_PREF"), DELIMITER));
-				logger.debug("txtDirectory: " + txtDirectory.getText());
-			}
-		});
+		icatIDText = new Text(container, SWT.BORDER | SWT.READ_ONLY);
 		
-		String[] tokens =  preferenceStore.getDefaultString("ICAT_ID_PREF").split(DELIMITER);
-		logger.debug("tokens length: " + tokens.length);
+		String icatID = icatCon.getId();
+		icatIDText.setText(icatID);
 		
-		icatIDCombo.removeAll();
-		for(int count = 0; count <tokens.length ; count++){
-			icatIDCombo.add(tokens[count]);
-				}		
-		icatIDCombo.select(0);
-				
-		//icatIDCombo.setEditable(true);
-		icatIDCombo.setBounds(113, 13, 212, 27);
+		icatIDText.setEditable(false);
+		icatIDText.setBounds(113, 13, 212, 27);
 				
 		Label lblNewLabel = new Label(container, SWT.NONE);
 		lblNewLabel.setBounds(4, 20, 81, 17);
@@ -197,17 +171,18 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		
 		icatSiteNameText = new Text(container, SWT.BORDER | SWT.READ_ONLY);
 		icatSiteNameText.setEditable(false);
-		 
-		int index = icatIDCombo.getSelectionIndex();
-		icatSiteNameText.setText(getToken(index, preferenceStore.getString("ICAT_NAME_PREF"), DELIMITER));				
-		icatSiteNameText.setBounds(113, 53, 212, 27);		
+		
+		String siteName = icatCon.getSiteName();
+		icatSiteNameText.setText(siteName);		
+		icatSiteNameText.setBounds(113, 53, 212, 27);
 		
 		sftpServerText = new Text(container, SWT.BORDER | SWT.READ_ONLY);
 		sftpServerText.setEditable(true);
-		sftpServerText.setText(getToken(index, preferenceStore.getString("ICAT_SFTPSERVER_PREF"), DELIMITER));
-		sftpServerText.setBounds(113, 213, 212, 27);
 		
-		txtDirectory.setText(getToken(index, preferenceStore.getString("ICAT_DOWNLOADDIR_PREF"), DELIMITER));
+		String sftpServer = icatCon.getSftpServer();
+		sftpServerText.setText(sftpServer);
+		
+		sftpServerText.setBounds(113, 213, 212, 27);
 		
 		Label fedidLbl = new Label(container, SWT.NONE);
 		fedidLbl.setText("&FedId:");
@@ -217,6 +192,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		btnSftpTest.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
 				/*
 				 * test server using ping
 				 */
@@ -227,16 +203,20 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 					Image noImage = (ResourceManager.getPluginImage("uk.ac.diamond.scisoft.icatexplorer.rcp", "icons/no.png"));;
 					btnSftpTest.setImage(noImage);
 				}				
+				
 			}
 		});
-		btnSftpTest.setBounds(344, 213, 84, 29);
+		btnSftpTest.setBounds(331, 213, 84, 29);
 		btnSftpTest.setText("Test");
 		
 		sftpServerText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
+				// server name changing so reset Test button
 				btnSftpTest.setImage(null);
 			}
 		});
+		
+		dialogChanged();
 
 	}
 
@@ -294,13 +274,12 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 	
 	public ICATConnection getIcatCon(){
 				
-		String id = icatIDCombo.getText();
+		String id = icatIDText.getText();
 		String siteName = icatSiteNameText.getText();
-		String sftpServer = sftpServerText.getText();
-		
-		int index = icatIDCombo.getSelectionIndex();
-		String wsdl =  getToken(index, preferenceStore.getString("ICAT_WSDL_PREF"), DELIMITER);
-				
+		String sftpServer = sftpServerText.getText();		
+							
+		String wsdl = icatCon.getWsdlLocation();
+
 		ICATConnection icatCon = new ICATConnection(id, siteName, sftpServer, wsdl);
 		
 		return icatCon;
@@ -348,11 +327,5 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 	
 	public void fillFields(){
 		
-	}
-	
-	private String getToken(int index, String text, String delimiter){
-		
-		 String[] tokens = text.split(delimiter);  			
-		return tokens[index];
 	}
 }

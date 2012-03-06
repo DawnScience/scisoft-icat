@@ -172,37 +172,37 @@ public class ICATClient {
 	public static ICAT getIcat() throws Exception {
 
 		URL icatServiceWsdlLocation = getServiceWsdlLocation();
+		
+		//logger.debug("icatServiceWsdlLocation: " + icatServiceWsdlLocation.toString());
 
-		ICATService service = new ICATService(icatServiceWsdlLocation,
-				new QName("client.icat3.uk", "ICATService"));
-//				new QName(properties.getProperty("namespace.uri"),
-//						properties.getProperty("namespace.localpart")));
+		ICATService service = new ICATService(icatServiceWsdlLocation, new QName("client.icat3.uk", "ICATService"));
 
 		return service.getICATPort();
 	}
-
+	
+	
 	private static URL getServiceWsdlLocation() throws MalformedURLException {
 		URL baseUrl = uk.icat3.client.ICATService.class.getResource(".");
-		
+				
 		return new URL(baseUrl, icatCon.getWsdlLocation());//properties.getProperty("wsdl.location." + icatdb));
 	}
 
 	public String login(String fedid, String password) {
-		ICAT icat;
+		
 		try {
 			
 			this.fedid = fedid;
 			this.password = password;
 			
-			icat = getIcat();
-			logger.debug("wsdl location: " + getServiceWsdlLocation());
-			this.sessionId = icat.login(fedid, password);
+			ICAT icat = getIcat();
 			
-			// initialise sessionDetails
-			ICATSessions.add(projectName, this);
-			
+			sessionId = icat.login(fedid, password);
+									
 			logger.info("User " + this.fedid + " logged in icat. sessionId: " + 
-					this.sessionId);
+					sessionId);
+			
+			// initialise sessionDetails // TO CHECK AS DONE FROM WIZARD
+			ICATSessions.add(projectName, this);
 			
 		} catch (Exception e) {
 			logger.error("failed to authenticate! ", e);

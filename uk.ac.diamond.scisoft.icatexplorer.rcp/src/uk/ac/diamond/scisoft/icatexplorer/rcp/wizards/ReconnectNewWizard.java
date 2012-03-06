@@ -55,11 +55,11 @@ import uk.icat3.client.NoSuchUserException_Exception;
 import uk.icat3.client.SessionException;
 
 
-public class ICATNewWizard extends Wizard implements INewWizard {
+public class ReconnectNewWizard extends Wizard implements INewWizard {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ICATNewWizard.class);
+	private static final Logger logger = LoggerFactory.getLogger(ReconnectNewWizard.class);
 	
-	private static final String ICAT_WIZARD = "ICATNewWizard";  
+	private static final String RECONNECT_ICAT_WIZARD = "ReconnectNewWizard";  
 	public static final String DIALOG_SETTING_KEY_DIRECTORY = "directory"; 
 	public static final String DIALOG_SETTING_KEY_FOLDER = "folder";  
 	public static final String DIALOG_SETTING_KEY_PROJECT = "project";  
@@ -67,22 +67,32 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 	public static final String DIALOG_SETTING_KEY_PASSWORD = ""; 
 	protected static final String ALL_VISITS = "AllVisits";
 	protected static final String BEAMLINES = "Beamlines";	
-	private ICATWizardPage page;
-	private ICATWizardPage reconnectPage;
+	private ReconnectWizardPage page;
 	private ISelection selection;
+	private ICATConnection icatCon;
+
+	private String projectName;
+	private String fedid;
+	private String directory;
 
 	/**
 	 * Constructor for TestWizard.
+	 * @param projectName 
 	 */
-	public ICATNewWizard() {
+	public ReconnectNewWizard(String projectName, String fedid, ICATConnection icatCon) {
 		super();
 		setNeedsProgressMonitor(true);
 		IDialogSettings dialogSettings = ICATExplorerActivator.getDefault().getDialogSettings();
-		IDialogSettings section = dialogSettings.getSection(ICAT_WIZARD);
+		IDialogSettings section = dialogSettings.getSection(RECONNECT_ICAT_WIZARD);
 		if(section == null){
-			section = dialogSettings.addNewSection(ICAT_WIZARD);
+			section = dialogSettings.addNewSection(RECONNECT_ICAT_WIZARD);
 		}
 		setDialogSettings(section);
+		
+		this.icatCon = icatCon;
+		this.projectName = projectName;
+		this.fedid = fedid;
+		this.directory = directory;
 	}
 
 	/**
@@ -93,13 +103,13 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 		String prevProject = null , prevFolder = null, prevDirectory = null, prevFedid = null, prevPassword = null;
 		IDialogSettings  settings = getDialogSettings();
 		if( settings != null){
-			prevProject = settings.get(DIALOG_SETTING_KEY_PROJECT);
-			prevFolder = settings.get(DIALOG_SETTING_KEY_FOLDER);
-			prevDirectory = settings.get(DIALOG_SETTING_KEY_DIRECTORY);
-			prevFedid = settings.get(DIALOG_SETTING_KEY_FEDID);
+			prevProject = projectName;//settings.get(DIALOG_SETTING_KEY_PROJECT);
+			prevFolder = "";//settings.get(DIALOG_SETTING_KEY_FOLDER);
+			prevDirectory = directory;//settings.get(DIALOG_SETTING_KEY_DIRECTORY);
+			prevFedid = fedid;//settings.get(DIALOG_SETTING_KEY_FEDID);
 			prevPassword = "";//settings.get(DIALOG_SETTING_KEY_PASSWORD);
 		}
-		page = new ICATWizardPage(selection, prevProject, prevFolder, prevDirectory, prevFedid, prevPassword);
+		page = new ReconnectWizardPage(selection, prevProject, prevFolder, prevDirectory, prevFedid, prevPassword, icatCon);
 		addPage(page);
 		
 	}
@@ -126,8 +136,6 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 			protected IStatus run(IProgressMonitor monitor) {
 				
 				monitor.beginTask("Creating an ICAT explorer instance for your data", 100); 
-				
-				
 				try {
 					//ProjectUtils.createImportProjectAndFolder(project, folder, directory, ICATProjectNature.NATURE_ID, null, monitor);
 					
@@ -149,10 +157,11 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 					IProgressMonitor progressMonitor = new NullProgressMonitor();
 					IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();	
 										
-					IProject iproject = root.getProject(project);					
+					IProject iproject = root.getProject(project);
+					iproject.delete(true, progressMonitor);
 					iproject.create(progressMonitor);
 					iproject.open(progressMonitor);
-										
+					
 					// associating the icat nature to the newly created project
 					try {
 					      IProjectDescription description = iproject.getDescription();
@@ -165,7 +174,7 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 					      iproject.setDescription(description, progressMonitor);
 
 						} catch (CoreException e) {
-					      logger.error("problem setting ICAT nature to project: " + iproject.getName() + " - Error: " + e);
+					      logger.error("problem setting ICAT nature to project: " + project + " - Error: " + e);
 					   }
 					
 					// adding persistent properties needed to reconnect
@@ -180,12 +189,11 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 				    iproject.setPersistentProperty(qNameProjetcType, "ICAT");
 					iproject.setPersistentProperty(qNameFedid, fedid);
 					iproject.setPersistentProperty(qNameSiteName, icatCon.getSiteName());
-					logger.debug("setting wdl property to : " +icatCon.getWsdlLocation());
 					iproject.setPersistentProperty(qNameWsdl, icatCon.getWsdlLocation());
 					iproject.setPersistentProperty(qNameDirectory, directory);
 					iproject.setPersistentProperty(qNameID, icatCon.getId());
 					iproject.setPersistentProperty(qNameSftpServer, icatCon.getSftpServer());
-					
+				
 					logger.debug("project created: " + project);
 					
 					// populate allVisits folder with available visits
@@ -235,14 +243,14 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						// years by beamline 
 						for(int j=0; j< yearsByBeamline.size(); j++){
 							String path = initialPath + "/" + yearsByBeamline.get(j);
-////							List<Investigation> visitsByBeamlineYear = ICATHierarchyUtils.getVisitsByBeamlineYear(allVisits, beamlines.get(i), yearsByBeamline.get(j));
-////
-////								// visits by years/beamline 
-////								for(int k=0; k< visitsByBeamlineYear.size(); k++){
-////									path = path + "/" + ((Investigation)(visitsByBeamlineYear.get(k))).getVisitId().toString();
-////									pathList.add(path);							
-////									logger.debug("adding path: " + path);
-////								}
+//							List<Investigation> visitsByBeamlineYear = ICATHierarchyUtils.getVisitsByBeamlineYear(allVisits, beamlines.get(i), yearsByBeamline.get(j));
+//
+//								// visits by years/beamline 
+//								for(int k=0; k< visitsByBeamlineYear.size(); k++){
+//									path = path + "/" + ((Investigation)(visitsByBeamlineYear.get(k))).getVisitId().toString();
+//									pathList.add(path);							
+//									logger.debug("adding path: " + path);
+//								}
 							logger.debug("adding path: " + path);
 							pathList.add(path);	
 						}
@@ -270,7 +278,7 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 		};
 
 		loadDataProject.setUser(true);
-		loadDataProject.setPriority(Job.INTERACTIVE);
+		loadDataProject.setPriority(Job.DECORATE);
 		loadDataProject.schedule(100);
 		
 

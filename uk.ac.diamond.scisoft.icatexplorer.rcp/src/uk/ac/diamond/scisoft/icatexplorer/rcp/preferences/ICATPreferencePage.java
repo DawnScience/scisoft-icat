@@ -30,6 +30,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
@@ -52,7 +53,8 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.NetworkUtils;
 public class ICATPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
-	private Text textCATId;
+	//private Text comboICATId;
+	private Combo comboICATId;
 	private Text textICATName;
 	private Text textICATwsdl;
 	private Text textICATsftpServer;
@@ -60,6 +62,7 @@ public class ICATPreferencePage extends PreferencePage implements
 	private Text txtTestoutput;
 	private Button btnSftpTest;
 	private IPreferenceStore preferenceStore;
+	String DELIMITER;
 
 	private static Logger logger = LoggerFactory.getLogger(ICATPreferencePage.class);
 
@@ -69,6 +72,7 @@ public class ICATPreferencePage extends PreferencePage implements
 	 */
 	public ICATPreferencePage() {
 		preferenceStore = ICATExplorerActivator.getDefault().getPreferenceStore();
+		DELIMITER = ICATPreferenceInitializer.DELIMITER;
 	}
 
 	public ICATPreferencePage(String title) {
@@ -89,54 +93,90 @@ public class ICATPreferencePage extends PreferencePage implements
 	@Override
 	protected Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayout(new GridLayout(7, false));
-		new Label(composite, SWT.NONE);
+		composite.setLayout(new GridLayout(6, false));
 		
 		Label lblICATId = formToolkit.createLabel(composite, "ICAT SITE ID:", SWT.NONE);
 		lblICATId.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
 		
-		textCATId = formToolkit.createText(composite, "New Text", SWT.NONE);
-		textCATId.setText(preferenceStore.getString("ICAT_ID_PREF"));
-		textCATId.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		comboICATId = new Combo(composite, 2); //formToolkit.createText(composite, "New Text", SWT.NONE);
+		comboICATId.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				logger.debug("selection changed: " + comboICATId.getText());
+				
+				// change remaining parameters
+				int index = comboICATId.getSelectionIndex();
+				textICATName.setText(getToken(index, preferenceStore.getString("ICAT_NAME_PREF"), DELIMITER));
+				textICATwsdl.setText(getToken(index, preferenceStore.getString("ICAT_WSDL_PREF"), DELIMITER));
+				textICATsftpServer.setText(getToken(index, preferenceStore.getString("ICAT_SFTPSERVER_PREF"), DELIMITER));
+				textiCATDownloaddir.setText(getToken(index, preferenceStore.getString("ICAT_DOWNLOADDIR_PREF"), DELIMITER));			
+			}
+		});
+		
+        String[] tokens = preferenceStore.getDefaultString("ICAT_ID_PREF").split(DELIMITER);
+		
+        comboICATId.removeAll();
+		for(int count = 0; count <tokens.length ; count++){
+		comboICATId.add(getToken(count, preferenceStore.getString("ICAT_ID_PREF"), DELIMITER));
+				}
+		
+		comboICATId.select(0);
+		comboICATId.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		
 		Label lblICATName = formToolkit.createLabel(composite, "ICAT SITE NAME:", SWT.NONE);
 		lblICATName.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
 		
-		textICATName = formToolkit.createText(composite, "New Text", SWT.NONE);
-		textICATName.setText(preferenceStore.getString("ICAT_NAME_PREF"));
+		textICATName = formToolkit.createText(composite, "", SWT.NONE);
+		int indexN = comboICATId.getSelectionIndex();
+		textICATName.setText(getToken(indexN, preferenceStore.getString("ICAT_NAME_PREF"), DELIMITER));
 		textICATName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		
 		Label lblICATwsdl = formToolkit.createLabel(composite, "WSDL URL:", SWT.NONE);
 		lblICATwsdl.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
 		
 		textICATwsdl = formToolkit.createText(composite, "New Text", SWT.NONE);
-		textICATwsdl.setText(preferenceStore.getString("ICAT_WSDL_PREF"));
+		int indexW = comboICATId.getSelectionIndex();
+		textICATwsdl.setText(getToken(indexW, preferenceStore.getString("ICAT_WSDL_PREF"), DELIMITER));
 		textICATwsdl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		textICATwsdl.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				// wsdl url being modified so clear output message field
+				txtTestoutput.setText("");
+			}
+		});
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		
 		Label lblICATsftpServer = formToolkit.createLabel(composite, "SFTP Server:", SWT.NONE);
 		lblICATsftpServer.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
 		
 		textICATsftpServer = formToolkit.createText(composite, "New Text", SWT.NONE);
-		textICATsftpServer.setText(preferenceStore.getString("ICAT_SFTPSERVER_PREF"));
+		int indexS = comboICATId.getSelectionIndex();
+		textICATsftpServer.setText(getToken(indexS, preferenceStore.getString("ICAT_SFTPSERVER_PREF"), DELIMITER));
 		textICATsftpServer.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		
+		textICATsftpServer.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				// server name changing so reset Test button
+				btnSftpTest.setImage(null);
+			}
+		});
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
 		
 		btnSftpTest = new Button(composite, SWT.NONE);
 		btnSftpTest.addSelectionListener(new SelectionAdapter() {
@@ -158,44 +198,27 @@ public class ICATPreferencePage extends PreferencePage implements
 		formToolkit.adapt(btnSftpTest, true, true);
 		btnSftpTest.setText("Test");
 		
-		
-		textICATsftpServer.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				// server name changing so reset Test button
-				btnSftpTest.setImage(null);
-			}
-		});
-		
-		new Label(composite, SWT.NONE);
-		
 		Label lblICATDownloaddir = formToolkit.createLabel(composite, "Download Directory:", SWT.NONE);
 		lblICATDownloaddir.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
 		
 		textiCATDownloaddir = formToolkit.createText(composite, "", SWT.NONE);
-		textiCATDownloaddir.setText(preferenceStore.getString("ICAT_DOWNLOADDIR_PREF"));
-		textiCATDownloaddir.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-
+		int indexD = comboICATId.getSelectionIndex();
+		textiCATDownloaddir.setText(getToken(indexD, preferenceStore.getString("ICAT_DOWNLOADDIR_PREF"), DELIMITER));
 		
-		Button btnBrowse = formToolkit.createButton(composite, "Browse...", SWT.NONE);
-		btnBrowse.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		btnBrowse.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				handleBrowse();
-			}
-		});
+		textiCATDownloaddir.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
+		
+				
+				Button btnBrowse = formToolkit.createButton(composite, "Browse...", SWT.NONE);
+				btnBrowse.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+				btnBrowse.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						handleBrowse();
+					}
+				});
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
@@ -234,21 +257,14 @@ public class ICATPreferencePage extends PreferencePage implements
 				
 			}
 		});
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
 		
 		txtTestoutput = formToolkit.createText(composite, "", SWT.NONE);
 		txtTestoutput.setEditable(false);
 		txtTestoutput.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		new Label(composite, SWT.NONE);
-		
-		textICATwsdl.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				// wsdl url being modified so clear output message field
-				txtTestoutput.setText("");
-			}
-		});
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
 		
         return composite;
 	}
@@ -271,9 +287,12 @@ public class ICATPreferencePage extends PreferencePage implements
 		loadICATDefaultPreferences();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean performOk() {
 		storeICATPreferences();
+		setPreferenceStore(preferenceStore);
+		ICATExplorerActivator.getDefault().savePluginPreferences();
 		txtTestoutput.setText("");
 		btnSftpTest.setImage(null);
 		
@@ -283,21 +302,51 @@ public class ICATPreferencePage extends PreferencePage implements
 
 		public void loadICATDefaultPreferences() {
 			logger.debug("loadDefaultPreferences ...");
-			textCATId.setText(preferenceStore.getDefaultString("ICAT_ID_PREF"));
-			textICATName.setText(preferenceStore.getDefaultString("ICAT_NAME_PREF"));
-			textICATwsdl.setText(preferenceStore.getDefaultString("ICAT_WSDL_PREF"));
-			textICATsftpServer.setText(preferenceStore.getDefaultString("ICAT_SFTPSERVER_PREF"));
-			textiCATDownloaddir.setText(preferenceStore.getDefaultString("ICAT_DOWNLOADDIR_PREF"));	
+		
+			// change remaining parameters
+			String[] tokens =  preferenceStore.getDefaultString("ICAT_ID_PREF").split(DELIMITER);
+			logger.debug("tokens length: " + tokens.length);
+			
+			comboICATId.removeAll();
+			for(int count = 0; count <tokens.length ; count++){
+				comboICATId.add(tokens[count]);
+					}
+			
+			comboICATId.select(0);
+			int index = comboICATId.getSelectionIndex();
+
+			textICATName.setText(getToken(index, preferenceStore.getDefaultString("ICAT_NAME_PREF"), DELIMITER));
+			textICATwsdl.setText(getToken(index, preferenceStore.getDefaultString("ICAT_WSDL_PREF"), DELIMITER));
+			textICATsftpServer.setText(getToken(index, preferenceStore.getDefaultString("ICAT_SFTPSERVER_PREF"), DELIMITER));
+			textiCATDownloaddir.setText(getToken(index, preferenceStore.getDefaultString("ICAT_DOWNLOADDIR_PREF"), DELIMITER));
 		}
 		
 		public void storeICATPreferences() {
 			logger.debug("storePreferences ...");
-			preferenceStore.setValue("ICAT_ID_PREF", textCATId.getText());
-			preferenceStore.setValue("ICAT_NAME_PREF", textICATName.getText());
-			preferenceStore.setValue("ICAT_WSDL_PREF", textICATwsdl.getText());
-			preferenceStore.setValue("ICAT_SFTPSERVER_PREF", textICATsftpServer.getText());
-			preferenceStore.setValue("ICAT_DOWNLOADDIR_PREF", textiCATDownloaddir.getText());	
-
+			
+			// check whether the entered Id doesn't already exist
+			String newSiteId = comboICATId.getText();
+			String currentSiteID = preferenceStore.getDefaultString("ICAT_ID_PREF");
+			
+			if (!currentSiteID.contains(newSiteId)){
+				
+				preferenceStore.setDefault("ICAT_ID_PREF", preferenceStore.getDefaultString("ICAT_ID_PREF")+ DELIMITER + comboICATId.getText());
+				preferenceStore.setDefault("ICAT_NAME_PREF", preferenceStore.getDefaultString("ICAT_NAME_PREF")+ DELIMITER + textICATName.getText());
+				preferenceStore.setDefault("ICAT_WSDL_PREF", preferenceStore.getDefaultString("ICAT_WSDL_PREF")+ DELIMITER + textICATwsdl.getText());
+				preferenceStore.setDefault("ICAT_SFTPSERVER_PREF", preferenceStore.getDefaultString("ICAT_SFTPSERVER_PREF")+ DELIMITER + textICATsftpServer.getText());
+				preferenceStore.setDefault("ICAT_DOWNLOADDIR_PREF", preferenceStore.getDefaultString("ICAT_DOWNLOADDIR_PREF")+ DELIMITER + textiCATDownloaddir.getText());
+				
+			}else{
+				logger.debug("site ID already exist, can't save new preferences");
+				// TODO open error message
+			}
+			
+		}
+		
+		private String getToken(int index, String text, String delimiter){
+			
+			 String[] tokens = text.split(delimiter);  			
+			return tokens[index];
 		}
 		
 }

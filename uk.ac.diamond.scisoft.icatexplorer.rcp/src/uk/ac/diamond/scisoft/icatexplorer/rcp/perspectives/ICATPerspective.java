@@ -16,33 +16,15 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.rcp.perspectives;
 
-import java.util.Iterator;
-import java.util.Map;
-
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
-import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.rcp.views.DatasetInspectorView;
 import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
 import uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView;
-//import uk.ac.diamond.scisoft.icatexplorer.rcp.actions.OpenActionProvider;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessions;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.wizards.ICATNewWizard;
 import uk.ac.diamond.sda.meta.views.MetadataPageView;
 
 public class ICATPerspective implements IPerspectiveFactory {
@@ -53,6 +35,8 @@ public class ICATPerspective implements IPerspectiveFactory {
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
+		
+		logger.debug("creating perspective layout...");
 
 		// String loginViewID = LoginView.ID;
 		// IFolderLayout main = layout.createFolder("ICAT_Main",

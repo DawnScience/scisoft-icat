@@ -618,6 +618,13 @@
             properties="isICATAllVisits"
             type="java.lang.Object">
       </propertyTester>
+      <propertyTester
+            class="uk.ac.diamond.scisoft.icatexplorer.rcp.propertiesTesters.ICATDisconnectedPropertyTester"
+            id="uk.ac.diamond.scisoft.icatexplorer.rcp.propertyDiscICATTester"
+            namespace="icatexplorer.navigator"
+            properties="isICATDisconnected"
+            type="java.lang.Object">
+      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.ui.ide.projectNatureImages">
@@ -659,20 +666,93 @@
             natureId="uk.ac.diamond.scisoft.icatexplorer.rcp.disc.icat.nature">
       </image>
    </extension>
-   <!-- extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            adaptable="false"
-            id="uk.ac.diamond.scisoft.icatexplorer.rcp.contribution1"
-            objectClass="uk.ac.diamond.scisoft.icatexplorer.rcp.data.Child">
-         <action
-               class="uk.ac.diamond.scisoft.icatwsrcp.popup.actions.DeleteAction"
-               enablesFor="1"
-               id="uk.ac.diamond.scisoft.icatexplorer.rcp.deleteAction"
-               label="Delete"
-               menubarPath="group.edit"
-               tooltip="Delete a child">
-         </action>
-      </objectContribution>
-   </extension-->
+  
+  
+<extension point="org.eclipse.ui.viewActions"> 
+<viewContribution 
+      id="uk.ac.diamond.scisoft.icatexplorer.rcp.action.contribution.view" 
+   targetID="org.eclipse.ui.navigator.ProjectExplorer">
+   <action
+         id="uk.ac.diamond.scisoft.icatexplorer.rcp.view.sweep.toolbar" 
+         label="Sweep ICATs toolbar" 
+         icon="icons/sweep-small.png"
+         tooltip="Sweep disconnected ICATs"
+         toolbarPath="group1"
+         class="uk.ac.diamond.scisoft.icatexplorer.rcp.actions.SweepICATActionToolbar"
+         enablesFor="*">
+      </action> 
+   </viewContribution> 
+</extension>
+
+<extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?before=group.edit">
+         <command
+               commandId="uk.ac.diamond.scisoft.icatexplorer.rcp.commands.reconnecticat"
+               icon="icons/database.png"
+               label="Reconnect ICAT..."
+               style="push">
+             <visibleWhen>
+                  <with variable="activeMenuSelection">
+                            <iterate>
+                                  <and>
+                                     <test
+                                           property="icatexplorer.navigator.isICATDisconnected"
+                                           value="true">
+                                     </test>
+                                     <adapt
+                                           type="org.eclipse.core.resources.IProject">
+                                     </adapt>
+                                  </and>
+                            </iterate>
+                  </with>
+               </visibleWhen>
+
+               
+         </command>
+         <command
+               commandId="uk.ac.diamond.scisoft.icatexplorer.rcp.commands.sweepcat"
+               icon="icons/sweep-small.png"
+               label="Sweep ICAT"
+               style="push">
+               <visibleWhen>
+                  <with variable="activeMenuSelection">
+                            <iterate>
+                                  <and>
+                                     <test
+                                           property="icatexplorer.navigator.isICATDisconnected"
+                                           value="true">
+                                     </test>
+                                     <adapt
+                                           type="org.eclipse.core.resources.IProject">
+                                     </adapt>
+                                  </and>
+                            </iterate>
+                  </with>
+               </visibleWhen>
+         </command>
+         <separator
+               name="uk.ac.diamond.scisoft.icatexplorer.rcp.menu.separator"
+               visible="true">
+         </separator>
+      </menuContribution>
+   </extension>
+  <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="uk.ac.diamond.scisoft.icatexplorer.rcp.actions.ReconnectAction"
+            id="uk.ac.diamond.scisoft.icatexplorer.rcp.commands.reconnecticat"
+            name="Reconnect">
+      </command>
+      <command
+            defaultHandler="uk.ac.diamond.scisoft.icatexplorer.rcp.actions.SweepAction"
+            id="uk.ac.diamond.scisoft.icatexplorer.rcp.commands.sweepcat"
+            name="Sweep">
+      </command>
+   </extension>
+
+  
+  
 </plugin>
