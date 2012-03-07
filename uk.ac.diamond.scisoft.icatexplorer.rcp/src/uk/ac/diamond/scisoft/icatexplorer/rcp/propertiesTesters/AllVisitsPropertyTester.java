@@ -43,8 +43,7 @@ public class AllVisitsPropertyTester extends PropertyTester {
 		 */
 		
 		try {
-			IProject rootICATProject = ((IResource) receiver).getProject();
-			return validateRootProject(rootICATProject);
+			return validateRootProject(receiver instanceof IResource && ((IResource) receiver).getProject() instanceof IProject ? (IProject) ((IResource) receiver).getProject() : null);
 
 		} catch (Exception e) {
 		}
@@ -64,14 +63,13 @@ public class AllVisitsPropertyTester extends PropertyTester {
 
 		try {
 
-			if ((rootICATProject.getPersistentProperty(q1)).equalsIgnoreCase("ICAT")){
-				return true;
-			}
+			return ((rootICATProject.getPersistentProperty(q1)).equalsIgnoreCase("ICAT"));
+			
 		} catch (CoreException e) {
-			logger.debug("problem getting persistent property");
+			logger.error("problem getting persistent property: ", e);
+			return false;
 		}
 		
-		return false;
 	}	
 
 }

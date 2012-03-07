@@ -51,11 +51,10 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 	private Text icatSiteNameText;
 	private String initProject = "";
 	private String initDirectory = "";
-	private ICATConnection icatCon;
-	
-	
 	private final String initFedid;
+	private ICATConnection icatCon;	
 	
+	private static final String ICAT_PLUGIN_ID = "uk.ac.diamond.scisoft.icatexplorer.rcp";
 	
 	private static final Logger logger = LoggerFactory.getLogger(ReconnectWizardPage.class);
 	
@@ -76,7 +75,6 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		super("ICATReconnectWizardPage"); 
 				
 		this.initProject = prevProject; //prevProject != null ? prevProject : "ICAT"; 
-		//this.initFolder = prevFolder != null ? prevFolder : "myIcat"; 
 		this.initDirectory = prevDirectory != null ? prevDirectory : "";
 		logger.debug("this.initDirectory= " + this.initDirectory );
 		this.initFedid = prevFedid != null ? prevFedid : ""; 
@@ -90,7 +88,6 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 	/**
 	 * @see IDialogPage#createControl(Composite)
 	 */
-	@SuppressWarnings("unused")
 	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
@@ -137,6 +134,7 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		passwordLbl.setText("&Password:"); 
 		
 		txtFedid = new Text(container, SWT.BORDER);
+		txtFedid.setEditable(false);
 		txtFedid.setText(initFedid);
 		txtFedid.setBounds(113, 93, 212, 27);
 		txtFedid.addKeyListener(this);
@@ -197,10 +195,10 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 				 * test server using ping
 				 */
 				if(NetworkUtils.isReachable(sftpServerText.getText())){
-					Image okImage = (ResourceManager.getPluginImage("uk.ac.diamond.scisoft.icatexplorer.rcp", "icons/ok.png"));;
+					Image okImage = (ResourceManager.getPluginImage(ICAT_PLUGIN_ID, "icons/ok.png"));;
 					btnSftpTest.setImage(okImage);
 				}else{
-					Image noImage = (ResourceManager.getPluginImage("uk.ac.diamond.scisoft.icatexplorer.rcp", "icons/no.png"));;
+					Image noImage = (ResourceManager.getPluginImage(ICAT_PLUGIN_ID, "icons/no.png"));;
 					btnSftpTest.setImage(noImage);
 				}				
 				
@@ -211,6 +209,7 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		
 		sftpServerText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
+				
 				// server name changing so reset Test button
 				btnSftpTest.setImage(null);
 			}
@@ -239,21 +238,6 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 	 */
 
 	private void dialogChanged() {
-		if (getProject().length() == 0) {
-			updateStatus("Project name must be specified"); 
-			return;
-		}
-//
-//		if (getFolder().length() == 0) {
-//			updateStatus("Folder name must be specified. e.g. data"); 
-//			return;
-//		}
-
-		if (getDirectory().length() == 0) {
-			updateStatus("Directory where to store downloaded data files must be specified."); 
-			return;
-		}
-		
 		if (getFedid().length() == 0) {
 			updateStatus("a fedid must be specified."); 
 			return;
@@ -263,6 +247,16 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 			updateStatus("a password must be specified."); 
 			return;
 		}
+		if (getProject().length() == 0) {
+			updateStatus("Project name must be specified"); 
+			return;
+		}
+
+		if (getDirectory().length() == 0) {
+			updateStatus("Directory where to store downloaded data files must be specified."); 
+			return;
+		}
+		
 		
 		updateStatus(null);
 	}
@@ -274,8 +268,8 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 	
 	public ICATConnection getIcatCon(){
 				
-		String id = icatIDText.getText();
-		String siteName = icatSiteNameText.getText();
+		String id         = icatIDText.getText();
+		String siteName   = icatSiteNameText.getText();
 		String sftpServer = sftpServerText.getText();		
 							
 		String wsdl = icatCon.getWsdlLocation();
@@ -301,9 +295,6 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		return txtDirectory.getText();
 	}
 
-//	public String getFolder() {
-//		return txtFolder.getText();
-//	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -311,21 +302,19 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if (e.getSource().equals(txtProject)) {
-			dialogChanged();
-		}
-//		if (e.getSource().equals(txtFolder)) {
-//			dialogChanged();
-//		}
 		if (e.getSource().equals(txtFedid)) {
 			dialogChanged();
 		}
 		if (e.getSource().equals(txtPassword)) {
 			dialogChanged();
 		}
+		if (e.getSource().equals(txtProject)) {
+			dialogChanged();
+		}
+		if (e.getSource().equals(txtDirectory)) {
+			dialogChanged();
+		}
 	}
 	
-	public void fillFields(){
-		
-	}
+
 }

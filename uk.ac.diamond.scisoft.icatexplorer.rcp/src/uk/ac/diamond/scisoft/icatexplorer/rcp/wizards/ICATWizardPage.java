@@ -55,12 +55,9 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 	private Text icatSiteNameText;
 	private final String initProject;
 	private final String initDirectory;
-	//private final String initFolder;
-	//private final String initIcatdb;
-	
+		
 	
 	private final String initFedid;
-	private final String initPassword;
 	private IPreferenceStore preferenceStore;	
 	
 	private static final Logger logger = LoggerFactory.getLogger(ICATWizardPage.class);
@@ -85,7 +82,6 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		//this.initFolder = prevFolder != null ? prevFolder : "myIcat"; 
 		this.initDirectory = prevDirectory != null ? prevDirectory : ""; 
 		this.initFedid = prevFedid != null ? prevFedid : ""; 
-		this.initPassword = prevPassword != null ? prevPassword : ""; 
 		
 		preferenceStore = ICATExplorerActivator.getDefault().getPreferenceStore();
 		DELIMITER = ICATPreferenceInitializer.DELIMITER;
@@ -97,7 +93,6 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 	/**
 	 * @see IDialogPage#createControl(Composite)
 	 */
-	@SuppressWarnings("unused")
 	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
@@ -208,6 +203,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		sftpServerText.setBounds(113, 213, 212, 27);
 		
 		txtDirectory.setText(getToken(index, preferenceStore.getString("ICAT_DOWNLOADDIR_PREF"), DELIMITER));
+																	    
 		
 		Label fedidLbl = new Label(container, SWT.NONE);
 		fedidLbl.setText("&FedId:");
@@ -263,11 +259,6 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 			updateStatus("Project name must be specified"); 
 			return;
 		}
-//
-//		if (getFolder().length() == 0) {
-//			updateStatus("Folder name must be specified. e.g. data"); 
-//			return;
-//		}
 
 		if (getDirectory().length() == 0) {
 			updateStatus("Directory where to store downloaded data files must be specified."); 
@@ -322,9 +313,6 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		return txtDirectory.getText();
 	}
 
-//	public String getFolder() {
-//		return txtFolder.getText();
-//	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -335,9 +323,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		if (e.getSource().equals(txtProject)) {
 			dialogChanged();
 		}
-//		if (e.getSource().equals(txtFolder)) {
-//			dialogChanged();
-//		}
+
 		if (e.getSource().equals(txtFedid)) {
 			dialogChanged();
 		}
@@ -346,9 +332,6 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		}
 	}
 	
-	public void fillFields(){
-		
-	}
 	
 	private String getToken(int index, String text, String delimiter){
 		

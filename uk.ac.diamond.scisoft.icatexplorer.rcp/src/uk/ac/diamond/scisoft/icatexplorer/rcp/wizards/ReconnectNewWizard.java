@@ -57,11 +57,12 @@ import uk.icat3.client.SessionException;
 
 public class ReconnectNewWizard extends Wizard implements INewWizard {
 	
+	private static final String ICAT_NATURE = "uk.ac.diamond.scisoft.icatexplorer.rcp.icat.nature";
+
 	private static final Logger logger = LoggerFactory.getLogger(ReconnectNewWizard.class);
 	
 	private static final String RECONNECT_ICAT_WIZARD = "ReconnectNewWizard";  
 	public static final String DIALOG_SETTING_KEY_DIRECTORY = "directory"; 
-	public static final String DIALOG_SETTING_KEY_FOLDER = "folder";  
 	public static final String DIALOG_SETTING_KEY_PROJECT = "project";  
 	public static final String DIALOG_SETTING_KEY_FEDID = ""; 
 	public static final String DIALOG_SETTING_KEY_PASSWORD = ""; 
@@ -92,7 +93,6 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 		this.icatCon = icatCon;
 		this.projectName = projectName;
 		this.fedid = fedid;
-		this.directory = directory;
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					      String[] newNatures = new String[natures.length + 1];
 					      System.arraycopy(natures, 0, newNatures, 0, natures.length);
 					    
-					      newNatures[natures.length] = "uk.ac.diamond.scisoft.icatexplorer.rcp.icat.nature";
+					      newNatures[natures.length] = ICAT_NATURE;
 					      description.setNatureIds(newNatures);
 					      iproject.setDescription(description, progressMonitor);
 
@@ -216,11 +216,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 							beamlines.add(beamline);
 						}
 					}
-					
-					// get all available years
-					logger.debug("years: " + years.toString());
-					logger.debug("beamlines: " + beamlines.toString());
-					
+										
 					List<String> pathList = new ArrayList<String>();
 					
 					// create years folders

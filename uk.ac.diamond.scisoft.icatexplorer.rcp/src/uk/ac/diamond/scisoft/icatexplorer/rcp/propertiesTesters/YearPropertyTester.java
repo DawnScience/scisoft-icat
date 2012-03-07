@@ -45,16 +45,16 @@ public class YearPropertyTester extends PropertyTester {
 		 * between 1900 and 2099
 		 * and root project is an icat project
 		 */
-		boolean isYear = false;
 		
 		try {
-			IProject rootICATProject = ((IResource) receiver).getProject();
-			isYear = validateYear(((IResource) receiver).getName()) && validateRootProject(rootICATProject);
+						
+			return validateYear(receiver instanceof IResource? ((IResource) receiver).getName(): "") && validateRootProject(((IResource) receiver).getProject() instanceof IProject ? ((IResource) receiver).getProject(): null);
 
 		} catch (Exception e) {
+			logger.error("cannot check whether the selected folder is a year: " , e);
 		}
 
-		return isYear;
+		return false;
 
 	}
 
@@ -65,9 +65,8 @@ public class YearPropertyTester extends PropertyTester {
 	 * @return true valid year format, false invalid year format
 	 */
 	public boolean validateYear(String currentFolderName) {
-		//logger.debug("currentFolderName: " + currentFolderName);
-		pattern = Pattern.compile(YEAR_PATTERN);
 
+		pattern = Pattern.compile(YEAR_PATTERN);
 		matcher = pattern.matcher(currentFolderName);
 
 		if (matcher.matches()) {
@@ -79,6 +78,7 @@ public class YearPropertyTester extends PropertyTester {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 	
@@ -94,13 +94,13 @@ public class YearPropertyTester extends PropertyTester {
 
 		try {
 
-			if ((rootICATProject.getPersistentProperty(q1)).equalsIgnoreCase("ICAT")){
-				return true;
-			}
+			return (rootICATProject.getPersistentProperty(q1)).equalsIgnoreCase("ICAT");
+				
 		} catch (CoreException e) {
-			logger.debug("problem getting persistent property");
+			logger.debug("problem getting persistent property: ", e);
+			return false;
+
 		}
 		
-		return false;
 	}
 }

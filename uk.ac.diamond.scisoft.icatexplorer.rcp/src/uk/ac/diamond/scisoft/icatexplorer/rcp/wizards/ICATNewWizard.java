@@ -68,7 +68,6 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 	protected static final String ALL_VISITS = "AllVisits";
 	protected static final String BEAMLINES = "Beamlines";	
 	private ICATWizardPage page;
-	private ICATWizardPage reconnectPage;
 	private ISelection selection;
 
 	/**
@@ -180,7 +179,6 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 				    iproject.setPersistentProperty(qNameProjetcType, "ICAT");
 					iproject.setPersistentProperty(qNameFedid, fedid);
 					iproject.setPersistentProperty(qNameSiteName, icatCon.getSiteName());
-					logger.debug("setting wdl property to : " +icatCon.getWsdlLocation());
 					iproject.setPersistentProperty(qNameWsdl, icatCon.getWsdlLocation());
 					iproject.setPersistentProperty(qNameDirectory, directory);
 					iproject.setPersistentProperty(qNameID, icatCon.getId());

@@ -220,7 +220,7 @@ public class ICATClient {
 		try {
 			icat = getIcat();
 			versionId = 
-					icat.getICATAPIVersion("xxx");
+					icat.getICATAPIVersion("x");
 		} catch (Exception e) {
 			logger.error("problem getting ICAT api version: " + e);
 		}
@@ -294,7 +294,10 @@ public class ICATClient {
 		try {
 			icat = getIcat();
 			if (this.sessionId != null) {
+				
 				icat.logout(this.sessionId);
+				ICATSessions.add(projectName, this);
+				
 				logger.info("User " + this.fedid + " logged out");
 			} else {
 				logger.info("No user logged in to the ICAT");
@@ -303,7 +306,6 @@ public class ICATClient {
 			this.password = "";
 			this.sessionId = "";
 		} catch (Exception e) {
-			// e.printStackTrace();
 			logger.error("problem logging out! ", e);
 		}
 
