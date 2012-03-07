@@ -25,14 +25,14 @@ public class ICATDisconnectedPropertyTester extends PropertyTester {
 		 * test whether selected project is a disconnected icat project
 		 */
 		// TODO Rita receiver can also not be IProject sometimes.	
-		return isDisconnectedICATProject(((IProject) receiver));
+		return isDisconnectedICATProject(receiver instanceof IProject ? (IProject) receiver : null);
 
 	}
 
 	private boolean isDisconnectedICATProject(IProject iproject) {
 		
 		try {
-			return iproject.getDescription().hasNature(DISC_ICAT_NATURE);
+			return iproject != null ? iproject.getDescription().hasNature(DISC_ICAT_NATURE) : false;
 		} catch (CoreException e) {
 			logger.error("problem getting project nature: ", e);
 		}
