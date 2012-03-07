@@ -24,7 +24,7 @@ public class ICATDisconnectedPropertyTester extends PropertyTester {
 		/*
 		 * test whether selected project is a disconnected icat project
 		 */
-			
+		// TODO Rita receiver can also not be IProject sometimes.	
 		return isDisconnectedICATProject(((IProject) receiver));
 
 	}
