@@ -87,85 +87,17 @@ public class ICATClient {
 			logger.error("problem reading properties file", e);
 		}
 
-//		logger.debug("truststore.location: "
-//				+ properties.getProperty("truststore.location." + icatCon.getId()));
-//		logger.debug("(A) truststore: "
-//				+ System.getProperty("javax.net.ssl.trustStore"));
-
-//		try {
-//			tpath = getTruststorePath2(properties
-//					.getProperty("truststore.location." + icatCon.getId()));
-//		} catch (IOException e) {
-//			logger.error("error setting truststore file: ", e);
-//		}
 		///
-		tpath = "/dls/bl-misc/dropfiles2/certs/cacerts.jks";
+		//tpath = "/dls/bl-misc/dropfiles2/certs/cacerts.jks";
 		///
-		System.setProperty("javax.net.ssl.trustStore", tpath);
+		System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore_linux_dls"));
 		System.setProperty("javax.net.ssl.trustStorePassword",
-				properties.getProperty("truststore.password"));
+				properties.getProperty("truststore_password_dls"));
 
 		logger.debug("using truststore: "
 				+ System.getProperty("javax.net.ssl.trustStore"));
 
-		// // dynamically load the trust store as a stream and initialise it
-		// InputStream trustStream;
-		// try {
-		//
-		// trustStream = new
-		// FileInputStream(getTruststorePath(properties.getProperty("truststore.location")));//"c:\\certs\\cacerts.jks");
-		// KeyStore trustStore =
-		// KeyStore.getInstance("jks");//KeyStore.getDefaultType());
-		//
-		// // if your store is password protected then declare it (it can be
-		// null however)
-		// char[] trustPassword =
-		// properties.getProperty("truststore.password").toCharArray();
-		//
-		// // load the stream to your store
-		// trustStore.load(trustStream, trustPassword);
-		//
-		// // initialise a trust manager factory with the trusted store
-		// TrustManagerFactory trustFactory =
-		// TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-		// trustFactory.init(trustStore);
-		//
-		// // get the trust managers from the factory
-		// TrustManager[] trustManagers = trustFactory.getTrustManagers();
-		//
-		// // initialise an ssl context to use these managers and set as default
-		// SSLContext sslContext = SSLContext.getInstance("SSL");
-		// sslContext.init(null, trustManagers, null);
-		// SSLContext.setDefault(sslContext);
-		//
-		// logger.debug("(B) truststore: " +
-		// System.getProperty("javax.net.ssl.trustStore"));
-		// } catch (FileNotFoundException e) {
-		// logger.error("Can't find truststore file: ", e);
-		// } catch (KeyStoreException e) {
-		// logger.error("Keystore problem: ", e);
-		// } catch (NoSuchAlgorithmException e) {
-		// logger.error("algorithm problem: ", e);
-		// } catch (CertificateException e) {
-		// logger.error("certificate problem: ", e);
-		// } catch (IOException e) {
-		// logger.error("file exception: ", e);
-		// } catch (KeyManagementException e) {
-		// logger.error("ssk key problem: ", e);
-		//
-		// }
-
-		// // temporary fix to make it work with windows
-		// if (!OSDetector.isWindows()){
-		// logger.debug("non-Windows system detected");
-		// System.setProperty("javax.net.ssl.trustStore",
-		// getTruststorePath(properties.getProperty("truststore.location")));
-		// }
-		// System.setProperty("javax.net.ssl.trustStorePassword",
-		// properties.getProperty("truststore.password"));
-		//
-		// logger.debug("using truststore:" +
-		// System.getProperty("javax.net.ssl.trustStore"));
+		
 
 	}
 
@@ -173,8 +105,6 @@ public class ICATClient {
 
 		URL icatServiceWsdlLocation = getServiceWsdlLocation();
 		
-		//logger.debug("icatServiceWsdlLocation: " + icatServiceWsdlLocation.toString());
-
 		ICATService service = new ICATService(icatServiceWsdlLocation, new QName("client.icat3.uk", "ICATService"));
 
 		return service.getICATPort();
@@ -202,7 +132,7 @@ public class ICATClient {
 					sessionId);
 			
 			// initialise sessionDetails // TO CHECK AS DONE FROM WIZARD
-			ICATSessions.add(projectName, this);
+			//ICATSessions.add(projectName, this);
 			
 		} catch (Exception e) {
 			logger.error("failed to authenticate! ", e);
@@ -228,65 +158,6 @@ public class ICATClient {
 		return versionId;
 	}
 
-//	public String login(String fedid, String password) {
-//		
-//		logger.debug("(1) loggin in ...> ");
-//		
-//		//fedid = "DLS-admin";
-//		//password = "10Aqzq!Jr9$Y" ;
-//		ICATAdmin icatAdminPort = null;
-//		ICAT icatPort = null;
-//
-//		try {
-//
-//			// Call Web Service Operation
-//			URL adminURL = new
-//					URL("https://facilities02.esc.rl.ac.uk:8181/ICATAdminService/ICATAdmin?wsdl");//properties.getProperty("icatadmin_endpoint"));
-//			icatAdminPort = new ICATAdminService(adminURL, new
-//					QName("admin.client.icat3.uk", "ICATAdminService")).getICATAdminPort();
-//
-//			logger.debug("(2) logging in ...> ");
-//
-//			
-//			((BindingProvider)icatAdminPort).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-//					"https://facilities02.esc.rl.ac.uk:8181/ICATAdminService/ICATAdmin?wsdl");//properties.getProperty("icatadmin_endpoint"));
-//			((BindingProvider)icatAdminPort).getRequestContext().put(BindingProvider.USERNAME_PROPERTY,
-//					"DLS-admin");//properties.getProperty("username"));
-//			((BindingProvider)icatAdminPort).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY,
-//					"10Aqzq!Jr9$Y");//properties.getProperty("password"));
-//			
-//			logger.debug("(3) logging in ...> ");
-//
-//			
-//			/*URL*/ icatURL = new
-//					URL("https://facilities02.esc.rl.ac.uk:8181/ICATService/ICAT?wsdl");//new URL(properties.getProperty("icat_endpoint"));
-//
-//			icatPort = new uk.icat3.client.ICATService(icatURL, new
-//					QName("client.icat3.uk", "ICATService")).getICATPort();
-//			
-//			logger.debug("(4) loggin in ...> ");
-//
-//			
-//			((BindingProvider)icatPort).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-//					"https://facilities02.esc.rl.ac.uk:8181/ICATService/ICAT?wsdl");//properties.getProperty("icat_endpoint"));
-//
-//			logger.debug("Logging in...");
-//			this.sessionId = icatAdminPort.loginAdmin(fedid);
-//			this.fedid = fedid;
-//			this.password = password;
-//
-//			logger.debug("SessionId = " + sessionId);
-//
-//
-//
-//		} catch (Exception ex) {
-//			ex.printStackTrace();
-//			//return null;
-//		}
-//
-//		return this.sessionId;
-//
-//	}
 
 	public void logout() {
 
@@ -296,7 +167,7 @@ public class ICATClient {
 			if (this.sessionId != null) {
 				
 				icat.logout(this.sessionId);
-				ICATSessions.add(projectName, this);
+				ICATSessions.remove(sessionId);
 				
 				logger.info("User " + this.fedid + " logged out");
 			} else {
@@ -365,7 +236,6 @@ public class ICATClient {
 					+ newInv.getDatasetCollection().size());
 
 		} catch (Exception e) {
-			// e.printStackTrace();
 			logger.error(
 					"problem retrieving datasets for user: " + this.getFedId(),
 					e);
@@ -388,7 +258,6 @@ public class ICATClient {
 
 
 		} catch (Exception e) {
-			// e.printStackTrace();
 			logger.error(
 					"problem retrieving datafiles for user: " + this.getFedId(),
 					e);
@@ -421,17 +290,6 @@ public class ICATClient {
 		return this.downloadDir;
 	}
 
-//	public String getIcatHost() {
-//
-//		URL url = null;
-//		try {
-//			url = new URL(properties.getProperty("wsdl.location"));
-//		} catch (MalformedURLException e) {
-//			logger.error("error parsing URL: " + url.toString(), e);
-//			// e.printStackTrace();
-//		}
-//		return url.getHost();
-//	}
 
 	String getTruststorePath(String truststoreLocation) throws IOException {
 		java.security.ProtectionDomain pd = ICATClient.class
@@ -470,58 +328,6 @@ public class ICATClient {
 
 	}
 
-	String getTruststorePath2(String truststoreLocation) throws IOException {
-		// getting home directory
-		String tmpDir = System.getProperty("java.io.tmpdir");
-		logger.debug("java.io.tmpdir: " + tmpDir);
-
-		// copy truststore to current tmp directory
-		java.security.ProtectionDomain pd = ICATClient.class
-				.getProtectionDomain();
-		if (pd == null)
-			return null;
-		java.security.CodeSource cs = pd.getCodeSource();
-		if (cs == null)
-			return null;
-		java.net.URL url = cs.getLocation();
-		if (url == null)
-			return null;
-		java.io.File f = new File(url.getFile());
-		if (f == null)
-			return null;
-
-		File truststorePath = new File(f.getAbsolutePath(), truststoreLocation);
-
-		logger.debug("initial truststore in: "
-				+ truststorePath.getAbsolutePath());
-
-		// copy
-		String filename = truststoreLocation.substring(truststoreLocation
-				.indexOf("/"));
-		File destFile = new File(tmpDir, filename);
-		logger.debug("copying from " + truststorePath.getAbsolutePath()
-				+ " to " + destFile.getAbsolutePath());
-		try {
-			copyFile(truststorePath, destFile);
-		} catch (Exception e1) {
-			logger.error("error copying file: ", e1);
-		}
-
-		// set permissions on new truststore
-		// for all except Windows
-		if (!OSDetector.isWindows()) {
-			try {
-				Runtime.getRuntime().exec(
-						"chmod 777 " + destFile.getAbsolutePath());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		logger.debug("returning truststore: " + destFile.getAbsolutePath());
-		return destFile.getAbsolutePath();
-	}
-
 	public Dataset getDataset(Long datasetId) {
 
 		ICAT icat;
@@ -535,24 +341,6 @@ public class ICATClient {
 		return null;
 	}
 
-	public static void copyFile(File in, File out) throws Exception {
-		FileInputStream fis = new FileInputStream(in);
-		FileOutputStream fos = new FileOutputStream(out);
-		try {
-			byte[] buf = new byte[1024];
-			int i = 0;
-			while ((i = fis.read(buf)) != -1) {
-				fos.write(buf, 0, i);
-			}
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			if (fis != null)
-				fis.close();
-			if (fos != null)
-				fos.close();
-		}
-	}
 
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;

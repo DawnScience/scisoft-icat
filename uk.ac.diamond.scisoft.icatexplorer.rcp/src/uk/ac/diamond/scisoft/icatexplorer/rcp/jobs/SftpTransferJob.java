@@ -19,12 +19,14 @@ package uk.ac.diamond.scisoft.icatexplorer.rcp.jobs;
 import java.io.File;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.slf4j.Logger;
@@ -49,10 +51,10 @@ public class SftpTransferJob extends Job {
 
 	private IResource target;
 	private String sftpServer;
-
+	
+	private String sessionId;
 	private String fedid;
 	private String password;
-	private String projectName;
 	private SftpClient sftpClient;
 
 	private List<?> elements;
@@ -68,16 +70,23 @@ public class SftpTransferJob extends Job {
 		 * in the list of elements to move
 		 * Can be improved to use corresponding fedids/password for elements coming from different icat projects (connections) 
 		 */
+		IProject iproject = null;
 		if (elements.get(0) instanceof DatasetTreeData){
-			projectName = ((DatasetTreeData)elements.get(0)).getParentProject();
+			iproject = ((DatasetTreeData)elements.get(0)).getParentProject();
 		}else if (elements.get(0) instanceof DatafileTreeData){
-			projectName = ((DatafileTreeData)elements.get(0)).getParentProject();
+			iproject = ((DatafileTreeData)elements.get(0)).getParentProject();
 		}
 		
+		QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
+		try {
+			sessionId = iproject.getPersistentProperty(qNameSessionId);
+		} catch (CoreException e) {
+			logger.error("problem retrieving sessionId for project: " + iproject.getName());
+		}		
 		
-		fedid = ICATSessions.get(projectName).getFedId();
-		password = ICATSessions.get(projectName).getPassword();
-		sftpServer = ICATSessions.get(projectName).getIcatCon().getSftpServer();
+		fedid = ICATSessions.get(sessionId).getFedId();
+		password = ICATSessions.get(sessionId).getPassword();
+		sftpServer = ICATSessions.get(sessionId).getIcatCon().getSftpServer();
 		sftpClient = new SftpClient();
 		
 		logger.debug("using sftp server: " + sftpServer);
@@ -107,7 +116,7 @@ public class SftpTransferJob extends Job {
 					dataset = ICATClient
 							.getIcat()
 							.getDatasetIncludes(
-									ICATSessions.get(projectName)
+									ICATSessions.get(sessionId)
 											.getSessionId(),
 									((DatasetTreeData) element).getIcatDataset().getId(),
 									DatasetInclude.DATASET_AND_DATAFILES_ONLY);

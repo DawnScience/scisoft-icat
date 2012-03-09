@@ -21,6 +21,10 @@ package uk.ac.diamond.scisoft.icatexplorer.rcp.datafiles;
 import java.util.List;
 
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.slf4j.Logger;
@@ -77,18 +81,26 @@ public class DatafileContentProvider implements ITreeContentProvider {
 	 * @param parentElement
 	 * @return
 	 */
-	private Object[] getDatafiles(long id, String projectName) {
+	private Object[] getDatafiles(long id, IProject parentProject) {
 		
 		logger.debug("in getDatafiles");
 		
-		ICATClient icatClient = ICATSessions.get(projectName);
+		QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
+		String sessionId = null;
+		try {
+			sessionId = parentProject.getPersistentProperty(qNameSessionId);
+		} catch (CoreException e) {
+			logger.error("error in getting sessionid from project: " + parentProject.getName());
+		}
+		
+		ICATClient icatClient = ICATSessions.get(sessionId);
 		List<Datafile> result = null;
 		result = icatClient.getDatafiles(id);
 		DatafileTreeData[] datafilesTree = new DatafileTreeData[result.size()];
 				
 		for(int i=0; i< result.size(); i++){	
 			Datafile icatDatafile = result.get(i);
-			DatafileTreeData datafile = new DatafileTreeData(icatDatafile, projectName);
+			DatafileTreeData datafile = new DatafileTreeData(icatDatafile, parentProject);
 			datafilesTree[i] = datafile;
 
 		}

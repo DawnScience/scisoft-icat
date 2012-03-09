@@ -22,6 +22,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 
+import org.eclipse.core.resources.IProject;
+
 import uk.ac.diamond.scisoft.analysis.dataset.IMetadataProvider;
 import uk.ac.diamond.scisoft.analysis.io.IMetaData;
 import uk.ac.diamond.scisoft.analysis.io.MetaDataAdapter;
@@ -31,19 +33,19 @@ import uk.icat3.client.Dataset;
 public class DatasetTreeData  implements IMetadataProvider {
 	
 	private Dataset icatDataset;
-	private String parentProject;
+	private IProject parentProject;
 	
 	
 	/**
 	 * @param projectName 
 	 * @param dataset 
 	 */
-	public DatasetTreeData(Dataset icatDataset, String parentProject){
+	public DatasetTreeData(Dataset icatDataset, IProject parentProject){
 		this.icatDataset = icatDataset;
 		this.parentProject  = parentProject;
 	}
 	
-	public String getParentProject() { 
+	public IProject getParentProject() { 
 		return parentProject;
 	}
 	

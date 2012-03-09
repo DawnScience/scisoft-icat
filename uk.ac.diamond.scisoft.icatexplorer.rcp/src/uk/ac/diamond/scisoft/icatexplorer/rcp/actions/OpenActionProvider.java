@@ -20,6 +20,9 @@ package uk.ac.diamond.scisoft.icatexplorer.rcp.actions;
 
 import java.io.File;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.ISelection;
@@ -131,8 +134,16 @@ public class OpenActionProvider extends CommonActionProvider {
 				// If we had a selection lets open the editor
 				if (data instanceof DatafileTreeData) {
 					
-					String projectName = ((DatafileTreeData) data).getParentProject();
-					downloadDir = ((ICATClient)ICATSessions.get(projectName)).getDownloadDir();
+					IProject parentProject = ((DatafileTreeData) data).getParentProject();
+					QualifiedName qNameSessionId = new QualifiedName("SESSIONID", "String");
+					String sessionId = null;
+					try {
+						sessionId = parentProject.getPersistentProperty(qNameSessionId);
+					} catch (CoreException e1) {
+						logger.error("error getting the sessionId for project " + parentProject.getName(), e1);
+					}
+					
+					downloadDir = ((ICATClient)ICATSessions.get(sessionId)).getDownloadDir();
 
 					// check whether download directory actually exists
 					File file = new File(downloadDir);
@@ -185,12 +196,12 @@ public class OpenActionProvider extends CommonActionProvider {
 									+ DatafileTreeData.getIcatDatafile()
 									.getId());
 
-							String fedid = ICATSessions.get(projectName)
+							String fedid = ICATSessions.get(sessionId)
 									.getFedId();
-							String password = ICATSessions.get(projectName)
+							String password = ICATSessions.get(sessionId)
 									.getPassword();
 							
-							sftpServer = ICATSessions.get(projectName).getIcatCon().getSftpServer();
+							sftpServer = ICATSessions.get(sessionId).getIcatCon().getSftpServer();
 							SftpClient sftpClient = new SftpClient();						
 							localFilePath = sftpClient.downloadFile(fedid,
 									password, sftpServer, DatafileTreeData

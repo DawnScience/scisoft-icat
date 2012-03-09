@@ -90,7 +90,7 @@ public class SftpClient {
 		File file1 = new File(downloadDir);
 		File file2 = new File(file1, fileUtils.filename());
 
-		String localFilePath = file2.getPath();// "C:\\gotFile";
+		String localFilePath = file2.getPath();
 
 		// logger.debug("localFilePath: " + localFilePath);
 

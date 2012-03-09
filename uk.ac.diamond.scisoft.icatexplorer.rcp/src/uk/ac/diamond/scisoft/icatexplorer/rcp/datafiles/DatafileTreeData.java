@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 
+import org.eclipse.core.resources.IProject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,9 +36,8 @@ import uk.icat3.client.Datafile;
 public class DatafileTreeData implements IMetadataProvider{
 	
 	private Datafile icatDatafile;
-	private String parentProject;
+	private IProject parentProject;
 	
-	private static Logger logger = LoggerFactory.getLogger(DatafileTreeData.class);
 	
 	/**
 	 * @param projectName 
@@ -45,16 +45,16 @@ public class DatafileTreeData implements IMetadataProvider{
 	 * @param datafileid
 	 * @param status
 	 */
-	public DatafileTreeData(Datafile icatDatafile, String parentProject) {
+	public DatafileTreeData(Datafile icatDatafile, IProject parentProject) {
 		this.setIcatDatafile(icatDatafile);
 		this.parentProject = parentProject;
 	}
 
-	public String getParentProject() {
+	public IProject getParentProject() {
 		return parentProject;
 	}
 
-	public void setProjectName(String parentProject) {
+	public void setProjectName(IProject parentProject) {
 		this.parentProject = parentProject;
 	}
 

@@ -22,9 +22,13 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -81,24 +85,33 @@ public class VisitContentProvider implements ITreeContentProvider
 			String[] temp;
 			String delimiter = "/";
 			temp = parentElement.toString().split(delimiter);		
-			String currentProject = temp[1];
+			//String currentProject = temp[1];
+			IProject parentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(temp[1]);
 			
-			return getVisits(currentProject);
+			return getVisits(parentProject);
 			
 		}   
 		return children != null ? children : NO_CHILDREN;
 	}  
 
 	/**
-	 * @param currentProject 
+	 * @param parentProject 
 	 * @return
 	 */
-	private VisitTreeData[] getVisits(String currentProject) {
+	private VisitTreeData[] getVisits(IProject parentProject) {
 				
 				
-		logger.debug("visit belongs to project: " + currentProject);
+		logger.debug("visit belongs to project: " + parentProject);
 		
-		ICATClient icatClient = ICATSessions.get(currentProject);
+		QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
+		String sessionId = null;
+		try {
+			sessionId = parentProject.getPersistentProperty(qNameSessionId);
+		} catch (CoreException e1) {
+			logger.error("error getting the sessionId for project " + parentProject.getName(), e1);
+		}
+		
+		ICATClient icatClient = ICATSessions.get(sessionId);
 		
 		List<Investigation> result = null;
 		try {
@@ -116,7 +129,7 @@ public class VisitContentProvider implements ITreeContentProvider
 		
 		for(int i=0; i< result.size(); i++){	
 			Investigation icatInvestigation = result.get(i);
-			VisitTreeData visit = new VisitTreeData(icatInvestigation, currentProject);
+			VisitTreeData visit = new VisitTreeData(icatInvestigation, parentProject);
 			visitsTree[i] = visit;
 
 		}

@@ -23,7 +23,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 
-import uk.ac.diamond.scisoft.icatexplorer.rcp.ui.ICATPerspective;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.perspectives.ICATPerspective;
 
 public class ICATPerspectiveLauncher implements IWorkbenchWindowActionDelegate {
 

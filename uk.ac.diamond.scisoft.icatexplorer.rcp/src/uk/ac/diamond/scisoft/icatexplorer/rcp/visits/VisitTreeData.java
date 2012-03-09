@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 
 import uk.ac.diamond.scisoft.analysis.dataset.IMetadataProvider;
 import uk.ac.diamond.scisoft.analysis.io.IMetaData;
@@ -35,7 +36,7 @@ public class VisitTreeData implements IMetadataProvider {
 
 	private IFolder container;
 	private Investigation icatInvestigation; 
-	private String parentProject;
+	private IProject parentProject;
 	
 
 	/**
@@ -48,12 +49,12 @@ public class VisitTreeData implements IMetadataProvider {
 		container = aFolder; 
 	} 
 	
-	public VisitTreeData(Investigation icatInvestigation, String parentProject) { 
+	public VisitTreeData(Investigation icatInvestigation, IProject parentProject) { 
 		this.icatInvestigation = icatInvestigation;
 		this.parentProject = parentProject; 
 	} 
 	
-	public String getParentProject() { 
+	public IProject getParentProject() { 
 		return parentProject;
 	}
 	

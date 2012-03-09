@@ -179,6 +179,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					
 					// adding persistent properties needed to reconnect
 					QualifiedName qNameProjetcType = new QualifiedName("ICAT.PROJECT", "Type");
+					QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
 					QualifiedName qNameFedid       = new QualifiedName("FEDID","String");
 					QualifiedName qNameSiteName    = new QualifiedName("SITE.NAME","String");
 					QualifiedName qNameWsdl        = new QualifiedName("WSDL","String");
@@ -187,6 +188,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					QualifiedName qNameSftpServer          = new QualifiedName("SFTP_SERVER","String");
 					
 				    iproject.setPersistentProperty(qNameProjetcType, "ICAT");
+				    iproject.setPersistentProperty(qNameSessionId, sessionid);
 					iproject.setPersistentProperty(qNameFedid, fedid);
 					iproject.setPersistentProperty(qNameSiteName, icatCon.getSiteName());
 					iproject.setPersistentProperty(qNameWsdl, icatCon.getWsdlLocation());

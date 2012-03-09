@@ -50,10 +50,9 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATConnection;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.internal.ICATExplorerActivator;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.NetworkUtils;
 
-public class ICATPreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage {
+public class ICATPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
+
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
-	//private Text comboICATId;
 	private Combo comboICATId;
 	private Text textICATName;
 	private Text textICATwsdl;

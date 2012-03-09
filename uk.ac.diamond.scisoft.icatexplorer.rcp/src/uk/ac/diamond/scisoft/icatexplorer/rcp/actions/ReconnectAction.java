@@ -48,6 +48,7 @@ public class ReconnectAction implements IHandler {
 		
 		// get persistent properties needed to reconnect
 		QualifiedName qNameProjectType = new QualifiedName("ICAT.PROJECT", "Type");
+		//QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
 		QualifiedName qNameFedid       = new QualifiedName("FEDID","String");
 		QualifiedName qNameSiteName    = new QualifiedName("SITE.NAME","String");
 		QualifiedName qNameWsdl        = new QualifiedName("WSDL","String");
@@ -56,6 +57,7 @@ public class ReconnectAction implements IHandler {
 		QualifiedName qNameSftpServer  = new QualifiedName("SFTP_SERVER","String");
 		
 		String projectType = null;
+		//String sessionId = null;
 		String fedid = null;
 		String siteName = null;
 		String wsdl = null;
@@ -65,6 +67,7 @@ public class ReconnectAction implements IHandler {
 		
 	    try {
 			projectType = iproject.getPersistentProperty(qNameProjectType);
+			//sessionId   = iproject.getPersistentProperty(qNameSessionId);
 			fedid       = iproject.getPersistentProperty(qNameFedid);
 			siteName    = iproject.getPersistentProperty(qNameSiteName);
 			wsdl        = iproject.getPersistentProperty(qNameWsdl);
@@ -76,6 +79,7 @@ public class ReconnectAction implements IHandler {
 		}
 		
 		logger.info("projectType: " + projectType );
+		//logger.info("sessionId: " + sessionId );
 		logger.info("fedid: " + fedid );
 		logger.info("siteName: " + siteName );
 		logger.info("wsdl: " + wsdl );

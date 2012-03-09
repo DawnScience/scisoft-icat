@@ -21,7 +21,11 @@ package uk.ac.diamond.scisoft.icatexplorer.rcp.datasets;
 import java.util.List;
 
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.slf4j.Logger;
@@ -56,13 +60,12 @@ public class DatasetContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		logger.debug("in getElements");
 		return getChildren(inputElement);
 	}
 
 	@Override
 	public Object[] getChildren(Object parentElement) {
-		logger.debug("in getChildren - parentElement is: " + parentElement.getClass().toString());
+
 		Object[] children = null;
 		if (parentElement instanceof VisitTreeData) { 
 			
@@ -75,7 +78,7 @@ public class DatasetContentProvider implements ITreeContentProvider {
 			String[] temp;
 			String delimiter = "/";
 			temp = ((VisitTreeData)parentElement).getFolder().getName().split(delimiter);		
-			String currentProject = temp[1];
+			IProject currentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(temp[1]);
 						
 			return getDatasets(((Investigation)parentElement).getId(), currentProject);
 			
@@ -86,9 +89,17 @@ public class DatasetContentProvider implements ITreeContentProvider {
 	 * @param id 
 	 * @return
 	 */
-	private Object[] getDatasets(Long id, String projectName) {
-
-		ICATClient icatClient = ICATSessions.get(projectName);
+	private Object[] getDatasets(Long id, IProject parentProject) {
+		
+		QualifiedName qNameSessionId = new QualifiedName("SESSIONID", "String");
+		String sessionId = null;
+		try {
+			sessionId = parentProject.getPersistentProperty(qNameSessionId);
+		} catch (CoreException e) {
+			logger.error("error getting sessionid from project: " + parentProject.getName(), e);
+		}
+		
+		ICATClient icatClient = ICATSessions.get(sessionId);
 		List<Dataset> result = null;
 		result = icatClient.getDatasets(id);
 		DatasetTreeData[] datasetsTree = new DatasetTreeData[result.size()];
@@ -96,7 +107,7 @@ public class DatasetContentProvider implements ITreeContentProvider {
 		for(int i=0; i< result.size(); i++){	
 			
 			Dataset icatDataset = result.get(i);
-			DatasetTreeData dataset = new DatasetTreeData(icatDataset, projectName);
+			DatasetTreeData dataset = new DatasetTreeData(icatDataset, parentProject);
 			datasetsTree[i] = dataset;
 
 		}

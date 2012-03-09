@@ -83,10 +83,10 @@ public class YearPropertyTester extends PropertyTester {
 	}
 	
 	/**
-	 * Validate beamline format with regular expression
-	 * @param parentFolderName 
+	 * Validate beamline format
+	 * @param rootICATProject 
 	 * 
-	 * @return true valid beamline format, false invalid beamline format
+	 * @return true if valid beamline format
 	 */
 	public boolean validateRootProject(IProject rootICATProject) {
 		

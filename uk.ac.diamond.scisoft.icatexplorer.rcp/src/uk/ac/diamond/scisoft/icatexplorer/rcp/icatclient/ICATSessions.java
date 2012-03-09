@@ -22,20 +22,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class ICATSessions {
-
-	private static final Logger logger = LoggerFactory
-			.getLogger(ICATSessions.class);
+	
+	private static final Logger logger = LoggerFactory.getLogger(ICATSessions.class);
 	
 	public static HashMap<String, Object> icatsMap = new HashMap<String, Object>();
 	
-	public static void add(String projectName, ICATClient icatClient){
-		//logger.debug("registering icat client: " + projectName);
-		icatsMap.put(projectName, icatClient);
+	public static void add(String sessionId, ICATClient icatClient){
+		icatsMap.put(sessionId, icatClient);
+		logger.info("added: " + sessionId + " - " + icatClient.projectName);
 	}
 	
-	public static ICATClient get(String projectName){	
-		//logger.debug("getting icat client: " + projectName);
-		return (ICATClient) icatsMap.get(projectName);
+	public static void remove(String sessionId){
+		icatsMap.remove(sessionId);
+		logger.info("removed: " + sessionId + " - " + ((ICATClient)icatsMap.get(sessionId)).projectName);
+	}
+	
+	public static ICATClient get(String sessionId){	
+		//logger.info("getting: " + sessionId + " - " + ((ICATClient)icatsMap.get(sessionId)).projectName);
+		return (ICATClient) icatsMap.get(sessionId);
+	}
+
+	public static boolean hasSessionId(String sessionId) {
+		return icatsMap.containsKey(sessionId);
 	}
 	
 }

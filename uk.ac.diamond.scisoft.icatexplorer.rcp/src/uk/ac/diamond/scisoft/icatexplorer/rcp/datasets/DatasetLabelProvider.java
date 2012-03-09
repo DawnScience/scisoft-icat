@@ -26,6 +26,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.navigator.IDescriptionProvider;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
+import uk.ac.diamond.scisoft.icatexplorer.rcp.internal.ICATExplorerActivator;
+
 public class DatasetLabelProvider extends LabelProvider implements
 ILabelProvider, IDescriptionProvider, IStyledLabelProvider {
 
@@ -34,7 +36,7 @@ ILabelProvider, IDescriptionProvider, IStyledLabelProvider {
 		if (element instanceof DatasetTreeData){
 			String iconName = "prop_ps.gif";
 			return AbstractUIPlugin.imageDescriptorFromPlugin(
-					"uk.ac.diamond.scisoft.icatexplorer.rcp",
+					ICATExplorerActivator.PLUGIN_ID,
 					"icons/" + iconName).createImage();
 		}
 		return null;

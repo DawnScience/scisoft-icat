@@ -23,7 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.slf4j.Logger;
@@ -112,7 +116,16 @@ public class YearContentProvider implements ITreeContentProvider {
 	 */
 	private VisitTreeData[] getVisitsByYear(String currentYear, String currentBeamline, String currentProject) {
 		
-			ICATClient icatClient = ICATSessions.get(currentProject);
+		IProject parentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(currentProject);
+
+		QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
+		String sessionId = null;
+		try {
+			sessionId = parentProject.getPersistentProperty(qNameSessionId);
+		} catch (CoreException e) {
+			logger.error("error in getting sessionid from project: " + parentProject.getName());
+		}
+			ICATClient icatClient = ICATSessions.get(sessionId);
 			List<Investigation> result = null;
 			try {
 				result = icatClient.getLightInvestigations();
@@ -138,8 +151,8 @@ public class YearContentProvider implements ITreeContentProvider {
 				logger.debug("got year: " + year + " current year is: " + currentYear);
 				
 				if(year.equalsIgnoreCase(currentYear)){
-					VisitTreeData visit = new VisitTreeData(icatInvestigation, currentProject);
-					//visitsTree[i] = visit;
+									
+					VisitTreeData visit = new VisitTreeData(icatInvestigation, parentProject);
 					
 					// check beamline if we are in 'Beamlines' hierarchy
 					if(currentBeamline !=  null){
@@ -160,59 +173,19 @@ public class YearContentProvider implements ITreeContentProvider {
 			
 						
 			VisitTreeData [] visitArray = visitsTree.toArray(new VisitTreeData[visitsTree.size()]);
-			return visitArray;//visitsTree;
+			return visitArray;
 		
 	}
 
 	@Override
 	public Object getParent(Object element) {
-		logger.debug("getParent");
 		return null;
 	}
 
 	@Override
 	public boolean hasChildren(Object element) {
-		logger.debug("hasChildren");
 		return (element instanceof VisitTreeData || element instanceof IResource
 				|| element instanceof DatasetTreeData || element instanceof YearTreeData  || element instanceof DatafileTreeData);
-	}
-	
-	/**
-	 * @param name
-	 */
-	private YearTreeData[] getYearsByBeamline(String beamline) {
-		logger.debug("calling getYearsByBeamline() for beamline: " + beamline);
-		
-		String activeProject = "";//TO MODIFY
-		ICATClient icatClient = ICATSessions.get(activeProject);//new ICATClient();
-		List<Investigation> result = null;
-		try {
-			result = icatClient.getLightInvestigations();
-		} catch (MalformedURLException e) {
-			
-			logger.error("a problem occured getting investigations from the ICAT: ", e);
-		} catch (SessionException e) {
-			
-			logger.error("a problem occured getting investigations from the ICAT: ", e);
-		} catch (InsufficientPrivilegesException_Exception e) {
-			
-			logger.error("a problem occured getting investigations from the ICAT: ", e);
-		} catch (NoSuchUserException_Exception e) {
-			
-			logger.error("a problem occured getting investigations from the ICAT: ", e);
-		}
-		List<String> yearsList = ICATHierarchyUtils.getYearsByBeamline(result, beamline);
-		YearTreeData[] yearsTree = new YearTreeData[yearsList.size()];
-		
-		for(int i=0; i< result.size(); i++){	
-						
-			YearTreeData year = new YearTreeData(yearsList.get(i).toUpperCase(), activeProject);
-			yearsTree[i] = year;
-
-		}
-				
-		return yearsTree;
-		
 	}
 
 }

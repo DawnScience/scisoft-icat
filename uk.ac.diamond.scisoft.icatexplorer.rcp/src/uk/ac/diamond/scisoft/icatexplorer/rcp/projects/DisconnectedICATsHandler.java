@@ -52,10 +52,11 @@ public class DisconnectedICATsHandler extends ViewerFilter {
 		//logger.debug("handle disconnected ICAT projects");
 		
 		IProgressMonitor monitor = new NullProgressMonitor();
-		// redecorate closed icat connections
+		// re-decorate closed icat connections
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 
 		// get list of existing icat projects
+		
 		IProject[] projectsList = root.getProjects();
 		for (int count = 0; count < projectsList.length; count++) {
 			
@@ -68,15 +69,14 @@ public class DisconnectedICATsHandler extends ViewerFilter {
 				boolean isICATProject = currentProject.hasNature(ICAT_NATURE);
 
 				if (isICATProject) {
+					
+					QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
+					String sessionId = currentProject.getPersistentProperty(qNameSessionId);
+					//logger.debug("sessionId: " + sessionId);
 
-					ICATClient currentIcatClient = ICATSessions
-							.get(currentProject.getName());
-
-					boolean isICATSessionClosed = (currentIcatClient == null);
+					boolean isICATSessionClosed = (!ICATSessions.hasSessionId(sessionId));
 					if (isICATSessionClosed) {
 						
-						//currentProject.close(monitor);
-
 						/*
 						 * change icon of icat project and delete its hierarchy
 						 */
@@ -99,42 +99,39 @@ public class DisconnectedICATsHandler extends ViewerFilter {
 		logger.debug("modify nature");
 
 		// create project
-		IProgressMonitor openMonitor = new NullProgressMonitor();
+		IProgressMonitor monitor = new NullProgressMonitor();
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 
 		IProject iproject = root.getProject(projectName);
 		try {
-			iproject.open(openMonitor);
-		} catch (CoreException e1) {
-			logger.error("problem opening project: " + iproject.getName());
-		}
-
-		
-		
-
-//		try {
-//			iproject.delete(true, progressMonitor);
-//			iproject.create(progressMonitor);		
-//			iproject.open(progressMonitor);
-//		} catch (CoreException e1) {
-//			logger.error("problem creating project: " + projectName + " : ", e1);
-// 	}
-		
-		// associating the icat nature to the newly created project
-		IProgressMonitor modifyMonitor = new NullProgressMonitor();
-		try {
+			iproject.open(monitor);
+			//iproject.delete(true, true, monitor);
+			//iproject.create(monitor);
 			IProjectDescription description = iproject.getDescription();
 			String[] newNatures = new String[] { nature };
 
 			description.setNatureIds(newNatures);
-			iproject.setDescription(description, modifyMonitor);
-
-		} catch (CoreException e) {
-			logger.error("problem setting ICAT nature to project: "
-					+ projectName + " - Error: " + e);
+			iproject.setDescription(description, monitor);
+			
+		} catch (CoreException e1) {
+			logger.error("problem opening project: " + iproject.getName());
 		}
 		
-		logger.debug("project created: " + projectName);
+		// associating the icat nature to the newly created project
+//		IProgressMonitor modifyMonitor = new NullProgressMonitor();
+//		try {
+//			IProjectDescription description = iproject.getDescription();
+//			String[] newNatures = new String[] { nature };
+//
+//			description.setNatureIds(newNatures);
+//			iproject.setDescription(description, modifyMonitor);
+//
+//		} catch (CoreException e) {
+//			logger.error("problem setting ICAT nature to project: "
+//					+ projectName + " - Error: " + e);
+//		}
+		
+		logger.debug("ICAT project disconnected: " + projectName);
 
 	}
 

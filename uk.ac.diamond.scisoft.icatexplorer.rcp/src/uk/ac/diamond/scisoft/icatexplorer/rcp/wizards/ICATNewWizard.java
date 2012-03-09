@@ -47,6 +47,7 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATConnection;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessions;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.internal.ICATExplorerActivator;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.natures.ICATProjectNature;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.projects.ICATProjectSupport;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.ICATHierarchyUtils;
 import uk.icat3.client.InsufficientPrivilegesException_Exception;
@@ -57,6 +58,8 @@ import uk.icat3.client.SessionException;
 
 public class ICATNewWizard extends Wizard implements INewWizard {
 	
+	private static final String ICAT_NATURE = ICATProjectNature.NATURE_ID;//"uk.ac.diamond.scisoft.icatexplorer.rcp.icat.nature";
+
 	private static final Logger logger = LoggerFactory.getLogger(ICATNewWizard.class);
 	
 	private static final String ICAT_WIZARD = "ICATNewWizard";  
@@ -112,12 +115,10 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 	public boolean performFinish() {
 	
 		final String directory = page.getDirectory();
-		//final String folder = page.getFolder();
-		//final String icatdb    = page.getIcatdb();
 		final ICATConnection icatCon  = page.getIcatCon();
 		final String fedid     = page.getFedid();
 		final String password  = page.getPassword();
-		final String project   = page.getProject();// + "@"+ icatdb + ".icat" ;
+		final String project   = page.getProject();
 				
 		final Job loadDataProject = new Job("Load metadata from ICAT") { 
 
@@ -134,23 +135,20 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 					
 					ICATClient icatClient = new ICATClient(icatCon, directory, project);
 					String sessionid = icatClient.login(fedid, password);
-					
-					logger.debug("sessionID = " + sessionid);	
-					
+										
 					// add new icat connection to the list of connections
 					ICATSessions.add(sessionid, icatClient);
 					
 					// getting the list of visits
 					List<Investigation> allVisits = icatClient.getLightInvestigations();
-		            
-					
+		            				
 					// create project
-					IProgressMonitor progressMonitor = new NullProgressMonitor();
+					//IProgressMonitor progressMonitor = new NullProgressMonitor();
 					IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();	
 										
 					IProject iproject = root.getProject(project);					
-					iproject.create(progressMonitor);
-					iproject.open(progressMonitor);
+					iproject.create(monitor);
+					iproject.open(monitor);
 										
 					// associating the icat nature to the newly created project
 					try {
@@ -159,9 +157,9 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 					      String[] newNatures = new String[natures.length + 1];
 					      System.arraycopy(natures, 0, newNatures, 0, natures.length);
 					    
-					      newNatures[natures.length] = "uk.ac.diamond.scisoft.icatexplorer.rcp.icat.nature";
+					      newNatures[natures.length] = ICAT_NATURE;
 					      description.setNatureIds(newNatures);
-					      iproject.setDescription(description, progressMonitor);
+					      iproject.setDescription(description, monitor);
 
 						} catch (CoreException e) {
 					      logger.error("problem setting ICAT nature to project: " + iproject.getName() + " - Error: " + e);
@@ -169,14 +167,16 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 					
 					// adding persistent properties needed to reconnect
 					QualifiedName qNameProjetcType = new QualifiedName("ICAT.PROJECT", "Type");
+					QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
 					QualifiedName qNameFedid       = new QualifiedName("FEDID","String");
 					QualifiedName qNameSiteName    = new QualifiedName("SITE.NAME","String");
 					QualifiedName qNameWsdl        = new QualifiedName("WSDL","String");
 					QualifiedName qNameDirectory   = new QualifiedName("DIRECTORY","String");
 					QualifiedName qNameID          = new QualifiedName("ID","String");
-					QualifiedName qNameSftpServer          = new QualifiedName("SFTP_SERVER","String");
+					QualifiedName qNameSftpServer  = new QualifiedName("SFTP_SERVER","String");
 					
 				    iproject.setPersistentProperty(qNameProjetcType, "ICAT");
+				    iproject.setPersistentProperty(qNameSessionId, sessionid);
 					iproject.setPersistentProperty(qNameFedid, fedid);
 					iproject.setPersistentProperty(qNameSiteName, icatCon.getSiteName());
 					iproject.setPersistentProperty(qNameWsdl, icatCon.getWsdlLocation());
@@ -184,7 +184,8 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 					iproject.setPersistentProperty(qNameID, icatCon.getId());
 					iproject.setPersistentProperty(qNameSftpServer, icatCon.getSftpServer());
 					
-					logger.debug("project created: " + project);
+					logger.debug("ICAT project created: " + project);
+
 					
 					// populate allVisits folder with available visits
 					String[] visits = new String[allVisits.size()];
@@ -233,14 +234,6 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						// years by beamline 
 						for(int j=0; j< yearsByBeamline.size(); j++){
 							String path = initialPath + "/" + yearsByBeamline.get(j);
-////							List<Investigation> visitsByBeamlineYear = ICATHierarchyUtils.getVisitsByBeamlineYear(allVisits, beamlines.get(i), yearsByBeamline.get(j));
-////
-////								// visits by years/beamline 
-////								for(int k=0; k< visitsByBeamlineYear.size(); k++){
-////									path = path + "/" + ((Investigation)(visitsByBeamlineYear.get(k))).getVisitId().toString();
-////									pathList.add(path);							
-////									logger.debug("adding path: " + path);
-////								}
 							logger.debug("adding path: " + path);
 							pathList.add(path);	
 						}

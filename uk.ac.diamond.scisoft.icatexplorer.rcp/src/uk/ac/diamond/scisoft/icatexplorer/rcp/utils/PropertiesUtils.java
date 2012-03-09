@@ -26,8 +26,8 @@ import org.slf4j.LoggerFactory;
 
 public final class PropertiesUtils {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(PropertiesUtils.class);
+	private static final Logger logger = LoggerFactory.getLogger(PropertiesUtils.class);
+	
 
 	/* *
 	 * Reads properties from configuration file.
@@ -38,19 +38,29 @@ public final class PropertiesUtils {
 		ResourceBundle bundle = null;
 		Properties properties = null;
 
-		boolean wsdlLocationVerified = false;
-		boolean namespaceUriVerified = false;
-		boolean namespaceLocalPartVerified = false;
-		boolean truststoreLocationVerified = false;
-		boolean truststorePasswordVerified = false;
-		boolean downloadDirVerified = false;
-		boolean inServerVerified = false;
-		boolean exServerVerified = false;
+		boolean dlsWsdlLocationVerified = false;
+		boolean isisWsdlLocationVerified = false;
 
+		boolean dlsIdLocationVerified = false;
+		boolean isisIdLocationVerified = false;
+		
+		boolean dlsNameVerified = false;
+		boolean isisNameVerified = false;
+			
+		boolean dlsTruststoreLinuxVerified = false;
+		boolean dlsTruststoreWindowsVerified = false;
+		boolean isisTruststoreLinuxVerified = false;
+		boolean isisTruststoreWindowsVerified = false;
+		
+		
+		boolean dlsTruststorePasswordVerified = false;
+		boolean isisTruststorePasswordVerified = false;
+		
+		boolean dlsSftpServerVerified = false;
+		boolean isisSftpServerVerified = false;
+		
 		try {
-			bundle = new PropertyResourceBundle(
-					PropertiesUtils.class
-							.getResourceAsStream("/conf/icatexplorer.properties"));
+			bundle = new PropertyResourceBundle(PropertiesUtils.class.getResourceAsStream("/conf/icatexplorer.properties"));
 
 			logger.debug("properties file loaded");
 
@@ -65,60 +75,96 @@ public final class PropertiesUtils {
 				 *  check whether all required keys and (non null) values are
 				 *  present
 				 */
-				if ((prop != null) && (prop.equals("wsdl.location"))) {
+				if ((prop != null) && (prop.equals("site_id_dls"))) {
 					if ((val != null) && (val.length() > 0))
-						wsdlLocationVerified = true;
-					// logger.debug("wsdlLocation = " + val);
+						dlsIdLocationVerified = true;
 				}
-				if ((prop != null) && (prop.equals("namespace.uri"))) {
+				if ((prop != null) && (prop.equals("site_id_isis"))) {
 					if ((val != null) && (val.length() > 0))
-						namespaceUriVerified = true;
+						isisIdLocationVerified = true;
 				}
-				if ((prop != null) && (prop.equals("namespace.localpart"))) {
+				if ((prop != null) && (prop.equals("site_name_dls"))) {
 					if ((val != null) && (val.length() > 0))
-						namespaceLocalPartVerified = true;
+						dlsNameVerified = true;
 				}
-				if ((prop != null) && (prop.equals("truststore.location"))) {
+				if ((prop != null) && (prop.equals("site_name_isis"))) {
 					if ((val != null) && (val.length() > 0))
-						truststoreLocationVerified = true;
+						isisNameVerified = true;
 				}
-				if ((prop != null) && (prop.equals("truststore.password"))) {
+				if ((prop != null) && (prop.equals("wsdl_location_dls"))) {
 					if ((val != null) && (val.length() > 0))
-						truststorePasswordVerified = true;
+						dlsWsdlLocationVerified = true;
 				}
-				if ((prop != null) && (prop.equals("download.dir"))) {
+				if ((prop != null) && (prop.equals("wsdl_location_isis"))) {
 					if ((val != null) && (val.length() > 0))
-						downloadDirVerified = true;
+						isisWsdlLocationVerified = true;
 				}
-				if ((prop != null) && (prop.equals("internal.sftp.server"))) {
+				if ((prop != null) && (prop.equals("truststore_linux_dls"))) {
 					if ((val != null) && (val.length() > 0))
-						inServerVerified = true;
+						dlsTruststoreLinuxVerified = true;
 				}
-				if ((prop != null) && (prop.equals("external.sftp.server"))) {
+				if ((prop != null) && (prop.equals("truststore_windows_dls"))) {
 					if ((val != null) && (val.length() > 0))
-						exServerVerified = true;
+						dlsTruststoreWindowsVerified = true;
+				}
+				
+				if ((prop != null) && (prop.equals("truststore_linux_isis"))) {
+					if ((val != null) && (val.length() > 0))
+						isisTruststoreLinuxVerified = true;
+				}
+				if ((prop != null) && (prop.equals("truststore_windows_isis"))) {
+					if ((val != null) && (val.length() > 0))
+						isisTruststoreWindowsVerified = true;
+				}
+				if ((prop != null) && (prop.equals("truststore_password_dls"))) {
+					if ((val != null) && (val.length() > 0))
+						dlsTruststorePasswordVerified = true;
+				}
+				if ((prop != null) && (prop.equals("truststore_password_isis"))) {
+					if ((val != null) && (val.length() > 0))
+						isisTruststorePasswordVerified = true;
+				}				
+				if ((prop != null) && (prop.equals("sftp_server_dls"))) {
+					if ((val != null) && (val.length() > 0))
+						dlsSftpServerVerified = true;
+				}
+				if ((prop != null) && (prop.equals("sftp_server_isis"))) {
+					if ((val != null) && (val.length() > 0))
+						isisSftpServerVerified = true;
 				}
 
 				properties.setProperty(prop, val);
 			}// end while
-
+			
 			// in case one of the keys/values is missing
-			if (!wsdlLocationVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that wsdl.location key is supplied");
-			if (!namespaceUriVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that namespace.uri key is supplied");
-			if (!namespaceLocalPartVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that namespace.localpart key is supplied");
-			if (!truststoreLocationVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that truststore.location key is supplied");
-			if (!truststorePasswordVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that truststore.password key is supplied");
-			if (!downloadDirVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that download.dir key is supplied");
-			if (!inServerVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that internal.sftp.server key is supplied");
-			if (!exServerVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that external.sftp.server key is supplied");
+			if (!dlsWsdlLocationVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that wsdl_location_dls key is supplied");
+			if (!isisWsdlLocationVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that wsdl_location_isis key is supplied");
+			if (!dlsIdLocationVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that site_id_dls key is supplied");
+			if (!isisIdLocationVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that site_id_isis key is supplied");
+			if (!dlsNameVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that site_name_dls key is supplied");
+			if (!isisNameVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that site_name_isis key is supplied");
+			if (!dlsTruststoreLinuxVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that truststore_linux_dls key is supplied");
+			if (!dlsTruststoreWindowsVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that truststore_windows_dls key is supplied");
+			if (!isisTruststoreLinuxVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that truststore_linux_isis key is supplied");
+			if (!isisTruststoreWindowsVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that truststore_windows_isis key is supplied");		
+			if (!dlsTruststorePasswordVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that truststore_password_dls key is supplied");
+			if (!isisTruststorePasswordVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that truststore_password_isis key is supplied");			
+			if (!dlsSftpServerVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that sftp_server_dls key is supplied");
+			if (!isisSftpServerVerified)
+				logger.error("Please check icatexplorer.properties file to ensure that sftp_server_isis key is supplied");
 
 		} catch (Exception io) {
 			io.printStackTrace();
@@ -128,59 +174,4 @@ public final class PropertiesUtils {
 		return properties;
 	}
 
-	/*
-	 * to simplify testing - should be removed in production *
-	 */
-	public static Properties readCredentialsFile() {
-		ResourceBundle bundle = null;
-		Properties properties = null;
-
-		boolean fedidVerified = false;
-		boolean passwordVerified = false;
-
-		try {
-			bundle = new PropertyResourceBundle(
-					PropertiesUtils.class
-							.getResourceAsStream("/conf/credentials.properties"));
-
-			logger.debug("credential config file loaded");
-
-			properties = new Properties();
-			Enumeration<String> keys = bundle.getKeys();
-
-			int counter = 0;
-			while (keys.hasMoreElements()) {
-				String prop = keys.nextElement();
-				String val = bundle.getString(prop);
-
-				// check whether all required keys and (non null) values are
-				// present
-				if ((prop != null) && (prop.equals("fedid"))) {
-					if ((val != null) && (val.length() > 0))
-						fedidVerified = true;
-				}
-				if ((prop != null) && (prop.equals("passsword"))) {
-					if ((val != null) && (val.length() > 0))
-						passwordVerified = true;
-				}
-
-				properties.setProperty(prop, val);
-			}// end while
-
-			// in case one of the keys/values is missing
-			if (!fedidVerified)
-				logger.error("Please check credentials.properties file to ensure that fedid key is supplied");
-			if (!passwordVerified)
-				logger.error("Please check credentials.properties file to ensure that password key is supplied");
-
-		} catch (Exception io) {
-			// io.printStackTrace();
-			// System.exit(0);
-
-			logger.debug("credentials.properties does not exist");
-
-		}// end try/catch
-
-		return properties;
-	}
 }

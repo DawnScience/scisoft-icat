@@ -37,7 +37,7 @@ public class ICATLoginJob extends Job {
 	private String fedid;
 	private String password;
 	private ICAT icat;
-	// private String sessionId;
+
 	public final AtomicReference<String> sessionId = new AtomicReference<String>();
 
 	public ICATLoginJob(String name, String fedid, String password, ICAT icat) {
@@ -54,11 +54,10 @@ public class ICATLoginJob extends Job {
 		try {
 
 			sessionId.set(this.icat.login(fedid, password));
-			logger.info("User " + this.fedid + " logged in icat. sessionId: "
-					+ sessionId);
 
 		} catch (Exception e) {
 			logger.error("failed to authenticate! ", e);
+			// TODO open error dialog
 		}
 
 		logger.debug("returning sessionid= " + sessionId.toString());
