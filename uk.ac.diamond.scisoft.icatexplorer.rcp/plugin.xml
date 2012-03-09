@@ -694,19 +694,21 @@
                icon="icons/database.png"
                label="Reconnect ICAT..."
                style="push">
-             <visibleWhen>
+             <visibleWhen  checkEnabled="false">
                   <with variable="activeMenuSelection">
                             <iterate>
-                                  <and>
-                                     <test
-                                           property="icatexplorer.navigator.isICATDisconnected"
-                                           value="true">
-                                     </test>
-                                     <adapt
-                                           type="org.eclipse.core.resources.IProject">
-                                     </adapt>
-                                  </and>
+                               <and>
+                                  <test
+                                        property="icatexplorer.navigator.isICATDisconnected"
+                                        value="true">
+                                  </test>
+                                  <adapt
+                                        type="org.eclipse.core.resources.IProject">
+                                  </adapt>
+                               </and>
                             </iterate>
+                             <count value="1">
+                  			</count>
                   </with>
                </visibleWhen>
 
@@ -730,6 +732,8 @@
                                      </adapt>
                                   </and>
                             </iterate>
+                             <count value="1">
+                  			</count>
                   </with>
                </visibleWhen>
          </command>

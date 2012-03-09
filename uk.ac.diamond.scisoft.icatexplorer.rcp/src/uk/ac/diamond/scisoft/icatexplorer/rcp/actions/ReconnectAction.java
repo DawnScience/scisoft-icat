@@ -90,12 +90,9 @@ public class ReconnectAction implements IHandler {
 		// create new connection
 		ICATConnection icatCon = new ICATConnection(id, siteName, sftpServer, wsdl);
 		
-		// open wizard and fill with current connection values
-						
+		// open wizard and fill with current connection values						
 		ReconnectNewWizard reWizard = new ReconnectNewWizard(iproject.getName(), fedid, icatCon);
-				
-		//logger.debug("settings: " + reWizard.getDialogSettings().get("DIALOG_SETTING_KEY_FEDID"));
-				
+								
 		WizardDialog dialog = new WizardDialog( reWizard.getShell(), reWizard);
 		dialog.open();
 				
