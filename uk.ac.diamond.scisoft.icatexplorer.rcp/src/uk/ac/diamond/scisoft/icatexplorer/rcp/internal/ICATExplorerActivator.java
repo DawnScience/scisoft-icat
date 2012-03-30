@@ -48,14 +48,13 @@ public class ICATExplorerActivator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		System.out.println("ICAT activator started");
 
-		String trustStoreFile = "/home/smw81327/Desktop/certs/cacerts.jks";
+		String trustStoreFile = "/dls/bl-misc/dropfiles2/certs/cacerts.jks";
 		System.out.println("(A) ssl trust store: " + System.getProperty("javax.net.ssl.trustStore") + " - password: " + System.getProperty("javax.net.ssl.trustStorePassword"));
 		System.setProperty("javax.net.ssl.trustStore", trustStoreFile);
 		System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
 		System.out.println("(B) ssl trust store: " + System.getProperty("javax.net.ssl.trustStore") + " - password: " + System.getProperty("javax.net.ssl.trustStorePassword"));
 
 		super.start(context);
-
 	}
 
 	/*
