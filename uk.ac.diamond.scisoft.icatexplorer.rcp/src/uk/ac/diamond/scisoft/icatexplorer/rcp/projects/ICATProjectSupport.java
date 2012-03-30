@@ -36,103 +36,103 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.natures.ICATProjectNature;
  *
  */
 public class ICATProjectSupport {
-    /**
-     * For this marvelous project we need to: - create the default Eclipse
-     * project - add the custom project nature - create the folder structure
-     * 
-     * @param projectName
-     * @param location
-     * @param natureId
-     * @return
-     */
-    public static IProject createProject(String projectName, URI location) {
-        Assert.isNotNull(projectName);
-        Assert.isTrue(projectName.trim().length() > 0);
+	/**
+	 * For this marvelous project we need to: - create the default Eclipse
+	 * project - add the custom project nature - create the folder structure
+	 * 
+	 * @param projectName
+	 * @param location
+	 * @param natureId
+	 * @return
+	 */
+	public static IProject createProject(String projectName, URI location) {
+		Assert.isNotNull(projectName);
+		Assert.isTrue(projectName.trim().length() > 0);
 
-        IProject project = createBaseProject(projectName, location);
-        try {
-            addNature(project);
+		IProject project = createBaseProject(projectName, location);
+		try {
+			addNature(project);
 
-            String[] paths = { "parent/child1-1/child2", "parent/child1-2/child2/child3" }; //$NON-NLS-1$ //$NON-NLS-2$
-            addToProjectStructure(project, paths);
-        } catch (CoreException e) {
-            e.printStackTrace();
-            project = null;
-        }
+			String[] paths = { "parent/child1-1/child2", "parent/child1-2/child2/child3" };
+			addToProjectStructure(project, paths);
+		} catch (CoreException e) {
+			e.printStackTrace();
+			project = null;
+		}
 
-        return project;
-    }
+		return project;
+	}
 
-    /**
-     * Just do the basics: create a basic project.
-     * 
-     * @param location
-     * @param projectName
-     */
-    private static IProject createBaseProject(String projectName, URI location) {
-        // it is acceptable to use the ResourcesPlugin class
-        IProject newProject = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+	/**
+	 * Just do the basics: create a basic project.
+	 * 
+	 * @param location
+	 * @param projectName
+	 */
+	private static IProject createBaseProject(String projectName, URI location) {
+		// it is acceptable to use the ResourcesPlugin class
+		IProject newProject = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 
-        if (!newProject.exists()) {
-            URI projectLocation = location;
-            IProjectDescription desc = newProject.getWorkspace().newProjectDescription(newProject.getName());
-            if (location != null && ResourcesPlugin.getWorkspace().getRoot().getLocationURI().equals(location)) {
-                projectLocation = null;
-            }
+		if (!newProject.exists()) {
+			URI projectLocation = location;
+			IProjectDescription desc = newProject.getWorkspace().newProjectDescription(newProject.getName());
+			if (location != null && ResourcesPlugin.getWorkspace().getRoot().getLocationURI().equals(location)) {
+				projectLocation = null;
+			}
 
-            desc.setLocationURI(projectLocation);
-            try {
-                newProject.create(desc, null);
-                if (!newProject.isOpen()) {
-                    newProject.open(null);
-                }
-            } catch (CoreException e) {
-                e.printStackTrace();
-            }
-        }
+			desc.setLocationURI(projectLocation);
+			try {
+				newProject.create(desc, null);
+				if (!newProject.isOpen()) {
+					newProject.open(null);
+				}
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
+		}
 
-        return newProject;
-    }
+		return newProject;
+	}
 
-    private static void createFolder(IFolder folder) throws CoreException {
-        IContainer parent = folder.getParent();
-        if (parent instanceof IFolder) {
-            createFolder((IFolder) parent);
-        }
-        if (!folder.exists()) {
-            folder.create(false, true, null);
-        }
-    }
+	private static void createFolder(IFolder folder) throws CoreException {
+		IContainer parent = folder.getParent();
+		if (parent instanceof IFolder) {
+			createFolder((IFolder) parent);
+		}
+		if (!folder.exists()) {
+			folder.create(false, true, null);
+		}
+	}
 
-    /**
-     * Create a folder structure with a parent root, overlay, and a few child
-     * folders.
-     * 
-     * @param newProject
-     * @param paths
-     * @throws CoreException
-     */
-    public static void addToProjectStructure(IProject newProject, String[] paths) throws CoreException {
-        for (String path : paths) {
-            IFolder etcFolders = newProject.getFolder(path);
-            createFolder(etcFolders);
-        }
-    }
+	/**
+	 * Create a folder structure with a parent root, overlay, and a few child
+	 * folders.
+	 * 
+	 * @param newProject
+	 * @param paths
+	 * @throws CoreException
+	 */
+	public static void addToProjectStructure(IProject newProject, String[] paths) throws CoreException {
+		for (String path : paths) {
+			IFolder etcFolders = newProject.getFolder(path);
+			createFolder(etcFolders);
+		}
+	}
 
-    private static void addNature(IProject project) throws CoreException {
-        if (!project.hasNature(ICATProjectNature.NATURE_ID)) {
-            IProjectDescription description = project.getDescription();
-            String[] prevNatures = description.getNatureIds();
-            String[] newNatures = new String[prevNatures.length + 1];
-            System.arraycopy(prevNatures, 0, newNatures, 0, prevNatures.length);
-            newNatures[prevNatures.length] = ICATProjectNature.NATURE_ID;
-            description.setNatureIds(newNatures);
+	private static void addNature(IProject project) throws CoreException {
+		if (!project.hasNature(ICATProjectNature.NATURE_ID)) {
+			IProjectDescription description = project.getDescription();
+			String[] prevNatures = description.getNatureIds();
+			String[] newNatures = new String[prevNatures.length + 1];
+			System.arraycopy(prevNatures, 0, newNatures, 0, prevNatures.length);
+			newNatures[prevNatures.length] = ICATProjectNature.NATURE_ID;
+			description.setNatureIds(newNatures);
 
-            IProgressMonitor monitor = null;
-            System.out.println("description: " + description.getName().toString()); //$NON-NLS-1$
-            System.out.println("nature: " + ICATProjectNature.NATURE_ID);  //$NON-NLS-1$
-            project.setDescription(description, monitor);
-        }
-    }
+			IProgressMonitor monitor = null;
+			System.out.println("description: " + description.getName().toString()); //$NON-NLS-1$
+			System.out.println("nature: " + ICATProjectNature.NATURE_ID);  //$NON-NLS-1$
+			project.setDescription(description, monitor);
+		}
+	}
 
 }

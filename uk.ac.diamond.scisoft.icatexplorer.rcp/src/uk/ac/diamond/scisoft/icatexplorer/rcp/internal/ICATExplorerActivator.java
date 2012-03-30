@@ -95,7 +95,7 @@ public class ICATExplorerActivator extends AbstractUIPlugin {
 
 	/**
 	 * 
-	 * Record a status against this plugin's log. 
+	 * Record a status against this plugin's log.
 	 * 
 	 * @param aStatus
 	 */

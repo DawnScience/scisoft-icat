@@ -17,8 +17,6 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -31,7 +29,6 @@ import javax.xml.namespace.QName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.icatexplorer.rcp.sftpclient.SftpClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 import uk.icat3.client.Datafile;
@@ -50,17 +47,18 @@ public class ICATClient {
 
 	URL icatURL = null;
 	static Properties properties;
-	
+
 	protected static String icatdb;
 	protected String fedid;
 	protected String password;
 	protected String sessionId;
 	protected String truststorePath;
+	protected String truststorePass;
 	protected String downloadDir;
 	protected String projectName;
 	static protected ICATConnection icatCon;
 
-	
+
 	public ICATConnection getIcatCon() {
 		return icatCon;
 	}
@@ -70,15 +68,17 @@ public class ICATClient {
 	}
 
 	private static final Logger logger = LoggerFactory.getLogger(ICATClient.class);
-	
-	
-	public ICATClient(ICATConnection icatCon, String downloadDir, String projectName) {
+
+
+	public ICATClient(ICATConnection icatCon, String truststore,  String truststorePass, String downloadDir, String projectName) {
 
 		String tpath = null;
 		this.icatCon = icatCon;
+		this.truststorePath = truststore;
+		this.truststorePass = truststorePass;
 		this.downloadDir = downloadDir;
 		this.projectName = projectName;
-		
+
 		try {
 			logger.info("reading properties file");
 			properties = PropertiesUtils.readConfigFile();
@@ -87,74 +87,73 @@ public class ICATClient {
 			logger.error("problem reading properties file", e);
 		}
 
-		///
-		//tpath = "/dls/bl-misc/dropfiles2/certs/cacerts.jks";
-		///
-		System.setProperty("javax.net.ssl.trustStore", properties.getProperty("truststore_linux_dls"));
-		System.setProperty("javax.net.ssl.trustStorePassword",
-				properties.getProperty("truststore_password_dls"));
+		logger.debug("(1) using truststore: "
+				+ System.getProperty("javax.net.ssl.trustStore") + " --  and password: " + truststorePass);
 
-		logger.debug("using truststore: "
+
+		System.setProperty("javax.net.ssl.trustStore", truststorePath);//properties.getProperty("truststore_linux_dls"));
+		System.setProperty("javax.net.ssl.trustStorePassword", truststorePass);
+		//properties.getProperty("truststore_password_dls"));
+
+		logger.debug("(2) using truststore: "
 				+ System.getProperty("javax.net.ssl.trustStore"));
 
-		
+
 
 	}
 
 	public static ICAT getIcat() throws Exception {
 
 		URL icatServiceWsdlLocation = getServiceWsdlLocation();
-		
+
 		ICATService service = new ICATService(icatServiceWsdlLocation, new QName("client.icat3.uk", "ICATService"));
 
 		return service.getICATPort();
 	}
-	
-	
+
+
 	private static URL getServiceWsdlLocation() throws MalformedURLException {
 		URL baseUrl = uk.icat3.client.ICATService.class.getResource(".");
-				
+
 		return new URL(baseUrl, icatCon.getWsdlLocation());//properties.getProperty("wsdl.location." + icatdb));
 	}
 
 	public String login(String fedid, String password) {
-		
+
 		try {
-			
+
 			this.fedid = fedid;
 			this.password = password;
-			
+
 			ICAT icat = getIcat();
-			
+
 			sessionId = icat.login(fedid, password);
-									
-			logger.info("User " + this.fedid + " logged in icat. sessionId: " + 
+
+			logger.info("User " + this.fedid + " logged in icat. sessionId: " +
 					sessionId);
-			
-			// initialise sessionDetails // TO CHECK AS DONE FROM WIZARD
-			//ICATSessions.add(projectName, this);
-			
+
 		} catch (Exception e) {
+
 			logger.error("failed to authenticate! ", e);
 		}
 
 		return sessionId;
 	}
-	
+
 	public String getICATVersion(){
-		
+
 		String versionId = "";
-		
+
 		ICAT icat;
-		
+
 		try {
 			icat = getIcat();
-			versionId = 
+			versionId =
 					icat.getICATAPIVersion("x");
 		} catch (Exception e) {
 			logger.error("problem getting ICAT api version: " + e);
 		}
-		
+
 		return versionId;
 	}
 
@@ -165,10 +164,10 @@ public class ICATClient {
 		try {
 			icat = getIcat();
 			if (this.sessionId != null) {
-				
+
 				icat.logout(this.sessionId);
 				ICATSessions.remove(sessionId);
-				
+
 				logger.info("User " + this.fedid + " logged out");
 			} else {
 				logger.info("No user logged in to the ICAT");
@@ -208,9 +207,9 @@ public class ICATClient {
 							"%d min, %d sec",
 							TimeUnit.MILLISECONDS.toMinutes(millis),
 							TimeUnit.MILLISECONDS.toSeconds(millis)
-									- TimeUnit.MINUTES
-											.toSeconds(TimeUnit.MILLISECONDS
-													.toMinutes(millis))));
+							- TimeUnit.MINUTES
+							.toSeconds(TimeUnit.MILLISECONDS
+									.toMinutes(millis))));
 
 		} catch (Exception e) {
 			logger.error(
@@ -243,7 +242,7 @@ public class ICATClient {
 
 		return datasets;
 	}
-	
+
 	public List<Datafile> getDatafiles(Long datasetId) {
 
 		List<Datafile> datafiles = null;
@@ -253,7 +252,7 @@ public class ICATClient {
 							DatasetInclude.DATASET_AND_DATAFILES_ONLY);
 
 			datafiles = dataset.getDatafileCollection();
-			
+
 			logger.debug("datafiles number: " + datafiles.size());
 
 
@@ -285,7 +284,7 @@ public class ICATClient {
 	public String getPassword() {
 		return this.password;
 	}
-	
+
 	public String getDownloadDir() {
 		return this.downloadDir;
 	}
