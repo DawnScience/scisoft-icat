@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -98,6 +99,10 @@ public class ICATClient {
 
 		logger.debug("(ICATClient) using truststore: "
 				+ System.getProperty("javax.net.ssl.trustStore")  + " --  and password: " + System.getProperty("javax.net.ssl.trustStorePassword"));
+
+		logger.debug("=========");
+		printSysProp();
+		logger.debug("=========");
 
 	}
 
@@ -344,5 +349,14 @@ public class ICATClient {
 		this.sessionId = sessionId;
 	}
 
+	public static void printSysProp() {
+		Properties sysprops = System.getProperties();
+		Enumeration e = sysprops.propertyNames();
+		while (e.hasMoreElements()) {
+			String key = (String)e.nextElement();
+			String value = sysprops.getProperty(key);
+			System.out.println(key + "=" + value);
+		}
+	}
 
 }
