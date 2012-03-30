@@ -56,29 +56,29 @@ import uk.icat3.client.SessionException;
 
 
 public class ReconnectNewWizard extends Wizard implements INewWizard {
-	
+
 	private static final String ICAT_NATURE = "uk.ac.diamond.scisoft.icatexplorer.rcp.icat.nature";
 
 	private static final Logger logger = LoggerFactory.getLogger(ReconnectNewWizard.class);
-	
-	private static final String RECONNECT_ICAT_WIZARD = "ReconnectNewWizard";  
-	public static final String DIALOG_SETTING_KEY_DIRECTORY = "directory"; 
-	public static final String DIALOG_SETTING_KEY_PROJECT = "project";  
-	public static final String DIALOG_SETTING_KEY_FEDID = ""; 
-	public static final String DIALOG_SETTING_KEY_PASSWORD = ""; 
+
+	private static final String RECONNECT_ICAT_WIZARD = "ReconnectNewWizard";
+	public static final String DIALOG_SETTING_KEY_DIRECTORY = "directory";
+	public static final String DIALOG_SETTING_KEY_PROJECT = "project";
+	public static final String DIALOG_SETTING_KEY_FEDID = "";
+	public static final String DIALOG_SETTING_KEY_PASSWORD = "";
 	protected static final String ALL_VISITS = "AllVisits";
-	protected static final String BEAMLINES = "Beamlines";	
+	protected static final String BEAMLINES = "Beamlines";
 	private ReconnectWizardPage page;
 	private ISelection selection;
-	private ICATConnection icatCon;
+	private final ICATConnection icatCon;
 
-	private String projectName;
-	private String fedid;
+	private final String projectName;
+	private final String fedid;
 	private String directory;
 
 	/**
 	 * Constructor for TestWizard.
-	 * @param projectName 
+	 * @param projectName
 	 */
 	public ReconnectNewWizard(String projectName, String fedid, ICATConnection icatCon) {
 		super();
@@ -89,7 +89,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 			section = dialogSettings.addNewSection(RECONNECT_ICAT_WIZARD);
 		}
 		setDialogSettings(section);
-		
+
 		this.icatCon = icatCon;
 		this.projectName = projectName;
 		this.fedid = fedid;
@@ -111,7 +111,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 		}
 		page = new ReconnectWizardPage(selection, prevProject, prevFolder, prevDirectory, prevFedid, prevPassword, icatCon);
 		addPage(page);
-		
+
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 	 */
 	@Override
 	public boolean performFinish() {
-	
+
 		final String directory = page.getDirectory();
 		//final String folder = page.getFolder();
 		//final String icatdb    = page.getIcatdb();
@@ -129,54 +129,56 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 		final String fedid     = page.getFedid();
 		final String password  = page.getPassword();
 		final String project   = page.getProject();// + "@"+ icatdb + ".icat" ;
-				
-		final Job loadDataProject = new Job("Load metadata from ICAT") { 
+		final String truststore  = page.getTruststore();
+		final String truststorePass  = page.getTruststorePass();
+
+		final Job loadDataProject = new Job("Load metadata from ICAT") {
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				
-				monitor.beginTask("Creating an ICAT explorer instance for your data", 100); 
+
+				monitor.beginTask("Creating an ICAT explorer instance for your data", 100);
 				try {
 					//ProjectUtils.createImportProjectAndFolder(project, folder, directory, ICATProjectNature.NATURE_ID, null, monitor);
-					
+
 					logger.debug("using connection: ID= " + icatCon.getId() + " - Name: " + icatCon.getSiteName() + " - wsdl: "+ icatCon.getWsdlLocation());
-					
-					ICATClient icatClient = new ICATClient(icatCon, directory, project);
+
+					ICATClient icatClient = new ICATClient(icatCon, truststore, truststorePass, directory, project);
 					String sessionid = icatClient.login(fedid, password);
-					
-					logger.debug("sessionID = " + sessionid);	
-					
+
+					logger.debug("sessionID = " + sessionid);
+
 					// add new icat connection to the list of connections
 					ICATSessions.add(sessionid, icatClient);
-					
+
 					// getting the list of visits
 					List<Investigation> allVisits = icatClient.getLightInvestigations();
-		            
-					
+
+
 					// create project
 					IProgressMonitor progressMonitor = new NullProgressMonitor();
-					IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();	
-										
+					IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+
 					IProject iproject = root.getProject(project);
 					iproject.delete(true, progressMonitor);
 					iproject.create(progressMonitor);
 					iproject.open(progressMonitor);
-					
+
 					// associating the icat nature to the newly created project
 					try {
-					      IProjectDescription description = iproject.getDescription();
-					      String[] natures = description.getNatureIds();
-					      String[] newNatures = new String[natures.length + 1];
-					      System.arraycopy(natures, 0, newNatures, 0, natures.length);
-					    
-					      newNatures[natures.length] = ICAT_NATURE;
-					      description.setNatureIds(newNatures);
-					      iproject.setDescription(description, progressMonitor);
+						IProjectDescription description = iproject.getDescription();
+						String[] natures = description.getNatureIds();
+						String[] newNatures = new String[natures.length + 1];
+						System.arraycopy(natures, 0, newNatures, 0, natures.length);
 
-						} catch (CoreException e) {
-					      logger.error("problem setting ICAT nature to project: " + project + " - Error: " + e);
-					   }
-					
+						newNatures[natures.length] = ICAT_NATURE;
+						description.setNatureIds(newNatures);
+						iproject.setDescription(description, progressMonitor);
+
+					} catch (CoreException e) {
+						logger.error("problem setting ICAT nature to project: " + project + " - Error: " + e);
+					}
+
 					// adding persistent properties needed to reconnect
 					QualifiedName qNameProjetcType = new QualifiedName("ICAT.PROJECT", "Type");
 					QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
@@ -186,18 +188,18 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					QualifiedName qNameDirectory   = new QualifiedName("DIRECTORY","String");
 					QualifiedName qNameID          = new QualifiedName("ID","String");
 					QualifiedName qNameSftpServer          = new QualifiedName("SFTP_SERVER","String");
-					
-				    iproject.setPersistentProperty(qNameProjetcType, "ICAT");
-				    iproject.setPersistentProperty(qNameSessionId, sessionid);
+
+					iproject.setPersistentProperty(qNameProjetcType, "ICAT");
+					iproject.setPersistentProperty(qNameSessionId, sessionid);
 					iproject.setPersistentProperty(qNameFedid, fedid);
 					iproject.setPersistentProperty(qNameSiteName, icatCon.getSiteName());
 					iproject.setPersistentProperty(qNameWsdl, icatCon.getWsdlLocation());
 					iproject.setPersistentProperty(qNameDirectory, directory);
 					iproject.setPersistentProperty(qNameID, icatCon.getId());
 					iproject.setPersistentProperty(qNameSftpServer, icatCon.getSftpServer());
-				
+
 					logger.debug("project created: " + project);
-					
+
 					// populate allVisits folder with available visits
 					String[] visits = new String[allVisits.size()];
 					ArrayList<String> years = new ArrayList<String>();
@@ -205,61 +207,61 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					for(int i =0; i< allVisits.size(); i++){
 						logger.debug("["+i+"] " + (allVisits.get(i)).getInvNumber());
 						visits[i] =  (allVisits.get(i)).getVisitId();
-						
+
 						// get years
 						String year = Integer.toString((allVisits.get(i)).getInvStartDate().getYear());
 						if(!years.contains(year)){
 							years.add(year);
 						}
-												
+
 						// get beamlines
 						String beamline = (allVisits.get(i)).getInstrument();
 						if(!beamlines.contains(beamline)){
 							beamlines.add(beamline);
 						}
 					}
-										
+
 					List<String> pathList = new ArrayList<String>();
-					
+
 					// create years folders
 					for (int i=0; i< years.size(); i++){
 						pathList.add(years.get(i));
 					}
-		            
-					// create allVisits 
+
+					// create allVisits
 					pathList.add(ALL_VISITS);
-					
+
 					/*
 					 * create beamlines folder and structure
-					 * */ 
+					 * */
 					// beamlines
 					for(int i =0; i<beamlines.size(); i++){
 						logger.debug("resolving beamline: " + beamlines.get(i));
 						String initialPath = BEAMLINES+"/" + beamlines.get(i).toUpperCase();
 						List<String> yearsByBeamline = ICATHierarchyUtils.getYearsByBeamline(allVisits, beamlines.get(i));
-						
-						// years by beamline 
+
+						// years by beamline
 						for(int j=0; j< yearsByBeamline.size(); j++){
 							String path = initialPath + "/" + yearsByBeamline.get(j);
-//							List<Investigation> visitsByBeamlineYear = ICATHierarchyUtils.getVisitsByBeamlineYear(allVisits, beamlines.get(i), yearsByBeamline.get(j));
-//
-//								// visits by years/beamline 
-//								for(int k=0; k< visitsByBeamlineYear.size(); k++){
-//									path = path + "/" + ((Investigation)(visitsByBeamlineYear.get(k))).getVisitId().toString();
-//									pathList.add(path);							
-//									logger.debug("adding path: " + path);
-//								}
+							//							List<Investigation> visitsByBeamlineYear = ICATHierarchyUtils.getVisitsByBeamlineYear(allVisits, beamlines.get(i), yearsByBeamline.get(j));
+							//
+							//								// visits by years/beamline
+							//								for(int k=0; k< visitsByBeamlineYear.size(); k++){
+							//									path = path + "/" + ((Investigation)(visitsByBeamlineYear.get(k))).getVisitId().toString();
+							//									pathList.add(path);
+							//									logger.debug("adding path: " + path);
+							//								}
 							logger.debug("adding path: " + path);
-							pathList.add(path);	
+							pathList.add(path);
 						}
 					}
-		            
+
 					//convert pathsArrayList into a path array
 					String [] paths = pathList.toArray(new String[pathList.size()]);
-					
+
 					ICATProjectSupport.addToProjectStructure(iproject, paths);
-														
-					
+
+
 				} catch (MalformedURLException e) {
 					logger.error("Problem occured: ", e);
 				} catch (SessionException e) {
@@ -278,7 +280,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 		loadDataProject.setUser(true);
 		loadDataProject.setPriority(Job.DECORATE);
 		loadDataProject.schedule(100);
-		
+
 
 		IDialogSettings settings = getDialogSettings();
 		if( settings != null){

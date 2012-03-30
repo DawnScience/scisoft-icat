@@ -52,12 +52,12 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 	private String initProject = "";
 	private String initDirectory = "";
 	private final String initFedid;
-	private ICATConnection icatCon;	
-	
+	private final ICATConnection icatCon;
+
 	private static final String ICAT_PLUGIN_ID = "uk.ac.diamond.scisoft.icatexplorer.rcp";
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(ReconnectWizardPage.class);
-	
+
 	private Text icatIDText;
 	private Text sftpServerText;
 
@@ -68,20 +68,20 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 	 * @param prevDirectory
 	 * @param prevFolder
 	 * @param prevProject
-	 * @param icatCon 
+	 * @param icatCon
 	 */
 	public ReconnectWizardPage(@SuppressWarnings("unused") ISelection selection, String prevProject,
 			String prevFolder, String prevDirectory, String prevFedid, String prevPassword, ICATConnection icatCon) {
-		super("ICATReconnectWizardPage"); 
-				
-		this.initProject = prevProject; //prevProject != null ? prevProject : "ICAT"; 
+		super("ICATReconnectWizardPage");
+
+		this.initProject = prevProject; //prevProject != null ? prevProject : "ICAT";
 		this.initDirectory = prevDirectory != null ? prevDirectory : "";
 		logger.debug("this.initDirectory= " + this.initDirectory );
-		this.initFedid = prevFedid != null ? prevFedid : ""; 
-		//this.initPassword = prevPassword != null ? prevPassword : ""; 
-		setTitle("ICAT Reconnection Wizard - reconnect based on previous parameters"); 
-		setDescription("Wizard to reconnect a closed ICAT connection"); 
-		
+		this.initFedid = prevFedid != null ? prevFedid : "";
+		//this.initPassword = prevPassword != null ? prevPassword : "";
+		setTitle("ICAT Reconnection Wizard - reconnect based on previous parameters");
+		setDescription("Wizard to reconnect a closed ICAT connection");
+
 		this.icatCon = icatCon;
 	}
 
@@ -95,7 +95,7 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		container.setLayout(null);
 		Label lblProjectName = new Label(container, SWT.NULL);
 		lblProjectName.setBounds(4, 174, 103, 16);
-		lblProjectName.setText("&Project name:"); 
+		lblProjectName.setText("&Project name:");
 		txtProject = new Text(container, SWT.BORDER);
 		txtProject.setBounds(113, 173, 212, 27);
 		txtProject.setText(initProject);
@@ -108,7 +108,7 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 
 		Label lbldownloadDirectory = new Label(container, SWT.NULL);
 		lbldownloadDirectory.setBounds(4, 258, 135, 19);
-		lbldownloadDirectory.setText("&Download directory:"); 
+		lbldownloadDirectory.setText("&Download directory:");
 		txtDirectory = new Text(container, SWT.BORDER);
 		txtDirectory.setBounds(150, 253, 321, 27);
 		txtDirectory.setText(initDirectory);
@@ -117,80 +117,80 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 
 		Button button = new Button(container, SWT.PUSH);
 		button.setBounds(485, 253, 71, 27);
-		button.setText("Browse..."); 
+		button.setText("Browse...");
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleBrowse();
 			}
 		});
-				
+
 		Label lblicatDatabase = new Label(container, SWT.NONE);
-		lblicatDatabase.setText("&ICAT site name:"); 
+		lblicatDatabase.setText("&ICAT site name:");
 		lblicatDatabase.setBounds(4, 63, 103, 13);
-		
+
 		Label passwordLbl = new Label(container, SWT.NONE);
 		passwordLbl.setBounds(4, 139, 64, 13);
-		passwordLbl.setText("&Password:"); 
-		
+		passwordLbl.setText("&Password:");
+
 		txtFedid = new Text(container, SWT.BORDER);
 		txtFedid.setEditable(false);
 		txtFedid.setText(initFedid);
 		txtFedid.setBounds(113, 93, 212, 27);
 		txtFedid.addKeyListener(this);
 
-		
+
 		txtPassword = new Text(container, SWT.BORDER | SWT.PASSWORD);
 		//txtPassword.setText(initPassword);
 		txtPassword.setBounds(113, 133, 212, 27);
 		txtPassword.addKeyListener(this);
-		
-		
+
+
 		Label sftpServerLbl = new Label(container, SWT.NONE);
 		sftpServerLbl.setBounds(4, 219, 79, 13);
 		sftpServerLbl.setText("&SFTP server:");
-		
+
 		setControl(container);
 		/*
 		 * populate wizard with current ICAT preferences
 		 */
-				
+
 		icatIDText = new Text(container, SWT.BORDER | SWT.READ_ONLY);
-		
+
 		String icatID = icatCon.getId();
 		icatIDText.setText(icatID);
-		
+
 		icatIDText.setEditable(false);
 		icatIDText.setBounds(113, 13, 212, 27);
-				
+
 		Label lblNewLabel = new Label(container, SWT.NONE);
 		lblNewLabel.setBounds(4, 20, 81, 17);
 		lblNewLabel.setText("&ICAT site ID");
-		
+
 		icatSiteNameText = new Text(container, SWT.BORDER | SWT.READ_ONLY);
 		icatSiteNameText.setEditable(false);
-		
+
 		String siteName = icatCon.getSiteName();
-		icatSiteNameText.setText(siteName);		
+		icatSiteNameText.setText(siteName);
 		icatSiteNameText.setBounds(113, 53, 212, 27);
-		
+
 		sftpServerText = new Text(container, SWT.BORDER | SWT.READ_ONLY);
 		sftpServerText.setEditable(true);
-		
+
 		String sftpServer = icatCon.getSftpServer();
 		sftpServerText.setText(sftpServer);
-		
+
 		sftpServerText.setBounds(113, 213, 212, 27);
-		
+
 		Label fedidLbl = new Label(container, SWT.NONE);
 		fedidLbl.setText("&FedId:");
 		fedidLbl.setBounds(4, 108, 64, 13);
-		
+
 		final Button btnSftpTest = new Button(container, SWT.NONE);
 		btnSftpTest.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+
 				/*
 				 * test server using ping
 				 */
@@ -200,21 +200,22 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 				}else{
 					Image noImage = (ResourceManager.getPluginImage(ICAT_PLUGIN_ID, "icons/no.png"));;
 					btnSftpTest.setImage(noImage);
-				}				
-				
+				}
+
 			}
 		});
 		btnSftpTest.setBounds(331, 213, 84, 29);
 		btnSftpTest.setText("Test");
-		
+
 		sftpServerText.addModifyListener(new ModifyListener() {
+			@Override
 			public void modifyText(ModifyEvent e) {
-				
+
 				// server name changing so reset Test button
 				btnSftpTest.setImage(null);
 			}
 		});
-		
+
 		dialogChanged();
 
 	}
@@ -239,25 +240,25 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 
 	private void dialogChanged() {
 		if (getFedid().length() == 0) {
-			updateStatus("a fedid must be specified."); 
+			updateStatus("a fedid must be specified.");
 			return;
 		}
-		
+
 		if (getPassword().length() == 0) {
-			updateStatus("a password must be specified."); 
+			updateStatus("a password must be specified.");
 			return;
 		}
 		if (getProject().length() == 0) {
-			updateStatus("Project name must be specified"); 
+			updateStatus("Project name must be specified");
 			return;
 		}
 
 		if (getDirectory().length() == 0) {
-			updateStatus("Directory where to store downloaded data files must be specified."); 
+			updateStatus("Directory where to store downloaded data files must be specified.");
 			return;
 		}
-		
-		
+
+
 		updateStatus(null);
 	}
 
@@ -265,28 +266,28 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		setErrorMessage(message);
 		setPageComplete(message == null);
 	}
-	
+
 	public ICATConnection getIcatCon(){
-				
+
 		String id         = icatIDText.getText();
 		String siteName   = icatSiteNameText.getText();
-		String sftpServer = sftpServerText.getText();		
-							
+		String sftpServer = sftpServerText.getText();
+
 		String wsdl = icatCon.getWsdlLocation();
 
 		ICATConnection icatCon = new ICATConnection(id, siteName, sftpServer, wsdl);
-		
+
 		return icatCon;
 	}
-	
+
 	public String getFedid(){
 		return txtFedid.getText();
 	}
-	
+
 	public String getPassword(){
 		return txtPassword.getText();
 	}
-	
+
 	public String getProject() {
 		return txtProject.getText();
 	}
@@ -295,6 +296,13 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		return txtDirectory.getText();
 	}
 
+	public String getTruststore() {
+		return "/home/smw81327/Desktop/certs/cacerts.jks";
+	}
+
+	public String getTruststorePass() {
+		return "changeit";
+	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -315,6 +323,5 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 			dialogChanged();
 		}
 	}
-	
 
 }
