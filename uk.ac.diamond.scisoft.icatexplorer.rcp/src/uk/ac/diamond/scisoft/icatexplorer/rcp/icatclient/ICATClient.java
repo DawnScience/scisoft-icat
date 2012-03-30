@@ -94,6 +94,8 @@ public class ICATClient {
 		//System.setProperty("javax.net.ssl.trustStorePassword", truststorePass);
 		//properties.getProperty("truststore_password_dls"));
 
+		System.setProperty("javax.net.debug", "all");
+
 		logger.debug("(ICATClient) using truststore: "
 				+ System.getProperty("javax.net.ssl.trustStore")  + " --  and password: " + System.getProperty("javax.net.ssl.trustStorePassword"));
 
