@@ -30,9 +30,9 @@ public class ICATExplorerActivator extends AbstractUIPlugin {
 
 	/** The plug-in ID */
 	public static final String PLUGIN_ID = "uk.ac.diamond.scisoft.icatexplorer.rcp"; //$NON-NLS-1$
-	  
+
 	// The shared instance
-	private static ICATExplorerActivator plugin;  
+	private static ICATExplorerActivator plugin;
 	/**
 	 * The constructor
 	 */
@@ -44,17 +44,28 @@ public class ICATExplorerActivator extends AbstractUIPlugin {
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void start(BundleContext context) throws Exception {
-		super.start(context); 
+		System.out.println("ICAT activator started");
+
+		String trustStoreFile = "/home/smw81327/Desktop/certs/cacerts.jks";
+		System.out.println("(A) ssl trust store: " + System.getProperty("javax.net.ssl.trustStore") + " - password: " + System.getProperty("javax.net.ssl.trustStorePassword"));
+		System.setProperty("javax.net.ssl.trustStore", trustStoreFile);
+		System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
+		System.out.println("(B) ssl trust store: " + System.getProperty("javax.net.ssl.trustStore") + " - password: " + System.getProperty("javax.net.ssl.trustStorePassword"));
+
+		super.start(context);
+
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
-		super.stop(context);  
+		super.stop(context);
 	}
 
 	/**
@@ -64,10 +75,10 @@ public class ICATExplorerActivator extends AbstractUIPlugin {
 	 */
 	public static ICATExplorerActivator getDefault() {
 		return plugin;
-	} 
+	}
 
 	/**
-	 * Record an error against this plugin's log. 
+	 * Record an error against this plugin's log.
 	 * 
 	 * @param aCode
 	 * @param aMessage
@@ -81,7 +92,7 @@ public class ICATExplorerActivator extends AbstractUIPlugin {
 
 	/**
 	 * 
-	 * Record a message against this plugin's log. 
+	 * Record a message against this plugin's log.
 	 * 
 	 * @param severity
 	 * @param aCode
@@ -105,7 +116,7 @@ public class ICATExplorerActivator extends AbstractUIPlugin {
 
 	/**
 	 * Create a status associated with this plugin.
-	 *  
+	 * 
 	 * @param severity
 	 * @param aCode
 	 * @param aMessage
