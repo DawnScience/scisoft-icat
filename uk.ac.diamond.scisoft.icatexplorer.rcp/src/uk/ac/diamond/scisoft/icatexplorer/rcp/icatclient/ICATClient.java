@@ -22,7 +22,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -33,6 +32,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.xml.namespace.QName;
@@ -97,32 +97,39 @@ public class ICATClient {
 			logger.error("problem reading properties file", e);
 		}
 
+		logger.debug("(1) using truststore: "
+				+ System.getProperty("javax.net.ssl.trustStore"));
+
 		// clear ssl system properties
 		Properties sysProps = System.getProperties();
 		sysProps.remove("javax.net.ssl.trustStore");
 		sysProps.remove("javax.net.ssl.trustStorePassword");
 
-		logger.debug("(1) using truststore: "
+		logger.debug("(2) using truststore: "
 				+ System.getProperty("javax.net.ssl.trustStore"));
 
-		// set new ssl system properties
-		//System.setProperty("javax.net.ssl.trustStore", truststorePath);//properties.getProperty("truststore_linux_dls"));
-		//System.setProperty("javax.net.ssl.trustStorePassword", truststorePass);
+		TrustManager[] trustAllCerts = new TrustManager[1];
 
-		char ksPass[] = "changeit".toCharArray();
-		char ctPass[] = "changeit".toCharArray();
-		KeyStore ks;
+		trustAllCerts[0] = new TrustManager();
+		KeyStore ks; char ctPass[] = truststorePass.toCharArray();char ksPass[] = truststorePass.toCharArray();
 		try {
 			ks = KeyStore.getInstance("JKS");
-			ks.load(new FileInputStream("/home/smw81327/Desktop/certs/cacerts.jks"), ksPass);
+			ks.load(new FileInputStream(truststorePath), ksPass);
 			KeyManagerFactory kmf =
 					KeyManagerFactory.getInstance("SunX509");
 			kmf.init(ks, ctPass);
-			SSLContext sc = SSLContext.getInstance("TLS");
-			sc.init(kmf.getKeyManagers(), null, null);
-		} catch (KeyStoreException e) {
+			try {
+				SSLContext sc = SSLContext.getInstance("SSL");
+				sc.init(kmf.getKeyManagers(), trustAllCerts, null);
+
+				HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+
+			} catch (Exception e) {
+			}
+		} catch (KeyStoreException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -138,11 +145,7 @@ public class ICATClient {
 		} catch (UnrecoverableKeyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (KeyManagementException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-
 
 		logger.debug("(ICATClient) using truststore: "
 				+ System.getProperty("javax.net.ssl.trustStore")  + " --  and password: " + System.getProperty("javax.net.ssl.trustStorePassword"));
