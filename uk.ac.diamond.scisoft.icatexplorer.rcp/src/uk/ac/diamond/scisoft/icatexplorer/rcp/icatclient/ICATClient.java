@@ -107,7 +107,6 @@ public class ICATClient {
 			} catch (Exception e) {
 			}
 
-
 		} catch (KeyStoreException e) {
 			logger.error("problem setting security context: ", e);
 		} catch (NoSuchAlgorithmException e) {

@@ -47,11 +47,9 @@ import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
 import uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.datafiles.DatafileTreeData;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.datasets.DatasetTreeData;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessions;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.sftpclient.SftpClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.FilenameUtils;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.visits.VisitTreeData;
 import uk.ac.diamond.sda.meta.views.MetadataPageView;
 import uk.ac.gda.common.rcp.util.EclipseUtils;
@@ -112,7 +110,7 @@ public class OpenActionProvider extends CommonActionProvider {
 	 * 
 	 */
 	class OpenChildAction extends Action {
-		private ISelectionProvider provider;
+		private final ISelectionProvider provider;
 		private Object data;
 
 		public OpenChildAction(IWorkbenchPage workbenchPage,
@@ -133,7 +131,7 @@ public class OpenActionProvider extends CommonActionProvider {
 
 				// If we had a selection lets open the editor
 				if (data instanceof DatafileTreeData) {
-					
+
 					IProject parentProject = ((DatafileTreeData) data).getParentProject();
 					QualifiedName qNameSessionId = new QualifiedName("SESSIONID", "String");
 					String sessionId = null;
@@ -142,8 +140,8 @@ public class OpenActionProvider extends CommonActionProvider {
 					} catch (CoreException e1) {
 						logger.error("error getting the sessionId for project " + parentProject.getName(), e1);
 					}
-					
-					downloadDir = ((ICATClient)ICATSessions.get(sessionId)).getDownloadDir();
+
+					downloadDir = ICATSessions.get(sessionId).getDownloadDir();
 
 					// check whether download directory actually exists
 					File file = new File(downloadDir);
@@ -152,8 +150,8 @@ public class OpenActionProvider extends CommonActionProvider {
 								+ downloadDir);
 					}
 
-					
-					
+
+
 					DatafileTreeData DatafileTreeData = (DatafileTreeData) data;
 					logger.debug("opening "
 							+ DatafileTreeData.getIcatDatafile().getLocation()
@@ -161,73 +159,73 @@ public class OpenActionProvider extends CommonActionProvider {
 							+ DatafileTreeData.getIcatDatafile().getId());
 
 					// check current operating system
-					if (OSDetector.isUnix()) {
-						try {
+					//if (OSDetector.isUnix()) {
+					//	try {
 
-							EclipseUtils.openExternalEditor(DatafileTreeData
-									.getIcatDatafile().getLocation());
+					//		EclipseUtils.openExternalEditor(DatafileTreeData
+					//				.getIcatDatafile().getLocation());
 
-						} catch (PartInitException e) {
-							logger.error("Cannot open file "
-									+ DatafileTreeData.getIcatDatafile()
-									.getLocation(), e);
-						}
-					} else {// windows os detected
+					//	} catch (PartInitException e) {
+					//		logger.error("Cannot open file "
+					//				+ DatafileTreeData.getIcatDatafile()
+					//				.getLocation(), e);
+					//	}
+					//} else {// windows os detected
 
-						logger.info("non-unix system detected...proceed with downloading the file");
+					logger.info("downloading the file to local filesystem");
 
-						File file3 = new File(downloadDir);
+					File file3 = new File(downloadDir);
 
-						// computing the local file path
-						FilenameUtils fileUtils = new FilenameUtils(
-								DatafileTreeData.getIcatDatafile()
-								.getLocation(), '/', '.');
-						File file4 = new File(file3, fileUtils.filename());
-						File file5 = new File(file4.getPath());
+					// computing the local file path
+					FilenameUtils fileUtils = new FilenameUtils(
+							DatafileTreeData.getIcatDatafile()
+							.getLocation(), '/', '.');
+					File file4 = new File(file3, fileUtils.filename());
+					File file5 = new File(file4.getPath());
 
-						String localFilePath = file5.getPath();
+					String localFilePath = file5.getPath();
 
-						logger.debug("file exists? "
-								+ (Boolean.toString(file5.exists()))
-								.toUpperCase() + " - " + localFilePath);
-						if (!(new File(localFilePath)).exists()) {
-							// download file to temp dir
-							logger.info("downloading DatafileTreeData id: "
-									+ DatafileTreeData.getIcatDatafile()
-									.getId());
+					logger.debug("file exists? "
+							+ (Boolean.toString(file5.exists()))
+							.toUpperCase() + " - " + localFilePath);
+					if (!(new File(localFilePath)).exists()) {
+						// download file to temp dir
+						logger.info("downloading DatafileTreeData id: "
+								+ DatafileTreeData.getIcatDatafile()
+								.getId());
 
-							String fedid = ICATSessions.get(sessionId)
-									.getFedId();
-							String password = ICATSessions.get(sessionId)
-									.getPassword();
-							
-							sftpServer = ICATSessions.get(sessionId).getIcatCon().getSftpServer();
-							SftpClient sftpClient = new SftpClient();						
-							localFilePath = sftpClient.downloadFile(fedid,
-									password, sftpServer, DatafileTreeData
-									.getIcatDatafile().getLocation(),
-									file3.getPath()/* downloadDir */);
+						String fedid = ICATSessions.get(sessionId)
+								.getFedId();
+						String password = ICATSessions.get(sessionId)
+								.getPassword();
 
-							logger.info("file successfully downloaded to "
-									+ localFilePath);
-						} else {
+						sftpServer = ICATSessions.get(sessionId).getIcatCon().getSftpServer();
+						SftpClient sftpClient = new SftpClient();
+						localFilePath = sftpClient.downloadFile(fedid,
+								password, sftpServer, DatafileTreeData
+								.getIcatDatafile().getLocation(),
+								file3.getPath()/* downloadDir */);
 
-							logger.debug("file: " + localFilePath
-									+ " already exist in local filesystem");
-						}
+						logger.info("file successfully downloaded to "
+								+ localFilePath);
+					} else {
 
-						// open editor
-						try {
-							logger.debug("open file in editor:  "
-									+ localFilePath);
-							EclipseUtils.openExternalEditor(localFilePath);
-						} catch (PartInitException e) {
-							logger.error("Cannot open file "
-									+ DatafileTreeData.getIcatDatafile()
-									.getLocation(), e);
-						}
-
+						logger.debug("file: " + localFilePath
+								+ " already exist in local filesystem");
 					}
+
+					// open editor
+					try {
+						logger.debug("open file in editor:  "
+								+ localFilePath);
+						EclipseUtils.openExternalEditor(localFilePath);
+					} catch (PartInitException e) {
+						logger.error("Cannot open file "
+								+ DatafileTreeData.getIcatDatafile()
+								.getLocation(), e);
+					}
+
+					//} //end if os detection
 
 					// open remaining views
 					// place holders for remaining views
