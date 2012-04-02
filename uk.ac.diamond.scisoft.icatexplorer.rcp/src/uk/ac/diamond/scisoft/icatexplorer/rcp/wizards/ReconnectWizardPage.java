@@ -32,6 +32,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.ResourceManager;
@@ -39,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATConnection;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.internal.ICATExplorerActivator;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.NetworkUtils;
 
 
@@ -54,12 +56,14 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 	private final String initFedid;
 	private final ICATConnection icatCon;
 
-	private static final String ICAT_PLUGIN_ID = "uk.ac.diamond.scisoft.icatexplorer.rcp";
+	private static final String ICAT_PLUGIN_ID = ICATExplorerActivator.PLUGIN_ID;
 
 	private static final Logger logger = LoggerFactory.getLogger(ReconnectWizardPage.class);
 
 	private Text icatIDText;
 	private Text sftpServerText;
+	private Text txtTruststore;
+	private Text txtTruststorePassword;
 
 
 	/**
@@ -71,14 +75,13 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 	 * @param icatCon
 	 */
 	public ReconnectWizardPage(@SuppressWarnings("unused") ISelection selection, String prevProject,
-			String prevFolder, String prevDirectory, String prevFedid, String prevPassword, ICATConnection icatCon) {
+			String prevFolder, String prevDirectory, String prevFedid, String prevPassword, String prevTruststore, String prevTruststorePassword, ICATConnection icatCon) {
 		super("ICATReconnectWizardPage");
 
 		this.initProject = prevProject; //prevProject != null ? prevProject : "ICAT";
 		this.initDirectory = prevDirectory != null ? prevDirectory : "";
-		logger.debug("this.initDirectory= " + this.initDirectory );
 		this.initFedid = prevFedid != null ? prevFedid : "";
-		//this.initPassword = prevPassword != null ? prevPassword : "";
+
 		setTitle("ICAT Reconnection Wizard - reconnect based on previous parameters");
 		setDescription("Wizard to reconnect a closed ICAT connection");
 
@@ -114,6 +117,7 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		txtDirectory.setText(initDirectory);
 		txtDirectory.setEditable(true);
 		txtDirectory.setEnabled(true);
+		txtDirectory.addKeyListener(this);
 
 		Button button = new Button(container, SWT.PUSH);
 		button.setBounds(485, 253, 71, 27);
@@ -121,7 +125,7 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				handleBrowse();
+				handleDownloadDirBrowse();
 			}
 		});
 
@@ -207,6 +211,49 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		btnSftpTest.setBounds(331, 213, 84, 29);
 		btnSftpTest.setText("Test");
 
+		Label lbltruststorePath = new Label(container, SWT.NONE);
+		lbltruststorePath.setText("&Truststore path:");
+		lbltruststorePath.setBounds(4, 296, 135, 19);
+
+		txtTruststore = new Text(container, SWT.BORDER);
+		txtTruststore.setText("");
+		txtTruststore.setEnabled(true);
+		txtTruststore.setEditable(true);
+		txtTruststore.setBounds(150, 296, 321, 27);
+		txtTruststore.addKeyListener(this);
+
+		Label lbltruststorePassword = new Label(container, SWT.NONE);
+		lbltruststorePassword.setText("&Truststore password:");
+		lbltruststorePassword.setBounds(4, 342, 135, 19);
+
+		txtTruststorePassword = new Text(container, SWT.BORDER | SWT.PASSWORD);
+		txtTruststorePassword.setBounds(150, 342, 212, 27);
+		txtTruststorePassword.addKeyListener(this);
+
+		final Button btnShowPassword = new Button(container, SWT.CHECK);
+		btnShowPassword.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (btnShowPassword.getSelection()){
+					txtTruststorePassword.setEchoChar((char)0);
+				}else{
+					txtTruststorePassword.setEchoChar('*');
+				}
+			}
+		});
+		btnShowPassword.setBounds(368, 342, 125, 22);
+		btnShowPassword.setText("Show password");
+
+		Button BtnBrowseTruststore = new Button(container, SWT.NONE);
+		BtnBrowseTruststore.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleTruststoreBrowse();
+			}
+		});
+		BtnBrowseTruststore.setText("Browse...");
+		BtnBrowseTruststore.setBounds(485, 296, 71, 27);
+
 		sftpServerText.addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
@@ -224,12 +271,22 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 	 * Uses the standard container selection dialog to choose the new value for the container field.
 	 */
 
-	private void handleBrowse() {
+	private void handleDownloadDirBrowse() {
 		DirectoryDialog dirDialog = new DirectoryDialog(getShell(), SWT.OPEN);
 		dirDialog.setFilterPath(getDirectory());
 		final String filepath = dirDialog.open();
 		if (filepath != null) {
 			txtDirectory.setText(filepath);
+			dialogChanged();
+		}
+	}
+
+	private void handleTruststoreBrowse() {
+		FileDialog fileDialog = new FileDialog(getShell(), SWT.OPEN);
+		fileDialog.setFilterPath(getDirectory());
+		final String filepath = fileDialog.open();
+		if (filepath != null) {
+			txtTruststore.setText(filepath);
 			dialogChanged();
 		}
 	}
@@ -240,14 +297,15 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 
 	private void dialogChanged() {
 		if (getFedid().length() == 0) {
-			updateStatus("a fedid must be specified.");
+			updateStatus("Fedid must be specified.");
 			return;
 		}
 
 		if (getPassword().length() == 0) {
-			updateStatus("a password must be specified.");
+			updateStatus("Password must be specified.");
 			return;
 		}
+
 		if (getProject().length() == 0) {
 			updateStatus("Project name must be specified");
 			return;
@@ -258,9 +316,19 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 			return;
 		}
 
+		if (getTruststore().length() == 0) {
+			updateStatus("Truststore path must be specified.");
+			return;
+		}
+
+		if (getTruststorePass().length() == 0) {
+			updateStatus("Truststore password must be specified.");
+			return;
+		}
 
 		updateStatus(null);
 	}
+
 
 	private void updateStatus(String message) {
 		setErrorMessage(message);
@@ -297,11 +365,11 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 	}
 
 	public String getTruststore() {
-		return "/home/smw81327/Desktop/certs/cacerts.jks";
+		return txtTruststore.getText();
 	}
 
 	public String getTruststorePass() {
-		return "changeit";
+		return txtTruststorePassword.getText();
 	}
 
 	@Override
@@ -310,18 +378,20 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+
+		if (e.getSource().equals(txtProject)) {
+			dialogChanged();
+		}
+
 		if (e.getSource().equals(txtFedid)) {
 			dialogChanged();
 		}
 		if (e.getSource().equals(txtPassword)) {
 			dialogChanged();
 		}
-		if (e.getSource().equals(txtProject)) {
-			dialogChanged();
-		}
-		if (e.getSource().equals(txtDirectory)) {
+
+		if (e.getSource().equals(txtTruststorePassword)) {
 			dialogChanged();
 		}
 	}
-
 }

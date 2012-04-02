@@ -73,7 +73,6 @@ public class ICATClient {
 
 	public ICATClient(ICATConnection icatCon, String truststore,  String truststorePass, String downloadDir, String projectName) {
 
-		String tpath = null;
 		this.icatCon = icatCon;
 		this.truststorePath = truststore;
 		this.truststorePass = truststorePass;
@@ -88,9 +87,15 @@ public class ICATClient {
 			logger.error("problem reading properties file", e);
 		}
 
+		// clear ssl system properties
+		Properties sysProps = System.getProperties();
+		sysProps.remove("javax.net.ssl.trustStore");
+		sysProps.remove("javax.net.ssl.trustStorePassword");
+
 		logger.debug("(1) using truststore: "
 				+ System.getProperty("javax.net.ssl.trustStore"));
 
+		// set new ssl system properties
 		System.setProperty("javax.net.ssl.trustStore", truststorePath);//properties.getProperty("truststore_linux_dls"));
 		System.setProperty("javax.net.ssl.trustStorePassword", truststorePass);
 

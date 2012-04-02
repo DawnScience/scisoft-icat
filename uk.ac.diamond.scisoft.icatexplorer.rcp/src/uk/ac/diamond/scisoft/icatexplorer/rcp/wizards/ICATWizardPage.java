@@ -60,6 +60,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 	private final String initTruststore;
 	private final String initTruststorePass;
 
+	private static final String ICAT_PLUGIN_ID = ICATExplorerActivator.PLUGIN_ID;
 
 	private final IPreferenceStore preferenceStore;
 
@@ -224,10 +225,10 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 				 * test server using ping
 				 */
 				if(NetworkUtils.isReachable(txtSftpServer.getText())){
-					Image okImage = (ResourceManager.getPluginImage(ICATExplorerActivator.PLUGIN_ID, "icons/ok.png"));;
+					Image okImage = (ResourceManager.getPluginImage(ICAT_PLUGIN_ID, "icons/ok.png"));;
 					btnSftpTest.setImage(okImage);
 				}else{
-					Image noImage = (ResourceManager.getPluginImage(ICATExplorerActivator.PLUGIN_ID, "icons/no.png"));;
+					Image noImage = (ResourceManager.getPluginImage(ICAT_PLUGIN_ID, "icons/no.png"));;
 					btnSftpTest.setImage(noImage);
 				}
 			}

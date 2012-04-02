@@ -257,7 +257,7 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						/*
 						 * create an additional project in structure to hold downloaded files
 						 * */
-						final String DOWNLOAD_NAME =  "-downloads";
+						final String DOWNLOAD_NAME =  "-datafiles";
 						IProject dproject = root.getProject(project + DOWNLOAD_NAME);
 						IProjectDescription desc = dproject.getWorkspace().newProjectDescription(dproject.getName());
 
@@ -269,6 +269,7 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						}
 
 						desc.setLocationURI(projectLocation);
+						logger.debug("description name: " + desc.getName());
 						dproject.create(desc, monitor);
 						dproject.open(monitor);
 

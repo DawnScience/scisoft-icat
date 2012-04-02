@@ -47,6 +47,7 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATConnection;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessions;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.internal.ICATExplorerActivator;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.natures.ICATProjectNature;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.projects.ICATProjectSupport;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.ICATHierarchyUtils;
 import uk.icat3.client.InsufficientPrivilegesException_Exception;
@@ -57,7 +58,7 @@ import uk.icat3.client.SessionException;
 
 public class ReconnectNewWizard extends Wizard implements INewWizard {
 
-	private static final String ICAT_NATURE = "uk.ac.diamond.scisoft.icatexplorer.rcp.icat.nature";
+	private static final String ICAT_NATURE = ICATProjectNature.NATURE_ID;
 
 	private static final Logger logger = LoggerFactory.getLogger(ReconnectNewWizard.class);
 
@@ -100,7 +101,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 	 */
 	@Override
 	public void addPages() {
-		String prevProject = null , prevFolder = null, prevDirectory = null, prevFedid = null, prevPassword = null;
+		String prevProject = null , prevFolder = null, prevDirectory = null, prevFedid = null, prevPassword = null, prevTruststore = null, prevTruststorePassword = null;
 		IDialogSettings  settings = getDialogSettings();
 		if( settings != null){
 			prevProject = projectName;//settings.get(DIALOG_SETTING_KEY_PROJECT);
@@ -108,8 +109,10 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 			prevDirectory = directory;//settings.get(DIALOG_SETTING_KEY_DIRECTORY);
 			prevFedid = fedid;//settings.get(DIALOG_SETTING_KEY_FEDID);
 			prevPassword = "";//settings.get(DIALOG_SETTING_KEY_PASSWORD);
+			prevTruststore =""; //settings.get(DIALOG_SETTING_KEY_TRUSTSTORE);
+			prevTruststorePassword = "";//settings.get(DIALOG_SETTING_KEY_TRUSTSTORE_PASSWORD);
 		}
-		page = new ReconnectWizardPage(selection, prevProject, prevFolder, prevDirectory, prevFedid, prevPassword, icatCon);
+		page = new ReconnectWizardPage(selection, prevProject, prevFolder, prevDirectory, prevFedid, prevPassword, prevTruststore, prevTruststorePassword, icatCon);
 		addPage(page);
 
 	}
