@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 public final class PropertiesUtils {
 
 	private static final Logger logger = LoggerFactory.getLogger(PropertiesUtils.class);
-	
+
 
 	/* *
 	 * Reads properties from configuration file.
@@ -43,22 +43,22 @@ public final class PropertiesUtils {
 
 		boolean dlsIdLocationVerified = false;
 		boolean isisIdLocationVerified = false;
-		
+
 		boolean dlsNameVerified = false;
 		boolean isisNameVerified = false;
-			
+
 		boolean dlsTruststoreLinuxVerified = false;
 		boolean dlsTruststoreWindowsVerified = false;
 		boolean isisTruststoreLinuxVerified = false;
 		boolean isisTruststoreWindowsVerified = false;
-		
-		
+
+
 		boolean dlsTruststorePasswordVerified = false;
 		boolean isisTruststorePasswordVerified = false;
-		
+
 		boolean dlsSftpServerVerified = false;
 		boolean isisSftpServerVerified = false;
-		
+
 		try {
 			bundle = new PropertyResourceBundle(PropertiesUtils.class.getResourceAsStream("/conf/icatexplorer.properties"));
 
@@ -107,7 +107,7 @@ public final class PropertiesUtils {
 					if ((val != null) && (val.length() > 0))
 						dlsTruststoreWindowsVerified = true;
 				}
-				
+
 				if ((prop != null) && (prop.equals("truststore_linux_isis"))) {
 					if ((val != null) && (val.length() > 0))
 						isisTruststoreLinuxVerified = true;
@@ -123,7 +123,7 @@ public final class PropertiesUtils {
 				if ((prop != null) && (prop.equals("truststore_password_isis"))) {
 					if ((val != null) && (val.length() > 0))
 						isisTruststorePasswordVerified = true;
-				}				
+				}
 				if ((prop != null) && (prop.equals("sftp_server_dls"))) {
 					if ((val != null) && (val.length() > 0))
 						dlsSftpServerVerified = true;
@@ -135,7 +135,7 @@ public final class PropertiesUtils {
 
 				properties.setProperty(prop, val);
 			}// end while
-			
+
 			// in case one of the keys/values is missing
 			if (!dlsWsdlLocationVerified)
 				logger.error("Please check icatexplorer.properties file to ensure that wsdl_location_dls key is supplied");
@@ -149,18 +149,18 @@ public final class PropertiesUtils {
 				logger.error("Please check icatexplorer.properties file to ensure that site_name_dls key is supplied");
 			if (!isisNameVerified)
 				logger.error("Please check icatexplorer.properties file to ensure that site_name_isis key is supplied");
-			if (!dlsTruststoreLinuxVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that truststore_linux_dls key is supplied");
-			if (!dlsTruststoreWindowsVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that truststore_windows_dls key is supplied");
-			if (!isisTruststoreLinuxVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that truststore_linux_isis key is supplied");
-			if (!isisTruststoreWindowsVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that truststore_windows_isis key is supplied");		
-			if (!dlsTruststorePasswordVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that truststore_password_dls key is supplied");
-			if (!isisTruststorePasswordVerified)
-				logger.error("Please check icatexplorer.properties file to ensure that truststore_password_isis key is supplied");			
+			//			if (!dlsTruststoreLinuxVerified)
+			//				logger.error("Please check icatexplorer.properties file to ensure that truststore_linux_dls key is supplied");
+			//			if (!dlsTruststoreWindowsVerified)
+			//				logger.error("Please check icatexplorer.properties file to ensure that truststore_windows_dls key is supplied");
+			//			if (!isisTruststoreLinuxVerified)
+			//				logger.error("Please check icatexplorer.properties file to ensure that truststore_linux_isis key is supplied");
+			//			if (!isisTruststoreWindowsVerified)
+			//				logger.error("Please check icatexplorer.properties file to ensure that truststore_windows_isis key is supplied");
+			//			if (!dlsTruststorePasswordVerified)
+			//				logger.error("Please check icatexplorer.properties file to ensure that truststore_password_dls key is supplied");
+			//			if (!isisTruststorePasswordVerified)
+			//				logger.error("Please check icatexplorer.properties file to ensure that truststore_password_isis key is supplied");
 			if (!dlsSftpServerVerified)
 				logger.error("Please check icatexplorer.properties file to ensure that sftp_server_dls key is supplied");
 			if (!isisSftpServerVerified)

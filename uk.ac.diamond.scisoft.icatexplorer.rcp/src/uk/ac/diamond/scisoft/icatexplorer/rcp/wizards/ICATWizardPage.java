@@ -57,8 +57,8 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 	private final String initProject;
 	private final String initDirectory;
 	private final String initFedid;
-	private final String initTruststore;
-	private final String initTruststorePass;
+	//private final String initTruststore;
+	//private final String initTruststorePass;
 
 	private static final String ICAT_PLUGIN_ID = ICATExplorerActivator.PLUGIN_ID;
 
@@ -88,8 +88,8 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		//this.initFolder = prevFolder != null ? prevFolder : "myIcat";
 		this.initDirectory = prevDirectory != null ? prevDirectory : "";
 		this.initFedid = prevFedid != null ? prevFedid : "";
-		this.initTruststore = prevTruststore != null ? prevTruststore : "";
-		this.initTruststorePass = prevTruststorePass != null ? prevTruststorePass : "";
+		//this.initTruststore = prevTruststore != null ? prevTruststore : "";
+		//this.initTruststorePass = prevTruststorePass != null ? prevTruststorePass : "";
 
 		preferenceStore = ICATExplorerActivator.getDefault().getPreferenceStore();
 		DELIMITER = ICATPreferenceInitializer.DELIMITER;
@@ -241,7 +241,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		lbltruststorePath.setBounds(4, 295, 103, 19);
 
 		txtTruststore = new Text(container, SWT.BORDER);
-		txtTruststore.setText(initTruststore);
+		txtTruststore.setText(getToken(index, preferenceStore.getString("ICAT_TRUSTSTORE_PATH_PREF"), DELIMITER));//(initTruststore);
 		txtTruststore.setEnabled(true);
 		txtTruststore.setEditable(true);
 		txtTruststore.setBounds(150, 295, 321, 27);
@@ -261,7 +261,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		lbltruststorePassword.setBounds(4, 353, 135, 16);
 
 		txtTruststorePassword = new Text(container, SWT.BORDER | SWT.PASSWORD);
-		txtTruststorePassword.setText(initTruststorePass);
+		txtTruststorePassword.setText(getToken(index, preferenceStore.getString("ICAT_TRUSTSTORE_PASS_PREF"), DELIMITER));//initTruststorePass);
 		txtTruststorePassword.setEnabled(true);
 		txtTruststorePassword.setBounds(150, 342, 212, 27);
 

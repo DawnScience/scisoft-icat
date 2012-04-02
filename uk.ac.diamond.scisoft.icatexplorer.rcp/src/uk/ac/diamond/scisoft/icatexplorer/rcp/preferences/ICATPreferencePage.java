@@ -220,12 +220,6 @@ public class ICATPreferencePage extends PreferencePage implements IWorkbenchPref
 				handleBrowse();
 			}
 		});
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
 
 		Button btnTestWS = formToolkit.createButton(composite, "Test ICAT webservice", SWT.NONE);
 		btnTestWS.setImage(ResourceManager.getPluginImage("uk.ac.diamond.scisoft.icatexplorer.rcp", "icons/database.png"));

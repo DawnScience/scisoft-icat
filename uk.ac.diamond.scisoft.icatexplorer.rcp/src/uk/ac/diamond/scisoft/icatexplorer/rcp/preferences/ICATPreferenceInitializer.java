@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.icatexplorer.rcp.internal.ICATExplorerActivator;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 
 public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
@@ -44,7 +45,7 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
 		logger.debug("initializing ICAT preferences...");
 
 		IPreferenceStore store = ICATExplorerActivator.getDefault().getPreferenceStore();
-		
+
 		Properties properties = new Properties();
 		try {
 			logger.info("reading properties file");
@@ -64,28 +65,32 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
 		String WSDL_LOCATION_DLS = properties.getProperty("wsdl_location_dls") ;
 		String WSDL_LOCATION_ISIS = properties.getProperty("wsdl_location_isis");
 
-//		TODO to be used later on		
-//		String TRUSTSTORE_LINUX_DLS = properties.getProperty("truststore_linux_dls");
-//		String TRUSTSTORE_LINUX_ISIS = properties.getProperty("truststore_linux_isis");
-//
-//		String TRUSTSTORE_WINDOWS_DLS = properties.getProperty("truststore_windows_dls");
-//		String TRUSTSTORE_WINDOWS_ISIS = properties.getProperty("truststore_windows_isis");
-//
-//		String TRUSTSTORE_PASSWORD_DLS = properties.getProperty("truststore_password_dls");
-//		String TRUSTSTORE_PASSWORD_ISIS = properties.getProperty("truststore_password_isis");
+		String TRUSTSTORE_LINUX_DLS = properties.getProperty("truststore_linux_dls");
+		String TRUSTSTORE_LINUX_ISIS = properties.getProperty("truststore_linux_isis");
+
+		String TRUSTSTORE_WINDOWS_DLS = properties.getProperty("truststore_windows_dls");
+		String TRUSTSTORE_WINDOWS_ISIS = properties.getProperty("truststore_windows_isis");
+
+		String TRUSTSTORE_PASSWORD_DLS = properties.getProperty("truststore_password_dls");
+		String TRUSTSTORE_PASSWORD_ISIS = properties.getProperty("truststore_password_isis");
 
 		String SFTP_SERVER_DLS = properties.getProperty("sftp_server_dls");
-		String SFTP_SERVER_ISIS = properties.getProperty("sftp_server_isis");	
-		
-		
-		logger.debug("collected SITE_ID_DLS= " + SITE_ID_DLS);
-		logger.debug("collected SITE_NAME_DLS= " + SITE_NAME_DLS);
-		
+		String SFTP_SERVER_ISIS = properties.getProperty("sftp_server_isis");
+
+
 		store.setDefault("ICAT_ID_PREF", SITE_ID_DLS + DELIMITER + SITE_ID_ISIS);
 		store.setDefault("ICAT_NAME_PREF", SITE_NAME_DLS + DELIMITER + SITE_NAME_ISIS);
 		store.setDefault("ICAT_WSDL_PREF", WSDL_LOCATION_DLS + DELIMITER + WSDL_LOCATION_ISIS);
-		store.setDefault("ICAT_SFTPSERVER_PREF", SFTP_SERVER_DLS + DELIMITER + SFTP_SERVER_ISIS);		
-		store.setDefault("ICAT_DOWNLOADDIR_PREF", System.getProperty("user.home") + DELIMITER+  System.getProperty("user.home"));
+		store.setDefault("ICAT_SFTPSERVER_PREF", SFTP_SERVER_DLS + DELIMITER + SFTP_SERVER_ISIS);
+		store.setDefault("ICAT_DOWNLOADDIR_PREF", System.getProperty("java.io.tmpdir") + DELIMITER+  System.getProperty("java.io.tmpdir"));
+
+		if (OSDetector.isWindows()){
+			store.setDefault("ICAT_TRUSTSTORE_PATH_PREF", TRUSTSTORE_WINDOWS_DLS + DELIMITER +  TRUSTSTORE_WINDOWS_ISIS);
+		}else{
+			store.setDefault("ICAT_TRUSTSTORE_PATH_PREF", TRUSTSTORE_LINUX_DLS + DELIMITER +  TRUSTSTORE_LINUX_ISIS);
+		}
+
+		store.setDefault("ICAT_TRUSTSTORE_PASS_PREF", TRUSTSTORE_PASSWORD_DLS + DELIMITER +  TRUSTSTORE_PASSWORD_ISIS);
 
 	}
 
