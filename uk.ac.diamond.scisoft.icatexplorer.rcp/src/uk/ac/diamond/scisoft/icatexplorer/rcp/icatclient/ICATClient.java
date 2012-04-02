@@ -17,14 +17,24 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
 import javax.xml.namespace.QName;
 
 import org.slf4j.Logger;
@@ -71,7 +81,7 @@ public class ICATClient {
 	private static final Logger logger = LoggerFactory.getLogger(ICATClient.class);
 
 
-	public ICATClient(ICATConnection icatCon, String truststore,  String truststorePass, String downloadDir, String projectName) {
+	public ICATClient(ICATConnection icatCon, String truststore,  String truststorePass, String downloadDir, String projectName){
 
 		this.icatCon = icatCon;
 		this.truststorePath = truststore;
@@ -96,10 +106,43 @@ public class ICATClient {
 				+ System.getProperty("javax.net.ssl.trustStore"));
 
 		// set new ssl system properties
-		System.setProperty("javax.net.ssl.trustStore", truststorePath);//properties.getProperty("truststore_linux_dls"));
-		System.setProperty("javax.net.ssl.trustStorePassword", truststorePass);
+		//System.setProperty("javax.net.ssl.trustStore", truststorePath);//properties.getProperty("truststore_linux_dls"));
+		//System.setProperty("javax.net.ssl.trustStorePassword", truststorePass);
 
-		//System.setProperty("javax.net.debug", "all");
+		char ksPass[] = "changeit".toCharArray();
+		char ctPass[] = "changeit".toCharArray();
+		KeyStore ks;
+		try {
+			ks = KeyStore.getInstance("JKS");
+			ks.load(new FileInputStream("/home/smw81327/Desktop/certs/cacerts.jks"), ksPass);
+			KeyManagerFactory kmf =
+					KeyManagerFactory.getInstance("SunX509");
+			kmf.init(ks, ctPass);
+			SSLContext sc = SSLContext.getInstance("TLS");
+			sc.init(kmf.getKeyManagers(), null, null);
+		} catch (KeyStoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CertificateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnrecoverableKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (KeyManagementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 
 		logger.debug("(ICATClient) using truststore: "
 				+ System.getProperty("javax.net.ssl.trustStore")  + " --  and password: " + System.getProperty("javax.net.ssl.trustStorePassword"));
