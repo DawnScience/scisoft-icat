@@ -129,8 +129,8 @@ public class ICATProjectSupport {
 			description.setNatureIds(newNatures);
 
 			IProgressMonitor monitor = null;
-			System.out.println("description: " + description.getName().toString()); //$NON-NLS-1$
-			System.out.println("nature: " + ICATProjectNature.NATURE_ID);  //$NON-NLS-1$
+			System.out.println("description: " + description.getName().toString());
+			System.out.println("nature: " + ICATProjectNature.NATURE_ID);
 			project.setDescription(description, monitor);
 		}
 	}

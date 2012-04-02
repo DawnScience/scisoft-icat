@@ -159,6 +159,25 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						iproject.create(monitor);
 						iproject.open(monitor);
 
+						// adding persistent properties needed to reconnect
+						QualifiedName qNameProjectType = new QualifiedName("ICAT.PROJECT", "Type");
+						QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
+						QualifiedName qNameFedid       = new QualifiedName("FEDID","String");
+						QualifiedName qNameSiteName    = new QualifiedName("SITE.NAME","String");
+						QualifiedName qNameWsdl        = new QualifiedName("WSDL","String");
+						QualifiedName qNameDirectory   = new QualifiedName("DIRECTORY","String");
+						QualifiedName qNameID          = new QualifiedName("ID","String");
+						QualifiedName qNameSftpServer  = new QualifiedName("SFTP_SERVER","String");
+
+						iproject.setPersistentProperty(qNameProjectType, "ICAT");
+						iproject.setPersistentProperty(qNameSessionId, sessionid);
+						iproject.setPersistentProperty(qNameFedid, fedid);
+						iproject.setPersistentProperty(qNameSiteName, icatCon.getSiteName());
+						iproject.setPersistentProperty(qNameWsdl, icatCon.getWsdlLocation());
+						iproject.setPersistentProperty(qNameDirectory, directory);
+						iproject.setPersistentProperty(qNameID, icatCon.getId());
+						iproject.setPersistentProperty(qNameSftpServer, icatCon.getSftpServer());
+
 						// associating the icat nature to the newly created project
 						try {
 							IProjectDescription description = iproject.getDescription();
@@ -173,25 +192,6 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						} catch (CoreException e) {
 							logger.error("problem setting ICAT nature to project: " + iproject.getName() + " - Error: " + e);
 						}
-
-						// adding persistent properties needed to reconnect
-						QualifiedName qNameProjetcType = new QualifiedName("ICAT.PROJECT", "Type");
-						QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
-						QualifiedName qNameFedid       = new QualifiedName("FEDID","String");
-						QualifiedName qNameSiteName    = new QualifiedName("SITE.NAME","String");
-						QualifiedName qNameWsdl        = new QualifiedName("WSDL","String");
-						QualifiedName qNameDirectory   = new QualifiedName("DIRECTORY","String");
-						QualifiedName qNameID          = new QualifiedName("ID","String");
-						QualifiedName qNameSftpServer  = new QualifiedName("SFTP_SERVER","String");
-
-						iproject.setPersistentProperty(qNameProjetcType, "ICAT");
-						iproject.setPersistentProperty(qNameSessionId, sessionid);
-						iproject.setPersistentProperty(qNameFedid, fedid);
-						iproject.setPersistentProperty(qNameSiteName, icatCon.getSiteName());
-						iproject.setPersistentProperty(qNameWsdl, icatCon.getWsdlLocation());
-						iproject.setPersistentProperty(qNameDirectory, directory);
-						iproject.setPersistentProperty(qNameID, icatCon.getId());
-						iproject.setPersistentProperty(qNameSftpServer, icatCon.getSftpServer());
 
 						logger.debug("ICAT project created: " + project);
 
@@ -253,7 +253,7 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 
 						ICATProjectSupport.addToProjectStructure(iproject, paths);
 
-						logger.debug("project " + iproject.getName() + " created.");
+						logger.debug("project structure for " + iproject.getName() + " created.");
 						/*
 						 * create an additional project in structure to hold downloaded files
 						 * */
@@ -269,7 +269,6 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						}
 
 						desc.setLocationURI(projectLocation);
-						logger.debug("description name: " + desc.getName());
 						dproject.create(desc, monitor);
 						dproject.open(monitor);
 
