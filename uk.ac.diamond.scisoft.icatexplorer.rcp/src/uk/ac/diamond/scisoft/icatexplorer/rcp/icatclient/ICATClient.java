@@ -88,21 +88,17 @@ public class ICATClient {
 			logger.error("problem reading properties file", e);
 		}
 
-		//logger.debug("(1) using truststore: "
-		//+ System.getProperty("javax.net.ssl.trustStore"));
+		logger.debug("(1) using truststore: "
+				+ System.getProperty("javax.net.ssl.trustStore"));
 
-		//System.setProperty("javax.net.ssl.trustStore", truststorePath);//properties.getProperty("truststore_linux_dls"));
-		//System.setProperty("javax.net.ssl.trustStorePassword", truststorePass);
-		//properties.getProperty("truststore_password_dls"));
+		System.setProperty("javax.net.ssl.trustStore", truststorePath);//properties.getProperty("truststore_linux_dls"));
+		System.setProperty("javax.net.ssl.trustStorePassword", truststorePass);
 
-		System.setProperty("javax.net.debug", "all");
+		//System.setProperty("javax.net.debug", "all");
 
 		logger.debug("(ICATClient) using truststore: "
 				+ System.getProperty("javax.net.ssl.trustStore")  + " --  and password: " + System.getProperty("javax.net.ssl.trustStorePassword"));
 
-		logger.debug("=========");
-		printSysProp();
-		logger.debug("=========");
 
 	}
 
