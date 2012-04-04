@@ -19,46 +19,59 @@
     </command>
   </item>
   <item
-        title="Login into the ICAT">
+        title="Creating an ICAT project">
      <description>
-        In the opened login view, enter your fedid and password, then click the &apos;Login&apos; button or press &apos;Enter&apos; on your keyboard.<br/>
-If the authentication is successful, the ICAT content view will appear containing a list of all your visits registered within the ICAT database.
+   In the project explorer, right click and select <b> New &gt; other &gt; ICAT Archive Project &gt; Create ICAT Project</b>
+In the opened wizard, enter your fedid and password, and fill the other values or keep the default ones, then click the &apos;Finish&apos; button or press &apos;Enter&apos; on your keyboard.<br/><br/>
+If the authentication is successful, an ICAT project will be created in the project explorer containing a list of all your visits registered within the ICAT database.<br/><br/>
+Please note that an additional project with the same ICAT project name plus &apos;-downloadFiles&apos; will be created automatically. The latter will hold all downloaded datafiles. A datafile is downloaded to the local filesystem when the user double clicks on it.
      </description>
   </item>
 
-   <item
+<item
         title="Browsing your data">
      <description>
-        The ICAT content view provides a tree-based navigation of your data.<br/>
-		Nodes can be expanded to show their content.<br/>
-        A single click on an item (investigation, dataset or datafile) will update the metadata table with corresponding metadata from the ICAT database.<br/>
+        The ICAT project provides a tree-based navigation of your data.<br/><br/>
+		Nodes can be expanded to show their content.<br/><br/>
+        A single click on an item (investigation, dataset or datafile) will update the metadata table with corresponding metadata from the ICAT database.<br/><br/>
         A double click on a datafile will open it in the following views: file editor, dataset plot, side dataset plot, dataset inspector and the metadata table. 
      </description>
   </item>
+
    <item
-         title="Copying files to the Project Explorer">
-      <description>
-     It is possible to copy files displayed in the ICAT Explorer into the Project Explorer using drag-and-drop.<br/><br/>
-To open the Project Explorer view: <b>Window &gt; Show view &gt; Other... &gt; General &gt;  Project Explorer</b><br/><br/>
-	You can select any combination of files and/or datasets from the ICAT Explorer for drag and drop.<br/><br/>
-	Since the transfer is from a remote server, this proccess can be time consuming and thus, is run as a separate job.<br/>
+        title="Drag-and-drop from ICAT project into eclipse">
+     <description>
+   
+   
+	You can select any combination of files and/or datasets from the ICAT Explorer for drag and drop into an eclipse project.<br/><br/>
+	Since the transfer is from a remote server, this process can be time consuming and thus, is run as a separate job.<br/>
 	Status of data transfer is shown in the progress monitor in the status bar of the SDA.<br/><br/>
 
 	Once, all files have been copied, the Project Explorer is refreshed.<br/><br/>
-	Please note that files can be copied to 'non-virtual' folders targets only.
-	</description>
-	<command
-            confirm="true"
-            required="true"
-            serialization="org.eclipse.ui.views.showView(org.eclipse.ui.views.showView.viewId=org.eclipse.ui.navigator.ProjectExplorer)">
-    </command>
-   </item>
-	<item
-	title="Additional notes">
+	Please note that files can be copied to &apos;non-virtual&apos; folders targets only.<br/><br/>	
+</description>
+</item>
+
+<item
+        title="Additional notes">
      <description>
-     Please note that a  user is automatically logged out from the ICAT after 2 hours of first login.<br/>
-        When the ICAT content view is opened, the login view is still available. It can be made visible by clicking on its tab on the left of the ICAT content view.<br/>
-        The &apos;Reset&apos; button in the login view allows enabling the fedid and password fields in order to initiate a new connection.te a new connection. 
-     </description>
+   
+	Please note that a  user is automatically logged out from the ICAT after 2 hours of first login.<br/>
+        Also, if the SDA is closed all ICAT connections will be closed.<br/><br/>
+        In order to reconnect a disconnected ICAT, right-click the project and select &apos;Reconnect&apos;. Fill the needed information in the wizard and click &apos;Finish&apos;<br/>
+        The same contextual menu allows to sweep a disconnected project<br/><br/>
+The toolbar button &apos;sweep disconnected ICATs&apos; deletes all disconnected ICAT projects 
+
+</description>
+</item>
+
+<item
+       title="ICAT Connection configuration">
+<description>
+The plugin preferences page allows the configuration of the parameters used to create an ICAT connection.<br/>
+This includes the wsdl url of the ICAT webservice, the sftp server used to download the files locally, etc.<br/><br/>
+The sites configured in the preferences page (e.g. Diamond Light Source, ILL) are the ones that actually appear in the create connection wizard.<br/><br/>
+The preferences page allows adding new ICAT sites by editing the different fields (wsdl url, etc).
+  </description>
   </item>
 </cheatsheet>
