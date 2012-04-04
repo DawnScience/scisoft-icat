@@ -18,8 +18,11 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.rcp.projects;
 
+import java.io.File;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -71,7 +74,6 @@ public class DisconnectedICATsHandler extends ViewerFilter {
 
 						QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
 						String sessionId = currentProject.getPersistentProperty(qNameSessionId);
-						//logger.debug("got sessionid= " + sessionId);
 
 						boolean isICATSessionClosed = (!ICATSessions.hasSessionId(sessionId));
 						if (isICATSessionClosed) {
@@ -99,25 +101,68 @@ public class DisconnectedICATsHandler extends ViewerFilter {
 		logger.debug("disconnecting: " + projectName);
 
 		// create project
-		IProgressMonitor monitor = new NullProgressMonitor();
+		//IProgressMonitor monitor = new NullProgressMonitor();
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 
 		IProject iproject = root.getProject(projectName);
 		try {
-			iproject.open(monitor);
-			//iproject.delete(true, true, null);
-			//iproject.create(null);
+
 			IProjectDescription description = iproject.getDescription();
 			String[] newNatures = new String[] { nature };
-
 			description.setNatureIds(newNatures);
-			iproject.setDescription(description, monitor);
+			iproject.setDescription(description, new NullProgressMonitor());
+
+			iproject.open(new NullProgressMonitor());
 
 		} catch (CoreException e1) {
 			logger.error("problem opening project: " + iproject.getName());
 		}
 
+		// remove disconnected project content
+		deleteDirContent(new File(iproject.getLocation().toOSString()));
+
+		// refresh project explorer
+		refreshProjectExplorer(iproject.getName());
+
 		logger.debug("ICAT project disconnected: " + projectName);
+
+	}
+
+	private void deleteDirContent(File path) {
+		if (path.exists()) {
+			File[] files = path.listFiles();
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].isDirectory()) {
+					deleteDirContent(files[i]);
+				} else {
+					if(!(files[i].getName().equalsIgnoreCase(".project"))){
+						boolean status  = files[i].delete();
+						//logger.debug(files[i].getName() + " deleted?" + status);
+					}
+				}
+			}
+		} else {
+			logger.error("path doesn't exist:  " + path.getName());
+		}
+
+		logger.debug("deleting:  " + path.getName());
+		path.delete() ;
+	}
+
+
+	private void refreshProjectExplorer(String parentProject) {
+
+		try {
+			logger.debug("refreshing project: " + parentProject);
+			ResourcesPlugin
+			.getWorkspace()
+			.getRoot()
+			.getProject(parentProject)
+			.refreshLocal(IResource.DEPTH_INFINITE,
+					new NullProgressMonitor());
+		} catch (CoreException e) {
+			logger.error("problem refreshing Project Explorer", e);
+		}
 
 	}
 

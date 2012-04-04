@@ -35,6 +35,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.ResourceManager;
@@ -118,25 +119,6 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		Composite composite_1 = new Composite(container, SWT.NULL);
 		composite_1.setBounds(708, 108, 64, 64);
 
-		Label lbldownloadDirectory = new Label(container, SWT.NULL);
-		lbldownloadDirectory.setBounds(4, 258, 135, 19);
-		lbldownloadDirectory.setText("&Download directory:");
-		txtDirectory = new Text(container, SWT.BORDER);
-		txtDirectory.setBounds(150, 253, 321, 27);
-		txtDirectory.setText(initDirectory);
-		txtDirectory.setEditable(true);
-		txtDirectory.setEnabled(true);
-
-		Button BtnBrowseDirectory = new Button(container, SWT.PUSH);
-		BtnBrowseDirectory.setBounds(485, 253, 71, 27);
-		BtnBrowseDirectory.setText("Browse...");
-		BtnBrowseDirectory.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				handleDownloadDirBrowse();
-			}
-		});
-
 		Label lblicatDatabase = new Label(container, SWT.NONE);
 		lblicatDatabase.setText("&ICAT site name:");
 		lblicatDatabase.setBounds(4, 63, 103, 13);
@@ -155,11 +137,6 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		//txtPassword.setText(initPassword);
 		txtPassword.setBounds(113, 133, 212, 27);
 		txtPassword.addKeyListener(this);
-
-
-		Label sftpServerLbl = new Label(container, SWT.NONE);
-		sftpServerLbl.setBounds(4, 219, 79, 13);
-		sftpServerLbl.setText("&SFTP server:");
 
 		dialogChanged();
 		setControl(container);
@@ -205,67 +182,26 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		icatSiteNameText.setText(getToken(index, preferenceStore.getString("ICAT_NAME_PREF"), DELIMITER));
 		icatSiteNameText.setBounds(113, 53, 212, 27);
 
-		txtSftpServer = new Text(container, SWT.BORDER | SWT.READ_ONLY);
-		txtSftpServer.setEditable(true);
-		txtSftpServer.setText(getToken(index, preferenceStore.getString("ICAT_SFTPSERVER_PREF"), DELIMITER));
-		txtSftpServer.setBounds(113, 213, 212, 27);
-
-		txtDirectory.setText(getToken(index, preferenceStore.getString("ICAT_DOWNLOADDIR_PREF"), DELIMITER));
-
 
 		Label fedidLbl = new Label(container, SWT.NONE);
 		fedidLbl.setText("&FedId:");
 		fedidLbl.setBounds(4, 108, 64, 13);
 
-		final Button btnSftpTest = new Button(container, SWT.NONE);
-		btnSftpTest.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				/*
-				 * test server using ping
-				 */
-				if(NetworkUtils.isReachable(txtSftpServer.getText())){
-					Image okImage = (ResourceManager.getPluginImage(ICAT_PLUGIN_ID, "icons/ok.png"));;
-					btnSftpTest.setImage(okImage);
-				}else{
-					Image noImage = (ResourceManager.getPluginImage(ICAT_PLUGIN_ID, "icons/no.png"));;
-					btnSftpTest.setImage(noImage);
-				}
-			}
-		});
-		btnSftpTest.setBounds(344, 213, 84, 29);
-		btnSftpTest.setText("Test");
+		Group grpAdvanced = new Group(container, SWT.NONE);
+		grpAdvanced.setText("Advanced");
+		grpAdvanced.setBounds(10, 216, 563, 272);
 
-		Label lbltruststorePath = new Label(container, SWT.NONE);
-		lbltruststorePath.setText("&Truststore path:");
-		lbltruststorePath.setBounds(4, 295, 103, 19);
-
-		txtTruststore = new Text(container, SWT.BORDER);
-		txtTruststore.setText(getToken(index, preferenceStore.getString("ICAT_TRUSTSTORE_PATH_PREF"), DELIMITER));//(initTruststore);
-		txtTruststore.setEnabled(true);
-		txtTruststore.setEditable(true);
-		txtTruststore.setBounds(150, 295, 321, 27);
-
-		Button BtnBrowseTruststore = new Button(container, SWT.NONE);
-		BtnBrowseTruststore.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				handleTruststoreBrowse();
-			}
-		});
-		BtnBrowseTruststore.setText("Browse...");
-		BtnBrowseTruststore.setBounds(485, 295, 71, 27);
-
-		Label lbltruststorePassword = new Label(container, SWT.NONE);
+		Label lbltruststorePassword = new Label(grpAdvanced, SWT.NONE);
+		lbltruststorePassword.setBounds(10, 188, 135, 16);
 		lbltruststorePassword.setText("&Truststore password:");
-		lbltruststorePassword.setBounds(4, 353, 135, 16);
 
-		txtTruststorePassword = new Text(container, SWT.BORDER | SWT.PASSWORD);
+		txtTruststorePassword = new Text(grpAdvanced, SWT.BORDER | SWT.PASSWORD);
+		txtTruststorePassword.setBounds(154, 177, 212, 27);
 		txtTruststorePassword.setText(getToken(index, preferenceStore.getString("ICAT_TRUSTSTORE_PASS_PREF"), DELIMITER));//initTruststorePass);
 		txtTruststorePassword.setEnabled(true);
-		txtTruststorePassword.setBounds(150, 342, 212, 27);
 
-		final Button btnShowPassword = new Button(container, SWT.CHECK);
+		final Button btnShowPassword = new Button(grpAdvanced, SWT.CHECK);
+		btnShowPassword.setBounds(376, 182, 135, 22);
 		btnShowPassword.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -276,9 +212,71 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 				}
 			}
 		});
-		btnShowPassword.setBounds(362, 345, 135, 22);
 		btnShowPassword.setText("Show password");
-		txtTruststorePassword.addKeyListener(this);
+
+		Label lbltruststorePath = new Label(grpAdvanced, SWT.NONE);
+		lbltruststorePath.setBounds(10, 131, 103, 19);
+		lbltruststorePath.setText("&Truststore path:");
+
+		txtTruststore = new Text(grpAdvanced, SWT.BORDER);
+		txtTruststore.setBounds(154, 131, 321, 27);
+		txtTruststore.setText(getToken(index, preferenceStore.getString("ICAT_TRUSTSTORE_PATH_PREF"), DELIMITER));//(initTruststore);
+		txtTruststore.setEnabled(true);
+		txtTruststore.setEditable(true);
+
+		Button BtnBrowseTruststore = new Button(grpAdvanced, SWT.NONE);
+		BtnBrowseTruststore.setBounds(481, 131, 71, 27);
+		BtnBrowseTruststore.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleTruststoreBrowse();
+			}
+		});
+		BtnBrowseTruststore.setText("Browse...");
+		txtDirectory = new Text(grpAdvanced, SWT.BORDER);
+		txtDirectory.setBounds(154, 79, 321, 27);
+		txtDirectory.setText(initDirectory);
+		txtDirectory.setEditable(true);
+		txtDirectory.setEnabled(true);
+
+		txtDirectory.setText(getToken(index, preferenceStore.getString("ICAT_DOWNLOADDIR_PREF"), DELIMITER));
+
+		Button BtnBrowseDirectory = new Button(grpAdvanced, SWT.PUSH);
+		BtnBrowseDirectory.setBounds(481, 79, 71, 27);
+		BtnBrowseDirectory.setText("Browse...");
+
+		Label lbldownloadDirectory = new Label(grpAdvanced, SWT.NULL);
+		lbldownloadDirectory.setBounds(10, 87, 135, 19);
+		lbldownloadDirectory.setText("&Download directory:");
+
+
+		Label sftpServerLbl = new Label(grpAdvanced, SWT.NONE);
+		sftpServerLbl.setBounds(10, 44, 79, 13);
+		sftpServerLbl.setText("&SFTP server:");
+
+		txtSftpServer = new Text(grpAdvanced, SWT.BORDER | SWT.READ_ONLY);
+		txtSftpServer.setBounds(154, 33, 212, 27);
+		txtSftpServer.setEditable(true);
+		txtSftpServer.setText(getToken(index, preferenceStore.getString("ICAT_SFTPSERVER_PREF"), DELIMITER));
+
+		final Button btnSftpTest = new Button(grpAdvanced, SWT.NONE);
+		btnSftpTest.setBounds(391, 33, 84, 29);
+		btnSftpTest.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				/*
+				 * test server using ping
+				 */
+				 if(NetworkUtils.isReachable(txtSftpServer.getText())){
+					 Image okImage = (ResourceManager.getPluginImage(ICAT_PLUGIN_ID, "icons/ok.png"));;
+					 btnSftpTest.setImage(okImage);
+				 }else{
+					 Image noImage = (ResourceManager.getPluginImage(ICAT_PLUGIN_ID, "icons/no.png"));;
+					 btnSftpTest.setImage(noImage);
+				 }
+			}
+		});
+		btnSftpTest.setText("Test");
 
 		txtSftpServer.addModifyListener(new ModifyListener() {
 			@Override
@@ -286,6 +284,13 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 				btnSftpTest.setImage(null);
 			}
 		});
+		BtnBrowseDirectory.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleDownloadDirBrowse();
+			}
+		});
+		txtTruststorePassword.addKeyListener(this);
 
 	}
 

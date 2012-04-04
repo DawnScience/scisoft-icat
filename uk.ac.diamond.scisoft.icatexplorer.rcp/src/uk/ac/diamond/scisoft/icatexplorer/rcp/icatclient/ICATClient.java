@@ -86,7 +86,7 @@ public class ICATClient {
 		this.projectName = projectName;
 
 
-		logger.debug("setting trust manager ...");
+		logger.debug("setting a new trust manager ...");
 
 		TrustManager[] trustAllCerts = new TrustManager[1];
 

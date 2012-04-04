@@ -31,6 +31,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
@@ -257,7 +258,7 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						/*
 						 * create an additional project in structure to hold downloaded files
 						 * */
-						final String DOWNLOAD_NAME =  "-datafiles";
+						final String DOWNLOAD_NAME =  "-downloadedFiles";
 						IProject dproject = root.getProject(project + DOWNLOAD_NAME);
 						IProjectDescription desc = dproject.getWorkspace().newProjectDescription(dproject.getName());
 
@@ -269,8 +270,8 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						}
 
 						desc.setLocationURI(projectLocation);
-						dproject.create(desc, monitor);
-						dproject.open(monitor);
+						dproject.create(desc, new NullProgressMonitor());
+						dproject.open(new NullProgressMonitor());
 
 						logger.debug("download project " + dproject.getName() + " created.");
 

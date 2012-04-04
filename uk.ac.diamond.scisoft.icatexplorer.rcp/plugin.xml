@@ -506,7 +506,7 @@
          point="org.eclipse.ui.newWizards">
       <category
             id="uk.ac.diamond.scisoft.icatexplorer.rcp.category"
-            name="ICAT Metadata Exploring">
+            name="ICAT Archive Project">
       </category>
       <wizard
             category="uk.ac.diamond.scisoft.icatexplorer.rcp.category"
