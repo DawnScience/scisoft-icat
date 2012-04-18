@@ -115,7 +115,6 @@ public class OpenActionProvider extends CommonActionProvider {
 
 		public OpenChildAction(IWorkbenchPage workbenchPage,
 				ISelectionProvider selectionProvider) {
-			// super("Open item");
 			// provider = selectionProvider;
 			setText("Open");
 			page = workbenchPage;
@@ -230,15 +229,15 @@ public class OpenActionProvider extends CommonActionProvider {
 					// open remaining views
 					// place holders for remaining views
 					// String plot = PlotView.ID + "DP";
-					try {
-						String plot = PlotView.ID + "DP";
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(plot);
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(MetadataPageView.ID);
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(DatasetInspectorView.ID);
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(SidePlotView.ID + ":Dataset Plot");
-					} catch (PartInitException e) {
-						logger.error("Error opening view: ", e);
-					}
+////					try {
+//						String plot = PlotView.ID + "DP";
+//						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(plot);
+//						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(MetadataPageView.ID);
+//						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(DatasetInspectorView.ID);
+//						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(SidePlotView.ID + ":Dataset Plot");
+//					} catch (PartInitException e) {
+//						logger.error("Error opening view: ", e);
+//					}
 
 				}
 			}// end if data <> null

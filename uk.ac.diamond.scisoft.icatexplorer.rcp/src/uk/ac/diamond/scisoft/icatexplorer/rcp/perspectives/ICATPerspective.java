@@ -19,6 +19,8 @@ package uk.ac.diamond.scisoft.icatexplorer.rcp.perspectives;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,22 +38,28 @@ public class ICATPerspective implements IPerspectiveFactory {
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
 		
-		IFolderLayout right = layout.createFolder("ICAT_Right",
-				IPageLayout.RIGHT, 0.5f, layout.getEditorArea());
+//		IFolderLayout right = layout.createFolder("ICAT_Right",
+//				IPageLayout.RIGHT, 0.5f, layout.getEditorArea());
 		IFolderLayout bottom = layout.createFolder("ICAT_Bottom",
 				IPageLayout.BOTTOM, 0.55f, layout.getEditorArea());
-
-		
-		// place holders for remaining views
-		String plot = PlotView.ID + "DP";
-		right.addPlaceholder(plot);
-		right.addPlaceholder(SidePlotView.ID + ":*");
-
+//
+//		
+//		// place holders for remaining views
+//		String plot = PlotView.ID + "DP";
+//		right.addPlaceholder(plot);
+//		right.addPlaceholder(SidePlotView.ID + ":*");
+//
 		bottom.addView(MetadataPageView.ID);
-		String inspector = DatasetInspectorView.ID;
-		bottom.addView(inspector);
-		if (layout.getViewLayout(inspector) != null)
-			layout.getViewLayout(inspector).setCloseable(false);
+		try {
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(MetadataPageView.ID);
+		} catch (PartInitException e) {
+			logger.error("can't open Metadata View", e);
+		}
+
+//		String inspector = DatasetInspectorView.ID;
+//		bottom.addView(inspector);
+//		if (layout.getViewLayout(inspector) != null)
+//			layout.getViewLayout(inspector).setCloseable(false);
 	}
 
 }
