@@ -48,32 +48,37 @@ public class ReconnectAction implements IHandler {
 		
 		// get persistent properties needed to reconnect
 		QualifiedName qNameProjectType = new QualifiedName("ICAT.PROJECT", "Type");
-		//QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
 		QualifiedName qNameFedid       = new QualifiedName("FEDID","String");
 		QualifiedName qNameSiteName    = new QualifiedName("SITE.NAME","String");
 		QualifiedName qNameWsdl        = new QualifiedName("WSDL","String");
-		QualifiedName qNameDirectory   = new QualifiedName("DIRECTORY","String");
 		QualifiedName qNameID          = new QualifiedName("ID","String");
+		QualifiedName qNameDirectory   = new QualifiedName("DIRECTORY","String");
 		QualifiedName qNameSftpServer  = new QualifiedName("SFTP_SERVER","String");
+		QualifiedName qNameTruststorePath  = new QualifiedName("TRUSTSTORE_PATH","String");
+		QualifiedName qNameTruststorePass  = new QualifiedName("TRUSTSTORE_PASSWORD","String");
+
+
 		
 		String projectType = null;
-		//String sessionId = null;
 		String fedid = null;
 		String siteName = null;
 		String wsdl = null;
-		String directory = null;
 		String id = null;
+		String directory = null;
 		String sftpServer = null;
+		String truststorePath = null;
+		String truststorePass = null;		
 		
 	    try {
-			projectType = iproject.getPersistentProperty(qNameProjectType);
-			//sessionId   = iproject.getPersistentProperty(qNameSessionId);
-			fedid       = iproject.getPersistentProperty(qNameFedid);
-			siteName    = iproject.getPersistentProperty(qNameSiteName);
-			wsdl        = iproject.getPersistentProperty(qNameWsdl);
-			directory   = iproject.getPersistentProperty(qNameDirectory);
-			id          = iproject.getPersistentProperty(qNameID);
-			sftpServer  = iproject.getPersistentProperty(qNameSftpServer);
+			projectType    = iproject.getPersistentProperty(qNameProjectType);
+			fedid          = iproject.getPersistentProperty(qNameFedid);
+			siteName       = iproject.getPersistentProperty(qNameSiteName);
+			wsdl           = iproject.getPersistentProperty(qNameWsdl);
+			id             = iproject.getPersistentProperty(qNameID);
+			sftpServer     = iproject.getPersistentProperty(qNameSftpServer);
+			directory      = iproject.getPersistentProperty(qNameDirectory);
+			truststorePath = iproject.getPersistentProperty(qNameTruststorePath);
+			truststorePass = iproject.getPersistentProperty(qNameTruststorePass);
 		} catch (CoreException e) {
 			logger.error("problem getting persistent property ", e);
 		}
@@ -83,15 +88,17 @@ public class ReconnectAction implements IHandler {
 		logger.info("fedid: " + fedid );
 		logger.info("siteName: " + siteName );
 		logger.info("wsdl: " + wsdl );
-		logger.info("directory: " + directory );
 		logger.info("id: " + id );
 		logger.info("sftpServer: " + sftpServer);
+		logger.info("directory: " + directory );
+		logger.info("truststorePath: " + truststorePath);
+		logger.info("truststorePass: " + truststorePass);
 
 		// create new connection
 		ICATConnection icatCon = new ICATConnection(id, siteName, sftpServer, wsdl);
 		
 		// open wizard and fill with current connection values						
-		ReconnectNewWizard reWizard = new ReconnectNewWizard(iproject.getName(), fedid, icatCon);
+		ReconnectNewWizard reWizard = new ReconnectNewWizard(iproject, fedid, icatCon);
 								
 		WizardDialog dialog = new WizardDialog( reWizard.getShell(), reWizard);
 		dialog.open();

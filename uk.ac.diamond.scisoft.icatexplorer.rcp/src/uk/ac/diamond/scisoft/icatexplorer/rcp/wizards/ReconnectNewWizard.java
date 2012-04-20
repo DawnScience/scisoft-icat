@@ -70,7 +70,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 	protected static final String ALL_VISITS = "AllVisits";
 	protected static final String BEAMLINES = "Beamlines";
 	private ReconnectWizardPage page;
-	private ISelection selection;
+	private IProject iproject;
 	private final ICATConnection icatCon;
 
 	private final String projectName;
@@ -79,9 +79,9 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 
 	/**
 	 * Constructor for TestWizard.
-	 * @param projectName
+	 * @param iproject
 	 */
-	public ReconnectNewWizard(String projectName, String fedid, ICATConnection icatCon) {
+	public ReconnectNewWizard(IProject iproject, String fedid, ICATConnection icatCon) {
 		super();
 		setNeedsProgressMonitor(true);
 		IDialogSettings dialogSettings = ICATExplorerActivator.getDefault().getDialogSettings();
@@ -92,8 +92,10 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 		setDialogSettings(section);
 
 		this.icatCon = icatCon;
-		this.projectName = projectName;
+		this.projectName = iproject.getName();
 		this.fedid = fedid;
+		this.iproject = iproject;
+		
 	}
 
 	/**
@@ -112,7 +114,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 			prevTruststore =""; //settings.get(DIALOG_SETTING_KEY_TRUSTSTORE);
 			prevTruststorePassword = "";//settings.get(DIALOG_SETTING_KEY_TRUSTSTORE_PASSWORD);
 		}
-		page = new ReconnectWizardPage(selection, prevProject, prevFolder, prevDirectory, prevFedid, prevPassword, prevTruststore, prevTruststorePassword, icatCon);
+		page = new ReconnectWizardPage(iproject, prevProject, prevFolder, prevDirectory, prevFedid, prevPassword, prevTruststore, prevTruststorePassword, icatCon);
 		addPage(page);
 
 	}
@@ -125,15 +127,13 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 	@Override
 	public boolean performFinish() {
 
-		final String directory = page.getDirectory();
-		//final String folder = page.getFolder();
-		//final String icatdb    = page.getIcatdb();
+		final String directory        = page.getDirectory();
 		final ICATConnection icatCon  = page.getIcatCon();
-		final String fedid     = page.getFedid();
-		final String password  = page.getPassword();
-		final String project   = page.getProject();// + "@"+ icatdb + ".icat" ;
-		final String truststore  = page.getTruststore();
-		final String truststorePass  = page.getTruststorePass();
+		final String fedid            = page.getFedid();
+		final String password         = page.getPassword();
+		final String project          = page.getProject();
+		final String truststore       = page.getTruststore();
+		final String truststorePass   = page.getTruststorePass();
 
 		final Job loadDataProject = new Job("Load metadata from ICAT") {
 
@@ -188,18 +188,22 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					QualifiedName qNameFedid       = new QualifiedName("FEDID","String");
 					QualifiedName qNameSiteName    = new QualifiedName("SITE.NAME","String");
 					QualifiedName qNameWsdl        = new QualifiedName("WSDL","String");
-					QualifiedName qNameDirectory   = new QualifiedName("DIRECTORY","String");
 					QualifiedName qNameID          = new QualifiedName("ID","String");
-					QualifiedName qNameSftpServer          = new QualifiedName("SFTP_SERVER","String");
+					QualifiedName qNameDirectory   = new QualifiedName("DIRECTORY","String");
+					QualifiedName qNameSftpServer  = new QualifiedName("SFTP_SERVER","String");
+					QualifiedName qNameTruststorePath  = new QualifiedName("TRUSTSTORE_PATH","String");
+					QualifiedName qNameTruststorePass  = new QualifiedName("TRUSTSTORE_PASSWORD","String");
 
 					iproject.setPersistentProperty(qNameProjetcType, "ICAT");
 					iproject.setPersistentProperty(qNameSessionId, sessionid);
 					iproject.setPersistentProperty(qNameFedid, fedid);
 					iproject.setPersistentProperty(qNameSiteName, icatCon.getSiteName());
 					iproject.setPersistentProperty(qNameWsdl, icatCon.getWsdlLocation());
-					iproject.setPersistentProperty(qNameDirectory, directory);
 					iproject.setPersistentProperty(qNameID, icatCon.getId());
+					iproject.setPersistentProperty(qNameDirectory, directory);
 					iproject.setPersistentProperty(qNameSftpServer, icatCon.getSftpServer());
+					iproject.setPersistentProperty(qNameTruststorePath, truststore);
+					iproject.setPersistentProperty(qNameTruststorePass, truststorePass);
 
 					logger.debug("project created: " + project);
 
@@ -208,7 +212,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					ArrayList<String> years = new ArrayList<String>();
 					ArrayList<String> beamlines = new ArrayList<String>();
 					for(int i =0; i< allVisits.size(); i++){
-						logger.debug("["+i+"] " + (allVisits.get(i)).getInvNumber());
+						//logger.debug("["+i+"] " + (allVisits.get(i)).getInvNumber());
 						visits[i] =  (allVisits.get(i)).getVisitId();
 
 						// get years
@@ -239,21 +243,12 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					 * */
 					// beamlines
 					for(int i =0; i<beamlines.size(); i++){
-						logger.debug("resolving beamline: " + beamlines.get(i));
 						String initialPath = BEAMLINES+"/" + beamlines.get(i).toUpperCase();
 						List<String> yearsByBeamline = ICATHierarchyUtils.getYearsByBeamline(allVisits, beamlines.get(i));
 
 						// years by beamline
 						for(int j=0; j< yearsByBeamline.size(); j++){
 							String path = initialPath + "/" + yearsByBeamline.get(j);
-							//							List<Investigation> visitsByBeamlineYear = ICATHierarchyUtils.getVisitsByBeamlineYear(allVisits, beamlines.get(i), yearsByBeamline.get(j));
-							//
-							//								// visits by years/beamline
-							//								for(int k=0; k< visitsByBeamlineYear.size(); k++){
-							//									path = path + "/" + ((Investigation)(visitsByBeamlineYear.get(k))).getVisitId().toString();
-							//									pathList.add(path);
-							//									logger.debug("adding path: " + path);
-							//								}
 							logger.debug("adding path: " + path);
 							pathList.add(path);
 						}
@@ -301,6 +296,6 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 	 */
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		this.selection = selection;
+		//this.iproject = iproject;
 	}
 }

@@ -169,6 +169,8 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						QualifiedName qNameDirectory   = new QualifiedName("DIRECTORY","String");
 						QualifiedName qNameID          = new QualifiedName("ID","String");
 						QualifiedName qNameSftpServer  = new QualifiedName("SFTP_SERVER","String");
+						QualifiedName qNameTruststorePath  = new QualifiedName("TRUSTSTORE_PATH","String");
+						QualifiedName qNameTruststorePass  = new QualifiedName("TRUSTSTORE_PASSWORD","String");
 
 						iproject.setPersistentProperty(qNameProjectType, "ICAT");
 						iproject.setPersistentProperty(qNameSessionId, sessionid);
@@ -178,6 +180,8 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						iproject.setPersistentProperty(qNameDirectory, directory);
 						iproject.setPersistentProperty(qNameID, icatCon.getId());
 						iproject.setPersistentProperty(qNameSftpServer, icatCon.getSftpServer());
+						iproject.setPersistentProperty(qNameTruststorePath, truststore);
+						iproject.setPersistentProperty(qNameTruststorePass, truststorePass);
 
 						// associating the icat nature to the newly created project
 						try {
