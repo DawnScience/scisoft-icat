@@ -16,12 +16,17 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.diamond.scisoft.icatexplorer.rcp.wizards;
+
+package uk.ac.diamond.scisoft.icatexplorer.rcp.actions;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.IHandler;
+import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -33,12 +38,8 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchWizard;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,87 +55,91 @@ import uk.icat3.client.Investigation;
 import uk.icat3.client.NoSuchUserException_Exception;
 import uk.icat3.client.SessionException;
 
-
-public class ReconnectNewWizard extends Wizard implements INewWizard {
-
-	private static final String ICAT_NATURE = ICATProjectNature.NATURE_ID;
-
-	private static final Logger logger = LoggerFactory.getLogger(ReconnectNewWizard.class);
-
-	private static final String RECONNECT_ICAT_WIZARD = "ReconnectNewWizard";
-	public static final String DIALOG_SETTING_KEY_DIRECTORY = "directory";
-	public static final String DIALOG_SETTING_KEY_PROJECT = "project";
-	public static final String DIALOG_SETTING_KEY_FEDID = "";
-	public static final String DIALOG_SETTING_KEY_PASSWORD = "";
+public class RefreshAction implements IHandler {
+	
 	protected static final String ALL_VISITS = "AllVisits";
 	protected static final String BEAMLINES = "Beamlines";
-	private ReconnectWizardPage page;
-	private IProject iproject;
-	private final ICATConnection icatCon;
+	
+	String projectType = null;
+	String fedid = null;
+	String siteName = null;
+	String wsdl = null;
+	String id = null;
+	String directory = null;
+	String sftpServer = null;
+	String truststorePath = null;
+	String truststorePass = null;
+	String sessionId = null;
+	String projectName = "";
+	
+	private static Logger logger = LoggerFactory.getLogger(RefreshAction.class);
+	
+	@Override
+	public void addHandlerListener(IHandlerListener handlerListener) {
+		// TODO Auto-generated method stub
 
-	private final String projectName;
-	private final String fedid;
-	private String directory;
+	}
 
-	/**
-	 * Constructor for TestWizard.
-	 * @param iproject
-	 */
-	public ReconnectNewWizard(IProject iproject, String fedid, ICATConnection icatCon) {
-		super();
-		setNeedsProgressMonitor(true);
-		IDialogSettings dialogSettings = ICATExplorerActivator.getDefault().getDialogSettings();
-		IDialogSettings section = dialogSettings.getSection(RECONNECT_ICAT_WIZARD);
-		if(section == null){
-			section = dialogSettings.addNewSection(RECONNECT_ICAT_WIZARD);
-		}
-		setDialogSettings(section);
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
 
-		this.icatCon = icatCon;
-		this.projectName = iproject.getName();
-		this.fedid = fedid;
-		this.iproject = iproject;
+	}
+
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+				
+		IStructuredSelection selection = (IStructuredSelection) HandlerUtil.getActiveMenuSelection(event);
 		
-	}
+		final IProject iproject = (IProject)selection.getFirstElement();
+		projectName = iproject.getName();
+		
+		logger.debug("refreshing: " + iproject.getName());
+		
+		// get persistent properties needed to reconnect
+		QualifiedName qNameProjectType 		= new QualifiedName("ICAT.PROJECT", "Type");
+		QualifiedName qNameFedid       		= new QualifiedName("FEDID","String");
+		QualifiedName qNameSiteName    		= new QualifiedName("SITE.NAME","String");
+		QualifiedName qNameWsdl        		= new QualifiedName("WSDL","String");
+		QualifiedName qNameID          		= new QualifiedName("ID","String");
+		QualifiedName qNameDirectory   		= new QualifiedName("DIRECTORY","String");
+		QualifiedName qNameSftpServer  		= new QualifiedName("SFTP_SERVER","String");
+		QualifiedName qNameTruststorePath  	= new QualifiedName("TRUSTSTORE_PATH","String");
+		QualifiedName qNameTruststorePass  	= new QualifiedName("TRUSTSTORE_PASSWORD","String");
+		QualifiedName qNameSessionID       	= new QualifiedName("SESSIONID", "String");
 
-	/**
-	 * Adding the page to the wizard.
-	 */
-	@Override
-	public void addPages() {
-		String prevProject = null , prevFolder = null, prevDirectory = null, prevFedid = null, prevPassword = null, prevTruststore = null, prevTruststorePassword = null;
-		IDialogSettings  settings = getDialogSettings();
-		if( settings != null){
-			prevProject = projectName;//settings.get(DIALOG_SETTING_KEY_PROJECT);
-			prevFolder = "";//settings.get(DIALOG_SETTING_KEY_FOLDER);
-			prevDirectory = directory;//settings.get(DIALOG_SETTING_KEY_DIRECTORY);
-			prevFedid = fedid;//settings.get(DIALOG_SETTING_KEY_FEDID);
-			prevPassword = "";//settings.get(DIALOG_SETTING_KEY_PASSWORD);
-			prevTruststore =""; //settings.get(DIALOG_SETTING_KEY_TRUSTSTORE);
-			prevTruststorePassword = "";//settings.get(DIALOG_SETTING_KEY_TRUSTSTORE_PASSWORD);
+		
+	    try {
+			projectType    = iproject.getPersistentProperty(qNameProjectType);
+			fedid          = iproject.getPersistentProperty(qNameFedid);
+			siteName       = iproject.getPersistentProperty(qNameSiteName);
+			wsdl           = iproject.getPersistentProperty(qNameWsdl);
+			id             = iproject.getPersistentProperty(qNameID);
+			sftpServer     = iproject.getPersistentProperty(qNameSftpServer);
+			directory      = iproject.getPersistentProperty(qNameDirectory);
+			truststorePath = iproject.getPersistentProperty(qNameTruststorePath);
+			truststorePass = iproject.getPersistentProperty(qNameTruststorePass);
+			sessionId      = iproject.getPersistentProperty(qNameSessionID);
+		} catch (CoreException e) {
+			logger.error("problem getting persistent property ", e);
 		}
-		page = new ReconnectWizardPage(iproject, prevProject, prevFolder, prevDirectory, prevFedid, prevPassword, prevTruststore, prevTruststorePassword, icatCon);
-		addPage(page);
+		
+		logger.info("projectType: " + projectType );
+	    logger.info("sessionId: " + sessionId );
+		logger.info("fedid: " + fedid );
+		logger.info("siteName: " + siteName );
+		logger.info("wsdl: " + wsdl );
+		logger.info("id: " + id );
+		logger.info("sftpServer: " + sftpServer);
+		logger.info("directory: " + directory );
+		logger.info("truststorePath: " + truststorePath);
+		logger.info("truststorePass: " + truststorePass);
 
-	}
-
-	/**
-	 * This method is called when 'Finish' button is pressed in
-	 * the wizard. We will create an operation and run it
-	 * using wizard as execution context.
-	 */
-	@Override
-	public boolean performFinish() {
-
-		final String directory        = page.getDirectory();
-		final ICATConnection icatCon  = page.getIcatCon();
-		final String fedid            = page.getFedid();
-		final String password         = page.getPassword();
-		final String project          = page.getProject();
-		final String truststore       = page.getTruststore();
-		final String truststorePass   = page.getTruststorePass();
-
-		final Job loadDataProject = new Job("Load metadata from ICAT") {
+		// get current client and connection  from project properties
+		final ICATClient icatClient = ICATSessions.get(sessionId);
+		final ICATConnection icatCon = icatClient.getIcatCon(); //new ICATConnection(id, siteName, sftpServer, wsdl);
+		
+		final Job loadDataProject = new Job("Refresh metadata from ICAT") {
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
@@ -145,26 +150,43 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 
 					logger.debug("using connection: ID= " + icatCon.getId() + " - Name: " + icatCon.getSiteName() + " - wsdl: "+ icatCon.getWsdlLocation());
 
-					ICATClient icatClient = new ICATClient(icatCon, truststore, truststorePass, directory, project);
-					String sessionid = icatClient.login(fedid, password);
-
-					logger.debug("sessionID = " + sessionid);
-
-					// add new icat connection to the list of connections
-					ICATSessions.add(sessionid, icatClient);
-
 					// getting the list of visits
 					List<Investigation> allVisits = icatClient.getLightInvestigations();
-
-
-					// create project
+					
+					// delete icat project before recreating it
 					IProgressMonitor progressMonitor = new NullProgressMonitor();
+					iproject.delete(true, progressMonitor);
+					
+					// create project
+					//IProgressMonitor progressMonitor = new NullProgressMonitor();
 					IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 
-					IProject iproject = root.getProject(project);
-					iproject.delete(true, progressMonitor);
-					iproject.create(progressMonitor);
-					iproject.open(progressMonitor);
+					IProject iproject = root.getProject(projectName);
+					iproject.create(monitor);
+					iproject.open(monitor);
+
+					// adding persistent properties needed to reconnect
+					QualifiedName qNameProjectType = new QualifiedName("ICAT.PROJECT", "Type");
+					QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
+					QualifiedName qNameFedid       = new QualifiedName("FEDID","String");
+					QualifiedName qNameSiteName    = new QualifiedName("SITE.NAME","String");
+					QualifiedName qNameWsdl        = new QualifiedName("WSDL","String");
+					QualifiedName qNameDirectory   = new QualifiedName("DIRECTORY","String");
+					QualifiedName qNameID          = new QualifiedName("ID","String");
+					QualifiedName qNameSftpServer  = new QualifiedName("SFTP_SERVER","String");
+					QualifiedName qNameTruststorePath  = new QualifiedName("TRUSTSTORE_PATH","String");
+					QualifiedName qNameTruststorePass  = new QualifiedName("TRUSTSTORE_PASSWORD","String");
+
+					iproject.setPersistentProperty(qNameProjectType, "ICAT");
+					iproject.setPersistentProperty(qNameSessionId, sessionId);
+					iproject.setPersistentProperty(qNameFedid, fedid);
+					iproject.setPersistentProperty(qNameSiteName, icatCon.getSiteName());
+					iproject.setPersistentProperty(qNameWsdl, icatCon.getWsdlLocation());
+					iproject.setPersistentProperty(qNameDirectory, directory);
+					iproject.setPersistentProperty(qNameID, icatCon.getId());
+					iproject.setPersistentProperty(qNameSftpServer, icatCon.getSftpServer());
+					iproject.setPersistentProperty(qNameTruststorePath, truststorePath);
+					iproject.setPersistentProperty(qNameTruststorePass, truststorePass);
 
 					// associating the icat nature to the newly created project
 					try {
@@ -173,45 +195,23 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 						String[] newNatures = new String[natures.length + 1];
 						System.arraycopy(natures, 0, newNatures, 0, natures.length);
 
-						newNatures[natures.length] = ICAT_NATURE;
+						newNatures[natures.length] = ICATProjectNature.NATURE_ID;
 						description.setNatureIds(newNatures);
-						iproject.setDescription(description, progressMonitor);
+						iproject.setDescription(description, monitor);
 
 					} catch (CoreException e) {
-						logger.error("problem setting ICAT nature to project: " + project + " - Error: " + e);
+						logger.error("problem setting ICAT nature to project: " + iproject.getName() + " - Error: " + e);
 					}
 
-					// adding persistent properties needed to reconnect
-					QualifiedName qNameProjetcType = new QualifiedName("ICAT.PROJECT", "Type");
-					QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
-					QualifiedName qNameFedid       = new QualifiedName("FEDID","String");
-					QualifiedName qNameSiteName    = new QualifiedName("SITE.NAME","String");
-					QualifiedName qNameWsdl        = new QualifiedName("WSDL","String");
-					QualifiedName qNameID          = new QualifiedName("ID","String");
-					QualifiedName qNameDirectory   = new QualifiedName("DIRECTORY","String");
-					QualifiedName qNameSftpServer  = new QualifiedName("SFTP_SERVER","String");
-					QualifiedName qNameTruststorePath  = new QualifiedName("TRUSTSTORE_PATH","String");
-					QualifiedName qNameTruststorePass  = new QualifiedName("TRUSTSTORE_PASSWORD","String");
+					logger.debug("ICAT project CREATED: " + iproject.getName());
 
-					iproject.setPersistentProperty(qNameProjetcType, "ICAT");
-					iproject.setPersistentProperty(qNameSessionId, sessionid);
-					iproject.setPersistentProperty(qNameFedid, fedid);
-					iproject.setPersistentProperty(qNameSiteName, icatCon.getSiteName());
-					iproject.setPersistentProperty(qNameWsdl, icatCon.getWsdlLocation());
-					iproject.setPersistentProperty(qNameID, icatCon.getId());
-					iproject.setPersistentProperty(qNameDirectory, directory);
-					iproject.setPersistentProperty(qNameSftpServer, icatCon.getSftpServer());
-					iproject.setPersistentProperty(qNameTruststorePath, truststore);
-					iproject.setPersistentProperty(qNameTruststorePass, truststorePass);
-
-					logger.debug("project created: " + project);
 
 					// populate allVisits folder with available visits
 					String[] visits = new String[allVisits.size()];
 					ArrayList<String> years = new ArrayList<String>();
 					ArrayList<String> beamlines = new ArrayList<String>();
 					for(int i =0; i< allVisits.size(); i++){
-						//logger.debug("["+i+"] " + (allVisits.get(i)).getInvNumber());
+						logger.debug("["+i+"] " + (allVisits.get(i)).getInvNumber());
 						visits[i] =  (allVisits.get(i)).getVisitId();
 
 						// get years
@@ -226,6 +226,10 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 							beamlines.add(beamline);
 						}
 					}
+
+					// get all available years
+					logger.debug("years: " + years.toString());
+					logger.debug("beamlines: " + beamlines.toString());
 
 					List<String> pathList = new ArrayList<String>();
 
@@ -242,6 +246,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					 * */
 					// beamlines
 					for(int i =0; i<beamlines.size(); i++){
+						logger.debug("resolving beamline: " + beamlines.get(i));
 						String initialPath = BEAMLINES+"/" + beamlines.get(i).toUpperCase();
 						List<String> yearsByBeamline = ICATHierarchyUtils.getYearsByBeamline(allVisits, beamlines.get(i));
 
@@ -258,6 +263,8 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 
 					ICATProjectSupport.addToProjectStructure(iproject, paths);
 
+					logger.debug("project structure for " + iproject.getName() + " REFRESHED.");
+
 
 				} catch (MalformedURLException e) {
 					logger.error("Problem occured: ", e);
@@ -270,31 +277,34 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 				} catch (CoreException e) {
 					logger.error("Problem occured: ", e);
 				}
-				return new Status(IStatus.OK, ICATExplorerActivator.PLUGIN_ID, "Project " + project + " created");
+				return new Status(IStatus.OK, ICATExplorerActivator.PLUGIN_ID, "Project " + iproject.getName() + " created");
 			}
 		};
 
 		loadDataProject.setUser(true);
 		loadDataProject.setPriority(Job.DECORATE);
 		loadDataProject.schedule(100);
+				
+		
+		return null;
+	}
 
-
-		IDialogSettings settings = getDialogSettings();
-		if( settings != null){
-			settings.put(DIALOG_SETTING_KEY_PROJECT, project);
-			settings.put(DIALOG_SETTING_KEY_FEDID, fedid);
-			settings.put(DIALOG_SETTING_KEY_DIRECTORY, directory);
-		}
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
 		return true;
 	}
 
-	/**
-	 * We will accept the selection in the workbench to see if
-	 * we can initialise from it.
-	 * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
-	 */
 	@Override
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		//this.iproject = iproject;
+	public boolean isHandled() {
+		// TODO Auto-generated method stub
+		return true;
 	}
+
+	@Override
+	public void removeHandlerListener(IHandlerListener handlerListener) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

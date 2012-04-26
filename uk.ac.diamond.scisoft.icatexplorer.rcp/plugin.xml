@@ -625,6 +625,13 @@
             properties="isICATDisconnected"
             type="java.lang.Object">
       </propertyTester>
+      <propertyTester
+            class="uk.ac.diamond.scisoft.icatexplorer.rcp.propertiesTesters.ICATConnectedPropertyTester"
+            id="uk.ac.diamond.scisoft.icatexplorer.rcp.propertyConnICATTester"
+            namespace="icatexplorer.navigator"
+            properties="isICATConnected"
+            type="java.lang.Object">
+      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.ui.ide.projectNatureImages">
@@ -689,6 +696,30 @@
       <menuContribution
             allPopups="true"
             locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?before=group.edit">
+            
+          <command
+               commandId="uk.ac.diamond.scisoft.icatexplorer.rcp.commands.refresh"
+               icon="icons/refresh_16x16.png"
+               label="Refresh ICAT"
+               style="push">
+             <visibleWhen  checkEnabled="false">
+                  <with variable="activeMenuSelection">
+                            <iterate>
+                               <and>
+                                  <test
+                                        property="icatexplorer.navigator.isICATConnected"
+                                        value="true">
+                                  </test>
+                                  <adapt
+                                        type="org.eclipse.core.resources.IProject">
+                                  </adapt>
+                               </and>
+                            </iterate>
+                             <count value="1">
+                  			</count>
+                  </with>
+               </visibleWhen>              
+         </command>
          <command
                commandId="uk.ac.diamond.scisoft.icatexplorer.rcp.commands.reconnecticat"
                icon="icons/database.png"
@@ -710,10 +741,9 @@
                              <count value="1">
                   			</count>
                   </with>
-               </visibleWhen>
-
-               
+               </visibleWhen>              
          </command>
+         
          <command
                commandId="uk.ac.diamond.scisoft.icatexplorer.rcp.commands.sweepcat"
                icon="icons/sweep-small.png"
@@ -745,6 +775,11 @@
    </extension>
   <extension
          point="org.eclipse.ui.commands">
+        <command
+            defaultHandler="uk.ac.diamond.scisoft.icatexplorer.rcp.actions.RefreshAction"
+            id="uk.ac.diamond.scisoft.icatexplorer.rcp.commands.refresh"
+            name="Refresh ICAT">
+      </command>
       <command
             defaultHandler="uk.ac.diamond.scisoft.icatexplorer.rcp.actions.ReconnectAction"
             id="uk.ac.diamond.scisoft.icatexplorer.rcp.commands.reconnecticat"
