@@ -18,8 +18,10 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.rcp.wizards;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.dialogs.IDialogPage;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -52,10 +54,8 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 	private Text txtFedid;
 	private Text txtPassword;
 	private Text icatSiteNameText;
-	private String initProject = "";
-	private String initDirectory = "";
-	private final String initFedid;
 	private final ICATConnection icatCon;
+	private final IProject iproject;
 
 	private static final String ICAT_PLUGIN_ID = ICATExplorerActivator.PLUGIN_ID;
 
@@ -65,28 +65,48 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 	private Text sftpServerText;
 	private Text txtTruststore;
 	private Text txtTruststorePassword;
+	
+	QualifiedName qNameProjectType;
+	QualifiedName qNameFedid;
+	QualifiedName qNameSiteName;
+	QualifiedName qNameWsdl;
+	QualifiedName qNameID;
+	QualifiedName qNameDirectory;
+	QualifiedName qNameSftpServer;
+	QualifiedName qNameTruststorePath;
+	QualifiedName qNameTruststorePass;
 
 
 	/**
-	 * Constructor for SampleNewWizardPage.
+	 * Constructor for ReconnectWizardPage.
 	 * 
-	 * @param prevDirectory
-	 * @param prevFolder
-	 * @param prevProject
-	 * @param icatCon
 	 */
-	public ReconnectWizardPage(@SuppressWarnings("unused") ISelection selection, String prevProject,
+	public ReconnectWizardPage(IProject iproject, String prevProject,
 			String prevFolder, String prevDirectory, String prevFedid, String prevPassword, String prevTruststore, String prevTruststorePassword, ICATConnection icatCon) {
 		super("ICATReconnectWizardPage");
 
-		this.initProject = prevProject; //prevProject != null ? prevProject : "ICAT";
-		this.initDirectory = prevDirectory != null ? prevDirectory : "";
-		this.initFedid = prevFedid != null ? prevFedid : "";
+		this.icatCon = icatCon;
+		this.iproject = iproject;
+		
+		/*
+		 *  extracting persistent properties 
+		 *  to feed the reconnect wizard page
+		 */
+		qNameProjectType     = new QualifiedName("ICAT.PROJECT", "Type");
+		qNameFedid           = new QualifiedName("FEDID","String");
+		qNameSiteName        = new QualifiedName("SITE.NAME","String");
+		qNameWsdl        	 = new QualifiedName("WSDL","String");
+		qNameID          	 = new QualifiedName("ID","String");
+		qNameDirectory   	 = new QualifiedName("DIRECTORY","String");
+		qNameSftpServer  	 = new QualifiedName("SFTP_SERVER","String");
+		qNameTruststorePath  = new QualifiedName("TRUSTSTORE_PATH","String");
+		qNameTruststorePass  = new QualifiedName("TRUSTSTORE_PASSWORD","String");
+				
+				
 
-		setTitle("ICAT Reconnection Wizard - reconnect based on previous parameters");
+		setTitle("ICAT Reconnection Wizard - reconnect based on project parameters");
 		setDescription("Wizard to reconnect a closed ICAT connection");
 
-		this.icatCon = icatCon;
 	}
 
 	/**
@@ -102,7 +122,7 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		lblProjectName.setText("&Project name:");
 		txtProject = new Text(container, SWT.BORDER);
 		txtProject.setBounds(113, 173, 212, 27);
-		txtProject.setText(initProject);
+		txtProject.setText(iproject.getName());
 		txtProject.setEditable(false);
 		txtProject.addKeyListener(this);
 		Composite composite = new Composite(container, SWT.NULL);
@@ -120,21 +140,21 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 
 		txtFedid = new Text(container, SWT.BORDER);
 		txtFedid.setEditable(false);
-		txtFedid.setText(initFedid);
+		try {
+			txtFedid.setText(iproject.getPersistentProperty(qNameFedid));
+		} catch (CoreException e1) {
+			logger.error("can't set fedid");
+		}
 		txtFedid.setBounds(113, 93, 212, 27);
 		txtFedid.addKeyListener(this);
 
 
 		txtPassword = new Text(container, SWT.BORDER | SWT.PASSWORD);
-		//txtPassword.setText(initPassword);
 		txtPassword.setBounds(113, 133, 212, 27);
 		txtPassword.addKeyListener(this);
 
 		setControl(container);
-		/*
-		 * populate wizard with current ICAT preferences
-		 */
-
+		
 		icatIDText = new Text(container, SWT.BORDER | SWT.READ_ONLY);
 
 		String icatID = icatCon.getId();
@@ -183,15 +203,29 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 
 		txtTruststorePassword = new Text(grpAdvanced, SWT.BORDER | SWT.PASSWORD);
 		txtTruststorePassword.setBounds(151, 165, 212, 27);
+		try {
+			txtTruststorePassword.setText(iproject.getPersistentProperty(qNameTruststorePass));
+		} catch (CoreException e) {
+			logger.error("can't set truststore password: " + e);
+		}
 
 		txtTruststore = new Text(grpAdvanced, SWT.BORDER);
 		txtTruststore.setBounds(151, 122, 321, 27);
-		txtTruststore.setText("");
+		try {
+			txtTruststore.setText(iproject.getPersistentProperty(qNameTruststorePath));
+		} catch (CoreException e) {
+			logger.error("can't set truststore: " + e);
+		}		
 		txtTruststore.setEnabled(true);
 		txtTruststore.setEditable(true);
+		
 		txtDirectory = new Text(grpAdvanced, SWT.BORDER);
 		txtDirectory.setBounds(151, 82, 321, 27);
-		txtDirectory.setText(initDirectory);
+		try {
+			txtDirectory.setText(iproject.getPersistentProperty(qNameDirectory));
+		} catch (CoreException e) {
+			logger.error("can't set download directory: " + e);
+		}
 		txtDirectory.setEditable(true);
 		txtDirectory.setEnabled(true);
 
@@ -235,7 +269,7 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 			public void widgetSelected(SelectionEvent e) {
 
 				/*
-				 * test server using ping
+				 * ping test server for reachability
 				 */
 				if(NetworkUtils.isReachable(sftpServerText.getText())){
 					Image okImage = (ResourceManager.getPluginImage(ICAT_PLUGIN_ID, "icons/ok.png"));;
