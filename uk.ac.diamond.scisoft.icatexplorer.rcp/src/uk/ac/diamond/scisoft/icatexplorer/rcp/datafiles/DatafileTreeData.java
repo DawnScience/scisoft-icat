@@ -35,7 +35,7 @@ import uk.icat3.client.Datafile;
 
 public class DatafileTreeData implements IMetadataProvider{
 	
-	private Datafile icatDatafile;
+	private static Datafile icatDatafile;
 	private IProject parentProject;
 	
 	
@@ -61,7 +61,7 @@ public class DatafileTreeData implements IMetadataProvider{
 	/**
 	 * @return Returns the icatDatafile.
 	 */
-	public Datafile getIcatDatafile() {
+	public static Datafile getIcatDatafile() {
 		return icatDatafile;
 	}
 

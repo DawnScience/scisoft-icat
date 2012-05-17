@@ -35,12 +35,10 @@ public class SftpClient {
 
 	private static Logger logger = LoggerFactory.getLogger(SftpClient.class);
 
-	public SftpClient() {
-
-	}
+	public SftpClient() {}
 
 	public String downloadFile(String fedid, String password,
-			String remoteHost, String remoteFile, String downloadDir) {
+			String remoteHost, String remoteFile, String downloadDir) throws Exception {
 
 		JSch jsch = new JSch();
 
@@ -50,6 +48,7 @@ public class SftpClient {
 			jsch.setKnownHosts(knownHostsFilename);
 		} catch (JSchException e) {
 			logger.error("Error setting known hosts file for sftp", e);
+			throw new Exception(e.getMessage());
 		}
 
 		Session session = null;
@@ -59,6 +58,7 @@ public class SftpClient {
 			logger.error(
 					"Error getting sftp session with given fedid and remote host, fedid= "
 							+ fedid + "  - remote host= " + remoteHost, e);
+			throw new Exception(e.getMessage());
 		}
 		{
 			// "interactive" version
@@ -83,6 +83,7 @@ public class SftpClient {
 			sftpChannel = (ChannelSftp) channel;
 		} catch (JSchException e) {
 			logger.error("Error connecting using sftp", e);
+			throw new Exception(e.getMessage());
 		}
 
 		FilenameUtils fileUtils = new FilenameUtils(remoteFile, '/', '.');
@@ -92,16 +93,12 @@ public class SftpClient {
 
 		String localFilePath = file2.getPath();
 
-		// logger.debug("localFilePath: " + localFilePath);
-
 		try {
 			sftpChannel.get(remoteFile, localFilePath);// , monitor);
 		} catch (SftpException e) {
 			logger.error("Error getting file from remote host", e);
+			throw new Exception(e.getMessage());
 		}
-		// OR
-		// InputStream in = sftpChannel.get( remoteFile );
-		// process inputstream as needed
 
 		sftpChannel.exit();
 		session.disconnect();

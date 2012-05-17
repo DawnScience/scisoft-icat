@@ -152,10 +152,14 @@ public class ICATClient {
 			ICAT icat = getIcat();
 
 			sessionId = icat.login(fedid, password);
-
-			logger.info("User " + this.fedid + " logged in icat. sessionId: " +
-					sessionId);
-
+			
+			if(sessionId == null){
+				logger.error("Error connecting to ICAT");
+			}else{
+				logger.info("Connection to ICAT successful. sessionId= " + sessionId);
+			}
+		
+		
 		} catch (Exception e) {
 
 			logger.error("failed to authenticate! ", e);

@@ -27,16 +27,6 @@
          </property>
       </product>
    </extension>
-   <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            class="uk.ac.diamond.scisoft.icatexplorer.rcp.perspectives.ICATPerspective"
-            icon="icons/icat_logo.gif"
-            restorable="true"
-            id="uk.ac.diamond.scisoft.icatexplorer.rcp.perspective"
-            name="ICAT">
-      </perspective>
-   </extension>
    
    <extension
          point="org.eclipse.ui.views">
@@ -55,26 +45,6 @@
       
    </extension>
    
-   <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="uk.ac.diamond.scisoft.icatexplorer.rcp.perspective">
-         
-        <view
-              id="org.eclipse.ui.navigator.ProjectExplorer"
-              minimized="false"
-              ratio="0.5"
-              relationship="left"
-              relative="org.eclipse.ui.editorss">
-         </view>
-         <view
-               id="uk.ac.diamond.scisoft.icatexplorer.view"
-               minimized="false"
-               relationship="right"
-               visible="false">
-         </view>
-      </perspectiveExtension>
-   </extension>
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
@@ -220,7 +190,7 @@
          </with>
       </definition>
    </extension>
-   <extension
+  <!-- <extension
          point="uk.ac.diamond.scisoft.introRegister">
       <introPageRegister
             class="uk.ac.diamond.scisoft.icatexplorer.rcp.launcher.ICATPerspectiveLauncher"
@@ -229,7 +199,7 @@
             id="uk.ac.diamond.scisoft.icatexplorer.rcp.introPageRegister"
             name="(Pre-release) ICAT Explorer">
       </introPageRegister>
-   </extension>
+   </extension> -->
    <extension
          point="org.eclipse.ui.actionSets">
       <actionSet

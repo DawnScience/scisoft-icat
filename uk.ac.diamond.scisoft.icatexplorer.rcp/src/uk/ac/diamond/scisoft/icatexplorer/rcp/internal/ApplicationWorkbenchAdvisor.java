@@ -21,7 +21,7 @@ import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
-import uk.ac.diamond.scisoft.icatexplorer.rcp.perspectives.ICATPerspective;
+//import uk.ac.diamond.scisoft.icatexplorer.rcp.perspectives.ICATPerspective;
 
 
 /**
@@ -44,7 +44,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
 	@Override
 	public String getInitialWindowPerspectiveId() {
-		return ICATPerspective.PERSPECTIVE_ID;
+		return null;//ICATPerspective.PERSPECTIVE_ID;
 	}
 
 }

@@ -39,9 +39,12 @@ import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
+import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -262,10 +265,11 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						/*
 						 * create an additional project in structure to hold downloaded files
 						 * */
+						try{
+							
 						final String DOWNLOAD_NAME =  "-downloadedFiles";
 						IProject dproject = root.getProject(project + DOWNLOAD_NAME);
-						IProjectDescription desc = dproject.getWorkspace().newProjectDescription(dproject.getName());
-
+						
 						File file = new File(directory);
 						URI location = file.toURI();
 						URI projectLocation = location;
@@ -273,20 +277,28 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 							projectLocation = null;
 						}
 
-						desc.setLocationURI(projectLocation);
-						dproject.create(desc, new NullProgressMonitor());
+						dproject.create(new NullProgressMonitor());//desc, new NullProgressMonitor());
 						dproject.open(new NullProgressMonitor());
-
+						
+						IProjectDescription desc = dproject.getWorkspace().newProjectDescription(dproject.getName());
+						desc.setLocationURI(projectLocation);
+						dproject.setDescription(desc, new NullProgressMonitor());
+												
 						logger.debug("download project " + dproject.getName() + " created.");
+					}catch(Exception e){
+							logger.error("exception occured when creating associate project: " + e.getMessage());
+						}
 
 					}else{
-						// Display error dialog
-						//						MessageDialog messageDialog = new MessageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "MessageDialog", null,
-						//								"Some Message", MessageDialog.ERROR,
-						//								new String[] { "First Button", "Second Button" }, 1);
-						//						if (messageDialog.open() == 1) {
-						//							System.out.println("Second Button was clicked.");
-						//						}
+						// display warning message
+						String messageText = "cannot login to the ICAT. sessionid= " + sessionid;
+						
+						MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().
+				                getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK );
+				        
+				        messageBox.setText("Warning");
+				        messageBox.setMessage(messageText);
+				        int buttonID = messageBox.open();
 
 						logger.debug("cannot login into ICAT");
 					}

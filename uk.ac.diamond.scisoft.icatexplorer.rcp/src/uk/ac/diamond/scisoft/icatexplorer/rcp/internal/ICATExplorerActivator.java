@@ -46,7 +46,6 @@ public class ICATExplorerActivator extends AbstractUIPlugin {
 	 */
 	@Override
 	public void start(BundleContext context) throws Exception {
-		System.out.println("ICAT activator started");
 		super.start(context);
 	}
 

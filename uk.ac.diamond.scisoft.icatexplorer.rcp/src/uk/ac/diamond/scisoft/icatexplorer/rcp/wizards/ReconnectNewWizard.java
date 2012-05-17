@@ -166,21 +166,6 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					iproject.create(progressMonitor);
 					iproject.open(progressMonitor);
 
-					// associating the icat nature to the newly created project
-					try {
-						IProjectDescription description = iproject.getDescription();
-						String[] natures = description.getNatureIds();
-						String[] newNatures = new String[natures.length + 1];
-						System.arraycopy(natures, 0, newNatures, 0, natures.length);
-
-						newNatures[natures.length] = ICAT_NATURE;
-						description.setNatureIds(newNatures);
-						iproject.setDescription(description, progressMonitor);
-
-					} catch (CoreException e) {
-						logger.error("problem setting ICAT nature to project: " + project + " - Error: " + e);
-					}
-
 					// adding persistent properties needed to reconnect
 					QualifiedName qNameProjetcType = new QualifiedName("ICAT.PROJECT", "Type");
 					QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
@@ -203,6 +188,21 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					iproject.setPersistentProperty(qNameSftpServer, icatCon.getSftpServer());
 					iproject.setPersistentProperty(qNameTruststorePath, truststore);
 					iproject.setPersistentProperty(qNameTruststorePass, truststorePass);
+					
+					// associating the icat nature to the newly created project
+					try {
+						IProjectDescription description = iproject.getDescription();
+						String[] natures = description.getNatureIds();
+						String[] newNatures = new String[natures.length + 1];
+						System.arraycopy(natures, 0, newNatures, 0, natures.length);
+
+						newNatures[natures.length] = ICAT_NATURE;
+						description.setNatureIds(newNatures);
+						iproject.setDescription(description, progressMonitor);
+
+					} catch (CoreException e) {
+						logger.error("problem setting ICAT nature to project: " + project + " - Error: " + e);
+					}
 
 					logger.debug("project created: " + project);
 

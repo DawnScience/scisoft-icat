@@ -105,8 +105,12 @@ public class SftpTransferJob extends Job {
 				finalDestination = target.getLocation().toString();
 				DatafileTreeData datafile = (DatafileTreeData) element;
 
-				sftpClient.downloadFile(fedid, password, sftpServer,
-						datafile.getIcatDatafile().getLocation(), finalDestination);
+				try {
+					sftpClient.downloadFile(fedid, password, sftpServer,
+							datafile.getIcatDatafile().getLocation(), finalDestination);
+				} catch (Exception e) {
+					logger.error("error occured during the download of file: " + e.getMessage());
+				}
 
 			} else if (element instanceof DatasetTreeData) {
 				Dataset dataset = null;
@@ -147,8 +151,13 @@ public class SftpTransferJob extends Job {
 						parentFolder)).getAbsolutePath();
 
 				for (Datafile datafile : datafilesList) {
-					sftpClient.downloadFile(fedid, password, sftpServer,
-							datafile.getLocation(), finalDestination);
+					try {
+						sftpClient.downloadFile(fedid, password, sftpServer,
+								datafile.getLocation(), finalDestination);
+					} catch (Exception e) {
+						logger.error("error occured during the download of file: " + e.getMessage());
+
+					}
 				}
 
 			}
@@ -159,12 +168,14 @@ public class SftpTransferJob extends Job {
 		String parentProject = target.getProject().getName();
 		refreshProjectExplorer(parentProject);
 
-		// MessageDialog.openInformation(getShell().getShell(),"Info",
-		// "All selected files moved into the Project Explorer");
-
-		// MessageDialog.openInformation(
-		// HandlerUtil.getActiveShell(event), "Your Popup ",
-		// "Your job has finished.");
+//		 // display warning message
+//		 MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().
+//                getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK );
+//        
+//		  String messageText = "";
+//        messageBox.setText("Info");
+//        messageBox.setMessage(messageText);
+//        int buttonID = messageBox.open();
 
 		return Status.OK_STATUS;
 

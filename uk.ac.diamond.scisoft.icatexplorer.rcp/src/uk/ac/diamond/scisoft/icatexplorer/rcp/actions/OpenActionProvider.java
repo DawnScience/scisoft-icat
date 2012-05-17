@@ -19,6 +19,7 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.actions;
 
 import java.io.File;
+import java.util.Date;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -28,6 +29,8 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IWorkbenchPage;
@@ -42,16 +45,14 @@ import org.eclipse.ui.navigator.ICommonViewerWorkbenchSite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.rcp.views.DatasetInspectorView;
-import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
-import uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.datafiles.DatafileTreeData;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.datasets.DatasetTreeData;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessions;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.sftpclient.SftpClient;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.DateTools;
+import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.DatesConverter;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.FilenameUtils;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.visits.VisitTreeData;
-import uk.ac.diamond.sda.meta.views.MetadataPageView;
 import uk.ac.gda.common.rcp.util.EclipseUtils;
 
 public class OpenActionProvider extends CommonActionProvider {
@@ -134,112 +135,113 @@ public class OpenActionProvider extends CommonActionProvider {
 					IProject parentProject = ((DatafileTreeData) data).getParentProject();
 					QualifiedName qNameSessionId = new QualifiedName("SESSIONID", "String");
 					String sessionId = null;
+					boolean datafileDownloaded = false;
+					
 					try {
 						sessionId = parentProject.getPersistentProperty(qNameSessionId);
 					} catch (CoreException e1) {
 						logger.error("error getting the sessionId for project " + parentProject.getName(), e1);
 					}
+					
+					
+						downloadDir = ICATSessions.get(sessionId).getDownloadDir();
 
-					downloadDir = ICATSessions.get(sessionId).getDownloadDir();
+						// check whether download directory actually exists
+						File file = new File(downloadDir);
+						if (!file.exists()) {
+							logger.error("download directory does not exist or has not been set: " + downloadDir);
+						}
+						
+						DatafileTreeData DatafileTreeData = (DatafileTreeData) data;
+						logger.debug("opening "
+								+ DatafileTreeData.getIcatDatafile().getLocation()
+								+ " with id: "
+								+ DatafileTreeData.getIcatDatafile().getId());
+						
+											
+						logger.info("downloading the file to local filesystem");
 
-					// check whether download directory actually exists
-					File file = new File(downloadDir);
-					if (!file.exists()) {
-						logger.error("download directory does not exist or has not been set: "
-								+ downloadDir);
-					}
+						File file3 = new File(downloadDir);
 
+						// computing the local file path
+						FilenameUtils fileUtils = new FilenameUtils(DatafileTreeData.getIcatDatafile()
+								.getLocation(), '/', '.');
+						File file4 = new File(file3, fileUtils.filename());
+						File file5 = new File(file4.getPath());
 
+						String localFilePath = file5.getPath();
 
-					DatafileTreeData DatafileTreeData = (DatafileTreeData) data;
-					logger.debug("opening "
-							+ DatafileTreeData.getIcatDatafile().getLocation()
-							+ " with id: "
-							+ DatafileTreeData.getIcatDatafile().getId());
+						logger.debug("file exists? " + (Boolean.toString(file5.exists())).toUpperCase() + " - " + localFilePath);
+						
+						if (!(new File(localFilePath)).exists()) {
+							// download file to temp dir
+							logger.info("downloading DatafileTreeData id: "
+									+ DatafileTreeData.getIcatDatafile()
+									.getId());
 
-					// check current operating system
-					//if (OSDetector.isUnix()) {
-					//	try {
+							String fedid = ICATSessions.get(sessionId).getFedId();
+							String password = ICATSessions.get(sessionId).getPassword();
 
-					//		EclipseUtils.openExternalEditor(DatafileTreeData
-					//				.getIcatDatafile().getLocation());
+							sftpServer = ICATSessions.get(sessionId).getIcatCon().getSftpServer();
+							SftpClient sftpClient = new SftpClient();
+							
+							try {
+								localFilePath = sftpClient.downloadFile(fedid,
+										password, sftpServer, DatafileTreeData
+										.getIcatDatafile().getLocation(),
+										file3.getPath()/* downloadDir */);
+								
+								logger.info("file successfully downloaded to "
+										+ localFilePath);
+								
+								datafileDownloaded = true;					
+								
+							} catch (Exception e) {
+															
+								int NB_DAYS_DATAFILE_EXPIRED = 180;
+								
+								Date datafileDate = DatesConverter.asDate(DatafileTreeData.getIcatDatafile().getDatafileCreateTime());
+								Date nowDate = new Date();
+								String messageText = "a problem occured when trying to get the file from Diamond file system."+ " \nError: " + e.getMessage();
+								
+								if(DateTools.countDaysBetween(datafileDate, nowDate) > NB_DAYS_DATAFILE_EXPIRED){
+									messageText = "Permission denied! Datafile is older than " + NB_DAYS_DATAFILE_EXPIRED +" days. " +
+							        		"Please make a request to IT support for the access to be reinstated."+ " \nError: " + e.getMessage();
+								
+								logger.error("problem getting file from Diamond file system: " + e.getMessage());
 
-					//	} catch (PartInitException e) {
-					//		logger.error("Cannot open file "
-					//				+ DatafileTreeData.getIcatDatafile()
-					//				.getLocation(), e);
-					//	}
-					//} else {// windows os detected
+									// TODO download from archiving system
+								}								
+								
+								// display warning message
+								MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().
+						                getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK );
+						        
+						        messageBox.setText("Warning");
+						        messageBox.setMessage(messageText);
+						        int buttonID = messageBox.open();
 
-					logger.info("downloading the file to local filesystem");
-
-					File file3 = new File(downloadDir);
-
-					// computing the local file path
-					FilenameUtils fileUtils = new FilenameUtils(
-							DatafileTreeData.getIcatDatafile()
-							.getLocation(), '/', '.');
-					File file4 = new File(file3, fileUtils.filename());
-					File file5 = new File(file4.getPath());
-
-					String localFilePath = file5.getPath();
-
-					logger.debug("file exists? "
-							+ (Boolean.toString(file5.exists()))
-							.toUpperCase() + " - " + localFilePath);
-					if (!(new File(localFilePath)).exists()) {
-						// download file to temp dir
-						logger.info("downloading DatafileTreeData id: "
-								+ DatafileTreeData.getIcatDatafile()
-								.getId());
-
-						String fedid = ICATSessions.get(sessionId)
-								.getFedId();
-						String password = ICATSessions.get(sessionId)
-								.getPassword();
-
-						sftpServer = ICATSessions.get(sessionId).getIcatCon().getSftpServer();
-						SftpClient sftpClient = new SftpClient();
-						localFilePath = sftpClient.downloadFile(fedid,
-								password, sftpServer, DatafileTreeData
-								.getIcatDatafile().getLocation(),
-								file3.getPath()/* downloadDir */);
-
-						logger.info("file successfully downloaded to "
-								+ localFilePath);
-					} else {
-
-						logger.debug("file: " + localFilePath
-								+ " already exist in local filesystem");
-					}
-
-					// open editor
-					try {
-						logger.debug("open file in editor:  "
-								+ localFilePath);
-						EclipseUtils.openExternalEditor(localFilePath);
-					} catch (PartInitException e) {
-						logger.error("Cannot open file "
-								+ DatafileTreeData.getIcatDatafile()
-								.getLocation(), e);
-					}
-
-					//} //end if os detection
-
-					// open remaining views
-					// place holders for remaining views
-					// String plot = PlotView.ID + "DP";
-////					try {
-//						String plot = PlotView.ID + "DP";
-//						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(plot);
-//						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(MetadataPageView.ID);
-//						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(DatasetInspectorView.ID);
-//						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(SidePlotView.ID + ":Dataset Plot");
-//					} catch (PartInitException e) {
-//						logger.error("Error opening view: ", e);
-//					}
-
-				}
+							}
+							
+						} else {
+							
+							datafileDownloaded = true;
+							logger.debug("file: " + localFilePath + " already exist in local filesystem");
+						}
+						
+					if (datafileDownloaded) {
+						// open editor
+						try {
+							logger.debug("open file in editor:  "
+									+ localFilePath);
+							EclipseUtils.openExternalEditor(localFilePath);
+						} catch (PartInitException e) {
+							logger.error("Cannot open file " + DatafileTreeData.getIcatDatafile()
+											.getLocation(), e);
+						}
+					}// datafileDownloaded?
+										
+				}// end check whether datafiledata
 			}// end if data <> null
 			super.run();
 		}

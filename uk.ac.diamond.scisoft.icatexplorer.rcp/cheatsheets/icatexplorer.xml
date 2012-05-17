@@ -7,18 +7,6 @@
     </description>
   </intro>
   <item
-        title="Open the ICAT Explorer perspective">
-    <description>
-      From the main menu, select <b> Window &gt; Open Perspective &gt; Other...,
-      then select the ICAT</b> perspective.
-    </description>
-    <command
-          confirm="true"
-          required="true"
-          serialization="org.eclipse.ui.perspectives.showPerspective(org.eclipse.ui.perspectives.showPerspective.perspectiveId=uk.ac.diamond.scisoft.icatexplorer.rcp.perspective)">
-    </command>
-  </item>
-  <item
         title="Creating an ICAT project">
      <description>
    In the project explorer, right click and select <b> New &gt; other &gt; ICAT Archive Project &gt; Create ICAT Project</b>
