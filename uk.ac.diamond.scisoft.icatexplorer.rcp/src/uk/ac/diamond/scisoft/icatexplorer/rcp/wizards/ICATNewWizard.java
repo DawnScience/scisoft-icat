@@ -1,19 +1,17 @@
 /*
- * Copyright © 2011 Diamond Light Source Ltd.
- *
- * This file is part of GDA.
- *
- * GDA is free software: you can redistribute it and/or modify it under the
- * terms of the GNU General Public License version 3 as published by the Free
- * Software Foundation.
- *
- * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along
- * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ * Copyright 2012 Diamond Light Source Ltd.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package uk.ac.diamond.scisoft.icatexplorer.rcp.wizards;
@@ -226,8 +224,8 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						}
 
 						// get all available years
-						logger.debug("years: " + years.toString());
-						logger.debug("beamlines: " + beamlines.toString());
+						//logger.debug("years: " + years.toString());
+						//logger.debug("beamlines: " + beamlines.toString());
 
 						List<String> pathList = new ArrayList<String>();
 
@@ -244,14 +242,14 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						 * */
 						// beamlines
 						for(int i =0; i<beamlines.size(); i++){
-							logger.debug("resolving beamline: " + beamlines.get(i));
+							//logger.debug("resolving beamline: " + beamlines.get(i));
 							String initialPath = BEAMLINES+"/" + beamlines.get(i).toUpperCase();
 							List<String> yearsByBeamline = ICATHierarchyUtils.getYearsByBeamline(allVisits, beamlines.get(i));
 
 							// years by beamline
 							for(int j=0; j< yearsByBeamline.size(); j++){
 								String path = initialPath + "/" + yearsByBeamline.get(j);
-								logger.debug("adding path: " + path);
+								//logger.debug("adding path: " + path);
 								pathList.add(path);
 							}
 						}
@@ -276,31 +274,21 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						if (location != null && ResourcesPlugin.getWorkspace().getRoot().getLocationURI().equals(location)) {
 							projectLocation = null;
 						}
-
-						dproject.create(new NullProgressMonitor());//desc, new NullProgressMonitor());
-						dproject.open(new NullProgressMonitor());
 						
 						IProjectDescription desc = dproject.getWorkspace().newProjectDescription(dproject.getName());
+						logger.debug("projectLocation: " + projectLocation);
 						desc.setLocationURI(projectLocation);
-						dproject.setDescription(desc, new NullProgressMonitor());
-												
+						//dproject.setDescription(desc, new NullProgressMonitor());
+						dproject.create(desc,new NullProgressMonitor());
+						dproject.open(new NullProgressMonitor());
+																		
 						logger.debug("download project " + dproject.getName() + " created.");
 					}catch(Exception e){
 							logger.error("exception occured when creating associate project: " + e.getMessage());
 						}
 
 					}else{
-						// display warning message
-						String messageText = "cannot login to the ICAT. sessionid= " + sessionid;
-						
-						MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().
-				                getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK );
-				        
-				        messageBox.setText("Warning");
-				        messageBox.setMessage(messageText);
-				        int buttonID = messageBox.open();
-
-						logger.debug("cannot login into ICAT");
+						logger.debug("cannot login into ICAT");			
 					}
 
 				} catch (MalformedURLException e) {

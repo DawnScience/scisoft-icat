@@ -35,6 +35,9 @@ import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.xml.namespace.QName;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,7 +89,7 @@ public class ICATClient {
 		this.projectName = projectName;
 
 
-		logger.debug("setting a new trust manager ...");
+		logger.debug("setting up a new trust manager ...");
 
 		TrustManager[] trustAllCerts = new TrustManager[1];
 
@@ -144,27 +147,29 @@ public class ICATClient {
 
 	public String login(String fedid, String password) {
 
-		try {
-
 			this.fedid = fedid;
 			this.password = password;
-
-			ICAT icat = getIcat();
-
-			sessionId = icat.login(fedid, password);
 			
-			if(sessionId == null){
-				logger.error("Error connecting to ICAT");
-			}else{
-				logger.info("Connection to ICAT successful. sessionId= " + sessionId);
+			ICAT icat = null;
+			try {
+				icat = getIcat();
+			} catch (Exception e) {
+				logger.error("cannot create icat: " + e.getMessage());
 			}
+			
+			if (icat == null){
+				logger.error("Error getting an icat object");
+				
+			}else{
+				try {
+					sessionId = icat.login(fedid, password);
+				} catch (SessionException e) {
+					logger.error("cannot login into the icat: " + e.getMessage());
+				}
+			}
+			
+			logger.info("sessionId= " + sessionId);
 		
-		
-		} catch (Exception e) {
-
-			logger.error("failed to authenticate! ", e);
-		}
-
 		return sessionId;
 	}
 
