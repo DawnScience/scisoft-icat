@@ -41,19 +41,6 @@ Please note that an additional project with the same ICAT project name plus &apo
 </item>
 
 <item
-        title="Additional notes">
-     <description>
-   
-	Please note that a  user is automatically logged out from the ICAT after 2 hours of first login.<br/>
-        Also, if the SDA is closed all ICAT connections will be closed.<br/><br/>
-        In order to reconnect a disconnected ICAT, right-click the project and select &apos;Reconnect&apos;. Fill the needed information in the wizard and click &apos;Finish&apos;<br/>
-        The same contextual menu allows to sweep a disconnected project<br/><br/>
-The toolbar button &apos;sweep disconnected ICATs&apos; deletes all disconnected ICAT projects 
-
-</description>
-</item>
-
-<item
        title="ICAT Connection configuration">
 <description>
 The plugin preferences page allows the configuration of the parameters used to create an ICAT connection.<br/>
@@ -62,4 +49,19 @@ The sites configured in the preferences page (e.g. Diamond Light Source, ILL) ar
 The preferences page allows adding new ICAT sites by editing the different fields (wsdl url, etc).
   </description>
   </item>
+
+<item
+        title="ICAT project contextual menu and toolbar">
+<description>
+  Please note that a  user is automatically logged out from the ICAT after 2 hours of first login.<br/>
+        Also, if the SDA is closed all ICAT connections will be closed.
+        <br/><br/>
+        In order to reconnect a disconnected ICAT, right-click the project and select &apos;Reconnect&apos;. Fill the needed information in the wizard and click &apos;Finish&apos;<br/><br/>
+        The same contextual menu allows to sweep a disconnected project.<br/><br/>
+The toolbar button &apos;sweep disconnected ICATs&apos; deletes all disconnected ICAT projects.<br/><br/>
+
+The contextual menu also allows to refresh a connected ICAT project.<br/><br/>
+
+</description>
+</item>
 </cheatsheet>
