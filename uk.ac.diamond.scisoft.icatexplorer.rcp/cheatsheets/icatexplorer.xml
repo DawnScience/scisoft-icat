@@ -21,7 +21,7 @@ Please note that an additional project with the same ICAT project name plus &apo
      <description>
         The ICAT project provides a tree-based navigation of your data.<br/><br/>
 		Nodes can be expanded to show their content.<br/><br/>
-        A single click on an item (investigation, dataset or datafile) will update the metadata table with corresponding metadata from the ICAT database. Please open metadat view first.<br/><br/>
+        A single click on an item (investigation, dataset or datafile) will update the metadata table with corresponding metadata from the ICAT database. Please open metadata view first.<br/><br/>
         A double click on a datafile will open it in the corresponding editor. 
      </description>
   </item>
@@ -33,7 +33,7 @@ Please note that an additional project with the same ICAT project name plus &apo
    
 	You can select any combination of files and/or datasets from the ICAT Explorer for drag and drop into an eclipse project.<br/><br/>
 	Since the transfer is from a remote server, this process can be time consuming and thus, is run as a separate job.<br/>
-	Status of data transfer is shown in the progress monitor in the status bar of the SDA.<br/><br/>
+	Status of data transfer is shown in the progress monitor in the status bar of DAWN/SDA.<br/><br/>
 
 	Once, all files have been copied, the Project Explorer is refreshed.<br/><br/>
 	Please note that files can be copied to &apos;non-virtual&apos; folders targets only.<br/><br/>	
