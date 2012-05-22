@@ -21,8 +21,8 @@ Please note that an additional project with the same ICAT project name plus &apo
      <description>
         The ICAT project provides a tree-based navigation of your data.<br/><br/>
 		Nodes can be expanded to show their content.<br/><br/>
-        A single click on an item (investigation, dataset or datafile) will update the metadata table with corresponding metadata from the ICAT database.<br/><br/>
-        A double click on a datafile will open it in the following views: file editor, dataset plot, side dataset plot, dataset inspector and the metadata table. 
+        A single click on an item (investigation, dataset or datafile) will update the metadata table with corresponding metadata from the ICAT database. Please open metadat view first.<br/><br/>
+        A double click on a datafile will open it in the corresponding editor. 
      </description>
   </item>
 
