@@ -243,7 +243,7 @@ public class ICATPreferencePage extends PreferencePage implements IWorkbenchPref
 							txtTestoutput.setText("ICAT ONLINE running version: " + icatVersion);
 							logger.debug("ICAT ONLINE running version: " + icatVersion);
 						}else{
-							txtTestoutput.setText("ICAT OFFLINE or connection details not correct.");
+							txtTestoutput.setText("ICAT OFFLINE or connection details not correct. Please note that you need to have a connected ICAT project in order to");
 							logger.debug("problem connecting ICAT");
 						}
 

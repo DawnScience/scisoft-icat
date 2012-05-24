@@ -321,7 +321,7 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 
 	private void handleTruststoreBrowse() {
 		FileDialog fileDialog = new FileDialog(getShell(), SWT.OPEN);
-		fileDialog.setFilterPath(getDirectory());
+		fileDialog.setFilterPath(getTruststore());
 		final String filepath = fileDialog.open();
 		if (filepath != null) {
 			txtTruststore.setText(filepath);
