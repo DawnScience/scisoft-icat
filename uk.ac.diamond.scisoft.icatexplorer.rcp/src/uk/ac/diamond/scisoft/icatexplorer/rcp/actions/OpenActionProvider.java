@@ -19,6 +19,7 @@ package uk.ac.diamond.scisoft.icatexplorer.rcp.actions;
 import java.io.File;
 import java.util.Date;
 
+import org.dawb.common.ui.util.EclipseUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
@@ -51,7 +52,6 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.DateTools;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.DatesConverter;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.FilenameUtils;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.visits.VisitTreeData;
-import uk.ac.gda.common.rcp.util.EclipseUtils;
 
 public class OpenActionProvider extends CommonActionProvider {
 
