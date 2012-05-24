@@ -19,12 +19,12 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: com.jcraft.jsch;version="0.1.41",
  org.apache.commons.io,
+ org.dawb.common.ui.util,
  org.eclipse.core.expressions,
  org.slf4j,
  uk.ac.diamond.scisoft.analysis.dataset,
  uk.ac.diamond.scisoft.analysis.io,
- uk.ac.diamond.scisoft.analysis.rcp.views,
- uk.ac.gda.common.rcp.util
+ uk.ac.diamond.scisoft.analysis.rcp.views
 Bundle-ClassPath: lib/icat3-client-1.0.0-SNAPSHOT.jar,
  .
 Export-Package: uk.ac.diamond.scisoft.icatexplorer.rcp.natures,
