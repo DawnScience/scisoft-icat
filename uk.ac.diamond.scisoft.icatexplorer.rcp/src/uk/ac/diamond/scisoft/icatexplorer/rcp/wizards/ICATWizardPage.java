@@ -233,6 +233,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 			}
 		});
 		BtnBrowseTruststore.setText("Browse...");
+		
 		txtDirectory = new Text(grpAdvanced, SWT.BORDER);
 		txtDirectory.setBounds(154, 79, 321, 27);
 		txtDirectory.setText(initDirectory);
@@ -310,7 +311,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 
 	private void handleTruststoreBrowse() {
 		FileDialog fileDialog = new FileDialog(getShell(), SWT.OPEN);
-		fileDialog.setFilterPath(getDirectory());
+		fileDialog.setFilterPath(getTruststore());
 		final String filepath = fileDialog.open();
 		if (filepath != null) {
 			txtTruststore.setText(filepath);

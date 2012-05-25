@@ -18,6 +18,7 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.rcp.preferences;
 
+import java.io.File;
 import java.util.Properties;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
@@ -65,11 +66,10 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
 		String WSDL_LOCATION_DLS = properties.getProperty("wsdl_location_dls") ;
 		String WSDL_LOCATION_ISIS = properties.getProperty("wsdl_location_isis");
 
-		String TRUSTSTORE_LINUX_DLS = properties.getProperty("truststore_linux_dls");
-		String TRUSTSTORE_LINUX_ISIS = properties.getProperty("truststore_linux_isis");
+		String TRUSTSTORE_SUBDIR = properties.getProperty("truststore_subdir");
 
-		String TRUSTSTORE_WINDOWS_DLS = properties.getProperty("truststore_windows_dls");
-		String TRUSTSTORE_WINDOWS_ISIS = properties.getProperty("truststore_windows_isis");
+		String TRUSTSTORE_DLS = combine(combine(System.getProperty("user.dir"), TRUSTSTORE_SUBDIR), properties.getProperty("truststore_dls"));
+		String TRUSTSTORE_ISIS = combine(combine(System.getProperty("user.dir"), TRUSTSTORE_SUBDIR), properties.getProperty("truststore_isis"));
 
 		String TRUSTSTORE_PASSWORD_DLS = properties.getProperty("truststore_password_dls");
 		String TRUSTSTORE_PASSWORD_ISIS = properties.getProperty("truststore_password_isis");
@@ -77,21 +77,22 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
 		String SFTP_SERVER_DLS = properties.getProperty("sftp_server_dls");
 		String SFTP_SERVER_ISIS = properties.getProperty("sftp_server_isis");
 
-
 		store.setDefault("ICAT_ID_PREF", SITE_ID_DLS + DELIMITER + SITE_ID_ISIS);
 		store.setDefault("ICAT_NAME_PREF", SITE_NAME_DLS + DELIMITER + SITE_NAME_ISIS);
 		store.setDefault("ICAT_WSDL_PREF", WSDL_LOCATION_DLS + DELIMITER + WSDL_LOCATION_ISIS);
 		store.setDefault("ICAT_SFTPSERVER_PREF", SFTP_SERVER_DLS + DELIMITER + SFTP_SERVER_ISIS);
 		store.setDefault("ICAT_DOWNLOADDIR_PREF", System.getProperty("java.io.tmpdir") + DELIMITER+  System.getProperty("java.io.tmpdir"));
-
-		if (OSDetector.isWindows()){
-			store.setDefault("ICAT_TRUSTSTORE_PATH_PREF", TRUSTSTORE_WINDOWS_DLS + DELIMITER +  TRUSTSTORE_WINDOWS_ISIS);
-		}else{
-			store.setDefault("ICAT_TRUSTSTORE_PATH_PREF", TRUSTSTORE_LINUX_DLS + DELIMITER +  TRUSTSTORE_LINUX_ISIS);
-		}
-
+		
+		store.setDefault("ICAT_TRUSTSTORE_PATH_PREF", TRUSTSTORE_DLS + DELIMITER +  TRUSTSTORE_ISIS);
 		store.setDefault("ICAT_TRUSTSTORE_PASS_PREF", TRUSTSTORE_PASSWORD_DLS + DELIMITER +  TRUSTSTORE_PASSWORD_ISIS);
 
+	}
+	
+	public static String combine (String path1, String path2)
+	{
+	    File file1 = new File(path1);
+	    File file2 = new File(file1, path2);
+	    return file2.getPath();
 	}
 
 }
