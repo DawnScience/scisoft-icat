@@ -23,11 +23,16 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.graphics.Image;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.icatexplorer.rcp.datasets.DatasetTreeData;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.UnitsConverter;
 
 
 public class DatafileLabelProvider implements ILabelProvider, IStyledLabelProvider {
+	
+	private static final Logger logger = LoggerFactory.getLogger(DatafileLabelProvider.class);
 	
 	FileIconService iconService = new FileIconService();
 
@@ -72,19 +77,25 @@ public class DatafileLabelProvider implements ILabelProvider, IStyledLabelProvid
 	public StyledString getStyledText(Object obj) {
 		
 		StyledString styledString = new StyledString();
+
+		if (obj instanceof DatafileTreeData) {
+		//logger.debug("datafile name: " + ((DatafileTreeData) obj).getIcatDatafile().getName());
 		
 		styledString.append(((DatafileTreeData) obj).getIcatDatafile().getName());
 		styledString.append("   ");
 
 		String formattedSize = UnitsConverter
 				.humanReadableByteCount(((DatafileTreeData) obj).getIcatDatafile().getFileSize());
-
-		return styledString.append(
+		
+		styledString = styledString.append(
 				formattedSize
-						+ "   "
-						+ UnitsConverter.gregorianToString(((DatafileTreeData) obj).getIcatDatafile()
-								.getDatafileCreateTime()),
-				StyledString.DECORATIONS_STYLER);
+				+ "   "
+				+ UnitsConverter.gregorianToString(((DatafileTreeData) obj).getIcatDatafile()
+						.getDatafileCreateTime()),
+		StyledString.DECORATIONS_STYLER);
+		}
+		
+		return styledString;
 	}
 
 }

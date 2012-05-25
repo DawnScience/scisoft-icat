@@ -23,8 +23,6 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.eclipse.core.resources.IProject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.IMetadataProvider;
 import uk.ac.diamond.scisoft.analysis.io.IMetaData;
@@ -35,7 +33,7 @@ import uk.icat3.client.Datafile;
 
 public class DatafileTreeData implements IMetadataProvider{
 	
-	private static Datafile icatDatafile;
+	private Datafile icatDatafile;
 	private IProject parentProject;
 	
 	
@@ -46,7 +44,7 @@ public class DatafileTreeData implements IMetadataProvider{
 	 * @param status
 	 */
 	public DatafileTreeData(Datafile icatDatafile, IProject parentProject) {
-		this.setIcatDatafile(icatDatafile);
+		this.icatDatafile = icatDatafile;
 		this.parentProject = parentProject;
 	}
 
@@ -61,7 +59,7 @@ public class DatafileTreeData implements IMetadataProvider{
 	/**
 	 * @return Returns the icatDatafile.
 	 */
-	public static Datafile getIcatDatafile() {
+	public Datafile getIcatDatafile() {
 		return icatDatafile;
 	}
 
