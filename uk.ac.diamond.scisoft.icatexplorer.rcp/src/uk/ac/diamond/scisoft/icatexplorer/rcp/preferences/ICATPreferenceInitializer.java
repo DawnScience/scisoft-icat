@@ -21,8 +21,10 @@ package uk.ac.diamond.scisoft.icatexplorer.rcp.preferences;
 import java.io.File;
 import java.util.Properties;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,9 +69,21 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
 		String WSDL_LOCATION_ISIS = properties.getProperty("wsdl_location_isis");
 
 		String TRUSTSTORE_SUBDIR = properties.getProperty("truststore_subdir");
-
-		String TRUSTSTORE_DLS = combine(combine(System.getProperty("user.dir"), TRUSTSTORE_SUBDIR), properties.getProperty("truststore_dls"));
-		String TRUSTSTORE_ISIS = combine(combine(System.getProperty("user.dir"), TRUSTSTORE_SUBDIR), properties.getProperty("truststore_isis"));
+		
+		final Bundle libBundle = Platform.getBundle("uk.ac.diamond.scisoft.icatexplorer.rcp");
+		
+    	// pointing to the certificates folder within the application bundles
+		String bundleLoc = libBundle.getLocation().replace("reference:file:", "");
+		File truststorePath = new File(bundleLoc, TRUSTSTORE_SUBDIR);
+	    String TRUSTSTORE_DLS = combine(truststorePath.getAbsolutePath() , properties.getProperty("truststore_dls"));
+	    logger.debug("====================");
+	    logger.debug("bundleLoc: " + bundleLoc);
+	    logger.debug("TRUSTSTORE_DLS: " + TRUSTSTORE_DLS);
+	    logger.debug("====================");
+		String TRUSTSTORE_ISIS = combine(truststorePath.getAbsolutePath() , properties.getProperty("truststore_isis"));
+		
+		//String TRUSTSTORE_DLS =  combine(combine(System.getProperty("user.dir"), TRUSTSTORE_SUBDIR), properties.getProperty("truststore_dls"));
+		//String TRUSTSTORE_ISIS = combine(combine(System.getProperty("user.dir"), TRUSTSTORE_SUBDIR), properties.getProperty("truststore_isis"));
 
 		String TRUSTSTORE_PASSWORD_DLS = properties.getProperty("truststore_password_dls");
 		String TRUSTSTORE_PASSWORD_ISIS = properties.getProperty("truststore_password_isis");
