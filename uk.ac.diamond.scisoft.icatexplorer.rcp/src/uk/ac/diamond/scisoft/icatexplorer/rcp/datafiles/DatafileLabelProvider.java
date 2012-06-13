@@ -23,17 +23,13 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.graphics.Image;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.icatexplorer.rcp.datasets.DatasetTreeData;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.UnitsConverter;
 
 
 public class DatafileLabelProvider implements ILabelProvider, IStyledLabelProvider {
 	
-	private static final Logger logger = LoggerFactory.getLogger(DatafileLabelProvider.class);
-	
+
 	FileIconService iconService = new FileIconService();
 
 	@Override

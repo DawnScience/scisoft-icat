@@ -29,7 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.icatexplorer.rcp.internal.ICATExplorerActivator;
-import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.OSDetector;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
 
 public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
@@ -82,9 +81,6 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
 	    logger.debug("====================");
 		String TRUSTSTORE_ISIS = combine(truststorePath.getAbsolutePath() , properties.getProperty("truststore_isis"));
 		
-		//String TRUSTSTORE_DLS =  combine(combine(System.getProperty("user.dir"), TRUSTSTORE_SUBDIR), properties.getProperty("truststore_dls"));
-		//String TRUSTSTORE_ISIS = combine(combine(System.getProperty("user.dir"), TRUSTSTORE_SUBDIR), properties.getProperty("truststore_isis"));
-
 		String TRUSTSTORE_PASSWORD_DLS = properties.getProperty("truststore_password_dls");
 		String TRUSTSTORE_PASSWORD_ISIS = properties.getProperty("truststore_password_isis");
 

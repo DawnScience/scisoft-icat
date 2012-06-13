@@ -20,9 +20,7 @@ package uk.ac.diamond.scisoft.icatexplorer.rcp.datafiles;
 
 import java.util.List;
 
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -34,7 +32,6 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.datasets.DatasetTreeData;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATClient;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.icatclient.ICATSessions;
 import uk.icat3.client.Datafile;
-import uk.icat3.client.Dataset;
 
 
 public class DatafileContentProvider implements ITreeContentProvider {
