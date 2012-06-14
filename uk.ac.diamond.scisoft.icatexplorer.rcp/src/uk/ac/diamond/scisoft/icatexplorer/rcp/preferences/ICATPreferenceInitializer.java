@@ -75,7 +75,7 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
 		
     	// pointing to the certificates folder within the application bundles
 		String bundleLoc = libBundle.getLocation().replace("reference:file:", "");
-		bundleLoc = combine(getPluginsDirectory().getAbsolutePath() , bundleLoc);
+		//bundleLoc = combine(getPluginsDirectory().getAbsolutePath() , bundleLoc);
 		File truststorePath = new File(bundleLoc, TRUSTSTORE_SUBDIR);
 	    String TRUSTSTORE_DLS = combine(truststorePath.getAbsolutePath() , properties.getProperty("truststore_dls"));
 	    logger.debug("====================");
@@ -83,7 +83,8 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
 	    logger.debug("bundleLoc: " + bundleLoc);
 	    logger.debug("TRUSTSTORE_DLS: " + TRUSTSTORE_DLS);
 	    logger.debug("====================");
-		String TRUSTSTORE_ISIS = combine(truststorePath.getAbsolutePath() , properties.getProperty("truststore_isis"));
+		
+	    String TRUSTSTORE_ISIS = combine(truststorePath.getAbsolutePath() , properties.getProperty("truststore_isis"));
 		
 		String TRUSTSTORE_PASSWORD_DLS = properties.getProperty("truststore_password_dls");
 		String TRUSTSTORE_PASSWORD_ISIS = properties.getProperty("truststore_password_isis");
