@@ -70,7 +70,7 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
  
                                 String TRUSTSTORE_SUBDIR = properties.getProperty("truststore_subdir");
                                
-                                Bundle bundle = Platform.getBundle(ICATExplorerActivator.PLUGIN_ID);
+                                Bundle bundle = Platform.getBundle("uk.ac.diamond.scisoft.icatexplorer.rcp");
                                 Path path = new Path(TRUSTSTORE_SUBDIR);                                                        
                            
                                 // pointing to the certificates folder within the application bundles
@@ -112,30 +112,30 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
                     return file2.getPath();
                 }
                
-                private File getPluginsDirectory() {
-                                Bundle b = Platform.getBundle(ICATExplorerActivator.PLUGIN_ID);
-                                logger.debug("Bundle: {}", b);
-                                try {
-                                                File f = FileLocator.getBundleFile(b);
-                                                logger.debug("Bundle location: {}", f.getParent());
- 
-//                                            if (isRunningInEclipse) {
-//                                                            File git = f.getParentFile().getParentFile().getParentFile();
-//                                                            File parent = git.getParentFile();
-//                                                            String projectName = git.getName().replace(GIT_SUFFIX, "");
-//                                                            File plugins = new File(parent, projectName + "/plugins");
-//
-//                                                            if (plugins.isDirectory()) {
-//                                                                            logger.debug("Plugins location: {}", plugins);
-//                                                                            return plugins;
-//                                                            }
-//                                            }
- 
-                                                return f.getParentFile();
-                                } catch (IOException e) {
-                                                e.printStackTrace();
-                                }
-                                return null;
-                }
+//                private File getPluginsDirectory() {
+//                                Bundle b = Platform.getBundle(ICATExplorerActivator.PLUGIN_ID);
+//                                logger.debug("Bundle: {}", b);
+//                                try {
+//                                                File f = FileLocator.getBundleFile(b);
+//                                                logger.debug("Bundle location: {}", f.getParent());
+// 
+////                                            if (isRunningInEclipse) {
+////                                                            File git = f.getParentFile().getParentFile().getParentFile();
+////                                                            File parent = git.getParentFile();
+////                                                            String projectName = git.getName().replace(GIT_SUFFIX, "");
+////                                                            File plugins = new File(parent, projectName + "/plugins");
+////
+////                                                            if (plugins.isDirectory()) {
+////                                                                            logger.debug("Plugins location: {}", plugins);
+////                                                                            return plugins;
+////                                                            }
+////                                            }
+// 
+//                                                return f.getParentFile();
+//                                } catch (IOException e) {
+//                                                e.printStackTrace();
+//                                }
+//                                return null;
+//                }
  
 }
