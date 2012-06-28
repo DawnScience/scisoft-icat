@@ -19,11 +19,8 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.preferences;
  
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.Properties;
- 
-import org.eclipse.core.runtime.FileLocator;
+
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
@@ -31,7 +28,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
- 
+
 import uk.ac.diamond.scisoft.icatexplorer.rcp.internal.ICATExplorerActivator;
 import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
  
