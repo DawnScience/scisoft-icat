@@ -73,7 +73,7 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
  
                                 String TRUSTSTORE_SUBDIR = properties.getProperty("truststore_subdir");
                                
-                                Bundle bundle = Platform.getBundle("uk.ac.diamond.scisoft.icatexplorer.rcp");
+                                Bundle bundle = Platform.getBundle(ICATExplorerActivator.PLUGIN_ID);
                                 Path path = new Path(TRUSTSTORE_SUBDIR);                                                        
                            
                                 // pointing to the certificates folder within the application bundles
@@ -82,8 +82,9 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
                                                                 
                                 String TRUSTSTORE_DLS = combine(truststorePath.getAbsolutePath(), properties.getProperty("truststore_dls"));
                                 
-                                logger.debug("==================");
-                                logger.debug("bundleLoc: " + bundleLoc);                              
+                                logger.debug("======== LOGGING ==========");
+                                logger.debug("bundleLoc: " + bundleLoc);  
+                                logger.debug("truststorePath.getAbsolutePath(): " + truststorePath.getAbsolutePath());
                                 logger.debug("TRUSTSTORE_DLS: " + TRUSTSTORE_DLS);
                                 logger.debug("==================");
 
