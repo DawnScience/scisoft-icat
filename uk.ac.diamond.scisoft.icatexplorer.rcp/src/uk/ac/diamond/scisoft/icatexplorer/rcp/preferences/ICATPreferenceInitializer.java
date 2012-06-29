@@ -69,27 +69,24 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
  
                                 String WSDL_LOCATION_DLS = properties.getProperty("wsdl_location_dls") ;
                                 String WSDL_LOCATION_ISIS = properties.getProperty("wsdl_location_isis");
- 
-                                String TRUSTSTORE_SUBDIR = properties.getProperty("truststore_subdir");
-                               
-                                Bundle bundle = Platform.getBundle(ICATExplorerActivator.PLUGIN_ID);
-                                //Path path = new Path(TRUSTSTORE_SUBDIR);
                                 
                                 // pointing to the certificates folder within the application bundles
+                                Bundle bundle = Platform.getBundle(ICATExplorerActivator.PLUGIN_ID);
+                                
                                 String bundleLoc = bundle.getLocation().replace("reference:file:", "");
                                 bundleLoc = bundleLoc.replace("plugins/", "");
                                 File pluginsDir = getPluginsDirectory();
 
-                                File truststorePath = new File(combine(pluginsDir.getAbsolutePath(), bundleLoc), "certs/cacerts.jks");
+                                File truststorePath = new File(combine(pluginsDir.getAbsolutePath(), bundleLoc), combine(properties.getProperty("truststore_subdir"), properties.getProperty("truststore_dls")));//"certs/cacerts.jks");
                                                                 
-                                String TRUSTSTORE_DLS = truststorePath.getAbsolutePath(); //combine(truststorePath.getAbsolutePath(), properties.getProperty("truststore_dls"));
+                                String TRUSTSTORE_DLS = truststorePath.getAbsolutePath();
                                 
-                                logger.debug("======== 11:41 ==========");
-                                logger.debug("bundleLoc: " + bundleLoc);  
-                                logger.debug("pluginsDir.getAbsolutePath(): " + pluginsDir.getAbsolutePath());
-                                logger.debug("truststorePath.getAbsolutePath(): " + truststorePath.getAbsolutePath());
-                                logger.debug("TRUSTSTORE_DLS: " + TRUSTSTORE_DLS);
-                                logger.debug("==================");
+//                                logger.debug("==================");
+//                                logger.debug("bundleLoc: " + bundleLoc);  
+//                                logger.debug("pluginsDir.getAbsolutePath(): " + pluginsDir.getAbsolutePath());
+//                                logger.debug("truststorePath.getAbsolutePath(): " + truststorePath.getAbsolutePath());
+//                                logger.debug("TRUSTSTORE_DLS: " + TRUSTSTORE_DLS);
+//                                logger.debug("==================");
 
                          
                                 String TRUSTSTORE_ISIS = combine(truststorePath.getAbsolutePath() , properties.getProperty("truststore_isis"));
