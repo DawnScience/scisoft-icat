@@ -77,14 +77,16 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
                                 
                                 // pointing to the certificates folder within the application bundles
                                 String bundleLoc = bundle.getLocation().replace("reference:file:", "");
-                                File truststorePath = new File(bundleLoc, "certs/cacerts.jks");
+                                bundleLoc.replace("plugins", "");
+                                File pluginsDir = getPluginsDirectory();
+
+                                File truststorePath = new File(combine(pluginsDir.getAbsolutePath(), bundleLoc), "certs/cacerts.jks");
                                                                 
                                 String TRUSTSTORE_DLS = truststorePath.getAbsolutePath(); //combine(truststorePath.getAbsolutePath(), properties.getProperty("truststore_dls"));
                                 
-                                File pluginsDir = getPluginsDirectory();
-                                logger.debug("========11:41==========");
+                                logger.debug("======== 11:41 ==========");
                                 logger.debug("bundleLoc: " + bundleLoc);  
-                                logger.debug("pluginsDir: " + pluginsDir.getAbsolutePath());
+                                logger.debug("pluginsDir.getAbsolutePath(): " + pluginsDir.getAbsolutePath());
                                 logger.debug("truststorePath.getAbsolutePath(): " + truststorePath.getAbsolutePath());
                                 logger.debug("TRUSTSTORE_DLS: " + TRUSTSTORE_DLS);
                                 logger.debug("==================");
