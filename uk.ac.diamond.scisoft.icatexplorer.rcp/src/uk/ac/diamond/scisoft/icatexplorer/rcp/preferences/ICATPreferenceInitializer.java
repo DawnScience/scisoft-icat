@@ -77,7 +77,7 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
                                 
                                 // pointing to the certificates folder within the application bundles
                                 String bundleLoc = bundle.getLocation().replace("reference:file:", "");
-                                bundleLoc.replace("plugins", "");
+                                bundleLoc = bundleLoc.replace("plugins/", "");
                                 File pluginsDir = getPluginsDirectory();
 
                                 File truststorePath = new File(combine(pluginsDir.getAbsolutePath(), bundleLoc), "certs/cacerts.jks");
