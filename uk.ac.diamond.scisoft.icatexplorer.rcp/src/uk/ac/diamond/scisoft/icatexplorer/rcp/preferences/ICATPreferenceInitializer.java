@@ -81,8 +81,10 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
                                                                 
                                 String TRUSTSTORE_DLS = truststorePath.getAbsolutePath(); //combine(truststorePath.getAbsolutePath(), properties.getProperty("truststore_dls"));
                                 
-                                logger.debug("========11:00==========");
+                                File pluginsDir = getPluginsDirectory();
+                                logger.debug("========11:41==========");
                                 logger.debug("bundleLoc: " + bundleLoc);  
+                                logger.debug("pluginsDir: " + pluginsDir.getAbsolutePath());
                                 logger.debug("truststorePath.getAbsolutePath(): " + truststorePath.getAbsolutePath());
                                 logger.debug("TRUSTSTORE_DLS: " + TRUSTSTORE_DLS);
                                 logger.debug("==================");
