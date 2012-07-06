@@ -19,8 +19,10 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.preferences;
  
 import java.io.File;
+import java.io.IOException;
 import java.util.Properties;
 
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
@@ -67,23 +69,24 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
  
                                 String WSDL_LOCATION_DLS = properties.getProperty("wsdl_location_dls") ;
                                 String WSDL_LOCATION_ISIS = properties.getProperty("wsdl_location_isis");
- 
-                                String TRUSTSTORE_SUBDIR = properties.getProperty("truststore_subdir");
-                               
-                                Bundle bundle = Platform.getBundle("uk.ac.diamond.scisoft.icatexplorer.rcp");
-                                Path path = new Path(TRUSTSTORE_SUBDIR);                                                        
-                           
-                                // pointing to the certificates folder within the application bundles
-                                String bundleLoc = bundle.getLocation().replace("reference:file:", "");
-                                File truststorePath = new File(bundleLoc, path.toString());
-                                                                
-                                String TRUSTSTORE_DLS = combine(truststorePath.getAbsolutePath(), properties.getProperty("truststore_dls"));
                                 
-                                logger.debug("==================");
-                                logger.debug("bundleLoc: " + bundleLoc);  
-                                logger.debug("truststorePath.getAbsolutePath(): " + truststorePath.getAbsolutePath());
-                                logger.debug("TRUSTSTORE_DLS: " + TRUSTSTORE_DLS);
-                                logger.debug("==================");
+                                // pointing to the certificates folder within the application bundles
+                                Bundle bundle = Platform.getBundle(ICATExplorerActivator.PLUGIN_ID);
+                                
+                                String bundleLoc = bundle.getLocation().replace("reference:file:", "");
+                                bundleLoc = bundleLoc.replace("plugins/", "");
+                                File pluginsDir = getPluginsDirectory();
+
+                                File truststorePath = new File(combine(pluginsDir.getAbsolutePath(), bundleLoc), combine(properties.getProperty("truststore_subdir"), properties.getProperty("truststore_dls")));//"certs/cacerts.jks");
+                                                                
+                                String TRUSTSTORE_DLS = truststorePath.getAbsolutePath();
+                                
+//                                logger.debug("==================");
+//                                logger.debug("bundleLoc: " + bundleLoc);  
+//                                logger.debug("pluginsDir.getAbsolutePath(): " + pluginsDir.getAbsolutePath());
+//                                logger.debug("truststorePath.getAbsolutePath(): " + truststorePath.getAbsolutePath());
+//                                logger.debug("TRUSTSTORE_DLS: " + TRUSTSTORE_DLS);
+//                                logger.debug("==================");
 
                          
                                 String TRUSTSTORE_ISIS = combine(truststorePath.getAbsolutePath() , properties.getProperty("truststore_isis"));
@@ -112,30 +115,30 @@ public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
                     return file2.getPath();
                 }
                
-//                private File getPluginsDirectory() {
-//                                Bundle b = Platform.getBundle(ICATExplorerActivator.PLUGIN_ID);
-//                                logger.debug("Bundle: {}", b);
-//                                try {
-//                                                File f = FileLocator.getBundleFile(b);
-//                                                logger.debug("Bundle location: {}", f.getParent());
-// 
-////                                            if (isRunningInEclipse) {
-////                                                            File git = f.getParentFile().getParentFile().getParentFile();
-////                                                            File parent = git.getParentFile();
-////                                                            String projectName = git.getName().replace(GIT_SUFFIX, "");
-////                                                            File plugins = new File(parent, projectName + "/plugins");
-////
-////                                                            if (plugins.isDirectory()) {
-////                                                                            logger.debug("Plugins location: {}", plugins);
-////                                                                            return plugins;
-////                                                            }
-////                                            }
-// 
-//                                                return f.getParentFile();
-//                                } catch (IOException e) {
-//                                                e.printStackTrace();
-//                                }
-//                                return null;
-//                }
+                private File getPluginsDirectory() {
+                                Bundle b = Platform.getBundle(ICATExplorerActivator.PLUGIN_ID);
+                                logger.debug("Bundle: {}", b);
+                                try {
+                                                File f = FileLocator.getBundleFile(b);
+                                                logger.debug("Bundle location: {}", f.getParent());
+ 
+//                                            if (isRunningInEclipse) {
+//                                                            File git = f.getParentFile().getParentFile().getParentFile();
+//                                                            File parent = git.getParentFile();
+//                                                            String projectName = git.getName().replace(GIT_SUFFIX, "");
+//                                                            File plugins = new File(parent, projectName + "/plugins");
+//
+//                                                            if (plugins.isDirectory()) {
+//                                                                            logger.debug("Plugins location: {}", plugins);
+//                                                                            return plugins;
+//                                                            }
+//                                            }
+ 
+                                                return f.getParentFile();
+                                } catch (IOException e) {
+                                                e.printStackTrace();
+                                }
+                                return null;
+                }
  
 }
