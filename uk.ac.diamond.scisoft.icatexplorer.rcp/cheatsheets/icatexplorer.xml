@@ -9,7 +9,8 @@
   <item
         title="Creating an ICAT project">
      <description>
-   In the project explorer, right click and select <b> New &gt; other &gt; ICAT Archive Project &gt; Create ICAT Project</b>
+   First switch to the &apos;Data Browsing&apos; perspective.
+In the project explorer, right click and select <b> New &gt; other &gt; ICAT Archive Project &gt; Create ICAT Project</b>
 In the opened wizard, enter your fedid and password, and fill the other values or keep the default ones, then click the &apos;Finish&apos; button or press &apos;Enter&apos; on your keyboard.<br/><br/>
 If the authentication is successful, an ICAT project will be created in the project explorer containing a list of all your visits registered within the ICAT database.<br/><br/>
 Please note that an additional project with the same ICAT project name plus &apos;-downloadFiles&apos; will be created automatically. The latter will hold all downloaded datafiles. A datafile is downloaded to the local filesystem when the user double clicks on it.
