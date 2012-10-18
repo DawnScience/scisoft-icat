@@ -191,7 +191,7 @@
       </definition>
    </extension>
   <!-- <extension
-         point="uk.ac.diamond.scisoft.introRegister">
+         point="org.dawnsci.introRegister">
       <introPageRegister
             class="uk.ac.diamond.scisoft.icatexplorer.rcp.launcher.ICATPerspectiveLauncher"
             description="This perspective allows exploring and opening data from the Diamond archiving system"
