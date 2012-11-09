@@ -20,6 +20,7 @@ package uk.ac.diamond.scisoft.icatexplorer.rcp.datasets;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 import org.eclipse.core.resources.IProject;
@@ -83,6 +84,7 @@ public class DatasetTreeData  implements IMetadataProvider {
 		name.put("NAME", "DATASET: " + this.icatDataset.getName());
 
 		return new MetaDataAdapter() {
+			private static final long serialVersionUID = MetaDataAdapter.serialVersionUID;
 
 			@Override
 			public Serializable getMetaValue(String key) throws Exception {
@@ -92,13 +94,13 @@ public class DatasetTreeData  implements IMetadataProvider {
 			@Override
 			public Collection<String> getMetaNames() throws Exception {
 
-				return pairs.keySet();
+				return Collections.unmodifiableCollection(pairs.keySet());
 			}
 
 			@Override
 			public Collection<String> getDataNames() {
 
-				return name.values();
+				return Collections.unmodifiableCollection(name.values());
 			}
 
 		};
