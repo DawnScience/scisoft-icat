@@ -211,7 +211,6 @@ public class RefreshAction implements IHandler {
 					ArrayList<String> years = new ArrayList<String>();
 					ArrayList<String> beamlines = new ArrayList<String>();
 					for(int i =0; i< allVisits.size(); i++){
-						logger.debug("["+i+"] " + (allVisits.get(i)).getInvNumber());
 						visits[i] =  (allVisits.get(i)).getVisitId();
 
 						// get years
@@ -228,9 +227,6 @@ public class RefreshAction implements IHandler {
 					}
 
 					// get all available years
-					logger.debug("years: " + years.toString());
-					logger.debug("beamlines: " + beamlines.toString());
-
 					List<String> pathList = new ArrayList<String>();
 
 					// create years folders
@@ -246,7 +242,6 @@ public class RefreshAction implements IHandler {
 					 * */
 					// beamlines
 					for(int i =0; i<beamlines.size(); i++){
-						logger.debug("resolving beamline: " + beamlines.get(i));
 						String initialPath = BEAMLINES+"/" + beamlines.get(i).toUpperCase();
 						List<String> yearsByBeamline = ICATHierarchyUtils.getYearsByBeamline(allVisits, beamlines.get(i));
 

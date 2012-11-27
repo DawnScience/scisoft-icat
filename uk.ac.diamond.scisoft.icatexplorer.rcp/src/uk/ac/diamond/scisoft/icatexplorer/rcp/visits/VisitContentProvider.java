@@ -76,12 +76,10 @@ public class VisitContentProvider implements ITreeContentProvider
 	 * NO_CHILDREN for otherwise.
 	 */
 	public Object[] getChildren(Object parentElement) {  
-		logger.debug("in getChildren");
 		Object[] children = null;
 		if (parentElement instanceof VisitTreeData) { 
 			children = NO_CHILDREN;
 		} else if(parentElement instanceof IFolder) {
-			logger.debug("getting project name for IFolder: " + parentElement.toString());
 			String[] temp;
 			String delimiter = "/";
 			temp = parentElement.toString().split(delimiter);		
@@ -99,10 +97,7 @@ public class VisitContentProvider implements ITreeContentProvider
 	 * @return
 	 */
 	private VisitTreeData[] getVisits(IProject parentProject) {
-				
-				
-		logger.debug("visit belongs to project: " + parentProject);
-		
+						
 		QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
 		String sessionId = null;
 		try {
@@ -114,16 +109,17 @@ public class VisitContentProvider implements ITreeContentProvider
 		ICATClient icatClient = ICATSessions.get(sessionId);
 		
 		List<Investigation> result = null;
+		String errorMessage = "error getting visits from ICAT";
 		try {
 			result = icatClient.getLightInvestigations();
 		} catch (MalformedURLException e) {
-			logger.error("error getting visits from ICAT");
+			logger.error(errorMessage);
 		} catch (SessionException e) {
-			logger.error("error getting visits from ICAT");
+			logger.error(errorMessage);
 		} catch (InsufficientPrivilegesException_Exception e) {
-			logger.error("error getting visits from ICAT");
+			logger.error(errorMessage);
 		} catch (NoSuchUserException_Exception e) {
-			logger.error("error getting visits from ICAT");
+			logger.error(errorMessage);
 		}
 		VisitTreeData[] visitsTree = new VisitTreeData[result.size()];
 		
@@ -155,30 +151,23 @@ public class VisitContentProvider implements ITreeContentProvider
 	}
 
 	public Object getParent(Object element) {
-		logger.debug("in getParent");
 		if (element instanceof VisitTreeData) {
 			VisitTreeData data = (VisitTreeData) element;
-			logger.debug("visit.getFolder(): " + data.getFolder().getName());
 			return data.getFolder();
 		} 
 		return null;
 	}
 
 	public boolean hasChildren(Object element) {	
-		logger.debug("in hasChildren");
 		return (element instanceof VisitTreeData || element instanceof IResource
 				|| element instanceof DatasetTreeData || element instanceof YearTreeData  || element instanceof DatafileTreeData);
 	}
 
 	public Object[] getElements(Object inputElement) {
-		logger.debug("in getElements");
 		return getChildren(inputElement);
 	}
 
-	public void dispose() {
-//		cachedModelMap.clear();
-//		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this); 
-	}
+	public void dispose() {}
 
 	public void inputChanged(Viewer aViewer, Object oldInput, Object newInput) {
 		

@@ -148,8 +148,6 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					ICATClient icatClient = new ICATClient(icatCon, truststore, truststorePass, directory, project);
 					String sessionid = icatClient.login(fedid, password);
 
-					logger.debug("sessionID = " + sessionid);
-
 					// add new icat connection to the list of connections
 					ICATSessions.add(sessionid, icatClient);
 
@@ -211,7 +209,6 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					ArrayList<String> years = new ArrayList<String>();
 					ArrayList<String> beamlines = new ArrayList<String>();
 					for(int i =0; i< allVisits.size(); i++){
-						//logger.debug("["+i+"] " + (allVisits.get(i)).getInvNumber());
 						visits[i] =  (allVisits.get(i)).getVisitId();
 
 						// get years

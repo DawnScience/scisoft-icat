@@ -137,6 +137,7 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 				monitor.beginTask("Creating an ICAT explorer instance for your data", 100);
 
 
+				String errorMessage = "Problem occured: ";
 				try {
 					//ProjectUtils.createImportProjectAndFolder(project, folder, directory, ICATProjectNature.NATURE_ID, null, monitor);
 
@@ -207,7 +208,6 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						ArrayList<String> years = new ArrayList<String>();
 						ArrayList<String> beamlines = new ArrayList<String>();
 						for(int i =0; i< allVisits.size(); i++){
-							logger.debug("["+i+"] " + (allVisits.get(i)).getInvNumber());
 							visits[i] =  (allVisits.get(i)).getVisitId();
 
 							// get years
@@ -222,11 +222,6 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 								beamlines.add(beamline);
 							}
 						}
-
-						// get all available years
-						//logger.debug("years: " + years.toString());
-						//logger.debug("beamlines: " + beamlines.toString());
-
 						List<String> pathList = new ArrayList<String>();
 
 						// create years folders
@@ -242,7 +237,6 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						 * */
 						// beamlines
 						for(int i =0; i<beamlines.size(); i++){
-							//logger.debug("resolving beamline: " + beamlines.get(i));
 							String initialPath = BEAMLINES+"/" + beamlines.get(i).toUpperCase();
 							List<String> yearsByBeamline = ICATHierarchyUtils.getYearsByBeamline(allVisits, beamlines.get(i));
 
@@ -276,9 +270,7 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						}
 						
 						IProjectDescription desc = dproject.getWorkspace().newProjectDescription(dproject.getName());
-						logger.debug("projectLocation: " + projectLocation);
 						desc.setLocationURI(projectLocation);
-						//dproject.setDescription(desc, new NullProgressMonitor());
 						dproject.create(desc,new NullProgressMonitor());
 						dproject.open(new NullProgressMonitor());
 																		
@@ -292,15 +284,15 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 					}
 
 				} catch (MalformedURLException e) {
-					logger.error("Problem occured: ", e);
+					logger.error(errorMessage, e);
 				} catch (SessionException e) {
-					logger.error("Problem occured: ", e);
+					logger.error(errorMessage, e);
 				} catch (InsufficientPrivilegesException_Exception e) {
-					logger.error("Problem occured: ", e);
+					logger.error(errorMessage, e);
 				} catch (NoSuchUserException_Exception e) {
-					logger.error("Problem occured: ", e);
+					logger.error(errorMessage, e);
 				} catch (CoreException e) {
-					logger.error("Problem occured: ", e);
+					logger.error(errorMessage, e);
 				}
 				return new Status(IStatus.OK, ICATExplorerActivator.PLUGIN_ID, "Project " + project + " created");
 			}
