@@ -123,17 +123,7 @@ public class YearContentProvider implements ITreeContentProvider {
 		}
 			ICATClient icatClient = ICATSessions.get(sessionId);
 			List<Investigation> result = null;
-			try {
-				result = icatClient.getLightInvestigations();
-			} catch (MalformedURLException e) {
-				logger.error("problem getting investigations: " + e);
-			} catch (SessionException e) {
-				logger.error("problem getting investigations: " + e);
-			} catch (InsufficientPrivilegesException_Exception e) {
-				logger.error("problem getting investigations: " + e);
-			} catch (NoSuchUserException_Exception e) {
-				logger.error("problem getting investigations: " + e);
-			}
+			result = icatClient.getCurrentInvestigations();
 			
 			logger.debug("result size: " + result.size());
 			ArrayList<VisitTreeData> visitsTree = new ArrayList<VisitTreeData>(); 

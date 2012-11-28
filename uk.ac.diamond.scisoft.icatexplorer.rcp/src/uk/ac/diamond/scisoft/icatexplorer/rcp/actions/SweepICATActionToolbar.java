@@ -57,19 +57,50 @@ public class SweepICATActionToolbar implements IViewActionDelegate {
 									
 
 		}
+		
+		refresh(action);
 
 	}
 
 	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
-		// TODO Auto-generated method stub
-
+		
+		refresh(action);	
 	}
 
 	@Override
 	public void init(IViewPart view) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	private void refresh(IAction action){
+
+		action.setEnabled(false);
+
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+
+		/*
+		 *  check whether there is at least one disconnected ispyb project
+		 *  in order to enable the sweep icat button
+		 */
+		IProject[] projectsList = root.getProjects();
+		for (int count = 0; count < projectsList.length; count++) {
+
+				IProject currentProject = ((IProject) projectsList[count]);
+
+				boolean isDiscICATProject = false;
+				try {
+					isDiscICATProject = currentProject.hasNature(DISC_ICAT_NATURE);
+				} catch (CoreException e) {
+					logger.error("problem retrieving project nature");
+				}
+
+				if (isDiscICATProject) {
+					action.setEnabled(true);
+					break;
+					}						
+		}
 	}
 
 }

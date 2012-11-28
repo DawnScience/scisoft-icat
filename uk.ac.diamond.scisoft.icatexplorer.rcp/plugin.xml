@@ -650,13 +650,13 @@
       id="uk.ac.diamond.scisoft.icatexplorer.rcp.action.contribution.view" 
    targetID="org.eclipse.ui.navigator.ProjectExplorer">
    <action
-         id="uk.ac.diamond.scisoft.icatexplorer.rcp.view.sweep.toolbar" 
-         label="Sweep ICATs toolbar" 
-         icon="icons/sweep-small.png"
-         tooltip="Sweep disconnected ICATs"
-         toolbarPath="group1"
          class="uk.ac.diamond.scisoft.icatexplorer.rcp.actions.SweepICATActionToolbar"
-         enablesFor="*">
+         enablesFor="*"
+         icon="icons/sweep-small.png"
+         id="uk.ac.diamond.scisoft.icatexplorer.rcp.view.sweep.toolbar"
+         label="Sweep ICATs toolbar"
+         toolbarPath="group1"
+         tooltip="Sweep disconnected ICATs">
       </action> 
    </viewContribution> 
 </extension>

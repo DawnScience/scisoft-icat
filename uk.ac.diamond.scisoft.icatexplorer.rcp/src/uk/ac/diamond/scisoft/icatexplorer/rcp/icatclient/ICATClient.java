@@ -26,6 +26,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -35,9 +36,6 @@ import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.xml.namespace.QName;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,7 +66,8 @@ public class ICATClient {
 	protected String projectName;
 	static protected ICATConnection icatCon;
 
-
+	List<Investigation> currentInvestigations = new ArrayList<Investigation>();
+	
 	public ICATConnection getIcatCon() {
 		return icatCon;
 	}
@@ -220,21 +219,20 @@ public class ICATClient {
 			NoSuchUserException_Exception {
 
 		ICAT icat;
-		List<Investigation> myInvestigations = null;
 		try {
 
 			long startTime = System.currentTimeMillis();
 			icat = getIcat();
 
 			logger.debug("Calling getInvestigations()...sessionid: " + sessionId);
-			myInvestigations = icat.getMyInvestigationsIncludes(this.sessionId,
+			currentInvestigations = icat.getMyInvestigationsIncludes(this.sessionId,
 					InvestigationInclude.NONE);
 
 			long endTime = System.currentTimeMillis();
 			long millis = endTime - startTime;
 
 			logger.info("execution time to retrieve ["
-					+ myInvestigations.size()
+					+ currentInvestigations.size()
 					+ "] DATASETS is: "
 					+ String.format(
 							"%d min, %d sec",
@@ -250,7 +248,7 @@ public class ICATClient {
 							+ this.getFedId(), e);
 		}
 
-		return myInvestigations;
+		return currentInvestigations;
 	}
 
 	public List<Dataset> getDatasets(Long id) {
@@ -338,6 +336,10 @@ public class ICATClient {
 
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
+	}
+
+	public List<Investigation> getCurrentInvestigations() {
+		return currentInvestigations;
 	}
 
 }

@@ -109,18 +109,9 @@ public class VisitContentProvider implements ITreeContentProvider
 		ICATClient icatClient = ICATSessions.get(sessionId);
 		
 		List<Investigation> result = null;
-		String errorMessage = "error getting visits from ICAT";
-		try {
-			result = icatClient.getLightInvestigations();
-		} catch (MalformedURLException e) {
-			logger.error(errorMessage);
-		} catch (SessionException e) {
-			logger.error(errorMessage);
-		} catch (InsufficientPrivilegesException_Exception e) {
-			logger.error(errorMessage);
-		} catch (NoSuchUserException_Exception e) {
-			logger.error(errorMessage);
-		}
+		
+		result = icatClient.getCurrentInvestigations();
+		
 		VisitTreeData[] visitsTree = new VisitTreeData[result.size()];
 		
 		for(int i=0; i< result.size(); i++){	
