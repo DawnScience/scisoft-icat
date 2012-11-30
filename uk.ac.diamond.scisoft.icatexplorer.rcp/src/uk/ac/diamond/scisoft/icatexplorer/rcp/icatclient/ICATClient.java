@@ -262,9 +262,7 @@ public class ICATClient {
 					InvestigationInclude.DATASETS_AND_DATASET_PARAMETERS_ONLY);
 
 			datasets = newInv.getDatasetCollection();
-			logger.debug("dataset collection size: "
-					+ newInv.getDatasetCollection().size());
-
+			
 		} catch (Exception e) {
 			logger.error(
 					"problem retrieving datasets for user: " + this.getFedId(),
@@ -283,9 +281,6 @@ public class ICATClient {
 							DatasetInclude.DATASET_AND_DATAFILES_ONLY);
 
 			datafiles = dataset.getDatafileCollection();
-
-			logger.debug("datafiles number: " + datafiles.size());
-
 
 		} catch (Exception e) {
 			logger.error(
