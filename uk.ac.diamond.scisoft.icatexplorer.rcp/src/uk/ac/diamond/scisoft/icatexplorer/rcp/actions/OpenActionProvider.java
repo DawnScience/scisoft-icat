@@ -55,8 +55,7 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.visits.VisitTreeData;
 
 public class OpenActionProvider extends CommonActionProvider {
 
-	private static Logger logger = LoggerFactory
-			.getLogger(OpenActionProvider.class);
+	private static Logger logger = LoggerFactory.getLogger(OpenActionProvider.class);
 
 	private OpenChildAction openAction;
 	public IWorkbenchPage page;
@@ -64,11 +63,11 @@ public class OpenActionProvider extends CommonActionProvider {
 	private String sftpServer;
 	//private String projectName;
 
-	public OpenActionProvider() {
-	}
+	public OpenActionProvider() {}
 
 	@Override
 	public void init(ICommonActionExtensionSite site) {
+				
 		ICommonViewerSite viewSite = site.getViewSite();
 		if (viewSite instanceof ICommonViewerWorkbenchSite) {
 			ICommonViewerWorkbenchSite workbenchSite = (ICommonViewerWorkbenchSite) viewSite;
@@ -112,10 +111,9 @@ public class OpenActionProvider extends CommonActionProvider {
 		private final ISelectionProvider provider;
 		private Object data;
 
-		public OpenChildAction(IWorkbenchPage workbenchPage,
-				ISelectionProvider selectionProvider) {
-			// provider = selectionProvider;
-			setText("Open");
+		public OpenChildAction(IWorkbenchPage workbenchPage, ISelectionProvider selectionProvider) {
+			
+			setText("Open datafile");
 			page = workbenchPage;
 			provider = selectionProvider;
 
@@ -123,7 +121,7 @@ public class OpenActionProvider extends CommonActionProvider {
 
 		@Override
 		public void run() {
-
+		
 			if (data != null) {
 				logger.debug("open called on " + data.getClass().getName());
 
@@ -247,6 +245,7 @@ public class OpenActionProvider extends CommonActionProvider {
 		// handle single click
 		@Override
 		public boolean isEnabled() {
+
 			ISelection selection = provider.getSelection();
 
 			if (!selection.isEmpty()) {
