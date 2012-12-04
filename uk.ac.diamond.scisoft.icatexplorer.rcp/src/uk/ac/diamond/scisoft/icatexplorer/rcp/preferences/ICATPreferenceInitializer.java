@@ -35,7 +35,7 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.utils.PropertiesUtils;
  
 public class ICATPreferenceInitializer extends AbstractPreferenceInitializer {
 	
-				private static final String RUN_IN_ECLIPSE = "running.in.eclipse";
+				private static final String RUN_IN_ECLIPSE = "run.in.eclipse";
                 public static final String DELIMITER =  "-----";
  
                 private static Logger logger = LoggerFactory.getLogger(ICATPreferenceInitializer.class);
