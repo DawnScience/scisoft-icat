@@ -58,7 +58,6 @@ public class SftpClient {
 			logger.error(
 					"Error getting sftp session with given fedid and remote host, fedid= "
 							+ fedid + "  - remote host= " + remoteHost, e);
-			throw new Exception(e.getMessage());
 		}
 		{
 			// "interactive" version
@@ -83,7 +82,6 @@ public class SftpClient {
 			sftpChannel = (ChannelSftp) channel;
 		} catch (JSchException e) {
 			logger.error("Error connecting using sftp", e);
-			throw new Exception(e.getMessage());
 		}
 
 		FilenameUtils fileUtils = new FilenameUtils(remoteFile, '/', '.');
@@ -97,7 +95,6 @@ public class SftpClient {
 			sftpChannel.get(remoteFile, localFilePath);// , monitor);
 		} catch (SftpException e) {
 			logger.error("Error getting file from remote host", e);
-			throw new Exception(e.getMessage());
 		}
 
 		sftpChannel.exit();
