@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.2"?>
+<?eclipse version="3.4"?>
 <plugin>
    <extension
          id="application"
@@ -55,18 +55,6 @@
             name="(Pre-release) ICAT Explorer">
       </introPageRegister>
    </extension> -->
-   <extension
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            id="org.eclipse.ui.cheatsheets.actionSet"
-            label="label">
-         <action
-               id="org.eclipse.ui.cheatsheets.actions.CheatSheetHelpMenuAction"
-               label="label"
-               style="push">
-         </action>
-      </actionSet>
-   </extension>
    <extension
          point="org.eclipse.ui.cheatsheets.cheatSheetContent">
       <category
