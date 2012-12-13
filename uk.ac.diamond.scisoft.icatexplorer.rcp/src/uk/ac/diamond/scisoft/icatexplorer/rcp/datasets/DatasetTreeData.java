@@ -83,7 +83,7 @@ public class DatasetTreeData  implements IMetadataProvider {
 		final HashMap<String, String> name = new HashMap<String, String>();
 		name.put("NAME", "DATASET: " + this.icatDataset.getName());
 
-		return new MetaDataAdapter() {
+		return new MetaDataAdapter(icatDataset.getName()) {
 			private static final long serialVersionUID = MetaDataAdapter.serialVersionUID;
 
 			@Override

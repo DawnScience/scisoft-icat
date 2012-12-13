@@ -98,7 +98,7 @@ public class VisitTreeData implements IMetadataProvider {
 		final HashMap<String, String> name = new HashMap<String, String>();
 		name.put("NUMBER", "INVESTIGATION: " + this.icatInvestigation.getVisitId());
 
-		return new MetaDataAdapter() {
+		return new MetaDataAdapter(icatInvestigation.getVisitId()) {
 			private static final long serialVersionUID = MetaDataAdapter.serialVersionUID;
 
 			@Override

@@ -95,7 +95,7 @@ public class DatafileTreeData implements IMetadataProvider{
 		final HashMap<String, String> name = new HashMap<String, String>();
 		name.put("NAME", "DATAFILE: " + this.getIcatDatafile().getName());
 
-		return new MetaDataAdapter() {
+		return new MetaDataAdapter(getIcatDatafile().getName()) {
 
 			@Override
 			public Serializable getMetaValue(String key) throws Exception {
