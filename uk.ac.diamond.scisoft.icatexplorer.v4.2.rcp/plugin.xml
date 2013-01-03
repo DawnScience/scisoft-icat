@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            icon="icons/explorer.png">
+         <run
+               class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.internal.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.internal.Application"
+            name="ICAT Explorer">
+         <property
+               name="ICAT Explorer V4.2"
+               value="ICAT Explorer V4.2">
+         </property>
+         <property
+               name="windowImages"
+               value="icons/explorer.png">
+         </property>
+      </product>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.views">
+       <category
+            name="ICAT V4.2"
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp">
+      </category>
+       <view
+             allowMultiple="false"
+             category="uk.ac.diamond.scisoft.icatexplorer.v42.rcp"
+             class="org.eclipse.ui.navigator.CommonNavigator"
+             icon="icons/filenav_nav.gif"
+             id="uk.ac.diamond.scisoft.icatexplorer.v42.view"
+             name="ICAT v4.2 View">
+       </view>
+      
+   </extension>
+   
+  <!-- <extension
+         point="org.dawnsci.introRegister">
+      <introPageRegister
+            class="uk.ac.diamond.scisoft.icatexplorer.rcp.launcher.ICATPerspectiveLauncher"
+            description="This perspective allows exploring and opening data from the Diamond archiving system"
+            icon="icons/icat-logo-128x128.gif"
+            id="uk.ac.diamond.scisoft.icatexplorer.rcp.introPageRegister"
+            name="(Pre-release) ICAT Explorer">
+      </introPageRegister>
+   </extension> -->
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="org.eclipse.ui.cheatsheets.actionSet"
+            label="label">
+         <action
+               id="org.eclipse.ui.cheatsheets.actions.CheatSheetHelpMenuAction"
+               label="label"
+               style="push">
+         </action>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+      <category
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.category"
+            name="ICAT Explorer V4.2">
+      </category>
+      <cheatsheet
+            category="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.category"
+            composite="false"
+            contentFile="cheatsheets/icatexplorer.xml"
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.cheatsheet"
+            name="Using the ICAT Explorer">
+      </cheatsheet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewer
+            viewerId="uk.ac.diamond.scisoft.icatexplorer.v42.view">
+         <popupMenu
+               allowsPlatformContributions="true"
+               id="org.eclipse.ui.examples.navigator.view#PopupMenu">
+            <insertionPoint
+                  name="group.new">
+            </insertionPoint>
+            <insertionPoint
+                  name="group.open"
+                  separator="true">
+            </insertionPoint>
+            <insertionPoint
+                  name="group.openWith">
+            </insertionPoint>
+            <insertionPoint
+                  name="group.edit"
+                  separator="true">
+            </insertionPoint>
+            <insertionPoint
+                  name="group.reorganize">
+            </insertionPoint>
+            <insertionPoint
+                  name="group.port"
+                  separator="true">
+            </insertionPoint>
+            <insertionPoint
+                  name="group.build"
+                  separator="true">
+            </insertionPoint>
+            <insertionPoint
+                  name="group.generate"
+                  separator="true">
+            </insertionPoint>
+            <insertionPoint
+                  name="group.search"
+                  separator="true">
+            </insertionPoint>
+            <insertionPoint
+                  name="additions"
+                  separator="true">
+            </insertionPoint>
+            <insertionPoint
+                  name="group.properties"
+                  separator="true">
+            </insertionPoint>
+         </popupMenu>
+      </viewer>
+      <viewerContentBinding
+            viewerId="uk.ac.diamond.scisoft.icatexplorer.v42.view">
+         <includes>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resourceContent">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.filters.*">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.examples.navigator.filters.*">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+      <viewerActionBinding
+            viewerId="uk.ac.diamond.scisoft.icatexplorer.v42.view">
+         <includes>
+            <actionExtension
+                  pattern="org.eclipse.ui.navigator.resources.*">
+            </actionExtension>
+         </includes>
+      </viewerActionBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            activeByDefault="true"
+            contentProvider="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.visits.VisitContentProvider"
+            icon="icons/prop_ps.gif"
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.visitContent"
+            labelProvider="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.visits.VisitLabelProvider"
+            name="Visits Content"
+            priority="normal">
+         <triggerPoints>
+            <or>
+               <and>
+                  <instanceof
+                        value="org.eclipse.core.resources.IResource">
+                  </instanceof>
+                  <test
+                        forcePluginActivation="true"
+                        property="org.eclipse.core.resources.name"
+                        value="AllVisits">
+                  </test>
+                  <test
+                        property="icatexplorer.v42.navigator.isICATAllVisits"
+                        value="true">
+                  </test>
+               </and>
+               <instanceof
+                     value="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.visits.VisitTreeData">
+               </instanceof>
+            </or>
+         </triggerPoints>
+         <possibleChildren>
+            <or>
+               <instanceof
+                     value="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.visits.VisitTreeData">
+               </instanceof>
+            </or>
+         </possibleChildren>
+         <actionProvider
+               class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.actions.OpenActionProvider"
+               id="OpenProvider">
+         </actionProvider>
+      </navigatorContent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            activeByDefault="true"
+            contentProvider="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.datasets.DatasetContentProvider"
+            icon="icons/prop_ps.gif"
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.datasetContent"
+            labelProvider="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.datasets.DatasetLabelProvider"
+            name="Datasets content">
+         <triggerPoints>
+            <or>
+               <and>
+                  <instanceof
+                        value="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.visits.VisitTreeData">
+                  </instanceof>
+               </and>
+            </or>
+         </triggerPoints>
+         <possibleChildren>
+            <or>
+               <instanceof
+                     value="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.datasets.DatasetTreeData">
+               </instanceof>
+            </or>
+         </possibleChildren>
+         <actionProvider
+               class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.actions.OpenActionProvider"
+               id="OpenProvider">
+         </actionProvider>
+         <dropAssistant
+               class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.dnd.ICATDropAdapterAssistant"
+               id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.datasetDropAssistant">
+            <possibleDropTargets>
+               <or>
+                  <instanceof
+                        value="org.eclipse.core.resources.IResource">
+                  </instanceof>
+               </or>
+            </possibleDropTargets>
+         </dropAssistant>
+      </navigatorContent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            activeByDefault="true"
+            contentProvider="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.datafiles.DatafileContentProvider"
+            icon="icons/prop_ps.gif"
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.datafileContent"
+            labelProvider="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.datafiles.DatafileLabelProvider"
+            name="Datafiles Content"
+            priority="normal">
+         <triggerPoints>
+            <or>
+               <and>
+                  <instanceof
+                        value="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.datasets.DatasetTreeData">
+                  </instanceof>
+               </and>
+            </or>
+         </triggerPoints>
+         <possibleChildren>
+            <or>
+               <instanceof
+                     value="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.datafiles.DatafileTreeData">
+               </instanceof>
+            </or>
+         </possibleChildren>
+         <actionProvider
+               class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.actions.OpenActionProvider"
+               id="OpenProviderV42">
+         </actionProvider>
+         <dropAssistant
+               class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.dnd.ICATDropAdapterAssistant"
+               id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.datafileDropAssistant">
+            <possibleDropTargets>
+               <or>
+                  <instanceof
+                        value="org.eclipse.core.resources.IResource">
+                  </instanceof>
+               </or>
+            </possibleDropTargets>
+         </dropAssistant>
+      </navigatorContent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <commonFilter
+            id="org.eclipse.ui.examples.navigator.filters.hideNonJavaProjects"
+            name="Hide non-Java Projects">
+         <filterExpression>
+            <not>
+               <adapt
+                     type="org.eclipse.core.resources.IProject">
+                  <test
+                        property="org.eclipse.core.resources.projectNature"
+                        value="org.eclipse.jdt.core.javanature">
+                  </test>
+               </adapt>
+            </not>
+         </filterExpression>
+      </commonFilter>
+   </extension>
+  <extension point="org.eclipse.ui.navigator.navigatorContent">
+    <commonFilter
+          activeByDefault="true"
+          class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.projects.DisconnectedICATsHandler"
+          description="Disconnects ICAT projects"
+          id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.SweepDeadICAT"
+          name="*.icatv42 projects"
+          visibleInUI="true">
+       <!-- <filterExpression>
+            <and>
+                <adapt type="org.eclipse.core.resources.IResource">
+                    <test property="org.eclipse.core.resources.projectNature" value="uk.ac.diamond.scisoft.icatexplorer.rcp.icat.nature"/>
+                </adapt>
+            </and>
+        </filterExpression> -->
+    </commonFilter>
+</extension>
+<extension point="org.eclipse.ui.navigator.viewer">
+    <viewerContentBinding
+          viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+          <includes>
+            <contentExtension pattern="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.SweepDeadICAT"/> 
+          </includes>
+    </viewerContentBinding>
+</extension> 
+   
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.category"
+            name="ICAT V4.2 Archive Project">
+      </category>
+      <wizard
+            category="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.category"
+            class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.wizards.ICATNewWizard"
+            icon="icons/icat_logo.gif"
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.wizard"
+            name="Create ICAT v4.2 Project"
+            project="true">
+      </wizard>
+   </extension>
+   <extension
+         id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.icat.nature"
+         name="ICAT V4.2 nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.natures.ICATProjectNature">
+         </run>
+      </runtime>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="uk.ac.diamond.scisoft.icatexplorer.v42.view">
+         <includes>
+            <contentExtension
+                  pattern="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.visitContent">
+            </contentExtension>
+            <contentExtension
+                  pattern="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.datasetContent">
+            </contentExtension>
+            <contentExtension
+                  pattern="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.datafileContent">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resourceContent">
+            </contentExtension>
+            <contentExtension
+                  pattern="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.yearContent">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <contentExtension
+                  pattern="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.visitContent">
+            </contentExtension>
+            <contentExtension
+                  pattern="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.datasetContent">
+            </contentExtension>
+            <contentExtension
+                  pattern="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.datafileContent">
+            </contentExtension>
+            <contentExtension
+                  pattern="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.yearContent">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            activeByDefault="true"
+            contentProvider="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.years.YearContentProvider"
+            icon="icons/prop_ps.gif"
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.yearContent"
+            labelProvider="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.years.YearLabelProvider"
+            name="Years Content">
+         <possibleChildren>
+            <or>
+               <instanceof
+                     value="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.years.YearTreeData">
+               </instanceof>
+               <instanceof
+                     value="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.visits.VisitTreeData">
+               </instanceof>
+            </or>
+         </possibleChildren>
+         <triggerPoints>
+            <or>
+               <instanceof
+                     value="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.visits.VisitTreeData">
+               </instanceof>
+               <test
+                     property="icatexplorer.v42.navigator.isICATYear"
+                     value="true">
+               </test>
+            </or>
+         </triggerPoints>
+      </navigatorContent>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.propertiesTesters.YearPropertyTester"
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.propertyYearTester"
+            namespace="icatexplorer.v42.navigator"
+            properties="isICATYear"
+            type="java.lang.Object">
+      </propertyTester>
+      <propertyTester
+            class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.propertiesTesters.AllVisitsPropertyTester"
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.propertyAllvisitsTester"
+            namespace="icatexplorer.v42.navigator"
+            properties="isICATAllVisits"
+            type="java.lang.Object">
+      </propertyTester>
+      <propertyTester
+            class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.propertiesTesters.ICATDisconnectedPropertyTester"
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.propertyDiscICATTester"
+            namespace="icatexplorer.v42.navigator"
+            properties="isICATDisconnected"
+            type="java.lang.Object">
+      </propertyTester>
+      <propertyTester
+            class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.propertiesTesters.ICATConnectedPropertyTester"
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.propertyConnICATTester"
+            namespace="icatexplorer.v42.navigator"
+            properties="isICATConnected"
+            type="java.lang.Object">
+      </propertyTester>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="icons/database.png"
+            id="icatexplorer.projectNature.img"
+            natureId="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.icat.nature">
+      </image>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.preferences.ICATPreferencePage"
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.preferences"
+            name="ICAT Explorer v4.2">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.preferences.ICATPreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.disc.icat.nature"
+         name="Disconnected ICAT nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.natures.DiscICATProjectNature">
+         </run>
+      </runtime>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="icons/database-disc.png"
+            id="disconnectedIcatexplorer.projectNature.img"
+            natureId="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.disc.icat.nature">
+      </image>
+   </extension>
+  
+  
+<extension point="org.eclipse.ui.viewActions"> 
+<viewContribution 
+      id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.action.contribution.view" 
+   targetID="org.eclipse.ui.navigator.ProjectExplorer">
+   <action
+         class="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.actions.SweepICATActionToolbar"
+         enablesFor="*"
+         icon="icons/sweep-small.png"
+         id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.view.sweep.toolbar"
+         label="Sweep ICATs toolbar"
+         toolbarPath="group1"
+         tooltip="Sweep disconnected ICATs">
+      </action> 
+   </viewContribution> 
+</extension>
+
+<extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?before=group.edit">
+            
+          <command
+               commandId="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.commands.refresh"
+               icon="icons/refresh_16x16.png"
+               label="Refresh ICAT"
+               style="push">
+             <visibleWhen  checkEnabled="false">
+                  <with variable="activeMenuSelection">
+                            <iterate>
+                               <and>
+                                  <test
+                                        property="icatexplorer.v42.navigator.isICATConnected"
+                                        value="true">
+                                  </test>
+                                  <adapt
+                                        type="org.eclipse.core.resources.IProject">
+                                  </adapt>
+                               </and>
+                            </iterate>
+                             <count value="1">
+                  			</count>
+                  </with>
+               </visibleWhen>              
+         </command>
+         <command
+               commandId="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.commands.reconnecticat"
+               icon="icons/database.png"
+               label="Reconnect ICAT..."
+               style="push">
+             <visibleWhen  checkEnabled="false">
+                  <with variable="activeMenuSelection">
+                            <iterate>
+                               <and>
+                                  <test
+                                        property="icatexplorer.v42.navigator.isICATDisconnected"
+                                        value="true">
+                                  </test>
+                                  <adapt
+                                        type="org.eclipse.core.resources.IProject">
+                                  </adapt>
+                               </and>
+                            </iterate>
+                             <count value="1">
+                  			</count>
+                  </with>
+               </visibleWhen>              
+         </command>
+         
+         <command
+               commandId="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.commands.sweepcat"
+               icon="icons/sweep-small.png"
+               label="Sweep ICAT"
+               style="push">
+               <visibleWhen>
+                  <with variable="activeMenuSelection">
+                            <iterate>
+                                  <and>
+                                     <test
+                                           property="icatexplorer.v42.navigator.isICATDisconnected"
+                                           value="true">
+                                     </test>
+                                     <adapt
+                                           type="org.eclipse.core.resources.IProject">
+                                     </adapt>
+                                  </and>
+                            </iterate>
+                             <count value="1">
+                  			</count>
+                  </with>
+               </visibleWhen>
+         </command>
+         <separator
+               name="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.menu.separator"
+               visible="true">
+         </separator>
+      </menuContribution>
+   </extension>
+  <extension
+         point="org.eclipse.ui.commands">
+        <command
+            defaultHandler="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.actions.RefreshAction"
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.commands.refresh"
+            name="Refresh ICAT">
+      </command>
+      <command
+            defaultHandler="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.actions.ReconnectAction"
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.commands.reconnecticat"
+            name="Reconnect">
+      </command>
+      <command
+            defaultHandler="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.actions.SweepAction"
+            id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.commands.sweepcat"
+            name="Sweep">
+      </command>
+   </extension>
+
+  
+  
+</plugin>

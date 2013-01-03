@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ICAT Explorer RCP V4.2
+Bundle-SymbolicName: uk.ac.diamond.scisoft.icatexplorer.v42.rcp;singleton:=true
+Bundle-Version: 1.4.0.qualifier
+Eclipse-BundleShape: dir
+Bundle-Activator: uk.ac.diamond.scisoft.icatexplorer.v42.rcp.internal.ICATExplorerActivator
+Bundle-Vendor: Diamond Light Source
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: com.jcraft.jsch;version="0.1.41",
+ org.apache.commons.io,
+ org.dawb.common.ui.util,
+ org.eclipse.core.expressions,
+ org.slf4j,
+ uk.ac.diamond.scisoft.analysis.dataset,
+ uk.ac.diamond.scisoft.analysis.io,
+ uk.ac.diamond.scisoft.analysis.rcp.views,
+ uk.ac.diamond.sda.meta.views
+Bundle-ClassPath: .,
+ lib/icat.client-4.2.0.jar
+Export-Package: uk.ac.diamond.scisoft.icatexplorer.v42.rcp.natures,
+ uk.ac.diamond.scisoft.icatexplorer.v42.rcp.projects
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0",
+ org.eclipse.ui.navigator;bundle-version="3.5.101",
+ org.eclipse.ui.views.properties.tabbed;bundle-version="3.5.200",
+ uk.ac.diamond.scisoft.analysis;bundle-version="1.3.0",
+ org.eclipse.core.resources;bundle-version="3.7.101",
+ org.eclipse.ui.navigator.resources;bundle-version="3.4.300",
+ org.eclipse.ui.ide;bundle-version="3.7.0"

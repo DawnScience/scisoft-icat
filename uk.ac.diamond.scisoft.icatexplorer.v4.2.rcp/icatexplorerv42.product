@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="ICAT Explorer v42" uid="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.product" id="uk.ac.diamond.scisoft.icatexplorer.rcp.product" application="uk.ac.diamond.scisoft.icatexplorer.v4.2.rcp.application" version="1.3" useFeatures="false" includeLaunchers="true">
+
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i32="/uk.ac.diamond.scisoft.icatexplorer.v4.2.rcp/icons/favicon.gif"/>
+
+
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+
+   <vm>
+   </vm>
+
+
+   <plugins>
+      <plugin id="com.ibm.icu"/>
+      <plugin id="com.jcraft.jsch"/>
+      <plugin id="com.springsource.ch.qos.logback.classic"/>
+      <plugin id="com.springsource.ch.qos.logback.core"/>
+      <plugin id="com.springsource.org.aopalliance"/>
+      <plugin id="com.springsource.org.apache.commons.beanutils"/>
+      <plugin id="com.springsource.org.apache.commons.collections"/>
+      <plugin id="com.springsource.org.apache.commons.digester"/>
+      <plugin id="com.springsource.org.apache.commons.io"/>
+      <plugin id="com.springsource.org.apache.commons.logging"/>
+      <plugin id="com.springsource.org.hamcrest.core"/>
+      <plugin id="com.springsource.org.objenesis"/>
+      <plugin id="com.springsource.slf4j.api"/>
+      <plugin id="com.springsource.slf4j.org.apache.commons.logging"/>
+      <plugin id="com.springsource.slf4j.org.apache.log4j"/>
+      <plugin id="javax.servlet"/>
+      <plugin id="javax.vecmath"/>
+      <plugin id="org.apache.commons.codec"/>
+      <plugin id="org.apache.commons.httpclient"/>
+      <plugin id="org.apache.commons.lang"/>
+      <plugin id="org.apache.commons.math"/>
+      <plugin id="org.apache.commons.math3"/>
+      <plugin id="org.dawb.common.services"/>
+      <plugin id="org.dawb.common.ui"/>
+      <plugin id="org.dawb.common.util"/>
+      <plugin id="org.dawb.hdf5"/>
+      <plugin id="org.dawb.workbench.jmx"/>
+      <plugin id="org.dawnsci.common.widgets"/>
+      <plugin id="org.dawnsci.plotting.jreality"/>
+      <plugin id="org.eclipse.compare"/>
+      <plugin id="org.eclipse.compare.core"/>
+      <plugin id="org.eclipse.core.commands"/>
+      <plugin id="org.eclipse.core.contenttype"/>
+      <plugin id="org.eclipse.core.databinding"/>
+      <plugin id="org.eclipse.core.databinding.observable"/>
+      <plugin id="org.eclipse.core.databinding.property"/>
+      <plugin id="org.eclipse.core.expressions"/>
+      <plugin id="org.eclipse.core.filebuffers"/>
+      <plugin id="org.eclipse.core.filesystem"/>
+      <plugin id="org.eclipse.core.filesystem.aix.ppc" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.hpux.ia64_32" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.linux.x86" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.linux.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.macosx" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.solaris.sparc" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.win32.x86" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.win32.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.core.jobs"/>
+      <plugin id="org.eclipse.core.resources"/>
+      <plugin id="org.eclipse.core.resources.win32.x86" fragment="true"/>
+      <plugin id="org.eclipse.core.runtime"/>
+      <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
+      <plugin id="org.eclipse.core.variables"/>
+      <plugin id="org.eclipse.debug.core"/>
+      <plugin id="org.eclipse.debug.ui"/>
+      <plugin id="org.eclipse.draw2d"/>
+      <plugin id="org.eclipse.equinox.app"/>
+      <plugin id="org.eclipse.equinox.common"/>
+      <plugin id="org.eclipse.equinox.p2.core"/>
+      <plugin id="org.eclipse.equinox.p2.engine"/>
+      <plugin id="org.eclipse.equinox.p2.metadata"/>
+      <plugin id="org.eclipse.equinox.p2.metadata.repository"/>
+      <plugin id="org.eclipse.equinox.p2.repository"/>
+      <plugin id="org.eclipse.equinox.preferences"/>
+      <plugin id="org.eclipse.equinox.registry"/>
+      <plugin id="org.eclipse.equinox.security"/>
+      <plugin id="org.eclipse.equinox.security.macosx" fragment="true"/>
+      <plugin id="org.eclipse.equinox.security.win32.x86" fragment="true"/>
+      <plugin id="org.eclipse.equinox.security.win32.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.help"/>
+      <plugin id="org.eclipse.jface"/>
+      <plugin id="org.eclipse.jface.databinding"/>
+      <plugin id="org.eclipse.jface.text"/>
+      <plugin id="org.eclipse.ltk.core.refactoring"/>
+      <plugin id="org.eclipse.ltk.ui.refactoring"/>
+      <plugin id="org.eclipse.nebula.widgets.nattable.core"/>
+      <plugin id="org.eclipse.osgi"/>
+      <plugin id="org.eclipse.search"/>
+      <plugin id="org.eclipse.swt"/>
+      <plugin id="org.eclipse.swt.carbon.macosx" fragment="true"/>
+      <plugin id="org.eclipse.swt.cocoa.macosx" fragment="true"/>
+      <plugin id="org.eclipse.swt.cocoa.macosx.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.aix.ppc" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.aix.ppc64" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.hpux.ia64_32" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.linux.ppc64" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.linux.s390" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.linux.s390x" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.linux.x86" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.linux.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.solaris.sparc" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.solaris.x86" fragment="true"/>
+      <plugin id="org.eclipse.swt.win32.win32.x86" fragment="true"/>
+      <plugin id="org.eclipse.swt.win32.win32.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.team.core"/>
+      <plugin id="org.eclipse.team.ui"/>
+      <plugin id="org.eclipse.text"/>
+      <plugin id="org.eclipse.ui"/>
+      <plugin id="org.eclipse.ui.carbon" fragment="true"/>
+      <plugin id="org.eclipse.ui.cheatsheets"/>
+      <plugin id="org.eclipse.ui.cocoa" fragment="true"/>
+      <plugin id="org.eclipse.ui.console"/>
+      <plugin id="org.eclipse.ui.editors"/>
+      <plugin id="org.eclipse.ui.forms"/>
+      <plugin id="org.eclipse.ui.ide"/>
+      <plugin id="org.eclipse.ui.navigator"/>
+      <plugin id="org.eclipse.ui.navigator.resources"/>
+      <plugin id="org.eclipse.ui.views"/>
+      <plugin id="org.eclipse.ui.views.properties.tabbed"/>
+      <plugin id="org.eclipse.ui.win32" fragment="true"/>
+      <plugin id="org.eclipse.ui.workbench"/>
+      <plugin id="org.eclipse.ui.workbench.texteditor"/>
+      <plugin id="org.hamcrest.core"/>
+      <plugin id="org.junit"/>
+      <plugin id="org.junit4"/>
+      <plugin id="org.mockito.mockito-core"/>
+      <plugin id="org.python.pydev"/>
+      <plugin id="org.python.pydev.ast"/>
+      <plugin id="org.python.pydev.core"/>
+      <plugin id="org.python.pydev.debug"/>
+      <plugin id="org.python.pydev.jython"/>
+      <plugin id="org.python.pydev.parser"/>
+      <plugin id="uk.ac.diamond.CBFlib"/>
+      <plugin id="uk.ac.diamond.jama"/>
+      <plugin id="uk.ac.diamond.jython"/>
+      <plugin id="uk.ac.diamond.org.apache.ws.commons.util"/>
+      <plugin id="uk.ac.diamond.org.apache.xmlrpc.client"/>
+      <plugin id="uk.ac.diamond.org.apache.xmlrpc.common"/>
+      <plugin id="uk.ac.diamond.org.apache.xmlrpc.server"/>
+      <plugin id="uk.ac.diamond.org.jscience"/>
+      <plugin id="uk.ac.diamond.org.nfunk.jep"/>
+      <plugin id="uk.ac.diamond.org.springframework"/>
+      <plugin id="uk.ac.diamond.scisoft.analysis"/>
+      <plugin id="uk.ac.diamond.scisoft.analysis.rcp"/>
+      <plugin id="uk.ac.diamond.scisoft.analysis.rcp.contributions" fragment="true"/>
+      <plugin id="uk.ac.diamond.scisoft.analysis.rcp.test" fragment="true"/>
+      <plugin id="uk.ac.diamond.scisoft.analysis.test" fragment="true"/>
+      <plugin id="uk.ac.diamond.scisoft.deprecated"/>
+      <plugin id="uk.ac.diamond.scisoft.icatexplorer.v4.2.rcp"/>
+      <plugin id="uk.ac.diamond.scisoft.python"/>
+      <plugin id="uk.ac.diamond.scisoft.system.info"/>
+      <plugin id="uk.ac.diamond.sda.meta"/>
+      <plugin id="uk.ac.gda.common"/>
+      <plugin id="uk.ac.gda.common.rcp"/>
+      <plugin id="uk.ac.gda.libs"/>
+      <plugin id="uk.ac.gda.nexus"/>
+   </plugins>
+
+
+</product>
