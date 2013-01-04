@@ -195,7 +195,6 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 
 						logger.debug("ICAT project created: " + project);
 
-
 						// populate allVisits folder with available visits
 						String[] visits = new String[allVisits.size()];
 						ArrayList<String> years = new ArrayList<String>();
