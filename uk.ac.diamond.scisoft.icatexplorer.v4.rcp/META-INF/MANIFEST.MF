@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ICAT Explorer RCP V4.2
-Bundle-SymbolicName: uk.ac.diamond.scisoft.icatexplorer.v42.rcp;singleton:=true
+Bundle-SymbolicName: uk.ac.diamond.scisoft.icatexplorer.v4.rcp;singleton:=true
 Bundle-Version: 1.4.0.qualifier
 Eclipse-BundleShape: dir
-Bundle-Activator: uk.ac.diamond.scisoft.icatexplorer.v42.rcp.internal.ICATExplorerActivator
+Bundle-Activator: uk.ac.diamond.scisoft.icatexplorer.v4.rcp.internal.ICATExplorerActivator
 Bundle-Vendor: Diamond Light Source
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
@@ -19,8 +19,8 @@ Import-Package: com.jcraft.jsch;version="0.1.41",
  uk.ac.diamond.sda.meta.views
 Bundle-ClassPath: .,
  lib/icat.client-4.2.0.jar
-Export-Package: uk.ac.diamond.scisoft.icatexplorer.v42.rcp.natures,
- uk.ac.diamond.scisoft.icatexplorer.v42.rcp.projects
+Export-Package: uk.ac.diamond.scisoft.icatexplorer.v4.rcp.natures,
+ uk.ac.diamond.scisoft.icatexplorer.v4.rcp.projects
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0",
  org.eclipse.ui.navigator;bundle-version="3.5.101",
  org.eclipse.ui.views.properties.tabbed;bundle-version="3.5.200",
