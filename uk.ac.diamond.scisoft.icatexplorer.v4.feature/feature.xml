@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="uk.ac.diamond.scisoft.icat.v42.feature"
+      id="uk.ac.diamond.scisoft.icatexplorer.v4.feature"
       label="ICAT V4.2 Feature"
       version="1.4.0.qualifier"
       provider-name="Diamond Light Source">
@@ -18,7 +18,7 @@
    </license>
 
    <plugin
-         id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp"
+         id="uk.ac.diamond.scisoft.icatexplorer.v4.rcp"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
