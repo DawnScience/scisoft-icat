@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="ICAT Explorer v42" uid="uk.ac.diamond.scisoft.icatexplorer.v42.rcp.product" id="uk.ac.diamond.scisoft.icatexplorer.rcp.product" application="uk.ac.diamond.scisoft.icatexplorer.v4.2.rcp.application" version="1.3" useFeatures="false" includeLaunchers="true">
+<product name="ICAT Explorer v4" uid="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.product" id="uk.ac.diamond.scisoft.icatexplorer.rcp.product" application="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.application" version="1.3" useFeatures="false" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
@@ -10,7 +10,7 @@
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
-   <windowImages i32="/uk.ac.diamond.scisoft.icatexplorer.v4.2.rcp/icons/favicon.gif"/>
+   <windowImages i32="/uk.ac.diamond.scisoft.icatexplorer.v4.rcp/icons/favicon.gif"/>
 
    <launcher>
       <solaris/>
@@ -160,7 +160,7 @@
       <plugin id="uk.ac.diamond.scisoft.analysis.rcp.contributions" fragment="true"/>
       <plugin id="uk.ac.diamond.scisoft.analysis.rcp.test" fragment="true"/>
       <plugin id="uk.ac.diamond.scisoft.analysis.test" fragment="true"/>
-      <plugin id="uk.ac.diamond.scisoft.icatexplorer.v42.rcp"/>
+      <plugin id="uk.ac.diamond.scisoft.icatexplorer.v4.rcp"/>
       <plugin id="uk.ac.diamond.scisoft.python"/>
       <plugin id="uk.ac.diamond.scisoft.system.info"/>
       <plugin id="uk.ac.diamond.sda.meta"/>
