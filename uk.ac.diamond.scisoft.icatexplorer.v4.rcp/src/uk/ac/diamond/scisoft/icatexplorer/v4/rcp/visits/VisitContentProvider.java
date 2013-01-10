@@ -79,7 +79,8 @@ public class VisitContentProvider implements ITreeContentProvider
 		} else if(parentElement instanceof IFolder) {
 			String[] temp;
 			String delimiter = "/";
-			temp = parentElement.toString().split(delimiter);		
+			temp = parentElement.toString().split(delimiter);	
+			System.out.println("temp[1]: " + temp[1]);
 			//String currentProject = temp[1];
 			IProject parentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(temp[1]);
 			

@@ -93,7 +93,7 @@ public class YearPropertyTester extends PropertyTester {
 		QualifiedName q1 = new QualifiedName("ICAT.PROJECT", "Type");
 
 		try {
-			return "ICAT".equalsIgnoreCase(rootICATProject.getPersistentProperty(q1));
+			return "ICATV4".equalsIgnoreCase(rootICATProject.getPersistentProperty(q1));
 		} catch (CoreException e) {
 			logger.debug("problem getting persistent property: ", e);
 			return false;

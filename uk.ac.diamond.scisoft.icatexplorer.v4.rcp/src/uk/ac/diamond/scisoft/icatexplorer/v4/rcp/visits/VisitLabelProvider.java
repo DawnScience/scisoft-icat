@@ -71,7 +71,7 @@ public class VisitLabelProvider extends LabelProvider implements
 			styledString.append(((VisitTreeData) obj).getIcatInvestigation().getVisitId());
 			styledString.append("   ");
 			styledString.append(
-					((VisitTreeData) obj).getIcatInvestigation().getInstrument()
+					((VisitTreeData) obj).getIcatInvestigation().getInstrument().getName()
 							+ "   "
 							+ UnitsConverter
 									.gregorianToDate(((VisitTreeData) obj).getIcatInvestigation()

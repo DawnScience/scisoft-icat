@@ -206,14 +206,13 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 
 							// get years
 							String year = Integer.toString((allVisits.get(i)).getStartDate().getYear());
-							logger.info("Year= " + year);
 							if(!years.contains(year)){
 								years.add(year);
 							}
 
 							// get beamlines
 							String beamline = ((allVisits.get(i)).getInstrument().getName());
-							logger.info("beamline= " + beamline);
+							//logger.info("beamline= " + beamline);
 							if(!beamlines.contains(beamline)){
 								beamlines.add(beamline);
 							}
@@ -239,7 +238,6 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 							// years by beamline
 							for(int j=0; j< yearsByBeamline.size(); j++){
 								String path = initialPath + "/" + yearsByBeamline.get(j);
-								//logger.debug("adding path: " + path);
 								pathList.add(path);
 							}
 						}

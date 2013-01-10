@@ -63,7 +63,7 @@ public class FileIconService {
 		}
 
 		return AbstractUIPlugin.imageDescriptorFromPlugin(
-				"uk.ac.diamond.scisoft.icatexplorer.rcp",
+				"uk.ac.diamond.scisoft.icatexplorer.v4.rcp",
 				"icons/cnficons/" + iconName).createImage();
 	}
 

@@ -219,16 +219,18 @@ public class ICATClient {
 
 			logger.debug("Calling getInvestigations()...sessionid: " + sessionId);
 			
-			String query = "Investigation INCLUDE InvestigationParameter";
+			String query = "Investigation INCLUDE InvestigationParameter, Instrument";
             List<?> result = icat.search(sessionId, query);
             
             // populating currentInvestigations
             for (int count=0; count< result.size(); count++){
             	//logger.debug("visit: " + ((Investigation)result.get(count)).getName());
             	currentInvestigations.add((Investigation) result.get(count));
-            	if(currentInvestigations.get(count).getInstrument() != null){
-            		logger.debug("beamline: " + currentInvestigations.get(count).getInstrument());
-            	}
+            	
+//            	if(currentInvestigations.get(count).getInstrument() != null){
+//            		
+//            		logger.debug("beamline: " + currentInvestigations.get(count).getInstrument().getName());
+//            	}
             }
          
 			long endTime = System.currentTimeMillis();
@@ -261,7 +263,7 @@ public class ICATClient {
 		try {
 			icat = getIcat();
 			
-			String query = "Investigation";
+			String query = "Investigation INCLUDE InvestigationParameter, Dataset";
             Investigation newInv = (Investigation)icat.get(sessionId, query, id);
 			
 			datasets = newInv.getDatasets();
@@ -276,14 +278,17 @@ public class ICATClient {
 	}
 
 	public List<Datafile> getDatafiles(Long datasetId) {
+		
+		System.out.println("datasetId= " + datasetId);
 
 		List<Datafile> datafiles = null;
 
 		try {
 			ICAT icat = getIcat();
-			String query = "Dataset";
+			String query = "Dataset INCLUDE DatasetParameter, Datafile";
+			System.out.println("retrieving datafiles for dataset: " + datasetId);
             Dataset dataset = (Dataset)icat.get(sessionId, query, datasetId);
-			
+			System.out.println("xxxxxxxxxxxxxxxxx");
 			datafiles = dataset.getDatafiles();
 
 		} catch (Exception e) {
@@ -331,7 +336,7 @@ public class ICATClient {
             return dataset;
 			
 		} catch (Exception e) {
-			logger.error("Error in getDatset: ", e);
+			logger.error("Error in getDataset: ", e);
 			return null;
 
 		}

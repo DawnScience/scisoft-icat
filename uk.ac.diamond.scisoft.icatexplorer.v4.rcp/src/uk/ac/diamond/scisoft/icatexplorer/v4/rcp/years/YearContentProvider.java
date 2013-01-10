@@ -27,7 +27,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+
 import org.icatproject.Investigation;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,7 +70,7 @@ public class YearContentProvider implements ITreeContentProvider {
 	@Override
 	public Object[] getChildren(Object parentElement) {
 		Object[] children = null;
-		
+
 		if(parentElement instanceof IFolder) {
 		
 		String currentBeamline = null;
@@ -79,7 +81,6 @@ public class YearContentProvider implements ITreeContentProvider {
 			String[] temp = parentElement.toString().split(delimiter);
 			
 			currentBeamline = temp[temp.length - 2];
-			logger.debug("found beamline: " + currentBeamline);
 		}
 		
 		// extracting current project
@@ -91,9 +92,7 @@ public class YearContentProvider implements ITreeContentProvider {
 				
 		String currentYear = ((IFolder) parentElement).getName();
 		
-		logger.debug("opening year: " + currentYear + " beamline: " + currentBeamline + " project: " + currentProject);
-			
-			return getVisitsByYear(currentYear, currentBeamline, currentProject);
+		return getVisitsByYear(currentYear, currentBeamline, currentProject);
 		
 		}
 			 
@@ -105,7 +104,7 @@ public class YearContentProvider implements ITreeContentProvider {
 	 * @return
 	 */
 	private VisitTreeData[] getVisitsByYear(String currentYear, String currentBeamline, String currentProject) {
-		
+			
 		IProject parentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(currentProject);
 
 		QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
@@ -119,7 +118,6 @@ public class YearContentProvider implements ITreeContentProvider {
 			List<Investigation> result = null;
 			result = icatClient.getCurrentInvestigations();
 			
-			logger.debug("result size: " + result.size());
 			ArrayList<VisitTreeData> visitsTree = new ArrayList<VisitTreeData>(); 
 			//VisitTreeData[] visitsTree = new VisitTreeData[result.size()];
 			
@@ -128,7 +126,6 @@ public class YearContentProvider implements ITreeContentProvider {
 				
 				// filter by year and by beamline
 				String year = String.valueOf(((Investigation)result.get(i)).getStartDate().getYear());
-				logger.debug("got year: " + year + " current year is: " + currentYear);
 				
 				if(year.equalsIgnoreCase(currentYear)){
 									
@@ -140,7 +137,6 @@ public class YearContentProvider implements ITreeContentProvider {
 						
 						if (beamline.equalsIgnoreCase(currentBeamline)){
 							visitsTree.add(visit);
-							logger.debug("added visit: " + visit.getIcatInvestigation().getVisitId());
 						}
 					}else {
 						visitsTree.add(visit);
