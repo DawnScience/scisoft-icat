@@ -212,7 +212,6 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 
 							// get beamlines
 							String beamline = ((allVisits.get(i)).getInstrument().getName());
-							//logger.info("beamline= " + beamline);
 							if(!beamlines.contains(beamline)){
 								beamlines.add(beamline);
 							}

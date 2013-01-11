@@ -224,13 +224,8 @@ public class ICATClient {
             
             // populating currentInvestigations
             for (int count=0; count< result.size(); count++){
-            	//logger.debug("visit: " + ((Investigation)result.get(count)).getName());
             	currentInvestigations.add((Investigation) result.get(count));
             	
-//            	if(currentInvestigations.get(count).getInstrument() != null){
-//            		
-//            		logger.debug("beamline: " + currentInvestigations.get(count).getInstrument().getName());
-//            	}
             }
          
 			long endTime = System.currentTimeMillis();
@@ -279,16 +274,12 @@ public class ICATClient {
 
 	public List<Datafile> getDatafiles(Long datasetId) {
 		
-		System.out.println("datasetId= " + datasetId);
-
 		List<Datafile> datafiles = null;
 
 		try {
 			ICAT icat = getIcat();
 			String query = "Dataset INCLUDE DatasetParameter, Datafile";
-			System.out.println("retrieving datafiles for dataset: " + datasetId);
             Dataset dataset = (Dataset)icat.get(sessionId, query, datasetId);
-			System.out.println("xxxxxxxxxxxxxxxxx");
 			datafiles = dataset.getDatafiles();
 
 		} catch (Exception e) {

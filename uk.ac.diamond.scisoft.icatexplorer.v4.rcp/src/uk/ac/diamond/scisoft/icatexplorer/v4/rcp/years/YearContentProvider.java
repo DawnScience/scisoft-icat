@@ -119,7 +119,6 @@ public class YearContentProvider implements ITreeContentProvider {
 			result = icatClient.getCurrentInvestigations();
 			
 			ArrayList<VisitTreeData> visitsTree = new ArrayList<VisitTreeData>(); 
-			//VisitTreeData[] visitsTree = new VisitTreeData[result.size()];
 			
 			for(int i=0; i< result.size(); i++){	
 				Investigation icatInvestigation = result.get(i);
@@ -142,7 +141,6 @@ public class YearContentProvider implements ITreeContentProvider {
 						visitsTree.add(visit);
 					}
 					
-					logger.debug("create visitTree  '" + i + "' - " + visit.getIcatInvestigation().getVisitId());
 				  }
 
 			}

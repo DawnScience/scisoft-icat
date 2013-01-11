@@ -78,18 +78,13 @@ public class DatafileTreeData implements IMetadataProvider{
 		final HashMap<String, String> pairs = new HashMap<String, String>();
 		pairs.put("ID", Long.toString(this.getIcatDatafile().getId()));
 		pairs.put("CHECKSUM", this.getIcatDatafile().getChecksum());
-		//pairs.put("COMMAND", this.getIcatDatafile().getCommand());
-		//pairs.put("VERSION", this.getIcatDatafile().getDatafileVersion());
 		pairs.put("DESCRIPTION", this.getIcatDatafile().getDescription());
 		pairs.put("LOCATION", this.getIcatDatafile().getLocation());
 		pairs.put("NAME", this.getIcatDatafile().getName());
-		//pairs.put("SIGNATURE", this.getIcatDatafile().getSignature());
-		//pairs.put("UNIQUE_ID", this.getIcatDatafile().getUniqueId());
 		pairs.put("CREATION_TIME",
 				UnitsConverter.gregorianToString(this.getIcatDatafile().getDatafileCreateTime()));
 		pairs.put("MODIFICATION_TIME",
 				UnitsConverter.gregorianToString(this.getIcatDatafile().getDatafileModTime()));
-		pairs.put("DATASET_ID", Long.toString(this.getIcatDatafile().getDataset().getId()));
 		pairs.put("FILE_SIZE", Long.toString(this.getIcatDatafile().getFileSize()));
 
 		final HashMap<String, String> name = new HashMap<String, String>();

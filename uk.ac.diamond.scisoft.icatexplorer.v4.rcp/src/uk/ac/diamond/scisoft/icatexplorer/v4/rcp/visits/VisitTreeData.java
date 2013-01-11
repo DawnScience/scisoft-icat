@@ -88,12 +88,9 @@ public class VisitTreeData implements IMetadataProvider {
 	public IMetaData getMetadata() throws Exception {
 		final HashMap<String, String> pairs = new HashMap<String, String>();
 		pairs.put("ID", Long.toString(this.icatInvestigation.getId()));
-		//pairs.put("SAMPLE_ID", Long.toString(this.icatDataset.getSampleId()));
 		pairs.put("INSTRUMENT", this.icatInvestigation.getInstrument().getName());
 		pairs.put("START_DATE", UnitsConverter.gregorianToString(this.icatInvestigation.getStartDate()));
 		pairs.put("END_DATE", UnitsConverter.gregorianToString(this.icatInvestigation.getEndDate()));
-		pairs.put("FACILITY", this.icatInvestigation.getFacility().getName());
-		//pairs.put("INV_NUMBER", this.icatInvestigation.getInvNumber());
 		
 		final HashMap<String, String> name = new HashMap<String, String>();
 		name.put("NUMBER", "INVESTIGATION: " + this.icatInvestigation.getVisitId());

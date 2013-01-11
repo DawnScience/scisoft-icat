@@ -72,11 +72,8 @@ public class DatasetTreeData  implements IMetadataProvider {
 	public IMetaData getMetadata() throws Exception {
 		final HashMap<String, String> pairs = new HashMap<String, String>();
 		pairs.put("ID", Long.toString(this.icatDataset.getId()));
-		//pairs.put("SAMPLE_ID", Long.toString(this.icatDataset.getSampleId()));
 		pairs.put("INVESTIGATION_ID", Long.toString(this.icatDataset.getId()));
 		pairs.put("NAME", this.icatDataset.getName());
-		pairs.put("DATASET_TYPE", this.icatDataset.getType().getName());
-		//pairs.put("DATASET_STATUS", this.icatDataset.getDatasetStatus());
 		pairs.put("LOCATION", this.icatDataset.getLocation());
 		pairs.put("DESCRIPTION", this.icatDataset.getDescription());
 		
