@@ -194,7 +194,7 @@
          </possibleChildren>
          <actionProvider
                class="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.actions.OpenActionProvider"
-               id="OpenProvider">
+               id="OpenProviderV4">
          </actionProvider>
       </navigatorContent>
    </extension>
@@ -225,7 +225,7 @@
          </possibleChildren>
          <actionProvider
                class="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.actions.OpenActionProvider"
-               id="OpenProvider">
+               id="OpenProviderV4">
          </actionProvider>
          <dropAssistant
                class="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.dnd.ICATDropAdapterAssistant"
