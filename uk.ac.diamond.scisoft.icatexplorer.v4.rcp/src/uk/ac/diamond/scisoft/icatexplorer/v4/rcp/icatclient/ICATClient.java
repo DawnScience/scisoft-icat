@@ -154,7 +154,7 @@ public class ICATClient {
 	            e.setKey("password"); 
 	            e.setValue(password); 
 	            entries.add(e); 
-	            String authenticator = "db";
+	            String authenticator = "ldap";
 
 	            this.sessionId = icat.login(authenticator, credentials);
 	            			
