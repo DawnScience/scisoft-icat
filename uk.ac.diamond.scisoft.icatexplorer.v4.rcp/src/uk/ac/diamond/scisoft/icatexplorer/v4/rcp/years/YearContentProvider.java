@@ -124,8 +124,12 @@ public class YearContentProvider implements ITreeContentProvider {
 				Investigation icatInvestigation = result.get(i);
 				
 				// filter by year and by beamline
-				String year = String.valueOf(((Investigation)result.get(i)).getStartDate().getYear());
-				
+				String year = "uknown";
+				// get years
+				if(((Investigation)result.get(i)).getStartDate() != null){
+					year = String.valueOf(((Investigation)result.get(i)).getStartDate().getYear());
+				}
+								
 				if(year.equalsIgnoreCase(currentYear)){
 									
 					VisitTreeData visit = new VisitTreeData(icatInvestigation, parentProject);

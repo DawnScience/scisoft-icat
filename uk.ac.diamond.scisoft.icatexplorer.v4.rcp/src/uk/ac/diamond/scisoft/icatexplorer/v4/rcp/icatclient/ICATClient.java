@@ -225,6 +225,9 @@ public class ICATClient {
             // populating currentInvestigations
             for (int count=0; count< result.size(); count++){
             	currentInvestigations.add((Investigation) result.get(count));
+            	if (((Investigation) result.get(count)).getStartDate() == null){
+            		logger.debug("startdate is null for visit: " + ((Investigation) result.get(count)).getName());
+            	}
             	
             }
          

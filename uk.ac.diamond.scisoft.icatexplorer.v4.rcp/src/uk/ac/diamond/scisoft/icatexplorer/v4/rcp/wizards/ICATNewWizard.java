@@ -203,9 +203,13 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 
 						for(int i =0; i< allVisits.size(); i++){
 							visits[i] =  (allVisits.get(i)).getVisitId();
-
+							
+							String year = "uknown";
 							// get years
-							String year = Integer.toString((allVisits.get(i)).getStartDate().getYear());
+							if((allVisits.get(i)).getStartDate() != null){
+								year = Integer.toString((allVisits.get(i)).getStartDate().getYear());
+							}
+							
 							if(!years.contains(year)){
 								years.add(year);
 							}

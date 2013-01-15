@@ -209,7 +209,11 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 						visits[i] =  (allVisits.get(i)).getVisitId();
 
 						// get years
-						String year = Integer.toString((allVisits.get(i)).getStartDate().getYear());
+						String year = "uknown";
+						if((allVisits.get(i)).getStartDate() != null){
+							year = Integer.toString((allVisits.get(i)).getStartDate().getYear());
+						}
+						
 						if(!years.contains(year)){
 							years.add(year);
 						}

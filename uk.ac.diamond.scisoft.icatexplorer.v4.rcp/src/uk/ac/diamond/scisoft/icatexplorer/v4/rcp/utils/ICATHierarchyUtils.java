@@ -73,7 +73,10 @@ public class ICATHierarchyUtils {
 			String beamline = String.valueOf((allVisits.get(i)).getInstrument().getName());
 			
 			// get years
-			String year = String.valueOf((allVisits.get(i)).getStartDate().getYear());
+			String year = "uknown";
+			if((allVisits.get(i)).getStartDate() != null){
+				year = String.valueOf((allVisits.get(i)).getStartDate().getYear());
+			}
 			
 			// test if year exist for current beamline
 			if(beamline.equalsIgnoreCase(currentBeamline)){
