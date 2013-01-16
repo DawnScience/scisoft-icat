@@ -511,7 +511,7 @@
          id="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.view.sweep.toolbar"
          label="Sweep ICATs toolbar"
          toolbarPath="group1"
-         tooltip="Sweep disconnected ICATs">
+         tooltip="Sweep disconnected ICATs V4">
       </action> 
    </viewContribution> 
 </extension>

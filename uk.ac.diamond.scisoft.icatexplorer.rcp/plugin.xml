@@ -499,7 +499,7 @@
          id="uk.ac.diamond.scisoft.icatexplorer.rcp.view.sweep.toolbar"
          label="Sweep ICATs toolbar"
          toolbarPath="group1"
-         tooltip="Sweep disconnected ICATs">
+         tooltip="Sweep disconnected ICATs V3">
       </action> 
    </viewContribution> 
 </extension>
