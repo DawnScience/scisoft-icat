@@ -18,6 +18,10 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.v4.rcp.wizards;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
@@ -84,8 +88,9 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 	QualifiedName qNameSftpServer;
 	QualifiedName qNameTruststorePath;
 	QualifiedName qNameTruststorePass;
-
-
+	QualifiedName qNameFromDate;
+	QualifiedName qNameToDate;
+	
 	/**
 	 * Constructor for ReconnectWizardPage.
 	 * 
@@ -110,11 +115,12 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		qNameSftpServer  	 = new QualifiedName("SFTP_SERVER","String");
 		qNameTruststorePath  = new QualifiedName("TRUSTSTORE_PATH","String");
 		qNameTruststorePass  = new QualifiedName("TRUSTSTORE_PASSWORD","String");
-				
+		qNameFromDate        = new QualifiedName("FROM_DATE","String");
+		qNameToDate          = new QualifiedName("TO_DATE","String");		
 				
 
-		setTitle("ICAT Reconnection Wizard - reconnect based on project parameters");
-		setDescription("Wizard to reconnect a closed ICAT connection");
+		setTitle("ICAT v4 Reconnection Wizard - reconnect based on project parameters");
+		setDescription("Wizard to reconnect a closed ICAT v4 connection");
 
 	}
 
@@ -480,5 +486,41 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		if (e.getSource().equals(txtTruststorePassword)) {
 			dialogChanged();
 		}
+	}
+
+	public Calendar getStartDate() {
+		String  startDate = "";
+		Calendar cal = Calendar.getInstance();
+		try {
+			startDate =  iproject.getPersistentProperty(qNameFromDate);
+			
+		    SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+		    cal.setTime(sdf.parse(startDate));
+		    
+		} catch (CoreException e) {
+			logger.error("Error extracting project start date bound");
+		} catch (ParseException e) {
+			logger.debug("Can't parse date: " + startDate);
+		}
+		return cal;
+	}
+
+	public Calendar getEndDate() {
+		
+		String  endDate = "";
+		Calendar cal = Calendar.getInstance();
+		try {
+			endDate = iproject.getPersistentProperty(qNameToDate);
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+			cal.setTime(sdf.parse(endDate));
+			
+		} catch (CoreException e) {
+			logger.error("Error extracting project end date bound");
+		} catch (ParseException e) {
+			logger.debug("Can't parse date: " + endDate);
+		}
+		
+		return cal;
 	}
 }

@@ -18,6 +18,9 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.v4.rcp.wizards;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import org.eclipse.jface.dialogs.IDialogPage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ISelection;
@@ -37,6 +40,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
@@ -45,6 +49,7 @@ import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.wb.swt.ResourceManager;
+import org.eclipse.wb.swt.SWTResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +66,8 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 	private Text txtFedid;
 	private Text txtPassword;
 	private Text icatSiteNameText;
+	private Calendar FROM_DATE;
+	private Calendar TO_DATE;
 	private final String initProject;
 	private final String initDirectory;
 	private final String initFedid;
@@ -76,6 +83,8 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 	private Text txtSftpServer;
 	private Text txtTruststore;
 	private Text txtTruststorePassword;
+	private DateTime dateFrom;
+	private DateTime dateTo;
 	private ScrolledComposite sc;
 	private ExpansionAdapter expansionAdapter;
 	private ExpandableComposite advancedOptionsExpander;
@@ -99,8 +108,8 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		preferenceStore = ICATExplorerActivator.getDefault().getPreferenceStore();
 		DELIMITER = ICATPreferenceInitializer.DELIMITER;
 
-		setTitle("ICAT Project Wizard - creates a connection to an ICAT database");
-		setDescription("Wizard to create an ICAT connection to browse datafiles");
+		setTitle("ICAT V4 Project Wizard - creates a connection to an ICAT database");
+		setDescription("Wizard to create an ICAT V4 connection to browse datafiles");
 	}
 
 	/**
@@ -336,8 +345,59 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 			}
 		});
 		btnShowPassword.setText("Show password");
+		
+		// set default FROM date to current date
+		Calendar calA = Calendar.getInstance();
+		
+		Label lblFrom = new Label(optionsComposite, SWT.TOP);
+		lblFrom.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
+		lblFrom.setText("Visit StartDate from:");
+		dateFrom = new DateTime(optionsComposite, SWT.NONE | SWT.CALENDAR | SWT.DROP_DOWN);
+		dateFrom.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
+		dateFrom.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
+		GridData gd_dateFrom = new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1);
+		gd_dateFrom.widthHint = 193;
+		dateFrom.setLayoutData(gd_dateFrom);
+		dateFrom.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// set from date
+				setSqlFromDate();
+			}
+
+		});
 	
+		dateFrom.setYear(calA.get(Calendar.YEAR));
+		dateFrom.setMonth(calA.get(Calendar.MONTH));
+		dateFrom.setDay(calA.get(Calendar.DAY_OF_YEAR));
+		setSqlFromDate();
+
+		Label lblTo = new Label(optionsComposite, SWT.TOP);
+		lblTo.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
+		lblTo.setText("Visit StartDate to:");
+		dateTo = new DateTime(optionsComposite, SWT.NONE | SWT.CALENDAR | SWT.DROP_DOWN);
+		dateTo.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
+		dateTo.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
+		GridData gd_dateTo = new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1);
+		gd_dateTo.widthHint = 193;
+		dateTo.setLayoutData(gd_dateTo);
+		dateTo.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// set to date
+				setSqlToDate();
+			}
+		});
+		// end with current date + 1 month
+		dateTo.setYear(calA.get(Calendar.YEAR));
+		dateTo.setMonth(calA.get(Calendar.MONTH) + 1);
+		dateTo.setDay(calA.get(Calendar.DAY_OF_YEAR));
+		setSqlToDate();
+			
 		advancedOptionsExpander.setClient(optionsComposite);
+		new Label(optionsComposite, SWT.NONE);
+		new Label(optionsComposite, SWT.NONE);
+		new Label(optionsComposite, SWT.NONE);
 		advancedOptionsExpander.addExpansionListener(expansionAdapter);
 		setControl(composite);
 
@@ -499,5 +559,35 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		}catch(Exception e){
 			return "";
 		}
+	}
+	
+	private void setSqlFromDate() {
+		Calendar cal = GregorianCalendar.getInstance();
+		cal.set(Calendar.YEAR, dateFrom.getYear());
+		cal.set(Calendar.MONTH, dateFrom.getMonth());
+		cal.set(Calendar.DAY_OF_MONTH, dateFrom.getDay());
+
+		logger.debug("From date: " + FROM_DATE.get(cal.DAY_OF_MONTH) + "/" +  FROM_DATE.get(cal.MONTH)+"/"+ FROM_DATE.get(cal.YEAR));
+		
+		FROM_DATE = cal;
+	}
+
+	private void setSqlToDate() {
+		Calendar cal = GregorianCalendar.getInstance();
+		cal.set(Calendar.YEAR, dateTo.getYear());
+		cal.set(Calendar.MONTH, dateTo.getMonth());
+		cal.set(Calendar.DAY_OF_MONTH, dateTo.getDay());
+
+		logger.debug("To date: " + TO_DATE.get(cal.DAY_OF_MONTH) + "/" +  TO_DATE.get(cal.MONTH)+"/"+ TO_DATE.get(cal.YEAR));
+		
+		TO_DATE = cal;
+	}
+
+	public Calendar getFromDate() {
+		return FROM_DATE;
+	}
+
+	public Calendar getToDate() {
+		return TO_DATE;
 	}
 }

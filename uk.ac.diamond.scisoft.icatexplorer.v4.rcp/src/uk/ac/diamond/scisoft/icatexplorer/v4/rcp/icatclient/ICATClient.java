@@ -26,7 +26,9 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 
 import org.icatproject.Datafile;
@@ -209,7 +212,7 @@ public class ICATClient {
 
 	}
 
-	public List<Investigation> getLightInvestigations(){
+	public List<Investigation> getLightInvestigations(Calendar fromDate, Calendar toDate){
 
 		ICAT icat;
 		try {
@@ -222,15 +225,33 @@ public class ICATClient {
 			String query = "Investigation INCLUDE InvestigationParameter, Instrument";
             List<?> result = icat.search(sessionId, query);
             
-            // populating currentInvestigations
+            /**
+             * populating currentInvestigations
+             */
             for (int count=0; count< result.size(); count++){
-            	currentInvestigations.add((Investigation) result.get(count));
-//            	if (((Investigation) result.get(count)).getStartDate() == null){
-//            		logger.debug("startdate is null for visit: " + ((Investigation) result.get(count)).getName());
-//            	}
-            	
+            	Investigation inv = (Investigation) result.get(count);
+
+            	/**
+            	 * filter by fromDate and toDate
+            	 */
+            	try {
+            		XMLGregorianCalendar startDate = inv.getStartDate();
+
+            		int compA = (startDate.toGregorianCalendar()).compareTo(fromDate);
+            		int compB = (startDate.toGregorianCalendar()).compareTo(toDate);
+
+            		if(compA >= 0 && compB <= 0){
+//            			logger.debug(dateFromCalendar(fromDate) +" <= " + dateFromCalendar(startDate.toGregorianCalendar()) + 
+//            					" <= " + dateFromCalendar(toDate));
+
+            			currentInvestigations.add(inv);
+            		}
+
+            	}catch(Exception e){
+            		//logger.error("Visit " + inv.getName() + "'s start date is null");
+            	}
             }
-         
+                     
 			long endTime = System.currentTimeMillis();
 			long millis = endTime - startTime;
 
@@ -344,6 +365,12 @@ public class ICATClient {
 
 	public List<Investigation> getCurrentInvestigations() {
 		return currentInvestigations;
+	}
+	
+	private String dateFromCalendar(Calendar date){
+		SimpleDateFormat df = new SimpleDateFormat();
+        df.applyPattern("dd/MM/yyyy");
+        return df.format(date.getTime());
 	}
 
 }

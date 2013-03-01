@@ -19,6 +19,7 @@ package uk.ac.diamond.scisoft.icatexplorer.v4.rcp.wizards;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -120,6 +121,9 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 		final String project   = page.getProject();
 		final String truststore  = page.getTruststore();
 		final String truststorePass  = page.getTruststorePass();
+		final Calendar fromDate  = page.getFromDate();
+		final Calendar toDate    = page.getToDate();
+
 
 
 		final Job loadDataProject = new Job("Load metadata from ICAT V4.2") {
@@ -145,7 +149,7 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						ICATSessions.add(sessionid, icatClient);
 
 						// getting the list of visits
-						List<Investigation> allVisits = icatClient.getLightInvestigations();
+						List<Investigation> allVisits = icatClient.getLightInvestigations(fromDate, toDate);
 
 						// create project
 						//IProgressMonitor progressMonitor = new NullProgressMonitor();
@@ -166,6 +170,8 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						QualifiedName qNameSftpServer  = new QualifiedName("SFTP_SERVER","String");
 						QualifiedName qNameTruststorePath  = new QualifiedName("TRUSTSTORE_PATH","String");
 						QualifiedName qNameTruststorePass  = new QualifiedName("TRUSTSTORE_PASSWORD","String");
+						QualifiedName qNameFromDate  	   = new QualifiedName("FROM_DATE","String");
+						QualifiedName qNameToDate          = new QualifiedName("TO_DATE","String");
 
 						iproject.setPersistentProperty(qNameProjectType, "ICATV4");
 						iproject.setPersistentProperty(qNameSessionId, sessionid);
@@ -177,6 +183,8 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						iproject.setPersistentProperty(qNameSftpServer, icatCon.getSftpServer());
 						iproject.setPersistentProperty(qNameTruststorePath, truststore);
 						iproject.setPersistentProperty(qNameTruststorePass, truststorePass);
+						iproject.setPersistentProperty(qNameFromDate, calendarToString(fromDate));
+						iproject.setPersistentProperty(qNameToDate, calendarToString(toDate));
 
 						// associating the icat nature to the newly created project
 						try {
@@ -312,5 +320,13 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
+	}
+	
+	private String calendarToString(Calendar calendarDate){
+	     logger.debug("day: " + calendarDate.get(Calendar.DAY_OF_MONTH));
+	     logger.debug("month: " + calendarDate.get(Calendar.MONTH));
+	     logger.debug("year: " +  calendarDate.get(Calendar.YEAR));
+	     return calendarDate.get(Calendar.DAY_OF_MONTH)+"/"+ calendarDate.get(Calendar.MONTH) + "/" + calendarDate.get(Calendar.YEAR);
+		
 	}
 }

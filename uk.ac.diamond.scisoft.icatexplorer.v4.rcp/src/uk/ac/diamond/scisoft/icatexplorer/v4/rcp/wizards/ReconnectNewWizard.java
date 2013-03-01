@@ -19,6 +19,7 @@
 package uk.ac.diamond.scisoft.icatexplorer.v4.rcp.wizards;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -129,6 +130,8 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 		final String project          = page.getProject();
 		final String truststore       = page.getTruststore();
 		final String truststorePass   = page.getTruststorePass();
+		final Calendar startDate	  = page.getStartDate();
+		final Calendar endDate	      = page.getEndDate();
 
 		final Job loadDataProject = new Job("Load metadata from ICAT V4") {
 
@@ -148,7 +151,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					ICATSessions.add(sessionid, icatClient);
 
 					// getting the list of visits
-					List<Investigation> allVisits = icatClient.getLightInvestigations();
+					List<Investigation> allVisits = icatClient.getLightInvestigations(startDate, endDate);
 
 
 					// create project
