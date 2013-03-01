@@ -18,7 +18,6 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.v4.rcp.wizards;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,13 +101,13 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 		String prevProject = null , prevFolder = null, prevDirectory = null, prevFedid = null, prevPassword = null, prevTruststore = null, prevTruststorePassword = null;
 		IDialogSettings  settings = getDialogSettings();
 		if( settings != null){
-			prevProject = projectName;//settings.get(DIALOG_SETTING_KEY_PROJECT);
-			prevFolder = "";//settings.get(DIALOG_SETTING_KEY_FOLDER);
-			prevDirectory = directory;//settings.get(DIALOG_SETTING_KEY_DIRECTORY);
-			prevFedid = fedid;//settings.get(DIALOG_SETTING_KEY_FEDID);
-			prevPassword = "";//settings.get(DIALOG_SETTING_KEY_PASSWORD);
-			prevTruststore =""; //settings.get(DIALOG_SETTING_KEY_TRUSTSTORE);
-			prevTruststorePassword = "";//settings.get(DIALOG_SETTING_KEY_TRUSTSTORE_PASSWORD);
+			prevProject = projectName;
+			prevFolder = "";
+			prevDirectory = directory;
+			prevFedid = fedid;
+			prevPassword = "";
+			prevTruststore ="";
+			prevTruststorePassword = "";
 		}
 		page = new ReconnectWizardPage(iproject, prevProject, prevFolder, prevDirectory, prevFedid, prevPassword, prevTruststore, prevTruststorePassword, icatCon);
 		addPage(page);
@@ -131,12 +130,12 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 		final String truststore       = page.getTruststore();
 		final String truststorePass   = page.getTruststorePass();
 
-		final Job loadDataProject = new Job("Load metadata from ICAT") {
+		final Job loadDataProject = new Job("Load metadata from ICAT V4") {
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 
-				monitor.beginTask("Creating an ICAT explorer instance for your data", 100);
+				monitor.beginTask("Creating an ICAT V4 explorer instance for your data", 100);
 				try {
 					//ProjectUtils.createImportProjectAndFolder(project, folder, directory, ICATProjectNature.NATURE_ID, null, monitor);
 
@@ -173,7 +172,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					QualifiedName qNameTruststorePath  = new QualifiedName("TRUSTSTORE_PATH","String");
 					QualifiedName qNameTruststorePass  = new QualifiedName("TRUSTSTORE_PASSWORD","String");
 
-					iproject.setPersistentProperty(qNameProjetcType, "ICAT");
+					iproject.setPersistentProperty(qNameProjetcType, "ICATV4");
 					iproject.setPersistentProperty(qNameSessionId, sessionid);
 					iproject.setPersistentProperty(qNameFedid, fedid);
 					iproject.setPersistentProperty(qNameSiteName, icatCon.getSiteName());
@@ -246,7 +245,6 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 						// years by beamline
 						for(int j=0; j< yearsByBeamline.size(); j++){
 							String path = initialPath + "/" + yearsByBeamline.get(j);
-							logger.debug("adding path: " + path);
 							pathList.add(path);
 						}
 					}

@@ -73,6 +73,7 @@ public class VisitContentProvider implements ITreeContentProvider
 	 * NO_CHILDREN for otherwise.
 	 */
 	public Object[] getChildren(Object parentElement) {  
+		
 		Object[] children = null;
 		if (parentElement instanceof VisitTreeData) { 
 			children = NO_CHILDREN;
@@ -80,8 +81,7 @@ public class VisitContentProvider implements ITreeContentProvider
 			String[] temp;
 			String delimiter = "/";
 			temp = parentElement.toString().split(delimiter);	
-			System.out.println("temp[1]: " + temp[1]);
-			//String currentProject = temp[1];
+
 			IProject parentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(temp[1]);
 			
 			return getVisits(parentProject);
@@ -95,7 +95,7 @@ public class VisitContentProvider implements ITreeContentProvider
 	 * @return
 	 */
 	private VisitTreeData[] getVisits(IProject parentProject) {
-						
+					
 		QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
 		String sessionId = null;
 		try {

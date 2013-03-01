@@ -37,7 +37,7 @@ import uk.ac.diamond.scisoft.icatexplorer.rcp.natures.ICATProjectNature;
  */
 public class ICATProjectSupport {
 	/**
-	 * For this marvelous project we need to: - create the default Eclipse
+	 * for this project we need to: - create the default Eclipse
 	 * project - add the custom project nature - create the folder structure
 	 * 
 	 * @param projectName

@@ -21,9 +21,9 @@ package uk.ac.diamond.scisoft.icatexplorer.v4.rcp.wizards;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
-import org.eclipse.jface.dialogs.IDialogPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
@@ -31,13 +31,18 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.events.ExpansionAdapter;
+import org.eclipse.ui.forms.events.ExpansionEvent;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.wb.swt.ResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,9 +67,13 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 	private static final Logger logger = LoggerFactory.getLogger(ReconnectWizardPage.class);
 
 	private Text icatIDText;
-	private Text sftpServerText;
+	private Text txtSftpServer;
 	private Text txtTruststore;
 	private Text txtTruststorePassword;
+	private ScrolledComposite sc;
+	private ExpansionAdapter expansionAdapter;
+	private ExpandableComposite advancedOptionsExpander;
+	
 	
 	QualifiedName qNameProjectType;
 	QualifiedName qNameFedid;
@@ -109,118 +118,156 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 
 	}
 
-	/**
-	 * @see IDialogPage#createControl(Composite)
-	 */
-	@Override
 	public void createControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.NULL);
-		container.setLocation(-708, 1);
-		container.setLayout(null);
-		Label lblProjectName = new Label(container, SWT.NULL);
-		lblProjectName.setBounds(4, 174, 103, 16);
-		lblProjectName.setText("&Project name:");
-		txtProject = new Text(container, SWT.BORDER);
-		txtProject.setBounds(113, 173, 212, 27);
-		txtProject.setText(iproject.getName());
-		txtProject.setEditable(false);
-		txtProject.addKeyListener(this);
-		Composite composite = new Composite(container, SWT.NULL);
-		composite.setBounds(708, 37, 64, 64);
-		Composite composite_1 = new Composite(container, SWT.NULL);
-		composite_1.setBounds(708, 108, 64, 64);
+		
+		String icatID = icatCon.getId();
 
-		Label lblicatDatabase = new Label(container, SWT.NONE);
-		lblicatDatabase.setText("&ICAT site name:");
-		lblicatDatabase.setBounds(4, 63, 103, 13);
+		// Set up the composite to hold all the information
+		sc = new ScrolledComposite(parent, SWT.V_SCROLL | SWT.H_SCROLL);
+		sc.setLayout(new FillLayout());
 
-		Label passwordLbl = new Label(container, SWT.NONE);
-		passwordLbl.setBounds(4, 139, 64, 13);
-		passwordLbl.setText("&Password:");
+		final Composite composite = new Composite(sc, SWT.NULL);
+		composite.setLocation(-708, 1);
+		composite.setLayout(new GridLayout(2, false));
 
-		txtFedid = new Text(container, SWT.BORDER);
+		// Specify the expansion Adapter
+		expansionAdapter = new ExpansionAdapter() {
+			@Override
+			public void expansionStateChanged(ExpansionEvent e) {
+				composite.layout();
+				sc.notifyListeners(SWT.Resize, null);
+			}
+		};
+
+		Label lblNewLabel = new Label(composite, SWT.NONE);
+		lblNewLabel.setText("&Site Id");		
+		
+		icatIDText = new Text(composite, SWT.BORDER | SWT.READ_ONLY);
+		GridData gd_icatIDText = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_icatIDText.widthHint = 269;
+		icatIDText.setLayoutData(gd_icatIDText);
+		icatIDText.setText(icatID);
+		icatIDText.setEditable(false);
+		
+		Label lblsiteName = new Label(composite, SWT.NONE);
+		lblsiteName.setText("&Site Name");		
+		
+		icatSiteNameText = new Text(composite, SWT.BORDER | SWT.READ_ONLY);
+		GridData gd_icatSiteNameText = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_icatSiteNameText.widthHint = 269;
+		icatIDText.setLayoutData(gd_icatSiteNameText);
+		String siteName = icatCon.getSiteName();
+		icatSiteNameText.setText(siteName);
+		icatSiteNameText.setEditable(false);
+		
+		Label fedidLbl = new Label(composite, SWT.NONE);
+		fedidLbl.setText("&FedId:");
+
+		txtFedid = new Text(composite, SWT.BORDER);
+		GridData gd_txtFedid = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_txtFedid.widthHint = 260;
+		txtFedid.setLayoutData(gd_txtFedid);
 		txtFedid.setEditable(false);
 		try {
 			txtFedid.setText(iproject.getPersistentProperty(qNameFedid));
 		} catch (CoreException e1) {
 			logger.error("can't set fedid");
 		}
-		txtFedid.setBounds(113, 93, 212, 27);
 		txtFedid.addKeyListener(this);
 
+		Label passwordLbl = new Label(composite, SWT.NONE);
+		passwordLbl.setBounds(4, 139, 64, 13);
+		passwordLbl.setText("&Password:");
 
-		txtPassword = new Text(container, SWT.BORDER | SWT.PASSWORD);
-		txtPassword.setBounds(113, 133, 212, 27);
+		txtPassword = new Text(composite, SWT.BORDER | SWT.PASSWORD);
+		GridData gd_txtPassword = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_txtPassword.widthHint = 260;
+		txtPassword.setLayoutData(gd_txtPassword);
 		txtPassword.addKeyListener(this);
 
-		setControl(container);
+		/**
+		 * set-up the standard GUI elements
+		 * */
+		Label lblProjectName = new Label(composite, SWT.NULL);
+		lblProjectName.setText("&Project name:");
+		txtProject = new Text(composite, SWT.BORDER);
+		GridData gd_txtProject = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_txtProject.widthHint = 260;
+		txtProject.setLayoutData(gd_txtProject);
+		txtProject.setBounds(113, 173, 212, 27);
+		txtProject.setEditable(false);
+		txtProject.setText(iproject.getName());
+		txtProject.addKeyListener(this);
 		
-		icatIDText = new Text(container, SWT.BORDER | SWT.READ_ONLY);
+		sc.setContent(composite);
+		sc.setExpandVertical(true);
+		sc.setExpandHorizontal(true);
 
-		String icatID = icatCon.getId();
-		icatIDText.setText(icatID);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
 
-		icatIDText.setEditable(false);
-		icatIDText.setBounds(113, 13, 212, 27);
+		/**
+		 * set-up advanced options GUI elements
+		 */
+		advancedOptionsExpander = new ExpandableComposite(composite, SWT.NONE);
+		GridData gd_advancedOptionsExpander = new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1);
+		gd_advancedOptionsExpander.widthHint = 242;
+		advancedOptionsExpander.setLayoutData(gd_advancedOptionsExpander);
+		advancedOptionsExpander.setLayout(new GridLayout(2, false));
+		advancedOptionsExpander.setText("Advanced Options");
+		advancedOptionsExpander.setExpanded(false);
 
-		Label lblNewLabel = new Label(container, SWT.NONE);
-		lblNewLabel.setBounds(4, 20, 81, 17);
-		lblNewLabel.setText("&ICAT site ID");
-
-		icatSiteNameText = new Text(container, SWT.BORDER | SWT.READ_ONLY);
-		icatSiteNameText.setEditable(false);
-
-		String siteName = icatCon.getSiteName();
-		icatSiteNameText.setText(siteName);
-		icatSiteNameText.setBounds(113, 53, 212, 27);
-
-		String sftpServer = icatCon.getSftpServer();
-
-		Label fedidLbl = new Label(container, SWT.NONE);
-		fedidLbl.setText("&FedId:");
-		fedidLbl.setBounds(4, 108, 64, 13);
-
-		Group grpAdvanced = new Group(container, SWT.NONE);
-		grpAdvanced.setText("Advanced");
-		grpAdvanced.setBounds(0, 213, 578, 213);
-
-		Label lbltruststorePassword = new Label(grpAdvanced, SWT.NONE);
-		lbltruststorePassword.setBounds(10, 173, 135, 19);
-		lbltruststorePassword.setText("&Truststore password:");
-
-		Label lbltruststorePath = new Label(grpAdvanced, SWT.NONE);
-		lbltruststorePath.setBounds(10, 130, 135, 19);
-		lbltruststorePath.setText("&Truststore path:");
-
-		Label lbldownloadDirectory = new Label(grpAdvanced, SWT.NULL);
-		lbldownloadDirectory.setBounds(10, 82, 135, 19);
-		lbldownloadDirectory.setText("&Download directory:");
-
-
-		Label sftpServerLbl = new Label(grpAdvanced, SWT.NONE);
-		sftpServerLbl.setBounds(10, 41, 79, 13);
+		Composite optionsComposite = new Composite(advancedOptionsExpander, SWT.NONE);
+		optionsComposite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
+		optionsComposite.setLayout(new GridLayout(3, false));
+	
+		Label sftpServerLbl = new Label(optionsComposite, SWT.NONE);
 		sftpServerLbl.setText("&SFTP server:");
 
-		txtTruststorePassword = new Text(grpAdvanced, SWT.BORDER | SWT.PASSWORD);
-		txtTruststorePassword.setBounds(151, 165, 212, 27);
-		try {
-			txtTruststorePassword.setText(iproject.getPersistentProperty(qNameTruststorePass));
-		} catch (CoreException e) {
-			logger.error("can't set truststore password: " + e);
-		}
+		txtSftpServer = new Text(optionsComposite, SWT.BORDER);
+		GridData gd_txtSftpServer = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_txtSftpServer.widthHint = 193;
+		txtSftpServer.setLayoutData(gd_txtSftpServer);
+		txtSftpServer.setEditable(true);
 
-		txtTruststore = new Text(grpAdvanced, SWT.BORDER);
-		txtTruststore.setBounds(151, 122, 321, 27);
-		try {
-			txtTruststore.setText(iproject.getPersistentProperty(qNameTruststorePath));
-		} catch (CoreException e) {
-			logger.error("can't set truststore: " + e);
-		}		
-		txtTruststore.setEnabled(true);
-		txtTruststore.setEditable(true);
+		String sftpServer = icatCon.getSftpServer();
+		txtSftpServer.setText(sftpServer);
 		
-		txtDirectory = new Text(grpAdvanced, SWT.BORDER);
-		txtDirectory.setBounds(151, 82, 321, 27);
+		final Button btnSftpTest = new Button(optionsComposite, SWT.NONE);
+		GridData gd_btnSftpTest = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_btnSftpTest.widthHint = 100;
+		btnSftpTest.setLayoutData(gd_btnSftpTest);
+		btnSftpTest.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				/*
+				 * test server using ping
+				 */
+				 if(NetworkUtils.isReachable(txtSftpServer.getText())){
+					 Image okImage = (ResourceManager.getPluginImage(ICAT_PLUGIN_ID, "icons/ok.png"));;
+					 btnSftpTest.setImage(okImage);
+				 }else{
+					 Image noImage = (ResourceManager.getPluginImage(ICAT_PLUGIN_ID, "icons/no.png"));;
+					 btnSftpTest.setImage(noImage);
+				 }
+			}
+		});
+		btnSftpTest.setText("Test");
+
+		txtSftpServer.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				btnSftpTest.setImage(null);
+			}
+		});
+		
+		Label lbldownloadDirectory = new Label(optionsComposite, SWT.NULL);
+		lbldownloadDirectory.setText("&Download directory:");
+
+		txtDirectory = new Text(optionsComposite, SWT.BORDER);
+		GridData gd_txtDirectory = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_txtDirectory.widthHint = 193;
+		txtDirectory.setLayoutData(gd_txtDirectory);
 		try {
 			txtDirectory.setText(iproject.getPersistentProperty(qNameDirectory));
 		} catch (CoreException e) {
@@ -229,8 +276,62 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		txtDirectory.setEditable(true);
 		txtDirectory.setEnabled(true);
 
-		final Button btnShowPassword = new Button(grpAdvanced, SWT.CHECK);
-		btnShowPassword.setBounds(369, 170, 125, 22);
+		Button BtnBrowseDirectory = new Button(optionsComposite, SWT.PUSH);
+		GridData gd_BtnBrowseDirectory = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_BtnBrowseDirectory.widthHint = 100;
+		BtnBrowseDirectory.setLayoutData(gd_BtnBrowseDirectory);
+		BtnBrowseDirectory.setText("Browse...");
+		BtnBrowseDirectory.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleDownloadDirBrowse();
+			}
+		});
+
+		Label lbltruststorePath = new Label(optionsComposite, SWT.NONE);
+		lbltruststorePath.setBounds(10, 131, 103, 19);
+		lbltruststorePath.setText("&Truststore path:");
+
+		txtTruststore = new Text(optionsComposite, SWT.BORDER);
+		GridData gd_txtTruststore = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_txtTruststore.widthHint = 193;
+		txtTruststore.setLayoutData(gd_txtTruststore);
+		txtTruststore.setEnabled(true);
+		txtTruststore.setEditable(true);
+		try {
+			txtTruststore.setText(iproject.getPersistentProperty(qNameTruststorePath));
+		} catch (CoreException e) {
+			logger.error("can't set truststore: " + e);
+		}	
+
+		Button BtnBrowseTruststore = new Button(optionsComposite, SWT.PUSH);
+		GridData gd_BtnBrowseTruststore = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_BtnBrowseTruststore.widthHint = 100;
+		BtnBrowseTruststore.setLayoutData(gd_BtnBrowseTruststore);
+		BtnBrowseTruststore.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleTruststoreBrowse();
+			}
+		});
+		BtnBrowseTruststore.setText("Browse...");
+		
+		Label lbltruststorePassword = new Label(optionsComposite, SWT.NONE);
+		lbltruststorePassword.setText("&Truststore password:");
+
+		txtTruststorePassword = new Text(optionsComposite, SWT.BORDER | SWT.PASSWORD);
+		GridData gd_txtTruststorePassword = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_txtTruststorePassword.widthHint = 193;
+		txtTruststorePassword.setLayoutData(gd_txtTruststorePassword);
+		txtTruststorePassword.setEnabled(true);	
+		try {
+			txtTruststorePassword.setText(iproject.getPersistentProperty(qNameTruststorePass));
+		} catch (CoreException e) {
+			logger.error("can't set truststore password: " + e);
+		}
+		txtTruststorePassword.addKeyListener(this);
+
+		final Button btnShowPassword = new Button(optionsComposite, SWT.CHECK);
 		btnShowPassword.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -242,67 +343,15 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 			}
 		});
 		btnShowPassword.setText("Show password");
-
-		Button BtnBrowseTruststore = new Button(grpAdvanced, SWT.NONE);
-		BtnBrowseTruststore.setBounds(478, 122, 71, 27);
-		BtnBrowseTruststore.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				handleTruststoreBrowse();
-			}
-		});
-		BtnBrowseTruststore.setText("Browse...");
-
-		Button button = new Button(grpAdvanced, SWT.PUSH);
-		button.setBounds(478, 82, 71, 27);
-		button.setText("Browse...");
-
-		sftpServerText = new Text(grpAdvanced, SWT.BORDER | SWT.READ_ONLY);
-		sftpServerText.setBounds(151, 41, 212, 27);
-		sftpServerText.setEditable(true);
-		sftpServerText.setText(sftpServer);
-
-		final Button btnSftpTest = new Button(grpAdvanced, SWT.NONE);
-		btnSftpTest.setBounds(388, 39, 84, 29);
-		btnSftpTest.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				/*
-				 * ping test server for reachability
-				 */
-				if(NetworkUtils.isReachable(sftpServerText.getText())){
-					Image okImage = (ResourceManager.getPluginImage(ICAT_PLUGIN_ID, "icons/ok.png"));;
-					btnSftpTest.setImage(okImage);
-				}else{
-					Image noImage = (ResourceManager.getPluginImage(ICAT_PLUGIN_ID, "icons/no.png"));;
-					btnSftpTest.setImage(noImage);
-				}
-
-			}
-		});
-		btnSftpTest.setText("Test");
-
-		sftpServerText.addModifyListener(new ModifyListener() {
-			@Override
-			public void modifyText(ModifyEvent e) {
-
-				// server name changing so reset Test button
-				btnSftpTest.setImage(null);
-			}
-		});
-		button.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				handleDownloadDirBrowse();
-			}
-		});
-		txtDirectory.addKeyListener(this);
-		txtTruststore.addKeyListener(this);
-		txtTruststorePassword.addKeyListener(this);
+	
+		advancedOptionsExpander.setClient(optionsComposite);
+		advancedOptionsExpander.addExpansionListener(expansionAdapter);
+		setControl(composite);
 
 		dialogChanged();
-
+		
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
 	}
 
 	/**
@@ -377,7 +426,7 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 
 		String id         = icatIDText.getText();
 		String siteName   = icatSiteNameText.getText();
-		String sftpServer = sftpServerText.getText();
+		String sftpServer = txtSftpServer.getText();
 
 		String wsdl = icatCon.getWsdlLocation();
 

@@ -77,7 +77,6 @@ public class DisconnectedICATsHandler extends ViewerFilter {
 
 						boolean isICATSessionClosed = (!ICATSessions.hasSessionId(sessionId));
 						if (isICATSessionClosed) {
-							logger.debug("session: " +  sessionId + " closed. Deleting " + currentProject.getName());
 
 							/*
 							 * change icon of icat project and delete its hierarchy

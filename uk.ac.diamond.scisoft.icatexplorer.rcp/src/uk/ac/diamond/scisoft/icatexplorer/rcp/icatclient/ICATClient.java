@@ -224,7 +224,7 @@ public class ICATClient {
 			long startTime = System.currentTimeMillis();
 			icat = getIcat();
 
-			logger.debug("Calling getInvestigations()...sessionid: " + sessionId);
+			logger.debug("Calling getLightInvestigations()...sessionid: " + sessionId);
 			currentInvestigations = icat.getMyInvestigationsIncludes(this.sessionId,
 					InvestigationInclude.NONE);
 

@@ -105,7 +105,6 @@ public class ICATHierarchyUtils {
 			String year = String.valueOf((allVisits.get(i)).getStartDate().getYear());
 			
 			// test if year exist for current beamline
-			System.out.println("beamline = " + beamlineName + "currentBeamline = " +currentBeamline + " year= "+ year +" currentYear = " + currentYear);
 			if(beamlineName.equalsIgnoreCase(currentBeamline) && year.equalsIgnoreCase(currentYear)){
 				logger.debug("adding visit: " + allVisits.get(i));
 				//visits.add(allVisits.get(i).getVisitId());

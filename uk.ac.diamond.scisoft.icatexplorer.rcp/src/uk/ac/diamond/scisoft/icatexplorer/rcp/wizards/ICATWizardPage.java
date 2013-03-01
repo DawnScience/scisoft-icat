@@ -81,7 +81,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 	 * @param prevFolder
 	 * @param prevProject
 	 */
-	public ICATWizardPage(@SuppressWarnings("unused") ISelection selection, String prevProject,
+	public ICATWizardPage(ISelection selection, String prevProject,
 			String prevFolder, String prevDirectory, String prevFedid, String prevPassword, String prevTruststore, String prevTruststorePass) {
 		super("ICATWizardPage");
 

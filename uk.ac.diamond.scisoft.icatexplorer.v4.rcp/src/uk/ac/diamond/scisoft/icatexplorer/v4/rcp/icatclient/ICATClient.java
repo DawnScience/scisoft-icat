@@ -217,7 +217,7 @@ public class ICATClient {
 			long startTime = System.currentTimeMillis();
 			icat = getIcat();
 
-			logger.debug("Calling getInvestigations()...sessionid: " + sessionId);
+			logger.debug("Calling getLightInvestigations()...sessionid: " + sessionId);
 			
 			String query = "Investigation INCLUDE InvestigationParameter, Instrument";
             List<?> result = icat.search(sessionId, query);
@@ -225,9 +225,9 @@ public class ICATClient {
             // populating currentInvestigations
             for (int count=0; count< result.size(); count++){
             	currentInvestigations.add((Investigation) result.get(count));
-            	if (((Investigation) result.get(count)).getStartDate() == null){
-            		logger.debug("startdate is null for visit: " + ((Investigation) result.get(count)).getName());
-            	}
+//            	if (((Investigation) result.get(count)).getStartDate() == null){
+//            		logger.debug("startdate is null for visit: " + ((Investigation) result.get(count)).getName());
+//            	}
             	
             }
          
@@ -250,7 +250,8 @@ public class ICATClient {
 					"problem retrieving investigations for user: "
 							+ this.getFedId(), e);
 		}
-
+		
+		logger.debug("currentInvestigations.size(): "+ currentInvestigations.size());
 		return currentInvestigations;
 	}
 

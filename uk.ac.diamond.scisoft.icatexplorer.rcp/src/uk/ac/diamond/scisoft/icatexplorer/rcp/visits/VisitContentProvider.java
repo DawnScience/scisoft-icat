@@ -108,6 +108,10 @@ public class VisitContentProvider implements ITreeContentProvider
 		
 		ICATClient icatClient = ICATSessions.get(sessionId);
 		
+		logger.debug("current sessionid= " + sessionId);
+		logger.debug("icatClient.getCurrentInvestigations().size()= " + icatClient.getCurrentInvestigations().size());
+
+		
 		List<Investigation> result = null;
 		
 		result = icatClient.getCurrentInvestigations();

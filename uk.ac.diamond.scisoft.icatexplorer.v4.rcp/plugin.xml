@@ -525,7 +525,7 @@
           <command
                commandId="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.commands.refresh"
                icon="icons/refresh_16x16.png"
-               label="Refresh ICAT"
+               label="Refresh ICAT v4.2"
                style="push">
              <visibleWhen  checkEnabled="false">
                   <with variable="activeMenuSelection">
@@ -548,7 +548,7 @@
          <command
                commandId="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.commands.reconnecticat"
                icon="icons/database.png"
-               label="Reconnect ICAT..."
+               label="Reconnect ICAT v4.2 ..."
                style="push">
              <visibleWhen  checkEnabled="false">
                   <with variable="activeMenuSelection">
@@ -572,7 +572,7 @@
          <command
                commandId="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.commands.sweepcat"
                icon="icons/sweep-small.png"
-               label="Sweep ICAT"
+               label="Sweep ICAT v4.2"
                style="push">
                <visibleWhen>
                   <with variable="activeMenuSelection">
@@ -603,17 +603,17 @@
         <command
             defaultHandler="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.actions.RefreshAction"
             id="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.commands.refresh"
-            name="Refresh ICAT">
+            name="Refresh ICAT v4.2">
       </command>
       <command
             defaultHandler="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.actions.ReconnectAction"
             id="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.commands.reconnecticat"
-            name="Reconnect">
+            name="Reconnect v4.2">
       </command>
       <command
             defaultHandler="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.actions.SweepAction"
             id="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.commands.sweepcat"
-            name="Sweep">
+            name="Sweep v4.2">
       </command>
    </extension>
 

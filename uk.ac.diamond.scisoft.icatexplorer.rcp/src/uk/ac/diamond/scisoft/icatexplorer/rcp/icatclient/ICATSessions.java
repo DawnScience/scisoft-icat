@@ -38,7 +38,6 @@ public final class ICATSessions {
 	}
 	
 	public static ICATClient get(String sessionId){	
-		//logger.info("getting: " + sessionId + " - " + ((ICATClient)icatsMap.get(sessionId)).projectName);
 		return (ICATClient) icatsMap.get(sessionId);
 	}
 
