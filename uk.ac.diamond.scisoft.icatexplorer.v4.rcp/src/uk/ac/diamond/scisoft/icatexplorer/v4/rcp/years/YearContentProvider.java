@@ -84,7 +84,6 @@ public class YearContentProvider implements ITreeContentProvider {
 		}
 		
 		// extracting current project
-		//logger.debug("getting project name for IFolder: " + parentElement.toString());
 		String[] temp;
 		String delimiter = "/";
 		temp = parentElement.toString().split(delimiter);		

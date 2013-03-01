@@ -23,12 +23,16 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.graphics.Image;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import uk.ac.diamond.scisoft.icatexplorer.v4.rcp.utils.UnitsConverter;
 
 
 public class DatafileLabelProvider implements ILabelProvider, IStyledLabelProvider {
 	
+	private static final Logger logger = LoggerFactory.getLogger(DatafileLabelProvider.class);
 
 	FileIconService iconService = new FileIconService();
 
@@ -80,8 +84,13 @@ public class DatafileLabelProvider implements ILabelProvider, IStyledLabelProvid
 		styledString.append(((DatafileTreeData) obj).getIcatDatafile().getName());
 		styledString.append("   ");
 
-		String formattedSize = UnitsConverter
+		String formattedSize = "N/A";
+		try{
+			formattedSize =UnitsConverter
 				.humanReadableByteCount(((DatafileTreeData) obj).getIcatDatafile().getFileSize());
+		}catch(Exception e){
+			logger.error("Error getting size for: " + ((DatafileTreeData) obj).getIcatDatafile().getName());
+		}
 		
 		styledString = styledString.append(
 				formattedSize

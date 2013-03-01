@@ -70,13 +70,10 @@ public class DatasetContentProvider implements ITreeContentProvider {
 
 		Object[] children = null;
 		if (parentElement instanceof VisitTreeData) { 
-			
-			logger.debug("getting project name : " + ((VisitTreeData)parentElement).getParentProject());
-						
+									
 			return getDatasets(((VisitTreeData)parentElement).getIcatInvestigation().getId(), ((VisitTreeData)parentElement).getParentProject());
 		} else if(parentElement instanceof IFolder) {
 			
-			logger.debug("getting project name for IFolder: " + ((VisitTreeData)parentElement).getFolder());
 			String[] temp;
 			String delimiter = "/";
 			temp = ((VisitTreeData)parentElement).getFolder().getName().split(delimiter);		

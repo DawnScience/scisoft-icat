@@ -213,7 +213,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		new Label(composite, SWT.NONE);
 
 		/**
-		 * advanced options
+		 * set-up advanced options GUI elements
 		 */
 		advancedOptionsExpander = new ExpandableComposite(composite, SWT.NONE);
 		GridData gd_advancedOptionsExpander = new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1);

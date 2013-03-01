@@ -65,12 +65,8 @@ public class DatafileContentProvider implements ITreeContentProvider {
 		if (parentElement instanceof DatasetTreeData) { 
 			
 			return getDatafiles(((DatasetTreeData)parentElement).getIcatDataset().getId(), ((DatasetTreeData)parentElement).getParentProject());
-		} //else if(parentElement instanceof IFolder) {
-//			
-//			long datasetid = ((Dataset)parentElement).getId();		
-//			return getDatafiles(datasetid, null);
-//			
-//		}   
+		} 
+		
 		return children != null ? children : NO_CHILDREN;
 	}
 
@@ -79,9 +75,7 @@ public class DatafileContentProvider implements ITreeContentProvider {
 	 * @return
 	 */
 	private Object[] getDatafiles(long id, IProject parentProject) {
-		
-		logger.debug("in getDatafiles");
-		
+			
 		QualifiedName qNameSessionId   = new QualifiedName("SESSIONID", "String");
 		String sessionId = null;
 		try {
@@ -98,9 +92,7 @@ public class DatafileContentProvider implements ITreeContentProvider {
 		for(int i=0; i< result.size(); i++){	
 			Datafile icatDatafile = result.get(i);
 			DatafileTreeData datafile = new DatafileTreeData(icatDatafile, parentProject);
-			//logger.debug("datafile: " + datafile.getIcatDatafile().getName());
 			datafilesTree[i] = datafile;
-
 		}
 				
 		return datafilesTree;
