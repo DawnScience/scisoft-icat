@@ -19,7 +19,11 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.v4.rcp.actions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.core.commands.ExecutionEvent;
@@ -68,6 +72,8 @@ public class RefreshAction implements IHandler {
 	String truststorePass = null;
 	String sessionId = null;
 	String projectName = "";
+	String fromDate	   = "";
+	String toDate	   = "";
 	
 	private static Logger logger = LoggerFactory.getLogger(RefreshAction.class);
 	
@@ -104,6 +110,8 @@ public class RefreshAction implements IHandler {
 		QualifiedName qNameTruststorePath  	= new QualifiedName("TRUSTSTORE_PATH","String");
 		QualifiedName qNameTruststorePass  	= new QualifiedName("TRUSTSTORE_PASSWORD","String");
 		QualifiedName qNameSessionID       	= new QualifiedName("SESSIONID", "String");
+		QualifiedName qNameFromDate     	= new QualifiedName("FROM_DATE","String");
+		QualifiedName qNameToDate       	= new QualifiedName("TO_DATE", "String");
 
 		
 	    try {
@@ -117,6 +125,8 @@ public class RefreshAction implements IHandler {
 			truststorePath = iproject.getPersistentProperty(qNameTruststorePath);
 			truststorePass = iproject.getPersistentProperty(qNameTruststorePass);
 			sessionId      = iproject.getPersistentProperty(qNameSessionID);
+			fromDate	   = iproject.getPersistentProperty(qNameFromDate);
+			toDate		   = iproject.getPersistentProperty(qNameToDate);
 		} catch (CoreException e) {
 			logger.error("problem getting persistent property ", e);
 		}
@@ -131,6 +141,8 @@ public class RefreshAction implements IHandler {
 		logger.info("directory: " + directory );
 		logger.info("truststorePath: " + truststorePath);
 		logger.info("truststorePass: " + truststorePass);
+		logger.info("fromDate: " + fromDate);
+		logger.info("truststorePass: " + toDate);
 
 		// get current client and connection  from project properties
 		final ICATClient icatClient = ICATSessions.get(sessionId);
@@ -148,7 +160,24 @@ public class RefreshAction implements IHandler {
 					logger.debug("using connection: ID= " + icatCon.getId() + " - Name: " + icatCon.getSiteName() + " - wsdl: "+ icatCon.getWsdlLocation());
 
 					// getting the list of visits
-					List<Investigation> allVisits = icatClient.getLightInvestigations();
+					Calendar calFrom = Calendar.getInstance();
+					Calendar calTo   = Calendar.getInstance();
+
+					SimpleDateFormat formatter = new SimpleDateFormat("dd/mm/yyyy");
+					Date fromDateCal;Date toDateCal;
+					Calendar from = calFrom;Calendar to = calTo;
+					try {
+						fromDateCal = (Date)formatter.parse(fromDate);
+						calFrom.setTime(fromDateCal);
+						
+						toDateCal = (Date)formatter.parse(toDate);
+						calTo.setTime(toDateCal);
+						
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
+					
+					List<Investigation> allVisits = icatClient.getLightInvestigations(from, to);
 					
 					// delete icat project before recreating it
 					IProgressMonitor progressMonitor = new NullProgressMonitor();
