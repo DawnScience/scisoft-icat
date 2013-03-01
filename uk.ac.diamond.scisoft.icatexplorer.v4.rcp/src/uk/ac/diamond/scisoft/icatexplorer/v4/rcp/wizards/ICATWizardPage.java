@@ -110,6 +110,12 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 
 		setTitle("ICAT V4 Project Wizard - creates a connection to an ICAT database");
 		setDescription("Wizard to create an ICAT V4 connection to browse datafiles");
+		
+		/**
+		 * initialise FROM and TO dates
+		 * */
+		FROM_DATE = Calendar.getInstance();
+		TO_DATE	  = Calendar.getInstance();
 	}
 
 	/**
@@ -152,7 +158,6 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 				icatSiteNameText.setText(getToken(index, preferenceStore.getString("ICAT_NAME_PREF"), DELIMITER));
 				txtSftpServer.setText(getToken(index, preferenceStore.getString("ICAT_SFTPSERVER_PREF"), DELIMITER));
 				txtDirectory.setText(getToken(index, preferenceStore.getString("ICAT_DOWNLOADDIR_PREF"), DELIMITER));
-				logger.debug("txtDirectory: " + txtDirectory.getText());
 			}
 		});
 		
@@ -162,7 +167,7 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		icatIDCombo.removeAll();
 		
 		String[] tokens =  preferenceStore.getDefaultString("ICAT_ID_PREF").split(DELIMITER);
-		logger.debug("tokens length: " + tokens.length);
+
 		for(int count = 0; count <tokens.length ; count++){
 			icatIDCombo.add(tokens[count]);
 		}
@@ -362,15 +367,15 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// set from date
-				setSqlFromDate();
+				setSqlFromDate(dateFrom);
 			}
 
 		});
 	
-		dateFrom.setYear(calA.get(Calendar.YEAR));
+		dateFrom.setYear(2006);//calA.get(Calendar.YEAR));
 		dateFrom.setMonth(calA.get(Calendar.MONTH));
 		dateFrom.setDay(calA.get(Calendar.DAY_OF_YEAR));
-		setSqlFromDate();
+		setSqlFromDate(dateFrom);
 
 		Label lblTo = new Label(optionsComposite, SWT.TOP);
 		lblTo.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
@@ -385,14 +390,14 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// set to date
-				setSqlToDate();
+				setSqlToDate(dateTo);
 			}
 		});
 		// end with current date + 1 month
 		dateTo.setYear(calA.get(Calendar.YEAR));
 		dateTo.setMonth(calA.get(Calendar.MONTH) + 1);
 		dateTo.setDay(calA.get(Calendar.DAY_OF_YEAR));
-		setSqlToDate();
+		setSqlToDate(dateTo);
 			
 		advancedOptionsExpander.setClient(optionsComposite);
 		new Label(optionsComposite, SWT.NONE);
@@ -483,8 +488,8 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 
 	public ICATConnection getIcatCon(){
 
-		String id = icatIDCombo.getText();
-		String siteName = icatSiteNameText.getText();
+		String id 		  = icatIDCombo.getText();
+		String siteName   = icatSiteNameText.getText();
 		String sftpServer = txtSftpServer.getText();
 
 		int index = icatIDCombo.getSelectionIndex();
@@ -561,26 +566,24 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		}
 	}
 	
-	private void setSqlFromDate() {
-		Calendar cal = GregorianCalendar.getInstance();
-		cal.set(Calendar.YEAR, dateFrom.getYear());
-		cal.set(Calendar.MONTH, dateFrom.getMonth());
-		cal.set(Calendar.DAY_OF_MONTH, dateFrom.getDay());
-
-		logger.debug("From date: " + FROM_DATE.get(cal.DAY_OF_MONTH) + "/" +  FROM_DATE.get(cal.MONTH)+"/"+ FROM_DATE.get(cal.YEAR));
+	private void setSqlFromDate(DateTime dateFrom) {
 		
-		FROM_DATE = cal;
+			Calendar cal = GregorianCalendar.getInstance();
+			cal.set(Calendar.YEAR, dateFrom.getYear());
+			cal.set(Calendar.MONTH, dateFrom.getMonth());
+			cal.set(Calendar.DAY_OF_MONTH, dateFrom.getDay());
+	
+			FROM_DATE = cal;
 	}
 
-	private void setSqlToDate() {
-		Calendar cal = GregorianCalendar.getInstance();
-		cal.set(Calendar.YEAR, dateTo.getYear());
-		cal.set(Calendar.MONTH, dateTo.getMonth());
-		cal.set(Calendar.DAY_OF_MONTH, dateTo.getDay());
-
-		logger.debug("To date: " + TO_DATE.get(cal.DAY_OF_MONTH) + "/" +  TO_DATE.get(cal.MONTH)+"/"+ TO_DATE.get(cal.YEAR));
+	private void setSqlToDate(DateTime dateTo) {
 		
-		TO_DATE = cal;
+			Calendar cal = GregorianCalendar.getInstance();
+			cal.set(Calendar.YEAR, dateTo.getYear());
+			cal.set(Calendar.MONTH, dateTo.getMonth());
+			cal.set(Calendar.DAY_OF_MONTH, dateTo.getDay());
+		
+			TO_DATE = cal;
 	}
 
 	public Calendar getFromDate() {
