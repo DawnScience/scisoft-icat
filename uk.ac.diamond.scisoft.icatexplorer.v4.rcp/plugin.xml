@@ -45,16 +45,6 @@
       
    </extension>
    
-  <!-- <extension
-         point="org.dawnsci.introRegister">
-      <introPageRegister
-            class="uk.ac.diamond.scisoft.icatexplorer.rcp.launcher.ICATPerspectiveLauncher"
-            description="This perspective allows exploring and opening data from the Diamond archiving system"
-            icon="icons/icat-logo-128x128.gif"
-            id="uk.ac.diamond.scisoft.icatexplorer.rcp.introPageRegister"
-            name="(Pre-release) ICAT Explorer">
-      </introPageRegister>
-   </extension> -->
    <extension
          point="org.eclipse.ui.actionSets">
       <actionSet
@@ -309,13 +299,6 @@
           id="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.SweepDeadICAT"
           name="*.icatv4 projects"
           visibleInUI="true">
-       <!-- <filterExpression>
-            <and>
-                <adapt type="org.eclipse.core.resources.IResource">
-                    <test property="org.eclipse.core.resources.projectNature" value="uk.ac.diamond.scisoft.icatexplorer.rcp.icat.nature"/>
-                </adapt>
-            </and>
-        </filterExpression> -->
     </commonFilter>
 </extension>
 <extension point="org.eclipse.ui.navigator.viewer">

@@ -44,17 +44,6 @@
        </view>
       
    </extension>
-   
-  <!-- <extension
-         point="org.dawnsci.introRegister">
-      <introPageRegister
-            class="uk.ac.diamond.scisoft.icatexplorer.rcp.launcher.ICATPerspectiveLauncher"
-            description="This perspective allows exploring and opening data from the Diamond archiving system"
-            icon="icons/icat-logo-128x128.gif"
-            id="uk.ac.diamond.scisoft.icatexplorer.rcp.introPageRegister"
-            name="(Pre-release) ICAT Explorer">
-      </introPageRegister>
-   </extension> -->
    <extension
          point="org.eclipse.ui.cheatsheets.cheatSheetContent">
       <category
