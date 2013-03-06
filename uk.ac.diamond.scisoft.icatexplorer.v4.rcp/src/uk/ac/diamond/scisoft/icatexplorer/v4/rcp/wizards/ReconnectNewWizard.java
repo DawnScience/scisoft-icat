@@ -18,6 +18,7 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.v4.rcp.wizards;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -130,8 +131,8 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 		final String project          = page.getProject();
 		final String truststore       = page.getTruststore();
 		final String truststorePass   = page.getTruststorePass();
-		final Calendar startDate	  = page.getStartDate();
-		final Calendar endDate	      = page.getEndDate();
+		final Calendar startDate	  = page.getFromDate();
+		final Calendar endDate	      = page.getToDate();
 
 		final Job loadDataProject = new Job("Load metadata from ICAT V4") {
 
@@ -174,6 +175,8 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					QualifiedName qNameSftpServer  = new QualifiedName("SFTP_SERVER","String");
 					QualifiedName qNameTruststorePath  = new QualifiedName("TRUSTSTORE_PATH","String");
 					QualifiedName qNameTruststorePass  = new QualifiedName("TRUSTSTORE_PASSWORD","String");
+					QualifiedName qNameFromDate    = new QualifiedName("FROM_DATE","String");
+					QualifiedName qNameToDate      = new QualifiedName("TO_DATE","String");
 
 					iproject.setPersistentProperty(qNameProjetcType, "ICATV4");
 					iproject.setPersistentProperty(qNameSessionId, sessionid);
@@ -185,6 +188,8 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 					iproject.setPersistentProperty(qNameSftpServer, icatCon.getSftpServer());
 					iproject.setPersistentProperty(qNameTruststorePath, truststore);
 					iproject.setPersistentProperty(qNameTruststorePass, truststorePass);
+					iproject.setPersistentProperty(qNameFromDate, dateToString(startDate));
+					iproject.setPersistentProperty(qNameToDate, dateToString(endDate));
 					
 					// associating the icat nature to the newly created project
 					try {
@@ -285,7 +290,13 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 	 * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
 	 */
 	@Override
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		//this.iproject = iproject;
+	public void init(IWorkbench workbench, IStructuredSelection selection) {}
+	
+	private String dateToString(Calendar cal) {
+	
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		String result = sdf.format(cal.getTime());
+		logger.debug("date string: " + result);
+		return result;
 	}
 }

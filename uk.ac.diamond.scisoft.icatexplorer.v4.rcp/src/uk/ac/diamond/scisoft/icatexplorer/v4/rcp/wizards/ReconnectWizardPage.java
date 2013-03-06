@@ -488,7 +488,7 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		}
 	}
 
-	public Calendar getStartDate() {
+	public Calendar getFromDate() {
 		String  startDate = "";
 		Calendar cal = Calendar.getInstance();
 		try {
@@ -505,7 +505,7 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		return cal;
 	}
 
-	public Calendar getEndDate() {
+	public Calendar getToDate() {
 		
 		String  endDate = "";
 		Calendar cal = Calendar.getInstance();

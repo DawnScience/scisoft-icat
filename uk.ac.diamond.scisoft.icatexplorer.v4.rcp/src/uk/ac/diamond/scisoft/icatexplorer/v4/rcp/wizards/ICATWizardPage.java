@@ -34,6 +34,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -136,8 +137,18 @@ public class ICATWizardPage extends WizardPage implements KeyListener {
 		expansionAdapter = new ExpansionAdapter() {
 			@Override
 			public void expansionStateChanged(ExpansionEvent e) {
+				// advanced options expanded, resize
 				composite.layout();
 				sc.notifyListeners(SWT.Resize, null);
+			
+				 // force shell resize
+				Point size;
+				if (e.getState())
+					size = getShell().computeSize( 550, 920 );
+				else
+					size = getShell().computeSize( 550, 400 );
+
+				 getShell().setSize( size );
 			}
 		};
 
