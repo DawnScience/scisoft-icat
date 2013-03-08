@@ -35,6 +35,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -142,6 +143,16 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 			public void expansionStateChanged(ExpansionEvent e) {
 				composite.layout();
 				sc.notifyListeners(SWT.Resize, null);
+
+				// force shell resize
+				Point size;
+				if (e.getState())
+					size = getShell().computeSize( 510, 540 );
+				else
+					size = getShell().computeSize( 550, 450 );
+
+				getShell().setSize( size );
+
 			}
 		};
 
