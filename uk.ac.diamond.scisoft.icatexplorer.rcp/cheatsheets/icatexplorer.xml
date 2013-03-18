@@ -22,7 +22,7 @@ Please note that an additional project with the same ICAT project name plus &apo
      <description>
         The ICAT project provides a tree-based navigation of your data.<br/><br/>
 		Nodes can be expanded to show their content.<br/><br/>
-        A single click on an item (investigation, dataset or datafile) will update the metadata table with corresponding metadata from the ICAT database. Please open metadata view first.<br/><br/>
+        A single click on an item (investigation, dataset or datafile) will update the metadata table with corresponding metadata from the ICAT database. <br/><br/>
         A double click on a datafile will open it in the corresponding editor. 
      </description>
   </item>
@@ -34,7 +34,7 @@ Please note that an additional project with the same ICAT project name plus &apo
    
 	You can select any combination of files and/or datasets from the ICAT Explorer for drag and drop into an eclipse project.<br/><br/>
 	Since the transfer is from a remote server, this process can be time consuming and thus, is run as a separate job.<br/>
-	Status of data transfer is shown in the progress monitor in the status bar of DAWN/SDA.<br/><br/>
+	Status of data transfer is shown in the progress monitor in the status bar of DAWN.<br/><br/>
 
 	Once, all files have been copied, the Project Explorer is refreshed.<br/><br/>
 	Please note that files can be copied to &apos;non-virtual&apos; folders targets only.<br/><br/>	
@@ -55,7 +55,7 @@ The preferences page allows adding new ICAT sites by editing the different field
         title="ICAT project contextual menu and toolbar">
 <description>
   Please note that a  user is automatically logged out from the ICAT after 2 hours of first login.<br/>
-        Also, if the SDA is closed all ICAT connections will be closed.
+        Also, if DAWN is closed all ICAT connections will be closed.
         <br/><br/>
         In order to reconnect a disconnected ICAT, right-click the project and select &apos;Reconnect&apos;. Fill the needed information in the wizard and click &apos;Finish&apos;<br/><br/>
         The same contextual menu allows to sweep a disconnected project.<br/><br/>
