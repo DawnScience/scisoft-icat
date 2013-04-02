@@ -46,18 +46,6 @@
    </extension>
    
    <extension
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            id="org.eclipse.ui.cheatsheets.actionSet"
-            label="label">
-         <action
-               id="org.eclipse.ui.cheatsheets.actions.CheatSheetHelpMenuAction"
-               label="label"
-               style="push">
-         </action>
-      </actionSet>
-   </extension>
-   <extension
          point="org.eclipse.ui.cheatsheets.cheatSheetContent">
       <category
             id="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.category"
