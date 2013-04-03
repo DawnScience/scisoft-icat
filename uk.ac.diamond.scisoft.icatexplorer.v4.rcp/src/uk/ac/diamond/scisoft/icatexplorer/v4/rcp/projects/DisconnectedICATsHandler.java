@@ -100,7 +100,6 @@ public class DisconnectedICATsHandler extends ViewerFilter {
 		logger.debug("disconnecting: " + projectName);
 
 		// create project
-		//IProgressMonitor monitor = new NullProgressMonitor();
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 
 		IProject iproject = root.getProject(projectName);
@@ -144,7 +143,6 @@ public class DisconnectedICATsHandler extends ViewerFilter {
 			logger.error("path doesn't exist:  " + path.getName());
 		}
 
-		logger.debug("deleting:  " + path.getName());
 		path.delete() ;
 	}
 

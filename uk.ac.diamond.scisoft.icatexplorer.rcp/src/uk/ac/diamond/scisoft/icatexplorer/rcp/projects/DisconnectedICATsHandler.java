@@ -145,7 +145,6 @@ public class DisconnectedICATsHandler extends ViewerFilter {
 			logger.error("path doesn't exist:  " + path.getName());
 		}
 
-		logger.debug("deleting:  " + path.getName());
 		path.delete() ;
 	}
 

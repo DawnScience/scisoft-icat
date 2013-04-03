@@ -276,9 +276,9 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 						
 						IProjectDescription desc = dproject.getWorkspace().newProjectDescription(dproject.getName());
 						desc.setLocationURI(projectLocation);
-						dproject.create(desc,new NullProgressMonitor());
+						dproject.create(desc, new NullProgressMonitor());
 						dproject.open(new NullProgressMonitor());
-																		
+																								
 						logger.debug("download project " + dproject.getName() + " created.");
 					}catch(Exception e){
 							logger.error("exception occured when creating associate project: " + e.getMessage());
