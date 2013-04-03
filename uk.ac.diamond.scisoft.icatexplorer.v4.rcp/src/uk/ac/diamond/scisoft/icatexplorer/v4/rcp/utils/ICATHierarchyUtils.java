@@ -25,10 +25,6 @@ import org.icatproject.Investigation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @since 3.2
- *
- */
 public class ICATHierarchyUtils {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ICATHierarchyUtils.class);
@@ -63,9 +59,7 @@ public class ICATHierarchyUtils {
 	}
 	
 	public static List<String> getYearsByBeamline(List<Investigation> allVisits, String currentBeamline) {
-		
-		//logger.debug("getYearsByBeamline() with beamline: " + currentBeamline);
-		
+			
 		ArrayList<String> years = new ArrayList<String>();
 		for(int i =0; i< allVisits.size(); i++){
 			
@@ -80,7 +74,6 @@ public class ICATHierarchyUtils {
 			
 			// test if year exist for current beamline
 			if(beamline.equalsIgnoreCase(currentBeamline)){
-				//logger.debug("adding year: " + year);
 				years.add(year);
 			}
 		}
@@ -93,8 +86,6 @@ public class ICATHierarchyUtils {
 	public static List<Investigation> getVisitsByBeamlineYear(
 			List<Investigation> allVisits, String currentBeamline, String currentYear) {
 		
-		//logger.debug("getVisitsByBeamlineYear() with beamline: " + currentBeamline + " and year: " + currentYear);
-
 		ArrayList<Investigation> visits = new ArrayList<Investigation>();
 		for(int i =0; i< allVisits.size(); i++){
 			
@@ -104,10 +95,9 @@ public class ICATHierarchyUtils {
 			// get years
 			String year = String.valueOf((allVisits.get(i)).getStartDate().getYear());
 			
-			// test if year exist for current beamline
+			// test whether year exists for current beamline
 			if(beamlineName.equalsIgnoreCase(currentBeamline) && year.equalsIgnoreCase(currentYear)){
 				logger.debug("adding visit: " + allVisits.get(i));
-				//visits.add(allVisits.get(i).getVisitId());
 				visits.add(allVisits.get(i));
 			}
 		}

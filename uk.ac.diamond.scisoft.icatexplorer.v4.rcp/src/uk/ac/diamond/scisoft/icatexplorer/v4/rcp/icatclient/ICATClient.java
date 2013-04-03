@@ -241,9 +241,6 @@ public class ICATClient {
             		int compB = (startDate.toGregorianCalendar()).compareTo(toDate);
 
             		if(compA >= 0 && compB <= 0){
-//            			logger.debug(dateFromCalendar(fromDate) +" <= " + dateFromCalendar(startDate.toGregorianCalendar()) + 
-//            					" <= " + dateFromCalendar(toDate));
-
             			currentInvestigations.add(inv);
             		}
 
