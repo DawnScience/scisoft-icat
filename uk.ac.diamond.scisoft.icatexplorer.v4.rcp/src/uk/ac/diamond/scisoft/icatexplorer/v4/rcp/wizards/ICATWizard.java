@@ -53,11 +53,11 @@ import uk.ac.diamond.scisoft.icatexplorer.v4.rcp.projects.ICATProjectSupport;
 import uk.ac.diamond.scisoft.icatexplorer.v4.rcp.utils.ICATHierarchyUtils;
 
 
-public class ICATNewWizard extends Wizard implements INewWizard {
+public class ICATWizard extends Wizard implements INewWizard {
 
 	private static final String ICAT_NATURE = ICATProjectNature.NATURE_ID;
 
-	private static final Logger logger = LoggerFactory.getLogger(ICATNewWizard.class);
+	private static final Logger logger = LoggerFactory.getLogger(ICATWizard.class);
 
 	private static final String ICAT_WIZARD = "V4.2ICATNewWizard";
 	private ICATWizardPage page;
@@ -75,7 +75,7 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 	/**
 	 * Constructor for TestWizard.
 	 */
-	public ICATNewWizard() {
+	public ICATWizard() {
 		super();
 		setNeedsProgressMonitor(true);
 		IDialogSettings dialogSettings = ICATExplorerActivator.getDefault().getDialogSettings();
@@ -114,11 +114,11 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 	@Override
 	public boolean performFinish() {
 
-		final String directory = page.getDirectory();
 		final ICATConnection icatCon  = page.getIcatCon();
-		final String fedid     = page.getFedid();
-		final String password  = page.getPassword();
-		final String project   = page.getProject();
+		final String fedid       = page.getFedid();
+		final String password    = page.getPassword();
+		final String project     = page.getProject();
+		final String directory   = page.getDirectory() + "/"+ project;
 		final String truststore  = page.getTruststore();
 		final String truststorePass  = page.getTruststorePass();
 		final Calendar fromDate  = page.getFromDate();
@@ -136,7 +136,6 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 
 				String errorMessage = "Problem occured: ";
 				try {
-					//ProjectUtils.createImportProjectAndFolder(project, folder, directory, ICATProjectNature.NATURE_ID, null, monitor);
 
 					logger.debug("using connection: ID= " + icatCon.getId() + " - Name: " + icatCon.getSiteName() + " - wsdl: "+ icatCon.getWsdlLocation());
 
@@ -323,10 +322,7 @@ public class ICATNewWizard extends Wizard implements INewWizard {
 	}
 	
 	private String calendarToString(Calendar calendarDate){
-	     logger.debug("day: " + calendarDate.get(Calendar.DAY_OF_MONTH));
-	     logger.debug("month: " + calendarDate.get(Calendar.MONTH));
-	     logger.debug("year: " +  calendarDate.get(Calendar.YEAR));
-	     return calendarDate.get(Calendar.DAY_OF_MONTH)+"/"+ calendarDate.get(Calendar.MONTH) + "/" + calendarDate.get(Calendar.YEAR);
+	    return calendarDate.get(Calendar.DAY_OF_MONTH)+"/"+ calendarDate.get(Calendar.MONTH) + "/" + calendarDate.get(Calendar.YEAR);
 		
 	}
 }

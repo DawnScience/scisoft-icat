@@ -306,7 +306,7 @@
       </category>
       <wizard
             category="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.category"
-            class="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.wizards.ICATNewWizard"
+            class="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.wizards.ICATWizard"
             icon="icons/icat_logo.gif"
             id="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.wizard"
             name="Create ICAT v4 Project"
