@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         point="com.isencia.passerelle.engine.actorGroups">
+         <actorgroup
+            icon="icons/icat-logo-128x128.gif"
+            id="uk.ac.diamond.scisoft.icat.actors.actorgroup"
+            name="ICAT actors">
+      </actorgroup>
+   </extension>
+   <extension
+         name="ICAT Actors"
+         point="com.isencia.passerelle.engine.actors">
+         <actor
+            class="uk.ac.diamond.actors.icat.ConnectionTransformer"
+            group="uk.ac.diamond.scisoft.icat.actors.actorgroup"
+            icon="icons/connection.jpg"
+            id="uk.ac.diamond.scisoft.icat.actors.connection"
+            name="DLS Connection">
+      </actor>
+      <actor
+            class="uk.ac.diamond.actors.icat.VersionTransformer"
+            group="uk.ac.diamond.scisoft.icat.actors.actorgroup"
+            icon="icons/info.png"
+            id="uk.ac.diamond.scisoft.icat.actors.version"
+            name="Version">
+      </actor>
+      <actor
+            class="uk.ac.diamond.actors.icat.VisitsTransformer"
+            group="uk.ac.diamond.scisoft.icat.actors.actorgroup"
+            icon="icons/visit.png"
+            id="uk.ac.diamond.scisoft.icat.actors.visits"
+            name="Visits">
+      </actor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+      <cheatsheet
+            category="org.dawb.passerelle.actors.cheat.sheet.category"
+            composite="true"
+            contentFile="cheat/workflow-icat-example.xml"
+            id="uk.ac.diamond.scisoft.icat.actors.cheatsheet"
+            name="Workflows with ICAT actors">
+         <description>
+            ICAT workflows
+         </description>
+      </cheatsheet>
+   </extension>
+
+</fragment>

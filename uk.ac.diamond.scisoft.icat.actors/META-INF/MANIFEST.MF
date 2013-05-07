@@ -1,8 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ICAT Actors
-Bundle-SymbolicName: uk.ac.diamond.scisoft.icat.actors
+Bundle-Name: ICAT Actors Fragment
+Bundle-SymbolicName: uk.ac.diamond.scisoft.icat.actors;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Diamond Light Source
 Fragment-Host: org.dawb.passerelle.actors;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ClassPath: lib/icat.client-4.2.0.jar,
+ .
+Export-Package: uk.ac.diamond.actors.icat
