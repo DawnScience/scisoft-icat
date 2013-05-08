@@ -16,8 +16,15 @@
 
 package uk.ac.diamond.actors.icat;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.dawb.passerelle.common.actors.AbstractDataMessageTransformer;
 import org.dawb.passerelle.common.message.DataMessageComponent;
@@ -68,9 +75,25 @@ public class VisitsTransformer extends AbstractDataMessageTransformer {
 			try {
 				List<Investigation> listInv = client.getLightInvestigations();
 				
+				Collections.sort(listInv, new Comparator<Investigation>(){
+					@Override
+					public int compare(Investigation inv0, Investigation inv1) {
+						
+						if(inv0.getStartDate() == null){
+							return +1;
+						}else if(inv1.getStartDate() == null){
+							return -1;
+						}
+						
+						int result = inv1.getStartDate().toGregorianCalendar().compareTo(inv0.getStartDate().toGregorianCalendar());
+						return result;
+					}
+				});
+				
 				String finalResult = "";
 				int counter = 0;
 				
+				//TODO
 				if (listInv.size() ==  0){
 	            	
 	            	throw new NullPointerException();
@@ -79,7 +102,7 @@ public class VisitsTransformer extends AbstractDataMessageTransformer {
 				while(counter < listInv.size()){
 					finalResult = finalResult + (listInv.get(counter)).getName() + " - " + 
 												(listInv.get(counter)).getInstrument().getName().toUpperCase() + " - " +
-												(listInv.get(counter)).getStartDate() + " - " +
+												gregorianToString((listInv.get(counter)).getStartDate()) +
 												"\n";					
 					counter++;
 				}
@@ -91,16 +114,30 @@ public class VisitsTransformer extends AbstractDataMessageTransformer {
 				
 			} catch (Throwable ne) {
 				DataMessageException dme = super.createDataMessageException("Cannot login into ICAT!", ne);
-				dme.getDataMessageComponent().putScalar("connection_error",  ne.getMessage());
+				dme.getDataMessageComponent().putScalar("error_text",  ne.getMessage());
 				throw dme;
 			}
 			
 	}
 
 	
+	public static String gregorianToString(XMLGregorianCalendar input) {
+		// convert to java.util.Date and then to string
+		if(input == null)
+			return null;
+		
+		java.util.Date dt = input.toGregorianCalendar().getTime();
+		SimpleDateFormat dateformat = new SimpleDateFormat(
+				"dd-MM-yyyy");
+		StringBuilder result = new StringBuilder(dateformat.format(dt));
+
+		return result.toString();
+	}
+
 	public void doWrapUp() throws TerminationException {
 		super.doWrapUp();
 	}
+	
 	
 	private static final Logger logger = LoggerFactory.getLogger(ConnectionTransformer.class);
 		
