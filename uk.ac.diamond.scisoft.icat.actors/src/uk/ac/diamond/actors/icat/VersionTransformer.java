@@ -71,6 +71,8 @@ public class VersionTransformer extends AbstractDataMessageTransformer {
 			
 			comp.addScalar(scalar);
 			comp.putScalar("version", "ICAT Version: "+ version);
+			
+			logger.debug("Got version: " + version);
 						
 		} catch (Exception ne) {
 			
