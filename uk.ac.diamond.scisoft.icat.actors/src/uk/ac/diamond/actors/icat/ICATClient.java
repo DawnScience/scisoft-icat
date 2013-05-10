@@ -49,7 +49,6 @@ public class ICATClient {
 
 	URL icatURL = null;
 
-	protected static String icatdb;
 	protected String fedid;
 	protected String password;
 	protected String sessionId;
@@ -65,10 +64,10 @@ public class ICATClient {
 	private static final Logger logger = LoggerFactory.getLogger(ICATClient.class);
 
 
-	public ICATClient(String wsdl, String truststore,  String truststorePass, String downloadDir){
+	public ICATClient(String wsdl, String truststore,  String pass, String downloadDir){
 
 		this.truststorePath = truststore;
-		this.truststorePass = truststorePass;
+		this.truststorePass = pass;
 		this.downloadDir = downloadDir;
 		this.wsdl = wsdl;
 		
@@ -76,7 +75,6 @@ public class ICATClient {
 		logger.debug(">>>>>>> truststorePath: " + truststorePath);
 		logger.debug(">>>>>>> truststorePass: " + truststorePass);
 		logger.debug(">>>>>>> downloadDir: " + downloadDir);
-
 		
 		logger.debug("setting up a new trust manager ...");
 
@@ -319,6 +317,24 @@ public class ICATClient {
 
 	public List<Investigation> getCurrentInvestigations() {
 		return currentInvestigations;
+	}
+
+	public List<?> getGenericResult(String query) {
+		 List<?> resultList = null;
+		
+		try {
+			
+			ICAT icat = getIcat();
+			resultList = icat.search(sessionId, query);
+			 
+		} catch (Exception e) {
+			logger.error(
+					"problem retrieving query result for user: " + this.getFedId(),
+					e);
+		}
+
+		return resultList;
+		
 	}
 	
 

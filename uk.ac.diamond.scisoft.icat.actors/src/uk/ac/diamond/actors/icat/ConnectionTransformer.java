@@ -22,14 +22,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.dawb.passerelle.actors.file.SubstituteTransformer;
+import org.dawb.passerelle.common.actors.AbstractDataMessageTransformer;
 import org.dawb.passerelle.common.message.DataMessageComponent;
 import org.dawb.passerelle.common.message.DataMessageException;
 import org.dawb.passerelle.common.message.IVariable;
+import org.dawb.passerelle.common.message.IVariable.VARIABLE_TYPE;
+import org.dawb.passerelle.common.message.IVariableProvider;
 import org.dawb.passerelle.common.message.MessageUtils;
 import org.dawb.passerelle.common.message.Variable;
-import org.dawb.passerelle.common.message.IVariable.VARIABLE_TYPE;
-import org.dawb.passerelle.editors.SubstitutionParticipant;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
@@ -44,19 +44,25 @@ import ptolemy.kernel.util.NameDuplicationException;
 
 import com.isencia.passerelle.actor.ProcessingException;
 import com.isencia.passerelle.actor.TerminationException;
+import com.isencia.passerelle.util.ptolemy.FileParameter;
+import com.isencia.passerelle.util.ptolemy.ResourceParameter;
 
-public class ConnectionTransformer extends SubstituteTransformer implements SubstitutionParticipant{
+public class ConnectionTransformer extends AbstractDataMessageTransformer implements IVariableProvider{
 
 	private static final long serialVersionUID = 1312885325541751197L;
 	
 	private static final String RUN_IN_ECLIPSE = "run.in.eclipse";
 
 	private String token;
-	protected String   wsdl;
-	protected StringParameter   pass;
-	protected StringParameter   downloadDir;
-	protected String   truststore;
-	protected String   truststorepass;
+	private String   wsdl;
+	private String   truststore;
+	private String   pass;
+	private String   downloadDir;
+	
+	private StringParameter   wsdlParam;
+	private FileParameter   truststoreParam;
+	private StringParameter   truststorePassParam;
+	private ResourceParameter downloadDirParam;
 
 
 	public ConnectionTransformer(CompositeEntity container, String name) throws NameDuplicationException, IllegalActionException {
@@ -64,16 +70,14 @@ public class ConnectionTransformer extends SubstituteTransformer implements Subs
 		
 		Properties properties = PropertiesUtils.readConfigFile();
 		
-		this.templateParam.setDisplayName("WSDL Location");
-		templateParam.setExpression(properties.getProperty("wsdl_location"));
-		wsdl = templateParam.getExpression();
-		
-		this.outputParam.setDisplayName("TrustStore Path");
-		/**
-		 * pointing to the certificates folder within the application bundles
-		 */
+		wsdlParam = new StringParameter(this, "WSDL URL");
+		wsdlParam.setExpression(properties.getProperty("wsdl_location"));
+		wsdl = wsdlParam.getExpression();
+		registerConfigurableParameter(wsdlParam);
+	
+		// pointing to the certificates folder within the application bundle
+		truststoreParam = new FileParameter(this, "Truststore Path");
         Bundle bundle = Platform.getBundle(ICATActorActivator.PLUGIN_ID);
-
         String bundleLoc = bundle.getLocation().replace("reference:file:", "");
         bundleLoc = bundleLoc.replace("plugins/", "");
         
@@ -85,18 +89,19 @@ public class ConnectionTransformer extends SubstituteTransformer implements Subs
         truststorePath = new File(combine(pluginsDir.getAbsolutePath(), bundleLoc), combine(properties.getProperty("truststore_subdir"), properties.getProperty("truststore_linux")));
         if(isRunningInEclipse)
         	truststorePath = new File(bundleLoc, combine(properties.getProperty("truststore_subdir"), properties.getProperty("truststore_linux")));
-                                                                                                                                       
-		outputParam.setExpression(truststorePath.getAbsolutePath());
-		truststore = outputParam.getExpression();
+
+        truststoreParam.setExpression(truststorePath.getAbsolutePath());
+        truststore = truststoreParam.getExpression();     
 		
-		this.pass = new StringParameter(this, "TrustStore Password");
-		pass.setExpression(properties.getProperty("truststore_password"));
-		registerConfigurableParameter(pass);
-		truststorepass = pass.getExpression();
+		truststorePassParam = new StringParameter(this, "Truststore Password");
+		truststorePassParam.setExpression(properties.getProperty("truststore_password"));
+		pass = truststorePassParam.getExpression();
+		registerConfigurableParameter(truststorePassParam);
 		
-		this.downloadDir = new StringParameter(this, "Download Directory");
-		downloadDir.setExpression(System.getProperty("user.home"));
-		registerConfigurableParameter(downloadDir);
+		downloadDirParam = new ResourceParameter(this, "Download Directory");
+		downloadDirParam.setExpression(System.getProperty("user.home"));
+		downloadDir = downloadDirParam.getExpression();
+		registerConfigurableParameter(downloadDirParam);
 		
 	}
 
@@ -106,7 +111,17 @@ public class ConnectionTransformer extends SubstituteTransformer implements Subs
 	}
 
 	public void attributeChanged(Attribute attribute) throws IllegalActionException {
-
+		
+		if (attribute == wsdlParam){
+			wsdl = wsdlParam.getExpression();
+		}else if(attribute == truststoreParam){
+			truststore = truststoreParam.getExpression();
+		}else if (attribute == truststorePassParam){
+			pass = truststorePassParam.getExpression();
+		}else if (attribute == downloadDirParam){
+			downloadDir = downloadDirParam.getExpression();
+		}
+		
 		super.attributeChanged(attribute);
 	}
 	
@@ -132,8 +147,8 @@ public class ConnectionTransformer extends SubstituteTransformer implements Subs
 			final String fedid    = scalar!=null ? scalar.get("fedid") : null;
 			final String password = scalar!=null ? scalar.get("password") : null;
 
-			ICATClient client = new ICATClient(wsdl, truststore, truststorepass, downloadDir.getExpression());
-							
+			ICATClient client = new ICATClient(wsdlParam.getExpression(), truststoreParam.getExpression(), truststorePassParam.getExpression(), downloadDirParam.getExpression());
+					
 			token = client.login(fedid, password);
 			
 			Sessions.addSession(token, client);
@@ -143,7 +158,7 @@ public class ConnectionTransformer extends SubstituteTransformer implements Subs
 			
 		} catch (Throwable ne) {
 			DataMessageException dme = super.createDataMessageException("Cannot login into ICAT!", ne);
-			dme.getDataMessageComponent().putScalar("connection_error",  dme.getMessage());
+			dme.getDataMessageComponent().putScalar("error_text",  dme.getMessage());
 			throw dme;
 		}
 		return comp; 
@@ -156,11 +171,6 @@ public class ConnectionTransformer extends SubstituteTransformer implements Subs
 	
 	private static final Logger logger = LoggerFactory.getLogger(ConnectionTransformer.class);
 
-	@Override
-	public String getDefaultSubstitution() {
-		return null;
-	}
-	
     
     public static String combine (String path1, String path2)
     {
