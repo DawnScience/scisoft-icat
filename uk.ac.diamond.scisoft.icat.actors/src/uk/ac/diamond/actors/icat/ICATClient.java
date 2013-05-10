@@ -70,13 +70,8 @@ public class ICATClient {
 		this.truststorePass = pass;
 		this.downloadDir = downloadDir;
 		this.wsdl = wsdl;
-		
-		logger.debug(">>>>>>> wsdl: " + wsdl);
-		logger.debug(">>>>>>> truststorePath: " + truststorePath);
-		logger.debug(">>>>>>> truststorePass: " + truststorePass);
-		logger.debug(">>>>>>> downloadDir: " + downloadDir);
-		
-		logger.debug("setting up a new trust manager ...");
+				
+		logger.debug(">>>>>>>>> setting up a new trust manager ...");
 
 		TrustManager[] trustAllCerts = new TrustManager[1];
 
@@ -111,7 +106,7 @@ public class ICATClient {
 			logger.error("problem setting security context: ", e);
 		}
 
-		logger.debug("truststore file set to: " + truststorePath + "  and truststore password set to: " + truststorePass);
+		logger.debug(">>>>>>>>> truststore file set to: " + truststorePath + "  and truststore password set to: " + truststorePass);
 
 	}
 
