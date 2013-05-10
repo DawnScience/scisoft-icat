@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="uk.ac.diamond.scisoft.actors.icat.feature"
+      id="uk.ac.diamond.scisoft.icat.actors.feature"
       label="ICAT actors"
       version="1.0.0.qualifier"
       provider-name="Diamond Light Source">
