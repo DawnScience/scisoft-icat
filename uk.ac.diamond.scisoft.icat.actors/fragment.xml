@@ -40,6 +40,13 @@
             id="uk.ac.diamond.scisoft.icat.actors.generic"
             name="Generic Actor">
       </actor>
+      <actor
+            class="uk.ac.diamond.actors.icat.DatasetTransformer"
+            group="uk.ac.diamond.scisoft.icat.actors.actorgroup"
+            icon="icons/dataset.gif"
+            id="uk.ac.diamond.scisoft.icat.actors.dataset"
+            name="Dataset Actor">
+      </actor>
    </extension>
    <extension
          point="org.eclipse.ui.cheatsheets.cheatSheetContent">
