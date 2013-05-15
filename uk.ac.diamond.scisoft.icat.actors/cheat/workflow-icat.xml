@@ -68,7 +68,7 @@ For the generic actor, edit the result file path attribute.<br/><br/>
 Run the workflow by clicking the run button. The input actor will request a fedid and password. Fill the needed information and click ok.<br/>
 The result xml response will be displayed in the message actor.<br/><br/>
 
-Please note that you can edit the query in the generic actor query attribute in order to get the desired results. A tutorial on how to query the ICAT webservice in available here <a href="http://www.icatproject.org/mvn/site/icat/4.2.5/icat.client/manual.html">http://www.icatproject.org/mvn/site/icat/4.2.5/icat.client/manual.html</a>
+Please note that you can edit the query in the generic actor query attribute in order to get the desired results. A tutorial on how to query the ICAT webservice in available here <a href="http://www.icatproject.org/mvn/site/icat/4.2.5/icat.client/manual.html">http://www.icatproject.org/mvn/site/icat/4.2.5/icCongratulations, you can now run ICAT actors.nual.html</a>
       </description>
       <command
             required="false"
@@ -78,7 +78,6 @@ Please note that you can edit the query in the generic actor query attribute in 
    <item title="Conclusion">
       <description>
 	    	Congratulations, you can now run ICAT actors.
-	    	
       </description>
     <onCompletion>
       Congratulations, you can now run ICAT actors.
