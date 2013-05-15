@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cheatsheet title="Introduction to ICAT actors and workflows">
+
+	<intro>
+		<description>
+		    In this tutorial we will look at running ICAT actors. These actors make calls to the ICAT webservice and return results.
+Please note that in order to run ICAT actors you need to have an ICAT account.
+	    </description>
+	</intro>
+	
+
+   <item
+         title="Workflow Perspective">
+      <description>
+         Please choose the workflow perspective if you do not already have it selected (nothing will happen if you do not).
+      </description>
+      <command
+            required="false"
+            serialization="org.eclipse.ui.perspectives.showPerspective(org.eclipse.ui.perspectives.showPerspective.perspectiveId=org.edna.workbench.application.perspective.WorkflowPerspective)"/>
+   </item>
+   <item
+         title="Connection Actor">
+      <description>
+         A connection actor is used in order to establish a connection to the ICAT webservice and is needed for any call to the webservice.
+The workflow 'icat_connection.moml' shows an example use of the connection actor in order to retrieve the current version of the ICAT webservice.<br/><br/>
+
+Before running the workflow, please click on the 'actor attributes' of the connection actor and edit the 'Download directory' and the 'Truststore path' to the desired paths. Or remove the connection actor and replace it with a new one. In the latter case, the actor will re-compute the paths based on your running configuration.<br/><br/>
+
+Run the workflow by clicking the run button. The input actor will request a fedid and password. Fill the needed information and click ok.<br/>
+
+The version actor will fetch the ICAT webservice version and display it in the message actor.
+      </description>
+      <command
+            required="false"
+            serialization="org.eclipse.ui.navigate.openResource(filePath=workflows/examples-icat/icat_connection.moml)"/>
+   </item>
+   <item
+         title="Visits list actor">
+      <description>
+The visits actor requests the list of visits corresponding to your fedid and stored in the ICAT database.<br/><br/>
+
+The workflow 'icat_visits_list.moml' shows an example use of the visits actor in order to retrieve the list of your visits.<br/><br/>
+
+Before running the workflow, please click on the 'actor attributes' of the connection actor and edit the 'Download directory' and the 'Truststore path' to the desired paths. Or remove the connection actor and replace it with a new one. In the latter case, the actor will re-compute the paths based on your running configuration.<br/><br/>
+
+Run the workflow by clicking the run button. The input actor will request a fedid and password. Fill the needed information and click ok.<br/>
+The result list of visits will be displayed in the message actor.
+      </description>
+      <command
+            required="false"
+            serialization="org.eclipse.ui.navigate.openResource(filePath=workflows/examples-icat/icat_visits_list.moml)"/>
+   </item>
+   
+   <item
+         title="ICAT Generic Actor">
+      <description>
+
+The generic actor can send queries expressed using the new ICAT 4 language and get a response from the webservice in a an xml format. Please refer to the actor attribute 'Query' for an example.<br/>
+
+This actor uses the xstream library to convert  an ICAT API object (investigation, dataset, datafile) to its xml description and vice versa.<br/><br/>
+
+The workflow &apos;icat_generic_actor.moml&apos; shows an example use of the generic actor.<br/>
+
+Before running the workflow, please click on the &apos;actor attributes&apos; of both the connection and the generic actors and edit the &apos;Download directory&apos; and the &apos;Truststore path&apos; to the desired paths. Or remove the connection actor and replace it with a new one. In the latter case, the actor will re-compute the paths based on your running configuration.<br/><br/>
+
+For the generic actor, edit the result file path attribute.<br/><br/>
+
+Run the workflow by clicking the run button. The input actor will request a fedid and password. Fill the needed information and click ok.<br/>
+The result xml response will be displayed in the message actor.<br/><br/>
+
+Please note that you can edit the query in the generic actor query attribute in order to get the desired results. A tutorial on how to query the ICAT webservice in available here <a href="http://www.icatproject.org/mvn/site/icat/4.2.5/icat.client/manual.html">http://www.icatproject.org/mvn/site/icat/4.2.5/icat.client/manual.html</a>
+      </description>
+      <command
+            required="false"
+            serialization="org.eclipse.ui.navigate.openResource(filePath=workflows/examples-icat/icat_generic_actor.moml)"/>
+   </item>
+  
+   <item title="Conclusion">
+      <description>
+	    	Congratulations, you can now run ICAT actors.
+	    	
+      </description>
+    <onCompletion>
+      Congratulations, you can now run ICAT actors.
+    </onCompletion>
+   </item>
+   
+</cheatsheet>

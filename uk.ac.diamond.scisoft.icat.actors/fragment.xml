@@ -46,7 +46,7 @@
       <cheatsheet
             category="org.dawb.passerelle.actors.cheat.sheet.category"
             composite="true"
-            contentFile="cheat/workflow-icat-example.xml"
+            contentFile="cheat/workflow-icat-menu.xml"
             id="uk.ac.diamond.scisoft.icat.actors.cheatsheet"
             name="Workflows with ICAT actors">
          <description>

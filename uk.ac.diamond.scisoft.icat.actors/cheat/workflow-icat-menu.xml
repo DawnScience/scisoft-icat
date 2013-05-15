@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compositeCheatsheet name="Workflows with ICAT actors">
+   <taskGroup kind="set" name="ICAT Workflow Tutorials" skip="false">
+      <intro>
+         <b>Introduction</b>
+      </intro>
+      <onCompletion>
+         <b>Conclusion</b>
+      </onCompletion>
+      <task kind="cheatsheet" name="Introduction to ICAT actors and workflows" skip="false">
+         <intro>
+            An introduction to using ICAT actors in workflows. This tutorial is subject to having an ICAT account.
+         </intro>
+         <onCompletion>
+            <b>Conclusion</b>
+         </onCompletion>
+         <param name="path" value="workflow-icat.xml">
+         </param>
+      </task>
+   </taskGroup>
+</compositeCheatsheet>
