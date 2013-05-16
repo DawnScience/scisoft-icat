@@ -19,7 +19,7 @@ Please note that in order to run ICAT actors you need to have an ICAT account.
             serialization="org.eclipse.ui.perspectives.showPerspective(org.eclipse.ui.perspectives.showPerspective.perspectiveId=org.edna.workbench.application.perspective.WorkflowPerspective)"/>
    </item>
    <item
-         title="Connection Actor">
+         title="Connection and Version Actors">
       <description>
          A connection actor is used in order to establish a connection to the ICAT webservice and is needed for any call to the webservice.
 The workflow 'icat_connection.moml' shows an example use of the connection actor in order to retrieve the current version of the ICAT webservice.<br/><br/>
