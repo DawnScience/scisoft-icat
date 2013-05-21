@@ -44,6 +44,7 @@ import ptolemy.kernel.util.NameDuplicationException;
 
 import com.isencia.passerelle.actor.ProcessingException;
 import com.isencia.passerelle.actor.TerminationException;
+import com.isencia.passerelle.util.ptolemy.DirectoryParameter;
 import com.isencia.passerelle.util.ptolemy.FileParameter;
 import com.isencia.passerelle.util.ptolemy.ResourceParameter;
 
@@ -62,7 +63,7 @@ public class ConnectionTransformer extends AbstractDataMessageTransformer implem
 	private StringParameter   wsdlParam;
 	private FileParameter   truststoreParam;
 	private StringParameter   truststorePassParam;
-	private ResourceParameter downloadDirParam;
+	private DirectoryParameter downloadDirParam;
 
 
 	public ConnectionTransformer(CompositeEntity container, String name) throws NameDuplicationException, IllegalActionException {
@@ -98,7 +99,7 @@ public class ConnectionTransformer extends AbstractDataMessageTransformer implem
 		pass = truststorePassParam.getExpression();
 		registerConfigurableParameter(truststorePassParam);
 		
-		downloadDirParam = new ResourceParameter(this, "Download Directory");
+		downloadDirParam = new DirectoryParameter(this, "Download Directory");
 		downloadDirParam.setExpression(System.getProperty("user.home"));
 		downloadDir = downloadDirParam.getExpression();
 		registerConfigurableParameter(downloadDirParam);
