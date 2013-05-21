@@ -55,7 +55,7 @@ The result list of visits will be displayed in the message actor.
          title="ICAT Generic Actor">
       <description>
 
-The generic actor can send queries expressed using the new ICAT 4 language and get a response from the webservice in a an xml format. Please refer to the actor attribute 'Query' for an example.<br/>
+The generic actor can send queries expressed using the new ICAT 4 language and get a response from the webservice in a an xml format. Please refer to the actor attribute &apos;Query&apos; for an example.<br/>
 
 This actor uses the xstream library to convert  an ICAT API object (investigation, dataset, datafile) to its xml description and vice versa.<br/><br/>
 
@@ -68,7 +68,7 @@ For the generic actor, edit the result file path attribute.<br/><br/>
 Run the workflow by clicking the run button. The input actor will request a fedid and password. Fill the needed information and click ok.<br/>
 The result xml response will be displayed in the message actor.<br/><br/>
 
-Please note that you can edit the query in the generic actor query attribute in order to get the desired results. A tutorial on how to query the ICAT webservice in available here <a href="http://www.icatproject.org/mvn/site/icat/4.2.5/icat.client/manual.html">http://www.icatproject.org/mvn/site/icat/4.2.5/icCongratulations, you can now run ICAT actors.nual.html</a>
+Please note that you can edit the query in the generic actor query attribute in order to get the desired results. A tutorial on how to query the ICAT webservice in available here: http://www.icatproject.org/mvn/site/icat/4.2.5/icat.client/manual.html
       </description>
       <command
             required="false"
