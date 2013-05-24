@@ -71,8 +71,6 @@ public class ICATClient {
 		this.downloadDir = downloadDir;
 		this.wsdl = wsdl;
 				
-		logger.debug(">>>>>>>>> setting up a new trust manager ...");
-
 		TrustManager[] trustAllCerts = new TrustManager[1];
 
 		trustAllCerts[0] = new TrustManager();

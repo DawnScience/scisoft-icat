@@ -41,8 +41,6 @@ public class VersionTransformer extends AbstractDataMessageTransformer {
 
 	public VersionTransformer(CompositeEntity container, String name) throws NameDuplicationException, IllegalActionException {
 		super(container, name);
-		
-		//set-up constructor
 	}
 
 	@Override

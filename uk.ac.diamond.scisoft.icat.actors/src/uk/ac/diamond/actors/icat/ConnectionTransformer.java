@@ -46,7 +46,6 @@ import com.isencia.passerelle.actor.ProcessingException;
 import com.isencia.passerelle.actor.TerminationException;
 import com.isencia.passerelle.util.ptolemy.DirectoryParameter;
 import com.isencia.passerelle.util.ptolemy.FileParameter;
-import com.isencia.passerelle.util.ptolemy.ResourceParameter;
 
 public class ConnectionTransformer extends AbstractDataMessageTransformer implements IVariableProvider{
 
@@ -148,7 +147,7 @@ public class ConnectionTransformer extends AbstractDataMessageTransformer implem
 			final String fedid    = scalar!=null ? scalar.get("fedid") : null;
 			final String password = scalar!=null ? scalar.get("password") : null;
 
-			ICATClient client = new ICATClient(wsdlParam.getExpression(), truststoreParam.getExpression(), truststorePassParam.getExpression(), downloadDirParam.getExpression());
+			ICATClient client = new ICATClient(wsdl, truststore, pass, downloadDir);
 					
 			token = client.login(fedid, password);
 			

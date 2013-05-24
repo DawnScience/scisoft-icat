@@ -19,9 +19,6 @@ package uk.ac.diamond.actors.icat;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-/**
- * The activator class controls the plug-in life cycle
- */
 public class ICATActorActivator extends AbstractUIPlugin {
 
 	// The plug-in ID
