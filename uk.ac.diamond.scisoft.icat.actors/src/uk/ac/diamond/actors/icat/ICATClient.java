@@ -104,8 +104,6 @@ public class ICATClient {
 			logger.error("problem setting security context: ", e);
 		}
 
-		logger.debug(">>>>>>>>> truststore file set to: " + truststorePath + "  and truststore password set to: " + truststorePass);
-
 	}
 
 	public static ICAT getIcat() throws Exception {
