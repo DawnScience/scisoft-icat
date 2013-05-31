@@ -36,7 +36,7 @@
       </category>
        <view
              allowMultiple="false"
-             category="uk.ac.diamond.scisoft.icatexplorer.v4.rcp"
+             category="uk.ac.diamond.scisoft.analysis.rcp.access.category"
              class="org.eclipse.ui.navigator.CommonNavigator"
              icon="icons/filenav_nav.gif"
              id="uk.ac.diamond.scisoft.icatexplorer.v4.view"
