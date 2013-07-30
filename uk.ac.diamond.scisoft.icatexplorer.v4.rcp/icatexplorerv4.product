@@ -154,7 +154,7 @@
       <plugin id="uk.ac.diamond.org.apache.xmlrpc.client"/>
       <plugin id="uk.ac.diamond.org.apache.xmlrpc.common"/>
       <plugin id="uk.ac.diamond.org.apache.xmlrpc.server"/>
-      <plugin id="uk.ac.diamond.org.jscience"/>
+      <plugin id="uk.ac.diamond.org.jscience4"/>
       <plugin id="uk.ac.diamond.org.nfunk.jep"/>
       <plugin id="uk.ac.diamond.org.springframework"/>
       <plugin id="uk.ac.diamond.scisoft.analysis"/>
