@@ -440,6 +440,7 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
+            category="uk.ac.diamond.scisoft.analysis.rcp.preferences.root"
             class="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.preferences.ICATPreferencePage"
             id="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.preferences"
             name="ICAT Explorer v4">
