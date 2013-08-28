@@ -128,7 +128,7 @@ public class ICATPreferencePage extends PreferencePage implements IWorkbenchPref
 		Label lblICATName = formToolkit.createLabel(composite, "ICAT SITE NAME:", SWT.NONE);
 		lblICATName.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
 
-		textICATName = formToolkit.createText(composite, "", SWT.NONE);
+		textICATName = formToolkit.createText(composite, "", SWT.BORDER);
 		int indexN = comboICATId.getSelectionIndex();
 		textICATName.setText(getToken(indexN, preferenceStore.getString("ICAT_NAME_PREF"), DELIMITER));
 		textICATName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
@@ -140,7 +140,7 @@ public class ICATPreferencePage extends PreferencePage implements IWorkbenchPref
 		Label lblICATwsdl = formToolkit.createLabel(composite, "WSDL URL:", SWT.NONE);
 		lblICATwsdl.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
 
-		textICATwsdl = formToolkit.createText(composite, "New Text", SWT.NONE);
+		textICATwsdl = formToolkit.createText(composite, "New Text", SWT.BORDER);
 		int indexW = comboICATId.getSelectionIndex();
 		textICATwsdl.setText(getToken(indexW, preferenceStore.getString("ICAT_WSDL_PREF"), DELIMITER));
 		textICATwsdl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
@@ -160,7 +160,7 @@ public class ICATPreferencePage extends PreferencePage implements IWorkbenchPref
 		Label lblICATsftpServer = formToolkit.createLabel(composite, "SFTP Server:", SWT.NONE);
 		lblICATsftpServer.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
 
-		textICATsftpServer = formToolkit.createText(composite, "New Text", SWT.NONE);
+		textICATsftpServer = formToolkit.createText(composite, "New Text", SWT.BORDER);
 		int indexS = comboICATId.getSelectionIndex();
 		textICATsftpServer.setText(getToken(indexS, preferenceStore.getString("ICAT_SFTPSERVER_PREF"), DELIMITER));
 		textICATsftpServer.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
@@ -200,7 +200,7 @@ public class ICATPreferencePage extends PreferencePage implements IWorkbenchPref
 		Label lblICATDownloaddir = formToolkit.createLabel(composite, "Download Directory:", SWT.NONE);
 		lblICATDownloaddir.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
 
-		textiCATDownloaddir = formToolkit.createText(composite, "", SWT.NONE);
+		textiCATDownloaddir = formToolkit.createText(composite, "", SWT.BORDER);
 		int indexD = comboICATId.getSelectionIndex();
 		textiCATDownloaddir.setText(getToken(indexD, preferenceStore.getString("ICAT_DOWNLOADDIR_PREF"), DELIMITER));
 
@@ -252,7 +252,7 @@ public class ICATPreferencePage extends PreferencePage implements IWorkbenchPref
 			}
 		});
 
-		txtTestoutput = formToolkit.createText(composite, "", SWT.NONE);
+		txtTestoutput = formToolkit.createText(composite, "", SWT.BORDER);
 		txtTestoutput.setEditable(false);
 		txtTestoutput.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		new Label(composite, SWT.NONE);
