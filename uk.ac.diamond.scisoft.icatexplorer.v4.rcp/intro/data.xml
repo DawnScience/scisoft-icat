@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<introContent>
+
+	<extensionContent id="uk.ac.diamond.scisoft.icatexplorer.v4.rcp.icatwizard"
+		style="style.css" name="ICAT Project Wizard" path="samples/@">
+		<group style-id="content-group" id="samples-group">
+			<link label="Create a connection to an ICAT database"
+				url="http://org.eclipse.ui.intro/runAction?pluginId=uk.ac.diamond.scisoft.icatexplorer.v4.rcp&amp;class=uk.ac.diamond.scisoft.icatexplorer.v4.rcp.actions.ICATWizardAction"
+				id="icatitem" style-id="content-link">
+				<text>The ICAT Project Wizard creates a connection to an ICAT database.</text>
+			</link>
+
+		</group>
+	</extensionContent>
+
+</introContent>
