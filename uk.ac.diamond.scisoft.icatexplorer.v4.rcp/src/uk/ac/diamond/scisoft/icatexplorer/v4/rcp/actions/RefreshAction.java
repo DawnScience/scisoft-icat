@@ -58,7 +58,7 @@ import uk.ac.diamond.scisoft.icatexplorer.v4.rcp.utils.ICATHierarchyUtils;
 
 public class RefreshAction implements IHandler {
 	
-	protected static final String ALL_VISITS = "AllVisits";
+	protected static final String ALL_VISITS = "All Visits";
 	protected static final String BEAMLINES = "Beamlines";
 	
 	String projectType = null;

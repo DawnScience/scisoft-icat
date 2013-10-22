@@ -66,7 +66,7 @@ public class ReconnectNewWizard extends Wizard implements INewWizard {
 	public static final String DIALOG_SETTING_KEY_PROJECT = "project";
 	public static final String DIALOG_SETTING_KEY_FEDID = "";
 	public static final String DIALOG_SETTING_KEY_PASSWORD = "";
-	protected static final String ALL_VISITS = "AllVisits";
+	protected static final String ALL_VISITS = "All Visits";
 	protected static final String BEAMLINES = "Beamlines";
 	private ReconnectWizardPage page;
 	private IProject iproject;
