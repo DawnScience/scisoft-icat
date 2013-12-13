@@ -139,7 +139,6 @@
       <plugin id="org.eclipse.ui.workbench.texteditor"/>
       <plugin id="org.hamcrest.core"/>
       <plugin id="org.junit"/>
-      <plugin id="org.junit4"/>
       <plugin id="org.mockito.mockito-core"/>
       <plugin id="org.python.pydev"/>
       <plugin id="org.python.pydev.ast"/>
