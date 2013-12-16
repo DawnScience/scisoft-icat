@@ -32,7 +32,7 @@
       <plugin id="com.springsource.ch.qos.logback.classic"/>
       <plugin id="com.springsource.ch.qos.logback.core"/>
       <plugin id="com.springsource.org.aopalliance"/>
-      <plugin id="com.springsource.org.apache.commons.beanutils"/>
+      <plugin id="org.apache.commons.beanutils"/>
       <plugin id="com.springsource.org.apache.commons.collections"/>
       <plugin id="com.springsource.org.apache.commons.digester"/>
       <plugin id="com.springsource.org.apache.commons.io"/>
