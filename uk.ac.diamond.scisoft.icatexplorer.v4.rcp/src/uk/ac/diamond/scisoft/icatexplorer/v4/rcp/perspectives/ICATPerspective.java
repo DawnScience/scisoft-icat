@@ -24,9 +24,6 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.rcp.views.DatasetInspectorView;
-import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
-import uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView;
 import uk.ac.diamond.sda.meta.views.MetadataPageView;
 
 public class ICATPerspective implements IPerspectiveFactory {
