@@ -29,8 +29,8 @@
    <plugins>
       <plugin id="com.ibm.icu"/>
       <plugin id="com.jcraft.jsch"/>
-      <plugin id="com.springsource.ch.qos.logback.classic"/>
-      <plugin id="com.springsource.ch.qos.logback.core"/>
+      <plugin id="ch.qos.logback.classic"/>
+      <plugin id="ch.qos.logback.core"/>
       <plugin id="com.springsource.org.aopalliance"/>
       <plugin id="org.apache.commons.beanutils"/>
       <plugin id="com.springsource.org.apache.commons.collections"/>
