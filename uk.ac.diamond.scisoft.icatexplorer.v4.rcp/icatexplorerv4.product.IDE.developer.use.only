@@ -39,9 +39,9 @@
       <plugin id="com.springsource.org.apache.commons.logging"/>
       <plugin id="com.springsource.org.hamcrest.core"/>
       <plugin id="com.springsource.org.objenesis"/>
-      <plugin id="com.springsource.slf4j.api"/>
-      <plugin id="com.springsource.slf4j.org.apache.commons.logging"/>
-      <plugin id="com.springsource.slf4j.org.apache.log4j"/>
+      <plugin id="slf4j-api"/>
+      <plugin id="jcl.over.slf4j"/>
+      <plugin id="log4j.over.slf4j"/>
       <plugin id="javax.servlet"/>
       <plugin id="javax.vecmath"/>
       <plugin id="org.apache.commons.codec"/>
