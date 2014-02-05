@@ -24,7 +24,7 @@ Import-Package: com.jcraft.jsch;version="0.1.41",
  org.apache.commons.io,
  org.dawb.common.ui.util,
  org.eclipse.core.expressions,
- org.slf4j
+ org.slf4j;version="[1.7.5,1.7.6)"
 Bundle-ClassPath: lib/icat3-client-1.0.0-SNAPSHOT.jar,
  .
 Export-Package: uk.ac.diamond.scisoft.icatexplorer.rcp.natures,
