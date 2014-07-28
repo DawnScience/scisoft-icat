@@ -19,15 +19,18 @@
 package uk.ac.diamond.scisoft.icatexplorer.rcp.datasets;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 
 import uk.ac.diamond.scisoft.analysis.dataset.IMetadataProvider;
 import uk.ac.diamond.scisoft.analysis.io.IMetaData;
 import uk.ac.diamond.scisoft.analysis.io.MetaDataAdapter;
+import uk.ac.diamond.scisoft.analysis.metadata.MetadataType;
 import uk.icat3.client.Dataset;
 
 
@@ -106,4 +109,14 @@ public class DatasetTreeData  implements IMetadataProvider {
 		};
 	}
 
+	@Override
+	public List<? extends MetadataType> getMetadata(Class<? extends MetadataType> clazz) throws Exception {
+		if (IMetaData.class.isAssignableFrom(clazz)) {
+			ArrayList<IMetaData> result = new ArrayList<IMetaData>();
+			result.add(getMetadata());
+			return result;
+		}
+		throw new UnsupportedOperationException("getMetadata(clazz) does not currently support anything other than IMetadata");
+		// If it should only support this, simply return null here, otherwise implement the method fully
+	}
 }
