@@ -27,9 +27,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-
 import org.icatproject.Investigation;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -28,6 +28,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.icatproject.Dataset;
+import org.icatproject.Investigation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,9 +38,6 @@ import uk.ac.diamond.scisoft.icatexplorer.v4.rcp.icatclient.ICATClient;
 import uk.ac.diamond.scisoft.icatexplorer.v4.rcp.icatclient.ICATSessions;
 import uk.ac.diamond.scisoft.icatexplorer.v4.rcp.visits.VisitTreeData;
 import uk.ac.diamond.scisoft.icatexplorer.v4.rcp.years.YearTreeData;
-
-import org.icatproject.Dataset;
-import org.icatproject.Investigation;
 
 
 public class DatasetContentProvider implements ITreeContentProvider {

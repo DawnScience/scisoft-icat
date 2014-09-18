@@ -18,14 +18,13 @@
 
 package uk.ac.diamond.scisoft.icatexplorer.v4.rcp.datafiles;
 
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.graphics.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 import uk.ac.diamond.scisoft.icatexplorer.v4.rcp.utils.UnitsConverter;
 
