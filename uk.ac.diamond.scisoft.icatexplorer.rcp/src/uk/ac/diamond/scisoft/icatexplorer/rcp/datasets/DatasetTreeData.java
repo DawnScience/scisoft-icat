@@ -26,11 +26,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.dawnsci.analysis.api.dataset.IMetadataProvider;
+import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
+import org.eclipse.dawnsci.analysis.api.metadata.MetadataType;
 
-import uk.ac.diamond.scisoft.analysis.dataset.IMetadataProvider;
-import uk.ac.diamond.scisoft.analysis.io.IMetaData;
 import uk.ac.diamond.scisoft.analysis.io.MetaDataAdapter;
-import uk.ac.diamond.scisoft.analysis.metadata.MetadataType;
 import uk.icat3.client.Dataset;
 
 
@@ -72,7 +72,7 @@ public class DatasetTreeData  implements IMetadataProvider {
 	 * @see uk.ac.diamond.scisoft.analysis.dataset.IMetadataProvider#getMetadata()
 	 */
 	@Override
-	public IMetaData getMetadata() throws Exception {
+	public IMetadata getMetadata() throws Exception {
 		final HashMap<String, String> pairs = new HashMap<String, String>();
 		pairs.put("ID", Long.toString(this.icatDataset.getId()));
 		//pairs.put("SAMPLE_ID", Long.toString(this.icatDataset.getSampleId()));
@@ -112,7 +112,7 @@ public class DatasetTreeData  implements IMetadataProvider {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends MetadataType> List<T> getMetadata(Class<T> clazz) throws Exception {
-		if (IMetaData.class.isAssignableFrom(clazz)) {
+		if (IMetadata.class.isAssignableFrom(clazz)) {
 			List<T> result = new ArrayList<T>();
 			result.add((T) getMetadata());
 			return result;
