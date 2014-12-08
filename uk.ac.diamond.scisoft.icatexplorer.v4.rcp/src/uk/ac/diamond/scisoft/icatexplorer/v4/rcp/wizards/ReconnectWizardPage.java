@@ -286,7 +286,8 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		gd_txtDirectory.widthHint = 193;
 		txtDirectory.setLayoutData(gd_txtDirectory);
 		try {
-			txtDirectory.setText(iproject.getPersistentProperty(qNameDirectory));
+			String val = iproject.getPersistentProperty(qNameDirectory);
+			txtDirectory.setText(val);
 		} catch (CoreException e) {
 			logger.error("can't set download directory: " + e);
 		}
@@ -316,7 +317,8 @@ public class ReconnectWizardPage extends WizardPage implements KeyListener {
 		txtTruststore.setEnabled(true);
 		txtTruststore.setEditable(true);
 		try {
-			txtTruststore.setText(iproject.getPersistentProperty(qNameTruststorePath));
+			String val = iproject.getPersistentProperty(qNameTruststorePath);
+			txtTruststore.setText(val);
 		} catch (CoreException e) {
 			logger.error("can't set truststore: " + e);
 		}	

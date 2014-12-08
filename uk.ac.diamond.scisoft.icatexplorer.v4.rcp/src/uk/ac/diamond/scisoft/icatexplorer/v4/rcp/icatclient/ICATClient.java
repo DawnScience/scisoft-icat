@@ -92,7 +92,9 @@ public class ICATClient {
 		TrustManager[] trustAllCerts = new TrustManager[1];
 
 		trustAllCerts[0] = new TrustManager();
-		KeyStore ks; char ctPass[] = truststorePass.toCharArray();char ksPass[] = truststorePass.toCharArray();
+		KeyStore ks; 
+		char[] ctPass = truststorePass.toCharArray();
+		char[] ksPass = truststorePass.toCharArray();
 		try {
 			ks = KeyStore.getInstance("JKS");
 			ks.load(new FileInputStream(truststorePath), ksPass);
