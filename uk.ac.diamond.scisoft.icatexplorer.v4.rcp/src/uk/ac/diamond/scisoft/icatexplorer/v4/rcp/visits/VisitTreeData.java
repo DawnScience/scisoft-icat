@@ -132,4 +132,17 @@ public class VisitTreeData implements IMetadataProvider {
 		throw new UnsupportedOperationException("getMetadata(clazz) does not currently support anything other than IMetadata");
 		// If it should only support this, simply return null here, otherwise implement the method fully
 	}
+	
+	@Override
+	public <T extends MetadataType> T getFirstMetadata(Class<T> clazz) {
+		try {
+			List<T> ml = getMetadata(clazz);
+			if (ml == null) return null;
+			return ml.isEmpty() ? null : ml.get(0);
+		} catch (Exception e) {
+			//TODO add logging of error
+		}
+
+		return null;
+	}
 }
