@@ -26,10 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.dawnsci.analysis.api.dataset.IMetadataProvider;
-import org.eclipse.dawnsci.analysis.api.dataset.MetadataException;
-import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.MetadataType;
+import org.eclipse.january.dataset.IMetadataProvider;
+import org.eclipse.january.dataset.MetadataException;
+import org.eclipse.january.metadata.IMetadata;
+import org.eclipse.january.metadata.MetadataType;
 import org.icatproject.Dataset;
 
 import uk.ac.diamond.scisoft.analysis.io.MetaDataAdapter;
