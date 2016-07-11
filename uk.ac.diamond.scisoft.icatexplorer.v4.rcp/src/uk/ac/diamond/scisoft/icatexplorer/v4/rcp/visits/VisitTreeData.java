@@ -27,8 +27,8 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.january.MetadataException;
 import org.eclipse.january.dataset.IMetadataProvider;
-import org.eclipse.january.dataset.MetadataException;
 import org.eclipse.january.metadata.IMetadata;
 import org.eclipse.january.metadata.MetadataType;
 import org.icatproject.Investigation;
