@@ -27,9 +27,10 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.dawnsci.analysis.api.dataset.IMetadataProvider;
-import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.MetadataType;
+import org.eclipse.january.MetadataException;
+import org.eclipse.january.dataset.IMetadataProvider;
+import org.eclipse.january.metadata.IMetadata;
+import org.eclipse.january.metadata.MetadataType;
 import org.icatproject.Investigation;
 
 import uk.ac.diamond.scisoft.analysis.io.MetaDataAdapter;
@@ -88,7 +89,7 @@ public class VisitTreeData implements IMetadataProvider {
 	 * @see uk.ac.diamond.scisoft.analysis.dataset.IMetadataProvider#getMetadata()
 	 */
 	@Override
-	public IMetadata getMetadata() throws Exception {
+	public IMetadata getMetadata() throws MetadataException {
 		final HashMap<String, String> pairs = new HashMap<String, String>();
 		pairs.put("ID", Long.toString(this.icatInvestigation.getId()));
 		pairs.put("INSTRUMENT", this.icatInvestigation.getInstrument().getName());
@@ -102,12 +103,12 @@ public class VisitTreeData implements IMetadataProvider {
 			private static final long serialVersionUID = MetaDataAdapter.serialVersionUID;
 
 			@Override
-			public Serializable getMetaValue(String key) throws Exception {
+			public Serializable getMetaValue(String key) throws MetadataException {
 				return pairs.get(key);
 			}
 
 			@Override
-			public Collection<String> getMetaNames() throws Exception {
+			public Collection<String> getMetaNames() throws MetadataException {
 
 				return Collections.unmodifiableCollection(pairs.keySet());
 			}
@@ -123,13 +124,13 @@ public class VisitTreeData implements IMetadataProvider {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends MetadataType> List<T> getMetadata(Class<T> clazz) throws Exception {
+	public <T extends MetadataType> List<T> getMetadata(Class<T> clazz) throws MetadataException {
 		if (IMetadata.class.isAssignableFrom(clazz)) {
 			List<T> result = new ArrayList<T>();
 			result.add((T) getMetadata());
 			return result;
 		}
-		throw new UnsupportedOperationException("getMetadata(clazz) does not currently support anything other than IMetadata");
+		throw new MetadataException("getMetadata(clazz) does not currently support anything other than IMetadata");
 		// If it should only support this, simply return null here, otherwise implement the method fully
 	}
 	
