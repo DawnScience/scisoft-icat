@@ -118,10 +118,10 @@ public class DatafileTreeData implements IMetadataProvider{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends MetadataType> List<T> getMetadata(Class<T> clazz) throws MetadataException {
+	public <S extends MetadataType, T extends S> List<S> getMetadata(Class<T> clazz) throws MetadataException {
 		if (IMetadata.class.isAssignableFrom(clazz)) {
-			List<T> result = new ArrayList<T>();
-			result.add((T) getMetadata());
+			List<S> result = new ArrayList<S>();
+			result.add((S) getMetadata());
 			return result;
 		}
 		throw new MetadataException("getMetadata(clazz) does not currently support anything other than IMetadata");
@@ -129,7 +129,7 @@ public class DatafileTreeData implements IMetadataProvider{
 	}
 	
 	@Override
-	public <T extends MetadataType> T getFirstMetadata(Class<T> clazz) {
+	public <S extends MetadataType, T extends S> S getFirstMetadata(Class<T> clazz) {
 		try {
 			List<T> ml = getMetadata(clazz);
 			if (ml == null) return null;
