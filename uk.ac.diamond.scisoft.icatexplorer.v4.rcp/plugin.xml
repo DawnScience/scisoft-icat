@@ -588,13 +588,6 @@
             name="Sweep v4.2">
       </command>
    </extension>
-  <extension
-        point="org.eclipse.ui.intro.configExtension">
-     <configExtension
-           configId="org.dawnsci.intro.universalConfig"
-           content="intro/data.xml">
-     </configExtension>
-  </extension>
 
   
   
